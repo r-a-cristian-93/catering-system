@@ -2,70 +2,72 @@ DROP DATABASE IF EXISTS catering;
 CREATE DATABASE catering;
 USE catering;
 
-CREATE TABLE unitate_masura(
-	denumire varchar(25) NOT NULL UNIQUE,
-	PRIMARY KEY(denumire));
+CREATE TABLE units(
+	name varchar(25) NOT NULL UNIQUE,
+	PRIMARY KEY(name));
 	
-INSERT INTO unitate_masura(denumire)
+INSERT INTO units(name)
 	VALUES('bucata'),
 			('kilogram'),
 			('gram'),
 			('legatura');
 
-CREATE TABLE ingredient(
+CREATE TABLE ingredients(
 	ID int NOT NULL UNIQUE AUTO_INCREMENT,
-	denumire varchar(50) NOT NULL UNIQUE,
-	unitate_masura varchar(25) NOT NULL,
+	name varchar(50) NOT NULL UNIQUE,
+	unit varchar(25) NOT NULL,
+	price int NOT NULL,
 	PRIMARY KEY(ID),
-	FOREIGN KEY(unitate_masura) REFERENCES unitate_masura(denumire));
+	FOREIGN KEY(unit) REFERENCES units(name));
 	
-CREATE TABLE reteta(
+CREATE TABLE recipes(
 	ID int NOT NULL UNIQUE AUTO_INCREMENT,
-	denumire varchar(100) NOT NULL UNIQUE,
+	name varchar(100) NOT NULL UNIQUE,
 	PRIMARY KEY(ID));
 	
-CREATE TABLE detalii_reteta(
-	ID_reteta int NOT NULL,
+CREATE TABLE recipe_details(
+	ID_recipe int NOT NULL,
 	ID_ingredient int NOT NULL,
-	PRIMARY KEY(ID_reteta, ID_ingredient),
-	FOREIGN KEY(ID_reteta) REFERENCES reteta(ID),
-	FOREIGN KEY(ID_ingredient) REFERENCES ingredient(ID));
+	PRIMARY KEY(ID_recipe, ID_ingredient),
+	FOREIGN KEY(ID_recipe) REFERENCES recipes(ID),
+	FOREIGN KEY(ID_ingredient) REFERENCES ingredients(ID));
 	
-CREATE TABLE client(
+CREATE TABLE clients(
 	ID int NOT NULL UNIQUE AUTO_INCREMENT,
-	nume varchar(50) NOT NULL,
-	adresa varchar(100),
-	telefon varchar(20),
+	name varchar(50) NOT NULL,
+	address varchar(100),
+	phone varchar(20),
 	PRIMARY KEY(ID));	
 	
-CREATE TABLE stare(
-	denumire varchar(20) NOT NULL UNIQUE,
-	PRIMARY KEY(denumire));
+CREATE TABLE status(
+	name varchar(20) NOT NULL UNIQUE,
+	PRIMARY KEY(name));
 
-INSERT INTO stare(denumire)
+INSERT INTO status(name)
 	VALUES('preluata'),
 			('in lucru'),
 			('livrata');
 	
-CREATE TABLE comanda(
+CREATE TABLE orders(
 	ID int NOT NULL UNIQUE AUTO_INCREMENT,
 	ID_client int NOT NULL,
-	stare varchar(20) NOT NULL DEFAULT('preluata'),
+	status varchar(20) NOT NULL DEFAULT('preluata'),
 	PRIMARY KEY(ID),
-	FOREIGN KEY(ID_client) REFERENCES client(ID),
-	FOREIGN KEY(stare) REFERENCES stare(denumire));
+	FOREIGN KEY(ID_client) REFERENCES clients(ID),
+	FOREIGN KEY(status) REFERENCES status(name));
 	
-CREATE TABLE detalii_comanda(
-	ID_comanda int NOT NULL,
-	ID_reteta int NOT NULL,
-	portii int NOT NULL DEFAULT(25),
-	PRIMARY KEY(ID_comanda, ID_reteta),
-	FOREIGN KEY(ID_comanda) REFERENCES comanda(ID),
-	FOREIGN KEY(ID_reteta) REFERENCES reteta(ID));
+CREATE TABLE order_details(
+	ID_order int NOT NULL,
+	ID_recipe int NOT NULL,
+	servings int NOT NULL DEFAULT(25),
+	PRIMARY KEY(ID_order, ID_recipe),
+	FOREIGN KEY(ID_order) REFERENCES orders(ID),
+	FOREIGN KEY(ID_recipe) REFERENCES recipes(ID));
 
-CREATE TABLE utilizator(
-	ID int NOT NULL UNIQUE AUTO_INCREMENT,
-	nume varchar(50) NOT NULL,
-	cont varchar(50) NOT NULL UNIQUE,
-	parola varchar(255) NOT NULL,
+CREATE TABLE emplyee(
+	ID int NOT NULL UNIQUE AUTO_INCREMENT,	
+	username varchar(50) NOT NULL UNIQUE,
+	password varchar(255) NOT NULL,
+	name varchar(50),
+	email varchar(50),
 	PRIMARY KEY(ID));
