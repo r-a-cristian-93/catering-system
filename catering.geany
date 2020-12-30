@@ -27,7 +27,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=-1
+current_page=1
+FILE_NAME_0=878;XML;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Frest%2Fpom.xml;0;4
+FILE_NAME_1=20;Java;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Frest%2Fsrc%2Fmain%2Fjava%2Fcom%2Fcatering%2FDemoApplication.java;0;4
 
 [VTE]
 last_dir=/home/taifun/NetBeansProjects/Manual

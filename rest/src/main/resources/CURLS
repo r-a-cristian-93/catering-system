@@ -1,0 +1,6 @@
+
+insert ingredients
+curl localhost:8080/ingredients/add -X POST -H "Content-Type: application/json" -d '{"name":"morcov", "price":10, "unit": {"name":"bucata"}}'
+
+update ingredient
+ curl localhost:8080/ingredients/1/update -X PUT -H "Content-type: application/json" -d '{"price":2, "unit": {"name":"bucata"}}'
