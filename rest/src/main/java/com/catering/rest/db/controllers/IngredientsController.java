@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.catering.rest.db.models.IngredientModel;
 import com.catering.rest.db.models.UnitModel;
 import com.catering.rest.db.repositories.IngredientsRepository;
-import com.catering.rest.db.repositories.UnitsRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -24,7 +23,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("ingredients")
 public class IngredientsController {
 	IngredientsRepository ingredientsRepo;
-	UnitsRepository unitsRepo;
 	
 	@ResponseBody
 	@GetMapping("/all")
@@ -33,19 +31,19 @@ public class IngredientsController {
 	}
 	
 	@ResponseBody
-	@PostMapping(path= "/add", consumes="application/json")
+	@PostMapping("/add")
 	public IngredientModel addIngredient(@RequestBody IngredientModel ingredient) {
 		return ingredientsRepo.save(ingredient);
 	}
 	
 	@ResponseBody
-	@DeleteMapping("/delete")
-	public void deleteIngredient(Integer id) {
+	@DeleteMapping("/{id}/delete")
+	public void deleteIngredient(@PathVariable Integer id) {
 		ingredientsRepo.deleteById(id);
 	}
 	
 	@ResponseBody
-	@PutMapping(path="/{id}/update", consumes="application/json")
+	@PutMapping("/{id}/update")
 	public IngredientModel updateIngredient(@PathVariable Integer id, @RequestBody IngredientModel updateIngredient) {
 		IngredientModel ingredient = ingredientsRepo.findById(id).get();
 		Integer price = updateIngredient.getPrice();
