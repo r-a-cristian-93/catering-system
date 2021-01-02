@@ -9,34 +9,32 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="ingredients")
+@Table(name="recipes_details")
 @Getter @Setter
-@DynamicInsert
-@DynamicUpdate
+@AllArgsConstructor
 @ToString
-public class IngredientModel {
+public class RecipesDetailsModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
 	
-	@Column(name="name")
-	private String name;
-	
-	@Column(name="price")
-	private Integer price;
-	
 	@ManyToOne
-	@JoinColumn(name="unit")
-	private UnitModel unit;
+	@JoinColumn(name="ID_recipe")
+	private RecipeModel recipe;
+		
+	@ManyToOne
+	@JoinColumn(name="ID_ingredient")
+	private IngredientModel ingredient;
 	
-	protected IngredientModel() {}
+	@Column(name="quantity")
+	private Integer quantity;
+	
+	protected RecipesDetailsModel() {}
 }
