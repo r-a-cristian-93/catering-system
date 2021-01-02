@@ -25,10 +25,13 @@ CREATE TABLE recipes(
 	name varchar(100) NOT NULL UNIQUE,
 	PRIMARY KEY(ID));
 	
-CREATE TABLE recipe_details(
+CREATE TABLE recipes_details(
+	ID int NOT NULL UNIQUE AUTO_INCREMENT,
 	ID_recipe int NOT NULL,
 	ID_ingredient int NOT NULL,
-	PRIMARY KEY(ID_recipe, ID_ingredient),
+	quantity int NOT NULL,
+	PRIMARY KEY(ID),
+	UNIQUE KEY(ID_recipe, ID_ingredient),
 	FOREIGN KEY(ID_recipe) REFERENCES recipes(ID),
 	FOREIGN KEY(ID_ingredient) REFERENCES ingredients(ID));
 	
@@ -56,11 +59,13 @@ CREATE TABLE orders(
 	FOREIGN KEY(ID_client) REFERENCES clients(ID),
 	FOREIGN KEY(status) REFERENCES status(name));
 	
-CREATE TABLE order_details(
+CREATE TABLE orders_details(
+	ID int NOT NULL AUTO_INCREMENT,
 	ID_order int NOT NULL,
 	ID_recipe int NOT NULL,
 	servings int NOT NULL DEFAULT(25),
-	PRIMARY KEY(ID_order, ID_recipe),
+	PRIMARY KEY(ID),
+	UNIQUE KEY(ID_order, ID_recipe),
 	FOREIGN KEY(ID_order) REFERENCES orders(ID),
 	FOREIGN KEY(ID_recipe) REFERENCES recipes(ID));
 

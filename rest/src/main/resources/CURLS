@@ -5,9 +5,19 @@ curl localhost:8080/ingredients/add -X POST -H "Content-Type: application/json" 
 update ingredient
 curl localhost:8080/ingredients/1/update -X PUT -H "Content-type: application/json" -d '{"price":2, "unit": {"name":"bucata"}}'
 
+
+
 add recipe 
 curl localhost:8080/recipes/add -X POST -H "Content-Type: application/json" -d '{"name":"Omleta"}'
 
 update recipe
 curl localhost:8080/recipes/2/update -X PUT -H "Content-Type:application/json" -d '{"name":"Friganele"}' 
+ 
+ 
+ 
+add recipe details
+curl localhost:8080/recipes/5/addDetails -X POST -H "Content-type: application/json" -d '{"ingredient":{"id":4}, "quantity":1}'
+
+update recipe details
+curl localhost:8080/recipes/5/details -X PUT -H "Content-type: application/json" -d '{"ingredient":{"id":4}, "quantity":111}' |json_pp
  
