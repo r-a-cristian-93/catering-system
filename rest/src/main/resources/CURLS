@@ -19,5 +19,31 @@ add recipe details
 curl localhost:8080/recipes/5/addDetails -X POST -H "Content-type: application/json" -d '{"ingredient":{"id":4}, "quantity":1}'
 
 update recipe details
-curl localhost:8080/recipes/5/details -X PUT -H "Content-type: application/json" -d '{"ingredient":{"id":4}, "quantity":111}' |json_pp
+curl localhost:8080/recipes/5/details -X PUT -H "Content-type: application/json" -d '{"ingredient":{"id":4}, "quantity":111}'
  
+ 
+ 
+ add client
+ curl localhost:8080/client -X POST -H "Content-type: application/json" -d '{"name":"Vasile Ciupitu"}'
+ 
+ update client
+ curl localhost:8080/client/1 -X PUT -H "Content-type: application/json" -d '{"address":"Valea Viilor"}'
+
+ 
+ 
+ add order
+ curl localhost:8080/orders -X POST -H "Content-type:application/json" -d '{"client":{"id":1}}'
+ 
+ update order
+ curl localhost:8080/orders/1 -X PUT -H "Content-type:application/json" -d '{"status":{"name":"livrata"}}'
+ 
+ 
+ add order details
+ curl localhost:8080/orders/1/details -X POST -H "Content-type:application/json" -d '{"recipe":{"id":8},"servings":4}'
+ 
+ update order details
+ curl localhost:8080/orders/1/details -X PUT -H "Content-type:application/json" -d '{"recipe":{"id":8},"servings":10}'
+ 
+ 
+ 
+  

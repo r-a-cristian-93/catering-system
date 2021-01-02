@@ -25,30 +25,36 @@ public class IngredientsController {
 	IngredientsRepository ingredientsRepo;
 	
 	@ResponseBody
-	@GetMapping("/all")
+	@GetMapping
 	public List<IngredientModel> getIngredients() {
 		return ingredientsRepo.findAll();
 	}
 	
 	@ResponseBody
-	@PostMapping("/add")
+	@PostMapping
 	public IngredientModel addIngredient(@RequestBody IngredientModel ingredient) {
 		return ingredientsRepo.save(ingredient);
 	}
 	
 	@ResponseBody
-	@DeleteMapping("/{id}/delete")
+	@GetMapping("/{id}")
+	public IngredientModel getIngredient(@PathVariable Integer id) {
+		return ingredientsRepo.findById(id).get();
+	}
+	
+	@ResponseBody
+	@DeleteMapping("/{id}")
 	public void deleteIngredient(@PathVariable Integer id) {
 		ingredientsRepo.deleteById(id);
 	}
 	
 	@ResponseBody
-	@PutMapping("/{id}/update")
-	public IngredientModel updateIngredient(@PathVariable Integer id, @RequestBody IngredientModel updateIngredient) {
-		IngredientModel ingredient = ingredientsRepo.findById(id).get();
-		Integer price = updateIngredient.getPrice();
-		String name = updateIngredient.getName();
-		UnitModel unit = updateIngredient.getUnit();
+	@PutMapping("/{id}")
+	public IngredientModel updateIngredient(@PathVariable Integer id, @RequestBody IngredientModel ingredient) {
+		Integer price = ingredient.getPrice();
+		String name = ingredient.getName();
+		UnitModel unit = ingredient.getUnit();
+		ingredient = ingredientsRepo.findById(id).get();
 		
 		if(price!=null) {
 			ingredient.setPrice(price);
