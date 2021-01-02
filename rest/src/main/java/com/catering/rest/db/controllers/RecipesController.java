@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.IngredientModel;
@@ -28,25 +29,36 @@ public class RecipesController {
 	private final RecipesDetailsRepository detailsRepo;
 	private final IngredientsRepository ingredientsRepo;
 	
-	@GetMapping("/all")
+	@ResponseBody
+	@GetMapping
 	public List<RecipeModel> getRecipes() {
 		return recipesRepo.findAll();
 	}
 	
-	@PostMapping("/add")
+	@ResponseBody
+	@PostMapping
 	public RecipeModel addRecipe(@RequestBody RecipeModel recipe) {
 		return recipesRepo.save(recipe);
 	}
 	
+	@ResponseBody
+	@GetMapping("/{id}")
+	public RecipeModel getRecipe(@PathVariable Integer id) {
+		return recipesRepo.findById(id).get();
+	}
+	
+	@ResponseBody
 	@DeleteMapping("/{id}")
 	public void deleteRecipe(@PathVariable Integer id) {
 		recipesRepo.deleteById(id);
 	}
 	
+	@ResponseBody
 	@PutMapping("/{id}")
-	public RecipeModel updateRecipe(@PathVariable Integer id, @RequestBody RecipeModel updateRecipe) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
-		String name = updateRecipe.getName();
+	public RecipeModel updateRecipe(@PathVariable Integer id, @RequestBody RecipeModel recipe) {
+		String name = recipe.getName();
+		recipe = recipesRepo.findById(id).get();
+		
 		if(name!=null) {
 			recipe.setName(name);
 		}		
@@ -55,12 +67,14 @@ public class RecipesController {
 	
 	//RECIPE DETAILS
 	
+	@ResponseBody
 	@GetMapping("/{id}/details")
 	public List<RecipesDetailsModel> getDetails(@PathVariable Integer id) {
 		RecipeModel recipe = recipesRepo.findById(id).get();
 		return detailsRepo.findByRecipe(recipe);
 	}
 	
+	@ResponseBody
 	@PostMapping("/{id}/details")
 	public RecipesDetailsModel addDetails(@PathVariable Integer id,	@RequestBody RecipesDetailsModel details) {
 		RecipeModel recipe = recipesRepo.findById(id).get();
@@ -68,6 +82,7 @@ public class RecipesController {
 		return detailsRepo.save(details);
 	}	
 	
+	@ResponseBody
 	@DeleteMapping("/{id}/details")
 	public void deleteDetails(@PathVariable Integer id, @RequestBody RecipesDetailsModel details) {
 		RecipeModel recipe = recipesRepo.findById(id).get();
@@ -78,6 +93,7 @@ public class RecipesController {
 		detailsRepo.delete(details);
 	}
 	
+	@ResponseBody
 	@PutMapping("/{id}/details")
 	public RecipesDetailsModel updateDetailsQuantity(@PathVariable Integer id, @RequestBody RecipesDetailsModel details) {
 		RecipeModel recipe = recipesRepo.findById(id).get();
