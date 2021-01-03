@@ -11,6 +11,7 @@ public class Constants {
 	public static final String LOGIN_PARAM_PASSWORD = "password";
 	public static final Algorithm JWT_ALGORITHM = Algorithm.HMAC256("secret");;
 	public static final String JWT_ISSUER = "catering";
+	public static final String JWT_CLAIM_ROLES = "roles";
 	public static final Integer JWT_AGE = 1;			//hours 
 	public static final String COOKIE_NAME = "JWT";
 }

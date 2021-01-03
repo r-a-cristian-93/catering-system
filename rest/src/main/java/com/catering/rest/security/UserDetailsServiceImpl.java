@@ -1,8 +1,10 @@
 package com.catering.rest.security;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
 		EmployeeModel employee = employeesRepo.findByUsername(username);
-		return new User(employee.getUsername(), employee.getPassword(), new ArrayList<>());
+		if(employee==null) {
+			throw new UsernameNotFoundException(username);
+		}
+		List<SimpleGrantedAuthority> roles = new ArrayList<>();
+		roles.add(new SimpleGrantedAuthority(employee.getRole().getName()));
+		return new User(employee.getUsername(), employee.getPassword(), roles);
 	}
 }
