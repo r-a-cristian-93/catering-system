@@ -2,10 +2,12 @@ package com.catering.rest.security;
 
 import static com.catering.rest.Constants.COOKIE_NAME;
 import static com.catering.rest.Constants.JWT_ALGORITHM;
+import static com.catering.rest.Constants.JWT_CLAIM_ROLES;
 import static com.catering.rest.Constants.JWT_ISSUER;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -42,9 +45,11 @@ public class AuthorizationFilter extends BasicAuthenticationFilter{
 	
 	private String getToken(HttpServletRequest req) {
 		Cookie cookies[] = req.getCookies();
-		for(Cookie c : cookies) {
-			if(c.getName().equals(COOKIE_NAME)) {
-				return c.getValue();
+		if(cookies!=null) {
+			for(Cookie c : cookies) {
+				if(c.getName().equals(COOKIE_NAME)) {
+					return c.getValue();
+				}
 			}
 		}
 		return null;
@@ -56,6 +61,9 @@ public class AuthorizationFilter extends BasicAuthenticationFilter{
 				.build()
 				.verify(jwtToken);
 		String username = jwt.getSubject();
-		return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+		List<SimpleGrantedAuthority> roles = jwt
+				.getClaim(JWT_CLAIM_ROLES)
+				.asList(SimpleGrantedAuthority.class);
+		return new UsernamePasswordAuthenticationToken(username, null, roles);
 	}
 }
