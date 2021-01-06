@@ -21,15 +21,19 @@ indent_mode=2
 name=Catering
 base_path=/home/taifun/catering/
 description=
+file_patterns=
 
 [long line marker]
 long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
-FILE_NAME_0=878;XML;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Frest%2Fpom.xml;0;4
-FILE_NAME_1=20;Java;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Frest%2Fsrc%2Fmain%2Fjava%2Fcom%2Fcatering%2FDemoApplication.java;0;4
+current_page=4
+FILE_NAME_0=303;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fnavigation.js;0;4
+FILE_NAME_1=1270;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fstyle.css;0;4
+FILE_NAME_2=396;HTML;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Flogin.html;0;4
+FILE_NAME_3=366;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Flogin.js;0;4
+FILE_NAME_4=1145;HTML;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Findex.html;0;4
 
 [VTE]
 last_dir=/home/taifun/NetBeansProjects/Manual
