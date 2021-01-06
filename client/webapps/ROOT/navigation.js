@@ -3,10 +3,10 @@ $(document).ready(function(){
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/employees/1',
+		url: REST_URL + '/employees/myinfo',
 		success: function(data, status, xhr) {
+			buildMenu(data);
 			console.log(data);
-			loadMenu(data);
 		},
 		error: function() {
 			window.location = CLIENT_URL + '/login.html';
@@ -20,7 +20,7 @@ $(document).ready(function(){
  * 
  * */
 
-function loadMenu(user) {
+function buildMenu(user) {
 	var adminMenu=null;
 	
 	if(user.role.name=='admin') {
@@ -31,13 +31,16 @@ function loadMenu(user) {
 	$("body").prepend(
 		$("<ul></ul>")
 			.append(newDivUsr(user.name, ""))
-			.append(newLi().append(newA("Acasa", "index.html")))
+			.append(newLiA("Acasa", "index.html"))
 			.append(newLiDD("Comenzi", [
-						newA("Toate comenzile", ""),
+						newA("Toate comenzile"),
 						newA("Comanda Noua", "comanda-noua.html")]))
 			.append(newLiDD("Retete", [
-						newA("Toate retetele", ""),
+						newA("Toate retetele", "retete.html"),
 						newA("Adauga reteta")]))
+			.append(newLiDD("Ingrediente", [
+						newA("Toate ingredientele", "ingrediente.html"),
+						newA("Adauga ingredient")]))
 			.append(adminMenu)			
 	);
 }
@@ -57,8 +60,8 @@ function newDivDDC(arrayA) {
 	return ddc;
 }
 
-function newLi(){
-	return $("<li></li>");
+function newLiA(text, url){
+	return $("<li></li>").append(newA(text, url));
 }
 function newLiDD(text, arrayA){
 	return $("<li></li>")

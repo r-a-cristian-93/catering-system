@@ -3,6 +3,7 @@ package com.catering.rest.db.controllers;
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,13 @@ public class EmployeesController {
 	BCryptPasswordEncoder pwdEncoder;
 	
 	@ResponseBody
+	@GetMapping("/myinfo")
+	public EmployeeModel getMyInfo() {
+		String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return employeesRepo.findByUsername(username);
+	}
+	
+	@ResponseBody
 	@GetMapping
 	@PreAuthorize("hasAuthority('admin')")
 	public List<EmployeeModel> getEmployees() {
@@ -45,6 +53,7 @@ public class EmployeesController {
 	
 	@ResponseBody
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('admin')")
 	public EmployeeModel getEmployee(@PathVariable Integer id) {
 		return employeesRepo.findById(id).get();
 	}
