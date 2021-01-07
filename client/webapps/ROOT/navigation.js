@@ -38,9 +38,7 @@ function buildMenu(user) {
 			.append(newLiDD("Retete", [
 						newA("Toate retetele", "retete.html"),
 						newA("Adauga reteta")]))
-			.append(newLiDD("Ingrediente", [
-						newA("Toate ingredientele", "ingrediente.html"),
-						newA("Adauga ingredient")]))
+			.append(newLiA("Ingrediente", "ingrediente.html"))
 			.append(adminMenu)			
 	);
 }

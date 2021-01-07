@@ -16,6 +16,11 @@
     font-family: sans-serif;
 }
 
+h2 {
+	display: inline-block;
+	margin:10px;
+	}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -49,7 +54,10 @@ html, body {
 	margin-top:150px;
 	}
 	
-.form-big-el {
+.form-big label, 
+.form-big input, 
+.form-big button{
+	display:block;
 	width:100%;
 	margin-top:10px;
 	margin-bottom:10px;
@@ -74,8 +82,7 @@ html, body {
 	
 	
 	
-/* **************** NAVIGATION MENU	**************
- * */
+/* **************** NAVIGATION MENU	************** */
 	
 ul {
 	position:fixed;
@@ -145,8 +152,7 @@ li.dropdown {
 
 
 
-/* ******************* TABLE *******************
- * */
+/* ******************* TABLE ******************* */
 
 table {
 	border-collapse: collapse;
@@ -173,7 +179,6 @@ tr:hover {
  * */
  
  .modal {
-	display:none;
 	position:fixed;
 	left:0;
 	top:0;
@@ -185,7 +190,7 @@ tr:hover {
 	padding-top:150px;
 	}
 
-.modal-content {
+.modal-box {
 	max-width: 400px;
 	background-color: white;
 	margin:auto;
@@ -207,12 +212,10 @@ tr:hover {
 	display:inline;
 	}
 	
-	
-.modal-body {
+.modal-content {
 	padding:25px;
 	}
 	
-	/* The Close Button */
 .modal-close {
   float: right;
   font-size: 22px;
@@ -225,18 +228,6 @@ tr:hover {
   cursor: pointer;
   font-weight: bold;
 }
-
-.filter-col {
-	display:inline-block;
-	padding:10px;
-	height:auto;
-	margin:auto;
-	}
-	
-.filter-total {
-	font-size:0.8em;
-	color:var(--color-text-secondary);
-	}
 	
 .modal-hidden {
 	display:none;

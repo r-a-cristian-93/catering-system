@@ -51,7 +51,7 @@ public class IngredientsController {
 	@ResponseBody
 	@PutMapping("/{id}")
 	public IngredientModel updateIngredient(@PathVariable Integer id, @RequestBody IngredientModel ingredient) {
-		Integer price = ingredient.getPrice();
+		Double price = ingredient.getPrice();
 		String name = ingredient.getName();
 		UnitModel unit = ingredient.getUnit();
 		ingredient = ingredientsRepo.findById(id).get();

@@ -32,7 +32,7 @@ public class IngredientModel {
 	private String name;
 	
 	@Column(name="price")
-	private Integer price;
+	private Double price;
 	
 	@ManyToOne
 	@JoinColumn(name="unit")
