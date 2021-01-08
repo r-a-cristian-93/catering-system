@@ -44,19 +44,19 @@ class ModalBuilder {
 	constructor(title, divId) {
 		this.form = newForm("form-modal", "form-big");
 		this.title = $("<h2>").addClass("modal-title").text(title)
-		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(
-			$("<div>").addClass("modal-box")
-				.append(
-					$("<div>").addClass("modal-top")
-						.append(
-							$("<span>").addClass("modal-close").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
-						.append(this.title)
-				)
-				.append(
-					$("<div>").addClass("modal-content")
-						.append(this.form)					
-				)
-		);			
+		this.modalContainer = $("<div>").addClass("modal-container").append(
+				$("<div>").addClass("modal-box")
+					.append(
+						$("<div>").addClass("modal-top")
+							.append(
+								$("<span>").addClass("modal-close").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
+							.append(this.title)
+					)
+					.append(
+						$("<div>").addClass("modal-content").append(this.form)
+					)
+				);
+		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(this.modalContainer);			
 	}
 	addLabel(text) {
 		this.form.append(newLabel(text));
@@ -67,4 +67,18 @@ class ModalBuilder {
 	addButton(name, action) {
 		this.form.append(newButton(name, action));
 	}
+	addExtraBox(title){
+		this.modalContainer.append(
+			$("<div>").addClass("modal-box")
+					.append(
+						$("<div>").addClass("modal-top")
+							.append(
+								$("<h2>").addClass("modal-title").text(title)
+							)
+					)
+					.append(
+						$("<div>").addClass("modal-content").attr({"id": "extra"})
+					)
+				);
+		}
 }

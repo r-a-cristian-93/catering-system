@@ -89,7 +89,7 @@ function recipeTabAddRow(recipe) {
 
 function buildRecipesTable(data) {
 	var table = $("<table>");
-	table.append(newHeader(["ID", "Denumire", "Categorie", "Cantitate"]));
+	table.append(newHeader(["ID", "Denumire", "Categorie", "Portie"]));
 		
 	for(recipe of data) {
 		click = 'buildEditRecipeModal("' +recipe.id+ '");';
@@ -129,7 +129,22 @@ function buildEditRecipeModal(id) {
 	modal = buildRecipeModal(id, "edit-recipe-modal");	
 	modal.addButton("Modifica reteta", "updateRecipe("+id+")");
 	modal.addButton("Sterge reteta", "deleteRecipe("+id+")");
+	modal.addExtraBox("Ingrediente");
 	$("body").append(modal.modal);
+	
+	$.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials:true },
+		url: REST_URL + '/recipes/'+id+'/details',
+		dataType: 'json',
+		success: function(data, status, xhr) {
+						console.log(data);
+			buildIngListTable(data);
+		},
+		error: function() {
+			console.log("RECIPE DETAILS ERROR")
+		}
+	});
 }
 
 function buildAddRecipeModal() {
@@ -137,5 +152,18 @@ function buildAddRecipeModal() {
 	modal.title.text("Reteta noua");
 	modal.addButton("Adauga reteta", "addNewRecipe()");
 	$("body").append(modal.modal);
+}
+
+function buildIngListTable(ingredients) {	
+	var table = $("<table>");
+	table.append(newHeader(["ID", "Denumire", "Cantitate"]));
+		
+	for(ing of ingredients) {
+		click = 'buildEditIngModal("' +ing.id+ '");';
+		var row = newRow([ing.ingredient.id, ing.ingredient.name, ing.quantity + " " +ing.ingredient.unit.name]);
+		table.append(row);
+	}
+	
+	$("#extra").html(table);
 }
 

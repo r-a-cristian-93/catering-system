@@ -4,7 +4,6 @@ $(document).ready(function(){
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients',
 		success: function(data, status, xhr) {
-			console.log(data);
 			buildIngTable(data);
 		},
 		error: function() {
@@ -87,7 +86,7 @@ function ingTabAddRow(ing) {
 
 function buildIngTable(data) {	
 	var table = $("<table>");
-	table.append(newHeader(["ID", "Denumire", "Pret", "Unitate"]));
+	table.append(newHeader(["ID", "Denumire", "Pret", "U/M"]));
 		
 	for(ing of data) {
 		click = 'buildEditIngModal("' +ing.id+ '");';
@@ -115,7 +114,7 @@ function buildIngModal(id, divId) {
 	modal.addField("name", name);
 	modal.addLabel("Pret");
 	modal.addField("price", price);
-	modal.addLabel("Unitate");
+	modal.addLabel("U/M");
 	modal.addField("unit", unit);
 	return modal;
 }
