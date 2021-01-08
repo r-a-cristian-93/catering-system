@@ -18,7 +18,7 @@ function deleteIngredient(id) {
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients/' + id,
 		success: function(data, status, xhr) {
-			deleteRow(id);
+			ingTabDeleteRow(id);
 			deleteModal();
 		}
 	});
@@ -40,13 +40,13 @@ function updateIngredient(id) {
 			'unit': {'name': unit}
 		}),
 		success: function(data, status, xhr) {
-			refreshRow(data);
+			ingTabRefreshRow(data);
 			deleteModal();
 		}
 	});	
 }	
 
-function addIngredient() {
+function addNewIngredient() {
 	var name = $("form")[0].name.value;
 	var price = $("form")[0].price.value.split(" ")[0];
 	var unit = $("form")[0].unit.value;;
@@ -62,24 +62,24 @@ function addIngredient() {
 			'unit': {'name': unit}
 		}),
 		success: function(data, status, xhr) {
-			addRow(data);
+			ingTabAddRow(data);
 			deleteModal();
 		}
 	});
 }
 
-function refreshRow(data) {
+function ingTabRefreshRow(data) {
 	var id = data.id;
 	$("#" + id + " td:eq(1)").text(data.name);
 	$("#" + id + " td:eq(2)").text(data.price + ' Lei');
 	$("#" + id + " td:eq(3)").text(data.unit.name);
 }
 
-function deleteRow(id) {
+function ingTabDeleteRow(id) {
 	$("#" + id).remove();
 }
 
-function addRow(ing) {
+function ingTabAddRow(ing) {
 	click = 'buildEditIngModal("' +ing.id+ '");';
 	$("table").append(newRow([ing.id, ing.name, ing.price + " Lei", ing.unit.name]).attr({"onclick": click}));
 }	
@@ -129,6 +129,6 @@ function buildEditIngModal(id) {
 function buildAddIngModal() {
 	modal = buildIngModal();
 	modal.title.text("Ingredient nou");
-	modal.addButton("Adauga ingredient", "addIngredient()");
+	modal.addButton("Adauga ingredient", "addNewIngredient()");
 	$("body").append(modal.modal);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.catering.rest.db.models.IngredientModel;
 import com.catering.rest.db.models.RecipeModel;
 import com.catering.rest.db.models.RecipesDetailsModel;
+import com.catering.rest.db.models.UnitModel;
 import com.catering.rest.db.repositories.IngredientsRepository;
 import com.catering.rest.db.repositories.RecipesDetailsRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
@@ -57,11 +58,19 @@ public class RecipesController {
 	@PutMapping("/{id}")
 	public RecipeModel updateRecipe(@PathVariable Integer id, @RequestBody RecipeModel recipe) {
 		String name = recipe.getName();
+		Double quantity = recipe.getQuantity();
+		UnitModel unit = recipe.getUnit();
 		recipe = recipesRepo.findById(id).get();
 		
 		if(name!=null) {
 			recipe.setName(name);
 		}		
+		if(quantity!=null) {
+			recipe.setQuantity(quantity);
+		}
+		if(unit!=null) {
+			recipe.setUnit(unit);
+		}
 		return recipesRepo.save(recipe);
 	}
 	
