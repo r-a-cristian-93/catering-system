@@ -36,20 +36,20 @@ function newForm(name, attrClass) {
 	return $("<form>").addClass(attrClass).attr({"name": name});
 }
 
-function deleteModal() {
-	$("div.modal").remove();
+function deleteModal(divId) {
+	$("#"+divId).remove();
 }
 
 class ModalBuilder {
-	constructor(title) {
+	constructor(title, divId) {
 		this.form = newForm("form-modal", "form-big");
 		this.title = $("<h2>").addClass("modal-title").text(title)
-		this.modal = $("<div>").addClass("modal").append(
+		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(
 			$("<div>").addClass("modal-box")
 				.append(
 					$("<div>").addClass("modal-top")
 						.append(
-							$("<span>").addClass("modal-close").html("&times;").attr({"onclick": "deleteModal()"}))
+							$("<span>").addClass("modal-close").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
 						.append(this.title)
 				)
 				.append(

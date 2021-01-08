@@ -4,6 +4,7 @@ $(document).ready(function(){
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients',
 		success: function(data, status, xhr) {
+			console.log(data);
 			buildIngTable(data);
 		},
 		error: function() {
@@ -19,7 +20,7 @@ function deleteIngredient(id) {
 		url: REST_URL + '/ingredients/' + id,
 		success: function(data, status, xhr) {
 			ingTabDeleteRow(id);
-			deleteModal();
+			deleteModal("edit-ing-modal");
 		}
 	});
 }
@@ -41,7 +42,7 @@ function updateIngredient(id) {
 		}),
 		success: function(data, status, xhr) {
 			ingTabRefreshRow(data);
-			deleteModal();
+			deleteModal("edit-ing-modal");
 		}
 	});	
 }	
@@ -63,7 +64,7 @@ function addNewIngredient() {
 		}),
 		success: function(data, status, xhr) {
 			ingTabAddRow(data);
-			deleteModal();
+			deleteModal("add-ing-modal");
 		}
 	});
 }
@@ -103,31 +104,31 @@ function buildIngTable(data) {
 	$("#ing-table").append(table);			
 }
 
-function buildIngModal(id) {
-	var denumire = $("#" + id + " td:eq(1)").text();
-	var pret = $("#" + id + " td:eq(2)").text().split(" ")[0];
-	var unitate = $("#" + id + " td:eq(3)").text();
-	var title = '#' + id + " " + denumire;
+function buildIngModal(id, divId) {
+	var name = $("#" + id + " td:eq(1)").text();
+	var price = $("#" + id + " td:eq(2)").text().split(" ")[0];
+	var unit = $("#" + id + " td:eq(3)").text();
+	var title = '#' + id + " " + name;
 	
-	var modal = new ModalBuilder(title);
+	var modal = new ModalBuilder(title, divId);
 	modal.addLabel("Denumire:");
-	modal.addField("name", denumire);
+	modal.addField("name", name);
 	modal.addLabel("Pret");
-	modal.addField("price", pret);
+	modal.addField("price", price);
 	modal.addLabel("Unitate");
-	modal.addField("unit", unitate);
+	modal.addField("unit", unit);
 	return modal;
 }
 
 function buildEditIngModal(id) {
-	modal = buildIngModal(id);	
+	modal = buildIngModal(id, "edit-ing-modal");	
 	modal.addButton("Modifica ingredient", "updateIngredient("+id+")");
 	modal.addButton("Sterge ingredient", "deleteIngredient("+id+")");
 	$("body").append(modal.modal);
 }
 
 function buildAddIngModal() {
-	modal = buildIngModal();
+	modal = buildIngModal(0, "add-ing-modal");
 	modal.title.text("Ingredient nou");
 	modal.addButton("Adauga ingredient", "addNewIngredient()");
 	$("body").append(modal.modal);
