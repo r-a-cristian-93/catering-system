@@ -34,7 +34,7 @@ public class RecipesDetailsModel {
 	private IngredientModel ingredient;
 	
 	@Column(name="quantity")
-	private Integer quantity;
+	private Double quantity;
 	
 	protected RecipesDetailsModel() {}
 }
