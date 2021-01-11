@@ -87,7 +87,9 @@ public class RecipesController {
 	@PostMapping("/{id}/details")
 	public RecipesDetailsModel addDetails(@PathVariable Integer id,	@RequestBody RecipesDetailsModel details) {
 		RecipeModel recipe = recipesRepo.findById(id).get();
+		IngredientModel ingredient = ingredientsRepo.findById(details.getIngredient().getId()).get();
 		details.setRecipe(recipe);
+		details.setIngredient(ingredient);
 		return detailsRepo.save(details);
 	}	
 	
@@ -108,7 +110,7 @@ public class RecipesController {
 		RecipeModel recipe = recipesRepo.findById(id).get();
 		Integer ingredientId = details.getIngredient().getId();
 		IngredientModel ingredient = ingredientsRepo.findById(ingredientId).get();
-		Integer quantity = details.getQuantity();
+		Double quantity = details.getQuantity();
 		
 		details = detailsRepo.findByRecipeAndIngredient(recipe, ingredient);
 		details.setQuantity(quantity);

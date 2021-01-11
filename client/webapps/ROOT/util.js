@@ -35,6 +35,13 @@ function newButton(name, action) {
 function newForm(name, attrClass) {
 	return $("<form>").addClass(attrClass).attr({"name": name});
 }
+function newSelect(name) {
+	return $("<select>").attr({"name": name});
+}
+function newOption(value, text) {
+	return $("<option>").attr({"value": value}).text(text);
+}
+
 
 function deleteModal(divId) {
 	$("#"+divId).remove();
@@ -42,6 +49,7 @@ function deleteModal(divId) {
 
 class ModalBuilder {
 	constructor(title, divId) {
+		this.extraBox = null;
 		this.form = newForm("form-modal", "form-big");
 		this.title = $("<h2>").addClass("modal-title").text(title)
 		this.modalContainer = $("<div>").addClass("modal-container").append(
@@ -67,18 +75,25 @@ class ModalBuilder {
 	addButton(name, action) {
 		this.form.append(newButton(name, action));
 	}
+	addSelect(name) {
+		this.form.append(newSelect(name));
+	}
 	addExtraBox(title){
-		this.modalContainer.append(
-			$("<div>").addClass("modal-box")
+		this.extraBox = new ExtraBox(title)
+		this.modalContainer.append(this.extraBox.box);
+	}
+}
+
+class ExtraBox {
+	constructor(title) {
+		this.content = $("<div>").addClass("modal-content").attr({"id": "extra"});					
+		this.box = $("<div>").addClass("modal-box")
 					.append(
 						$("<div>").addClass("modal-top")
 							.append(
 								$("<h2>").addClass("modal-title").text(title)
 							)
 					)
-					.append(
-						$("<div>").addClass("modal-content").attr({"id": "extra"})
-					)
-				);
-		}
+					.append(this.content);
+	}	
 }
