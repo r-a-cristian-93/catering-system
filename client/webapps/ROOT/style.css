@@ -96,6 +96,7 @@ ul {
 	margin: 0;
 	padding: 0;
 	background-color: var(--grey);
+	z-index: 1;
 }
 
 li {
