@@ -27,10 +27,11 @@ function deleteRecipe(id) {
 }
 
 function updateRecipe(id) {
-	var name = $("form")[0].name.value;
-	var category = $("form")[0].category.value;
-	var quantity = $("form")[0].quantity.value;;
-	var unit = $("form")[0].unit.value;
+	var name = $("#" + id + " td:eq(1)").text();
+	var category = $("#" + id + " td:eq(2)").text();
+	var quantity = $("#" + id + " td:eq(3)").text().split(" ")[0];
+	var unit = $("#" + id + " td:eq(3)").text().split(" ")[1];
+
 	$.ajax({
 		method: 'PUT',		
 		xhrFields: { withCredentials: true },
@@ -44,30 +45,26 @@ function updateRecipe(id) {
 		}),
 		success: function(data, status, xhr) {
 			recipeTabRefreshRow(data);
-			deleteModal("edit-recipe-modal");
+			disableSaveRecipe(data.id);
 		}
 	});	
 }	
 
 function addNewRecipe() {
-	var name = $("form")[0].name.value;
-	var category = $("form")[0].category.value;
-	var quantity = $("form")[0].quantity.value;;
-	var unit = $("form")[0].unit.value;
+	var recipe = {
+		"name": "[reteta noua]",
+		"quantity": 0,
+		"unit": { "name": "g" }
+	};	
 	$.ajax({
 		method: 'POST',		
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/recipes',
 		dataType: 'json',
 		contentType: "application/json",
-		data: JSON.stringify({
-			'name': name,
-			'quantity': quantity,
-			'unit': {'name': unit}
-		}),
+		data: JSON.stringify(recipe),
 		success: function(data, status, xhr) {
-			recipeTabAddRow(data);
-			deleteModal("add-recipe-modal");
+			$("#table > table").append(newRecipeRow(data));
 		}
 	});
 }
@@ -158,9 +155,31 @@ function recipesTabDeleteRow(id) {
 	$("#" + id).remove();
 }
 
-function recipeTabAddRow(recipe) {
-	click = 'buildEditRecipeModal("' +recipe.id+ '");';
-	$("table").append(newRow([recipe.id, recipe.name, "recipe.category.name", recipe.quantity + " " + recipe.unit.name + ""]).attr({"onclick": click}));
+function newRecipeRow(recipe) {		
+	var saveButton = $("<img>")
+		.addClass("inactive")
+		.attr({"src": "/img/save.png"});
+	var editButton = $("<img>")
+		.addClass("active")
+		.attr({"src": "/img/edit.png"})
+		.attr({"onclick": "buildEditRecipeModal("+recipe.id+")"});		
+	var deleteButton = $("<img>")
+		.addClass("active")
+		.attr({"src": "/img/delete.png"})
+		.attr({"onclick": "deleteRecipe("+recipe.id+")"});
+	
+	var row = newRow([
+		recipe.id, 
+		recipe.name, 
+		"recipe.category.name", 
+		recipe.quantity + " " + recipe.unit.name + "", 
+		saveButton,
+		editButton,
+		deleteButton
+	], [0, 1, 1, 1, 0, 0])
+		.on("input", function() {				
+			activateSaveRecipe(this.id)});
+	return row;
 }	
 
 function buildRecipesTable(data) {
@@ -168,46 +187,37 @@ function buildRecipesTable(data) {
 	table.append(newHeader(["ID", "Denumire", "Categorie", "Portie"]));
 		
 	for(recipe of data) {
-		click = 'buildEditRecipeModal("' +recipe.id+ '");';
-		var row = newRow([recipe.id, recipe.name, "recipe.category.name", recipe.quantity + " " + recipe.unit.name + ""]).attr({"onclick": click});
-		table.append(row);
+		table.append(newRecipeRow(recipe));
 	}
 	
 	$("#table").append($("<h2>").text("Tabel retete"));
+				
+	$("#table").append(table);
 	$("#table").append(
 		$("<button>")
-			.addClass("button fr")
-			.attr({"onclick": "buildAddRecipeModal()"})
+			.addClass("button")
+			.attr({"onclick": "addNewRecipe()"})
 			.html("+ Reteta noua"));			
-	$("#table").append(table);			
 }
 
-function buildRecipeModal(id, divId) {
-	var name = $("#" + id + " td:eq(1)").text();
-	var category = $("#" + id + " td:eq(2)").text();
-	var quantity = $("#" + id + " td:eq(3)").text().split(" ")[0];
-	var unit = $("#" + id + " td:eq(3)").text().split(" ")[1];
-	var title = '#' + id + " " + name;
-	
-	var modal = new ModalBuilder(title, divId);
-	modal.addLabel("Denumire:");
-	modal.addField("name", name);
-	modal.addLabel("Categorie:");
-	modal.addField("category", category);
-	modal.addLabel("Cantitate:");
-	modal.addField("quantity", quantity);
-	modal.addLabel("U/M:");
-	modal.addField("unit", unit);
-	return modal;
+function activateSaveRecipe(id) {
+	$("#" + id + " td:eq(4) > img")
+		.attr({"class":"active"})
+		.attr({"onclick": "updateRecipe("+id+")"});	
+}
+
+function disableSaveRecipe(id) {
+	$("#" + id + " td:eq(4) > img")
+		.attr({"onclick": ""})
+		.attr({"class":"inactive"});
 }
 
 function buildEditRecipeModal(id) {
-	modal = buildRecipeModal(id, "edit-recipe-modal");	
-	modal.addButton("Modifica reteta", "updateRecipe("+id+")");
-	modal.addButton("Sterge reteta", "deleteRecipe("+id+")");
-	modal.addExtraBox("Ingrediente");
-	click = 'buildAddRecipeDetailsModal(' + id + ', "add-recipe-details-modal");';
-	modal.extraBox.content.append(newButton(" + Adauga ingredient" , click).addClass("fr mb10"));	
+	var name = $("#" + id + " td:eq(1)").text();
+	var title = '#' + id + " " + name;
+	
+	modal = new ModalBuilder(title, "edit-recipe-modal");	
+	modal.addExtraBox("Depozit");
 	$("body").append(modal.modal);
 	
 	$.ajax({
@@ -216,19 +226,12 @@ function buildEditRecipeModal(id) {
 		url: REST_URL + '/recipes/'+id+'/details',
 		dataType: 'json',
 		success: function(data, status, xhr) {
-			buildRecipeDetailsTable(data, id);
+			modal.content.append(buildRecipeDetailsTable(data, id));
 		},
 		error: function() {
 			console.log("RECIPE DETAILS ERROR")
 		}
 	});
-}
-
-function buildAddRecipeModal() {
-	modal = buildRecipeModal(0,"add-recipe-modal");
-	modal.title.text("Reteta noua");
-	modal.addButton("Adauga reteta", "addNewRecipe()");
-	$("body").append(modal.modal);
 }
 
 function buildRecipeDetailsTable(ingredients, recipeId) {	
@@ -242,8 +245,7 @@ function buildRecipeDetailsTable(ingredients, recipeId) {
 			.attr({"onclick": click});
 		table.append(row);
 	}
-	
-	$("#extra").append(table);
+	return table;
 }
 
 function buildEditRecipeDetailsModal(recipeId, ingId, divId) {

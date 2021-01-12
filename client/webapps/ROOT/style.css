@@ -5,6 +5,7 @@
 	--shadow: lightgray;
 	--grey: #F0F0F0;
 	--grey2: #F5F5F5;
+	--grey3: #FAFAFA;
 	}
 	
 .fr { float:right; }
@@ -13,7 +14,6 @@
 
 .mb10 { margin-bottom:10px; }
 
-	
 * {
     box-sizing: border-box;
     font-family: sans-serif;
@@ -160,22 +160,34 @@ li.dropdown {
 table {
 	border-collapse: collapse;
 	width: 100%;
+	margin-bottom: 10px;
+	cursor: default;
 	}
 
 td, th {
-	border: 1px solid var(--grey);
 	text-align: left;
 	padding: 8px;
 	}
-
-th {
-	background-color: var(--grey2);
-	}
   
-tr:hover {
-	background-color: var(--grey);
+tr:nth-child(even) {
+	background-color: var(--grey3);
+	}
+	
+tr:not(:first-child):hover {
+    background-color: var(--grey);
+}
+
+.inactive {
+	opacity: 0.2;
+	}
+	
+.active {
+	opacity: 0.7;
 	}
 
+.active:hover {
+	opacity: 1;
+	}
 
 
 /* ***************** MODAL ****************
