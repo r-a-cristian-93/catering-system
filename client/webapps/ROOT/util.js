@@ -3,10 +3,17 @@ var CLIENT_URL = "http://localhost:8080"
 
 /* ************* TABLE ************* */
 
-function newRow(arrayVal) {
+function newRow(arrayVal, editable) {
 	var tr = $("<tr>").attr({"id": arrayVal[0]});
+	var index = 0;
 	for(val of arrayVal) {
-		tr.append($("<td>").text(val));
+		if(editable && editable[index]!=0) {
+			tr.append($("<td contenteditable>").append(val));
+		}
+		else {
+			tr.append($("<td>").append(val));
+		}
+		index++
 	}
 	return tr;
 }
@@ -49,9 +56,10 @@ function deleteModal(divId) {
 
 class ModalBuilder {
 	constructor(title, divId) {
-		this.extraBox = null;
+		this.extraBox = [];
 		this.form = newForm("form-modal", "form-big");
-		this.title = $("<h2>").addClass("modal-title").text(title)
+		this.content = $("<div>").addClass("modal-content").append(this.form);
+		this.title = $("<h2>").addClass("modal-title").text(title);
 		this.modalContainer = $("<div>").addClass("modal-container").append(
 				$("<div>").addClass("modal-box")
 					.append(
@@ -61,7 +69,7 @@ class ModalBuilder {
 							.append(this.title)
 					)
 					.append(
-						$("<div>").addClass("modal-content").append(this.form)
+						this.content
 					)
 				);
 		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(this.modalContainer);			
@@ -79,14 +87,19 @@ class ModalBuilder {
 		this.form.append(newSelect(name));
 	}
 	addExtraBox(title){
-		this.extraBox = new ExtraBox(title)
-		this.modalContainer.append(this.extraBox.box);
+		var index = this.extraBox.length;
+		if(this.extraBox[index] != null) {
+			index++;
+		}
+		
+		this.extraBox[index] = new ExtraBox(title, index);
+		this.modalContainer.append(this.extraBox[index].box);
 	}
 }
 
 class ExtraBox {
-	constructor(title) {
-		this.content = $("<div>").addClass("modal-content").attr({"id": "extra"});					
+	constructor(title, index) {
+		this.content = $("<div>").addClass("modal-content").attr({"id": "extra-" + index});					
 		this.box = $("<div>").addClass("modal-box")
 					.append(
 						$("<div>").addClass("modal-top")
