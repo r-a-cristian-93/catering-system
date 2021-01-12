@@ -44,7 +44,7 @@ function updateRecipe(id) {
 			'unit': {'name': unit}
 		}),
 		success: function(data, status, xhr) {
-			recipeTabRefreshRow(data);
+			recipesTabRefreshRow(data);
 			disableSaveRecipe(data.id);
 		}
 	});	
@@ -64,7 +64,7 @@ function addNewRecipe() {
 		contentType: "application/json",
 		data: JSON.stringify(recipe),
 		success: function(data, status, xhr) {
-			$("#table > table").append(newRecipeRow(data));
+			recipesTabAddRow(data);
 		}
 	});
 }
@@ -125,8 +125,15 @@ function addRecipeDetails(recipeId) {
 	});	
 }
 
+function recipesTabAddRow(data){
+	$("#table > table").append(newRecipeRow(data));
+}
 
-function recipeTabRefreshRow(data) {
+function recipesTabDeleteRow(id) {
+	$("#" + id).remove();
+}
+
+function recipesTabRefreshRow(data) {
 	var id = data.id;
 	$("#" + id + " td:eq(1)").text(data.name);
 	//$("#" + id + " td:eq(2)").text(data.name);
@@ -151,10 +158,6 @@ function recipeDetailsAddRow(details) {
 	$("#extra table").append(row);
 }
 
-function recipesTabDeleteRow(id) {
-	$("#" + id).remove();
-}
-
 function newRecipeRow(recipe) {		
 	var saveButton = $("<img>")
 		.addClass("inactive")
@@ -168,7 +171,7 @@ function newRecipeRow(recipe) {
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "deleteRecipe("+recipe.id+")"});
 	
-	var row = newRow([
+	return newRow([
 		recipe.id, 
 		recipe.name, 
 		"recipe.category.name", 
@@ -179,7 +182,6 @@ function newRecipeRow(recipe) {
 	], [0, 1, 1, 1, 0, 0])
 		.on("input", function() {				
 			activateSaveRecipe(this.id)});
-	return row;
 }	
 
 function buildRecipesTable(data) {
