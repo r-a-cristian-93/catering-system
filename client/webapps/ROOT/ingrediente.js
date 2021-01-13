@@ -9,7 +9,7 @@ $(document).ready(function(){
 		error: function() {
 			console.log("ING ERROR");
 		}
-	});	
+	});
 });
 
 function deleteIngredient(id) {
@@ -31,7 +31,7 @@ function updateIngredient(id) {
 	}
 	
 	$.ajax({
-		method: 'PUT',		
+		method: 'PUT',
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients/'+id,
 		dataType: 'json',
@@ -51,7 +51,7 @@ function addNewIngredient() {
 		"unit": {"name":"g"}
 	};
 	$.ajax({
-		method: 'POST',		
+		method: 'POST',
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients',
 		dataType: 'json',
@@ -95,7 +95,7 @@ function newIngRow(ing) {
 		saveButton,
 		deleteButton
 	], [0, 1, 1, 1, 0, 0])
-		.on("input", function() {				
+		.on("input", function() {
 			activateSaveIngredient(this.id)});
 }	
 
@@ -111,7 +111,7 @@ function disableSaveIngredient(id) {
 		.attr({"class":"inactive"});
 }
 
-function buildIngTable(data) {	
+function buildIngTable(data) {
 	var table = $("<table>");
 	table.append(newHeader(["ID", "Denumire", "Pret [Lei]", "U/M"]));
 		
@@ -128,6 +128,5 @@ function buildIngTable(data) {
 			$("<button>")
 				.addClass("button")
 				.attr({"onclick": "addNewIngredient()"})
-				.html("+ Adauga ingredient nou"));			
-		
+				.html("+ Adauga ingredient nou"));
 }

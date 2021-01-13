@@ -18,10 +18,17 @@ function newRow(arrayVal, editable) {
 	return tr;
 }
 
-function newHeader(arrayVal){
+function newHeader(arrayVal, colspan){
 	var tr = $("<tr>");
+	var index = 0;
 	for(val of arrayVal) {
-		tr.append($("<th>").text(val));
+		if(colspan && colspan[index]!=0) {
+			tr.append($("<th>").text(val).attr({"colspan": colspan[index]}));
+		}
+		else {
+			tr.append($("<th>").text(val));
+		}
+		index++;
 	}
 	return tr;
 }
@@ -57,8 +64,8 @@ function deleteModal(divId) {
 class ModalBuilder {
 	constructor(title, divId) {
 		this.extraBox = [];
-		this.form = newForm("form-modal", "form-big");
-		this.content = $("<div>").addClass("modal-content").append(this.form);
+		//this.form = newForm("form-modal", "form-big");
+		this.content = $("<div>").addClass("modal-content");//.append(this.form);
 		this.title = $("<h2>").addClass("modal-title").text(title);
 		this.modalContainer = $("<div>").addClass("modal-container").append(
 				$("<div>").addClass("modal-box")
