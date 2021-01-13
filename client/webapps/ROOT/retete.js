@@ -70,7 +70,7 @@ function addNewRecipe() {
 }
 
 function updateRecipeDetails(recipeId, ingId) {
-	var quantity = $("form")[1].quantity.value;
+	var quantity = $("#det_" + ingId + " td:eq(2)").text().split(" ")[0];
 	$.ajax({
 		method: 'PUT',		
 		xhrFields: { withCredentials: true },
@@ -83,7 +83,7 @@ function updateRecipeDetails(recipeId, ingId) {
 		}),
 		success: function(data, status, xhr) {
 			recipeDetailsRefreshRow(data);
-			deleteModal("edit-recipe-details-modal");
+			disableSaveDetails(data.ingredient.id);
 		}
 	});	
 }	
@@ -100,27 +100,24 @@ function deleteRecipeDetails(recipeId, ingId) {
 		}),
 		success: function(data, status, xhr) {
 			recipeDetailsDeleteRow(ingId);
-			deleteModal("edit-recipe-details-modal");
 		}
 	});	
 }
 
-function addRecipeDetails(recipeId) {
-	var quantity = $("form")[1].quantity.value;
-	var ingId = $("form")[1].ingredient.value;
+function addRecipeDetails(recipeId, ingId) {
+	var details = {
+		'ingredient': { 'id': ingId },
+		'quantity': 0
+	};
 	$.ajax({
 		method: 'POST',		
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/recipes/'+recipeId+'/details',
 		dataType: 'json',
 		contentType: "application/json",
-		data: JSON.stringify({
-			'ingredient': { 'id': ingId },
-			'quantity': quantity
-		}),
+		data: JSON.stringify(details),
 		success: function(data, status, xhr) {
 			recipeDetailsAddRow(data);
-			deleteModal("add-recipe-details-modal");
 		}
 	});	
 }
@@ -140,22 +137,17 @@ function recipesTabRefreshRow(data) {
 	$("#" + id + " td:eq(3)").text(data.quantity + " " + data.unit.name);
 }
 
-function recipeDetailsRefreshRow(data) {
+function recipeDetailsRefreshRow(data) {	
 	var id = data.ingredient.id;
-	var unit = data.ingredient.unit.name;
-	$("#ing_" + id + " td:eq(2)").text(data.quantity  + " " + unit);
+	$("#det_" + id + " td:eq(2)").text(data.quantity);
 }
 
 function recipeDetailsDeleteRow(ingId) {
-	$("#ing_" + ingId).remove();
+	$("#det_" + ingId).remove();
 }
 
 function recipeDetailsAddRow(details) {
-	click = 'buildEditRecipeDetailsModal(' + details.recipe.id + ', ' +details.ingredient.id+ ', "edit-recipe-details-modal");';
-	var row = newRow([details.ingredient.id, details.ingredient.name, details.quantity + " " +details.ingredient.unit.name])
-		.attr({"id": "ing_"+details.ingredient.id, "onclick": click});
-	dummy = row;
-	$("#extra table").append(row);
+	$("#recipe-details-table").append(newRecipeDetailsRow(details));
 }
 
 function newRecipeRow(recipe) {		
@@ -218,8 +210,8 @@ function buildEditRecipeModal(id) {
 	var name = $("#" + id + " td:eq(1)").text();
 	var title = '#' + id + " " + name;
 	
-	modal = new ModalBuilder(title, "edit-recipe-modal");	
-	modal.addExtraBox("Depozit");
+	modal = new ModalBuilder(title, "edit-recipe-modal");				
+	modal.addExtraBox("Ingrediente disponibile");
 	$("body").append(modal.modal);
 	
 	$.ajax({
@@ -234,62 +226,87 @@ function buildEditRecipeModal(id) {
 			console.log("RECIPE DETAILS ERROR")
 		}
 	});
-}
-
-function buildRecipeDetailsTable(ingredients, recipeId) {	
-	var table = $("<table>");
-	table.append(newHeader(["ID", "Denumire", "Cantitate"]));
-		
-	for(ing of ingredients) {
-		click = 'buildEditRecipeDetailsModal(' + recipeId + ', ' +ing.ingredient.id+ ', "edit-recipe-details-modal");';
-		var row = newRow([ing.ingredient.id, ing.ingredient.name, ing.quantity + " " +ing.ingredient.unit.name])
-			.attr({"id": "ing_"+ing.ingredient.id})
-			.attr({"onclick": click});
-		table.append(row);
-	}
-	return table;
-}
-
-function buildEditRecipeDetailsModal(recipeId, ingId, divId) {
-	var ingName =  $("#ing_" + ingId + " td:eq(1)").text();
-	var ingQuantity = $("#ing_" + ingId + " td:eq(2)").text().split(" ")[0];
-	var ingUnit = $("#ing_" + ingId + " td:eq(2)").text().split(" ")[1];
-	var title = '#' + ingId + " " + ingName;
-	
-	modal = new ModalBuilder(title, "edit-recipe-details-modal");
-	modal.addLabel("Cantitate [" + ingUnit + "]");
-	modal.addField("quantity", ingQuantity);
-	modal.addButton("Modifica catitatea", "updateRecipeDetails(" +recipeId +", "+ ingId + ")");
-	modal.addButton("Sterge ingredient", "deleteRecipeDetails(" +recipeId +", "+ ingId + ")");
-	$("body").append(modal.modal);
-}
-
-function buildAddRecipeDetailsModal(recipeId, divId) {
-	modal = new ModalBuilder("Adauga ingredient", "add-recipe-details-modal");
-	modal.addLabel("Ingredient");
-	modal.addSelect("ingredient");
-	modal.addLabel("Cantitate")
-	modal.addField("quantity");
-	modal.addButton("Adauga ingredient", "addRecipeDetails(" + recipeId + ")");	
-	$("body").append(modal.modal);
 	
 	$.ajax({
 		method: 'GET',
-		xhrFields: { withCredentials:true },
+		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients',
-		dataType: 'json',
 		success: function(data, status, xhr) {
-			buildAddRecipeDetailsSelect(data);
+			$("#extra-0").append(newStaticIngTable(data));
 		},
 		error: function() {
-			console.log("RECIPE DETAILS ERROR")
+			console.log("ING ERROR");
 		}
 	});
 }
 
-function buildAddRecipeDetailsSelect(ingredients) {
-	for (ing of ingredients) {
-		option = newOption(ing.id, ing.name + " [" +ing.unit.name+"]");
-		$("select").append(option);
+function activateSaveDetails(recipeId, ingId) {
+	console.log(recipeId + "  " + ingId);
+	$("#det_"+ingId + " td:eq(4) > img")
+		.attr({"class":"active"})
+		.attr({"onclick": "updateRecipeDetails("+recipeId+", "+ingId+")"});	
+}
+
+function disableSaveDetails(id) {
+	$("#det_" + id + " td:eq(4) > img")
+		.attr({"onclick": ""})
+		.attr({"class":"inactive"});
+}
+
+function newStaticIngTable(data) {
+	var table = $("<table>");
+	table.append(newHeader(["ID", "Denumire"]));
+		
+	for(ing of data) {
+		click = 'buildEditIngModal("' +ing.id+ '");';
+		var row = newStaticIngRow(ing);
+		table.append(row);
+	}	
+	return table;
+}
+
+function newStaticIngRow(ing) {	
+	return newRow([
+		ing.id, 
+		ing.name, 
+	], [0, 0])
+		.on("dblclick", function() {
+			addRecipeDetails($(".modal-title").text().split(" ")[0].substring(1), this.id);
+		});
+}	
+
+function buildRecipeDetailsTable(ingredients, recipeId) {	
+	var table = $("<table>");
+	table
+		.attr({"id": "recipe-details-table"})
+		.append(newHeader(["ID", "Denumire", "Cantitate"], [0, 0, 2, 0]));
+		
+	for(ing of ingredients) {		
+		table.append(newRecipeDetailsRow(ing));
 	}
+	return table;
+}
+
+function newRecipeDetailsRow(det) {
+	var saveButton = $("<img>")
+		.addClass("inactive")
+		.attr({"src": "/img/save.png"});	
+	var deleteButton = $("<img>")
+		.addClass("active")
+		.attr({"src": "/img/delete.png"})
+		.attr({"onclick": "deleteRecipeDetails("+det.recipe.id+", "+det.ingredient.id+")"});
+		
+	return newRow([
+		det.ingredient.id, 
+		det.ingredient.name, 
+		det.quantity,
+		det.ingredient.unit.name,
+		saveButton,
+		deleteButton
+	], [0, 0, 1, 0, 0, 0])
+		.attr({"id": "det_"+det.ingredient.id})
+		.on("input", function() {
+			recipeId = $(".modal-title").text().split(" ")[0].substring(1);
+			activateSaveDetails(recipeId, this.id.split("_")[1])
+		});
 }

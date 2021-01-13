@@ -169,9 +169,17 @@ td, th {
 	text-align: left;
 	padding: 8px;
 	}
+	
+tr {
+	user-select: none;
+	}
   
 tr:nth-child(even) {
 	background-color: var(--grey3);
+	}
+	
+#recipe-details-table td:nth-child(3) {
+	text-align:right;
 	}
 	
 tr:not(:first-child):hover {
