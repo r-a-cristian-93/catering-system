@@ -129,6 +129,10 @@ li.dropdown {
   display: inline-block;
 }
 
+dropdown {
+	position: relative;
+	}
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -153,7 +157,6 @@ li.dropdown {
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
 
 
 /* ******************* TABLE ******************* */
@@ -196,6 +199,25 @@ tr:not(:first-child):hover {
 
 .active:hover {
 	opacity: 1;
+	}
+	
+td>p {
+	margin:0px;
+	display:inline-block;
+	width:100%;
+	}	
+	
+td.dropdown:hover .dropdown-content {
+  display: inline-block;
+}
+
+.dropdown-content div {
+	padding:8px;
+	}
+	
+.dropdown-content div:hover {
+	color: var(--grey);
+	background-color: var(--bg);
 	}
 
 
