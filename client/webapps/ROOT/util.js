@@ -3,16 +3,18 @@ var CLIENT_URL = "http://localhost:8080"
 
 /* ************* TABLE ************* */
 
-function newRow(arrayVal, editable) {
+function newRow(arrayVal, editable, classes) {
 	var tr = $("<tr>").attr({"id": arrayVal[0]});
 	var index = 0;
 	for(val of arrayVal) {
-		if(editable && editable[index]!=0) {
-			tr.append($("<td contenteditable>").append(val));
+		var td = $("<td>").html(val);		
+		if(editable && editable[index]==1) {
+			td.attr({"contenteditable": true});
 		}
-		else {
-			tr.append($("<td>").append(val));
+		if(classes && classes[index]!=0) {
+			td.addClass(classes[index]);
 		}
+		tr.append(td);
 		index++
 	}
 	return tr;
@@ -63,9 +65,8 @@ function deleteModal(divId) {
 
 class ModalBuilder {
 	constructor(title, divId) {
-		this.extraBox = [];
-		//this.form = newForm("form-modal", "form-big");
-		this.content = $("<div>").addClass("modal-content");//.append(this.form);
+		this.extraBox = [];		
+		this.content = $("<div>").addClass("modal-content");
 		this.title = $("<h2>").addClass("modal-title").text(title);
 		this.modalContainer = $("<div>").addClass("modal-container").append(
 				$("<div>").addClass("modal-box")
@@ -80,18 +81,6 @@ class ModalBuilder {
 					)
 				);
 		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(this.modalContainer);			
-	}
-	addLabel(text) {
-		this.form.append(newLabel(text));
-	}
-	addField(name, value) {
-		this.form.append(newField(name, value));
-	}
-	addButton(name, action) {
-		this.form.append(newButton(name, action));
-	}
-	addSelect(name) {
-		this.form.append(newSelect(name));
 	}
 	addExtraBox(title){
 		var index = this.extraBox.length;

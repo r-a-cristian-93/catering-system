@@ -33,7 +33,7 @@ function buildMenu(user) {
 			.append(newDivUsr(user.name, ""))
 			.append(newLiA("Acasa", "index.html"))
 			.append(newLiDD("Comenzi", [
-						newA("Toate comenzile"),
+						newA("Toate comenzile", "comenzi.html"),
 						newA("Comanda Noua", "comanda-noua.html")]))
 			.append(newLiDD("Retete", [
 						newA("Toate retetele", "retete.html"),
