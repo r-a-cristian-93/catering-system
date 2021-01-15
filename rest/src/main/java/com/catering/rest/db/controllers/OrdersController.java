@@ -17,6 +17,7 @@ import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
 import com.catering.rest.db.models.RecipeModel;
 import com.catering.rest.db.models.StatusModel;
+import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.OrdersDetailsRepository;
 import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
@@ -30,6 +31,7 @@ public class OrdersController {
 	OrdersRepository ordersRepo;
 	OrdersDetailsRepository detailsRepo;	
 	RecipesRepository recipesRepo;
+	ClientsRepository clientsRepo;	
 	
 	@ResponseBody
 	@GetMapping
@@ -63,6 +65,7 @@ public class OrdersController {
 		order = ordersRepo.findById(id).get();
 		
 		if(client!=null) {
+			client = clientsRepo.findByName(client.getName());
 			order.setClient(client);
 		}
 		if(status!=null) {

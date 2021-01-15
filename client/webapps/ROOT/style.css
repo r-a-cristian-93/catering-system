@@ -83,8 +83,6 @@ html, body {
 	}
 	
 	
-	
-	
 /* **************** NAVIGATION MENU	************** */
 	
 ul {
@@ -200,25 +198,6 @@ tr:not(:first-child):hover {
 .active:hover {
 	opacity: 1;
 	}
-	
-td>p {
-	margin:0px;
-	display:inline-block;
-	width:100%;
-	}	
-	
-td.dropdown:hover .dropdown-content {
-  display: inline-block;
-}
-
-.dropdown-content div {
-	padding:8px;
-	}
-	
-.dropdown-content div:hover {
-	color: var(--grey);
-	background-color: var(--bg);
-	}
 
 
 /* ***************** MODAL ****************
@@ -286,3 +265,21 @@ td.dropdown:hover .dropdown-content {
 	display:none;
 	}
 
+.modal-option {
+	border-radius:10px;
+	padding:10px;
+	background-color: var(--bg);
+	border-style:none;
+	color: var(--grey);
+	display:block;
+	width:100%;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align: center;
+	cursor: pointer;
+	}
+
+.modal-option:hover {
+	background-color: var(--bg2);
+	color: var(--grey);
+	}

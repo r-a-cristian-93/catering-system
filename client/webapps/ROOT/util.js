@@ -3,7 +3,7 @@ var CLIENT_URL = "http://localhost:8080"
 
 /* ************* TABLE ************* */
 
-function newRow(arrayVal, editable, classes) {
+function newRow(arrayVal, editable, attrList) {
 	var tr = $("<tr>").attr({"id": arrayVal[0]});
 	var index = 0;
 	for(val of arrayVal) {
@@ -11,8 +11,8 @@ function newRow(arrayVal, editable, classes) {
 		if(editable && editable[index]==1) {
 			td.attr({"contenteditable": true});
 		}
-		if(classes && classes[index]!=0) {
-			td.addClass(classes[index]);
+		if(attrList && attrList[index]!=null) {
+			td.attr(attrList[index]);
 		}
 		tr.append(td);
 		index++
