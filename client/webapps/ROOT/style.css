@@ -200,6 +200,19 @@ tr:not(:first-child):hover {
 	}
 
 
+/* ******************* ORDERS TABLE ******************* */
+
+.preluata {
+	background-color: #BFD4EA !important;
+	}
+.in-lucru {
+	background-color: #FBE1BF !important;
+	}
+.livrata {
+	background-color: #CFFBBF !important;
+	}
+
+
 /* ***************** MODAL ****************
  * */
  
