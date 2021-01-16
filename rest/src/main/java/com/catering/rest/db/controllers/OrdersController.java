@@ -87,7 +87,9 @@ public class OrdersController {
 	@PostMapping("/{id}/details")	
 	public OrdersDetailsModel addDetails(@PathVariable Integer id, @RequestBody OrdersDetailsModel details) {
 		OrderModel order = ordersRepo.findById(id).get();
+		RecipeModel recipe = recipesRepo.findById(details.getRecipe().getId()).get();
 		details.setOrder(order);
+		details.setRecipe(recipe);
 		return detailsRepo.save(details);		
 	}
 	
