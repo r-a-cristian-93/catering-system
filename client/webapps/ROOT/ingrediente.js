@@ -1,81 +1,97 @@
+/* ********** INGREDIENT **********/
+
 $(document).ready(function(){
-	$.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients',
-		success: function(data, status, xhr) {
-			buildIngTable(data);
-		},
-		error: function() {
-			console.log("ING ERROR");
-		}
-	});
+	ingredientBuildTable();
 });
 
-function deleteIngredient(id) {
-	$.ajax({
-		method: 'DELETE',
+// http requests
+
+function getIngredients() {
+	return $.ajax({
+		method: 'GET',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients/' + id,
-		success: function(data, status, xhr) {
-			ingTabDeleteRow(id);
-		}
+		url: REST_URL + '/ingredients'
 	});
 }
 
-function updateIngredient(id) {
-	var ingredient = {
-		'name': $("#" + id + " td:eq(1)").text(),
-		'price': $("#" + id + " td:eq(2)").text(),
-		'unit': {'name': $("#" + id + " td:eq(3)").text()}
-	}
-	
-	$.ajax({
-		method: 'PUT',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients/'+id,
-		dataType: 'json',
-		contentType: "application/json",
-		data: JSON.stringify(ingredient),
-		success: function(data, status, xhr) {
-			ingTabRefreshRow(data);
-			disableSaveIngredient(data.id);
-		}
-	});	
-}	
-
-function addNewIngredient() {
-	var ingredient = {
-		"name": "[ingredient nou]",
-		"price": 0,
-		"unit": {"name":"g"}
-	};
-	$.ajax({
+function addIngredient(ingredient) {
+	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/ingredients',
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(ingredient),
-		success: function(data, status, xhr) {
-			ingTabAddRow(data);
-		}
 	});
 }
 
-function ingTabAddRow(data) {
-	$("table").append(newIngRow(data))
+function updateIngredient(ingredient) {
+	return $.ajax({
+		method: 'PUT',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/ingredients/'+ingredient.id,
+		dataType: 'json',
+		contentType: "application/json",
+		data: JSON.stringify(ingredient)
+	});	
 }
 
-function ingTabRefreshRow(data) {
-	var id = data.id;
-	$("#" + id + " td:eq(1)").text(data.name);
-	$("#" + id + " td:eq(2)").text(data.price);
-	$("#" + id + " td:eq(3)").text(data.unit.name);
+function deleteIngredient(id) {
+	return $.ajax({
+		method: 'DELETE',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/ingredients/' + id
+	});
 }
 
-function ingTabDeleteRow(id) {
-	$("#" + id).remove();
+// ui operations
+
+function ingredientAdd() {
+	var ingredient = {
+		"name": "[ingredient nou]",
+		"price": 0,
+		"unit": {"name":"g"}
+	};
+	$.when(addIngredient(ingredient)).then(function(data){
+		$("table").append(newIngRow(data))
+	});	
+}
+
+function ingredientUpdate(id) {
+	var ingredient = {
+		'id': id,
+		'name': $("#" + id + " td:eq(1)").text(),
+		'price': $("#" + id + " td:eq(2)").text(),
+		'unit': {'name': $("#" + id + " td:eq(3)").text()}
+	}
+	$.when(updateIngredient(ingredient)).then(function(data){
+		$("#" + id).replaceWith(newIngRow(data));
+	});
+}
+
+function ingredientDelete(id) {
+	$.when(deleteIngredient(id)).then(function(){
+		$("#" + id).remove();
+	});
+}
+
+function ingredientBuildTable() {
+	$.when(getIngredients()).then(function(ingredients){
+		var table = $("<table>").append(newHeader(["ID", "Denumire", "Pret [Lei]", "U/M"]));
+			
+		for(ing of ingredients) {
+			table.append(newIngRow(ing));
+		}
+		
+		$("#ing-table")
+			.append($("<h2>").text("Tabel ingrediente"))
+			.append(table)
+			.append(
+				$("<button>")
+					.addClass("button")
+					.attr({"onclick": "ingredientAdd()"})
+					.html("+ Adauga ingredient nou"));
+		});	
 }
 
 function newIngRow(ing) {
@@ -85,7 +101,7 @@ function newIngRow(ing) {
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
-		.attr({"onclick": "deleteIngredient("+ing.id+")"});
+		.attr({"onclick": "ingredientDelete("+ing.id+")"});
 	
 	return newRow([
 		ing.id, 
@@ -96,13 +112,13 @@ function newIngRow(ing) {
 		deleteButton
 	], [0, 1, 1, 1, 0, 0])
 		.on("input", function() {
-			activateSaveIngredient(this.id)});
+			enableSaveIngredient(this.id)});
 }	
 
-function activateSaveIngredient(id) {
+function enableSaveIngredient(id) {
 		$("#" + id + " td:eq(4) > img")
 		.attr({"class":"active"})
-		.attr({"onclick": "updateIngredient("+id+")"});	
+		.attr({"onclick": "ingredientUpdate("+id+")"});	
 }
 
 function disableSaveIngredient(id) {
@@ -111,22 +127,3 @@ function disableSaveIngredient(id) {
 		.attr({"class":"inactive"});
 }
 
-function buildIngTable(data) {
-	var table = $("<table>");
-	table.append(newHeader(["ID", "Denumire", "Pret [Lei]", "U/M"]));
-		
-	for(ing of data) {
-		click = 'buildEditIngModal("' +ing.id+ '");';
-		var row = newIngRow(ing);
-		table.append(row);
-	}
-	
-	$("#ing-table")
-		.append($("<h2>").text("Tabel ingrediente"))
-		.append(table)
-		.append(
-			$("<button>")
-				.addClass("button")
-				.attr({"onclick": "addNewIngredient()"})
-				.html("+ Adauga ingredient nou"));
-}
