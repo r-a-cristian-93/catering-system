@@ -77,7 +77,7 @@ function buildOrdersTable() {
 function addNewEmptyOrder() {
 	var emptyOrder = {"client": {"id": 0}, "status": {"name": "preluata"}};
 	$.when(addOrder(emptyOrder)).then(function(newOrder){
-		$("#order-table table").append(newOrderRow(newOrder));
+		$("#order-table > table").append(newOrderRow(newOrder));
 	});
 }
 
