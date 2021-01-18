@@ -1,6 +1,8 @@
 $(document).ready(function() {
-	buildOrdersTable();
+	orderBuildTable();
 });
+
+// http requests
 
 function getOrders() {
 	return $.ajax({
@@ -52,17 +54,45 @@ function addOrder(order){
 }
 
 function deleteOrder(id) {
-	$.ajax({
+	return $.ajax({
 		method: 'DELETE',
 		xhrFields: { withCredentials:true },
-		url: REST_URL + '/orders/'+id,
-		success: function() {
-			$("#"+id).remove();
-		}
+		url: REST_URL + '/orders/'+id
 	});
 }
 
-function buildOrdersTable() {
+// ui operations
+
+function orderAdd() {
+	var emptyOrder = {"client": {"id": 0}, "status": {"name": "preluata"}};
+	$.when(addOrder(emptyOrder)).then(function(data){
+		$("#order-table > table").append(newOrderRow(data));
+	});
+}
+
+function orderUpdateStatus(id, status) {
+	status = {"status": {"name": status}};
+	$.when(updateOrder(id, status)).then(function(order) {
+		$("#"+order.id).replaceWith(newOrderRow(order));
+		$("#edit-order-status-modal").remove();		
+	});	
+}
+
+function orderUpdateClient(id, client) {
+	info = {"client": {"name": client}};
+	$.when(updateOrder(id, info)).then(function(order) {
+		$("#"+order.id).replaceWith(newOrderRow(order));
+		$("#edit-order-client-modal").remove();		
+	});	
+}
+
+function orderDelete(id) {
+	$.when(deleteOrder(id)).then(function(){
+		$("#"+id).remove();
+	});
+}
+
+function orderBuildTable() {
 	$.when(getOrders()).then(function(ordersList) {
 		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Adresa"]));	
 		for(order of ordersList) {
@@ -70,26 +100,19 @@ function buildOrdersTable() {
 		}			
 		$("#order-table")
 			.append(table)
-			.append(newButton("+ Adauga comanda noua", "addNewEmptyOrder()"))
+			.append(newButton("+ Adauga comanda noua", "orderAdd()"))
 	});
 }	
-
-function addNewEmptyOrder() {
-	var emptyOrder = {"client": {"id": 0}, "status": {"name": "preluata"}};
-	$.when(addOrder(emptyOrder)).then(function(newOrder){
-		$("#order-table > table").append(newOrderRow(newOrder));
-	});
-}
 
 function newOrderRow(order) {	
 	var editButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
-		.attr({"onclick": "editOrderDetailsModal("+order.id+")"});
+		.attr({"onclick": "buildOrderDetailsEditModal("+order.id+")"});
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
-		.attr({"onclick": "deleteOrder("+order.id+")"});
+		.attr({"onclick": "orderDelete("+order.id+")"});
 	return newRow([
 		order.id, 
 		order.status.name, 
@@ -99,35 +122,12 @@ function newOrderRow(order) {
 		deleteButton
 		],[],[
 			null,
-			{"onclick": "editOrderStatusModal("+order.id+")"},
-			{"onclick": "editOrderClientModal("+order.id+")"}
+			{"onclick": "buildOrderEditStatusModal("+order.id+")"},
+			{"onclick": "buildOrderEditClientModal("+order.id+")"}
 		]).addClass(order.status.name.split(" ").join("-"));
 }
 
-function refreshOrderRow(order) {
-	$("#"+order.id).replaceWith(newOrderRow(order));
-}
-
-function activateSaveOrder(id) {
-	$("#" + id + " td:eq(4) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": ""});	
-}
-
-function updateOrderStatus(id, status) {
-	status = {"status": {"name": status}};
-	$.when(updateOrder(id, status)).then(function(order) {
-		refreshOrderRow(order);
-		$("#edit-order-status-modal").remove();		
-	});	
-}
-
-function newStatusOption(orderId, status) {	
-	return $("<div>").addClass("modal-option").text(status)
-		.attr({"onclick": 'updateOrderStatus('+orderId+', "'+status+'");'});
-}
-
-function editOrderStatusModal(id) {
+function buildOrderEditStatusModal(id) {
 	var modal = new ModalBuilder("#" + id+ " Modifica starea comenzii", "edit-order-status-modal");
 	
 	$.when(getStatus()).then(function(statusList) {
@@ -138,20 +138,7 @@ function editOrderStatusModal(id) {
 	});
 }
 
-function updateOrderClient(id, client) {
-	info = {"client": {"name": client}};
-	$.when(updateOrder(id, info)).then(function(order) {
-		refreshOrderRow(order);
-		$("#edit-order-client-modal").remove();		
-	});	
-}
-
-function newClientOption(orderId, client) {	
-	return $("<div>").addClass("modal-option").text(client)
-		.attr({"onclick": 'updateOrderClient('+orderId+', "'+client+'");'});
-}
-
-function editOrderClientModal(id) {
+function buildOrderEditClientModal(id) {
 	var modal = new ModalBuilder("#" + id+ " Modifica client", "edit-order-client-modal");
 	
 	$.when(getClients()).then(function(clientsList) {
@@ -162,8 +149,20 @@ function editOrderClientModal(id) {
 	});
 }
 
+function newStatusOption(orderId, status) {	
+	return $("<div>").addClass("modal-option").text(status)
+		.attr({"onclick": 'orderUpdateStatus('+orderId+', "'+status+'");'});
+}
+
+function newClientOption(orderId, client) {	
+	return $("<div>").addClass("modal-option").text(client)
+		.attr({"onclick": 'orderUpdateClient('+orderId+', "'+client+'");'});
+}
+
 
 /* ******************* ORDERS DETAILS ******************* */
+
+// http requests
 
 function getOrderDetails(orderId) {
 	return $.ajax({
@@ -171,6 +170,38 @@ function getOrderDetails(orderId) {
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
 		url: REST_URL + '/orders/'+orderId+'/details'
+	});
+}
+
+function updateOrderDetails(details) {
+	return $.ajax({
+		method: 'PUT',
+		xhrFields: { withCredentials: true },
+		contentType: 'application/json',
+		dataType: 'json',
+		data: JSON.stringify(details),
+		url: REST_URL + '/orders/'+details.order.id+'/details'
+	});
+}
+
+function addOrderDetails(details) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		contentType: 'application/json',
+		dataType: 'json',
+		data: JSON.stringify(details),
+		url: REST_URL + '/orders/'+details.order.id+'/details'
+	});
+}
+
+function deleteOrderDetails(details) {
+	return $.ajax({
+		method: 'DELETE',
+		xhrFields: { withCredentials: true },
+		contentType: 'application/json',
+		data: JSON.stringify(details),
+		url: REST_URL + '/orders/'+details.order.id+'/details'
 	});
 }
 
@@ -183,52 +214,48 @@ function getRecipes() {
 	});
 }
 
-function updateOrderDetails(orderId, details) {
-	return $.ajax({
-		method: 'PUT',
-		xhrFields: { withCredentials: true },
-		contentType: 'application/json',
-		dataType: 'json',
-		data: JSON.stringify(details),
-		url: REST_URL + '/orders/'+orderId+'/details'
-	});
-}
+// ui operations
 
-function addOrderDetails(orderId, details) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		contentType: 'application/json',
-		dataType: 'json',
-		data: JSON.stringify(details),
-		url: REST_URL + '/orders/'+orderId+'/details'
-	});
-}
-
-function deleteOrderDetails(orderId, details) {
-	return $.ajax({
-		method: 'DELETE',
-		xhrFields: { withCredentials: true },
-		contentType: 'application/json',
-		data: JSON.stringify(details),
-		url: REST_URL + '/orders/'+orderId+'/details'
-	});
-}
-
-function editOrderDetailsModal(id) {	
-	$.when(getOrderDetails(id), getRecipes()).then(function(details, recipes){
-		var recipesTable = $("<table>")
-			.append(newHeader(["ID", "Name"]));
-		for(recipe of recipes[0]) {
-			recipesTable.append(newStaticRecipeRow(recipe));
-		}	
+function buildOrderDetailsEditModal(id) {
+	$.when(getOrderDetails(id), getRecipes()).then(function(details, recipes){			
 		var recipesBox = new ExtraBox("Retete disponibile", 0);	
-		recipesBox.content.append(recipesTable);
+		recipesBox.content.append(newStaticRecipeTable(recipes[0]));
 		
 		var modal = new ModalBuilder("#" + id+ " Modifica comanda", "edit-order-details-modal");
 		modal.content.append(newOrderDetailsTable(details[0]));
 		modal.modalContainer.append(recipesBox.box);
 		$("body").append(modal.modal);
+	});
+}
+
+function orderDetailsUpdate(ordeId, recipeId) {
+	var details = {
+		"order": {"id": orderId},
+		"recipe": {"id": recipeId}, 
+		"servings": $("#det_" + recipeId + " td:eq(2)").text()};
+	$.when(updateOrderDetails(details)).then(function(data) {
+		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));		
+	});
+}
+
+function orderDetailsDelete(orderId, recipeId) {
+	var details = {
+		"order": {"id": orderId},
+		"recipe": {"id": recipeId}
+	};
+	$.when(deleteOrderDetails(details)).then(function() {
+		$("#det_" + details.recipe.id).remove();	
+	});
+}
+
+function orderDetailsAdd(orderId, recipeId) {
+	var details = {
+		"order": {"id": orderId},
+		"recipe": {"id": recipeId},
+		"servings": 0
+	};
+	$.when(addOrderDetails(details)).then(function(data) {
+		$("#order-details-table").append(newOrderDetailRow(data));	
 	});
 }
 
@@ -249,7 +276,7 @@ function newOrderDetailRow(detail) {
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
-		.attr({"onclick": "deleteOrderDetailsRecipe("+detail.order.id+","+detail.recipe.id+");"});
+		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
 	return newRow([
 		detail.recipe.id,
 		detail.recipe.name,
@@ -261,25 +288,30 @@ function newOrderDetailRow(detail) {
 		.on("input", function() {
 			orderId = $(".modal-title").text().split(" ")[0].substring(1);
 			recipeId = this.id.split("_")[1];
-			activateSaveOrderDetails(orderId, recipeId)});
+			enableSaveOrderDetails(orderId, recipeId)});
 }
 
-function refreshOrderDetailsRow(detail) {
-	$("#det_" + detail.recipe.id).replaceWith(newOrderDetailRow(detail));	
+function newStaticRecipeTable(recipes) {
+	var table = $("<table>")
+			.append(newHeader(["ID", "Name"]));
+	for(recipe of recipes) {
+		table.append(newStaticRecipeRow(recipe));
+	}
+	return table;
 }
 
-function addOrderDetailsRow(detail) {
-	$("#order-details-table").append(newOrderDetailRow(detail));	
-}
-
-function deleteOrderDetailsRow(detail) {
-	$("#det_" + detail.recipe.id).remove();	
+function newStaticRecipeRow(recipe) {
+	return newRow([recipe.id, recipe.name],[],[])
+		.on("dblclick", function() {
+			var orderId = $(".modal-title").text().split(" ")[0].substring(1);
+			orderDetailsAdd(orderId, recipe.id);
+		});
 }
 	
-function activateSaveOrderDetails(orderId, recipeId) {
+function enableSaveOrderDetails(orderId, recipeId) {
 	$("#det_" + recipeId + " td:eq(3) > img")
 		.attr({"class":"active"})
-		.attr({"onclick": "updateOrderDetailsServings("+orderId+ ","+recipeId+ ")"});	
+		.attr({"onclick": "orderDetailsUpdate("+orderId+ ","+recipeId+ ")"});	
 }
 	
 function disableSaveOrderDetails(id) {
@@ -287,34 +319,3 @@ function disableSaveOrderDetails(id) {
 		.attr({"class":"inactive"})
 		.attr({"onclick": ""});	
 }
-
-function updateOrderDetailsServings(ordeId, recipeId) {		
-	var servings = $("#det_" + recipeId + " td:eq(2)").text().split(" ")[0];
-	var detail = {"recipe": {"id": recipeId}, "servings": servings};
-	$.when(updateOrderDetails(orderId, detail)).then(function(newDetail) {
-		refreshOrderDetailsRow(newDetail);	
-	});
-}
-
-function deleteOrderDetailsRecipe(orderId, recipeId) {
-	var detail = {"recipe": {"id": recipeId}};
-	$.when(deleteOrderDetails(orderId, detail)).then(function() {
-		deleteOrderDetailsRow(detail);
-	});
-}
-	
-function newStaticRecipeRow(recipe) {
-	return newRow([recipe.id, recipe.name],[],[])
-		.on("dblclick", function() {
-			console.log("add details " + recipe.id);
-			var orderId = $(".modal-title").text().split(" ")[0].substring(1);
-			updateOrderDetailsRecipe(orderId, recipe.id);
-		});
-}
-
-function updateOrderDetailsRecipe(orderId, recipeId) {
-	var detail = {"recipe": {"id": recipeId}, "servings": 0};
-	$.when(addOrderDetails(orderId, detail)).then(function(newDetail) {
-		addOrderDetailsRow(newDetail);
-	});
-}	
