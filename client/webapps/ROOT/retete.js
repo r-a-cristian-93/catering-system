@@ -6,6 +6,14 @@ $(document).ready(function(){
 
 // http requests
 
+function getRecipe(id) {
+	return 	$.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/recipes/'+id		
+	});	
+}
+
 function getRecipes() {
 	return 	$.ajax({
 		method: 'GET',
@@ -79,7 +87,7 @@ function recipeDelete(id) {
 
 function recipeBuildTable() {
 	$.when(getRecipes()).then(function(recipes) {
-		var table = $("<table>").append(newHeader(["ID", "Denumire", "Categorie", "Portie"], [0, 0, 0, 2]));
+		var table = $("<table>").append(newHeader(["ID", "Denumire", "Categorie", "Portie", "Cost ingrediente"], [0, 0, 0, 2, 0]));
 			
 		for(recipe of recipes) {
 			table.append(newRecipeRow(recipe));
@@ -115,6 +123,7 @@ function newRecipeRow(recipe) {
 		"recipe.category.name", 
 		recipe.quantity,
 		recipe.unit.name, 
+		recipe.ingCost.toFixed(2) + " Lei",
 		saveButton,
 		editButton,
 		deleteButton
@@ -124,13 +133,13 @@ function newRecipeRow(recipe) {
 }
 
 function enableSaveRecipe(id) {
-	$("#" + id + " td:eq(5) > img")
+	$("#" + id + " td:eq(6) > img")
 		.attr({"class":"active"})
 		.attr({"onclick": "recipeUpdate("+id+")"});	
 }
 
 function disableSaveRecipe(id) {
-	$("#" + id + " td:eq(5) > img")
+	$("#" + id + " td:eq(6) > img")
 		.attr({"onclick": ""})
 		.attr({"class":"inactive"});
 }
@@ -198,6 +207,9 @@ function recipeDetailsAdd(recipeId, ingId) {
 	};
 	$.when(addRecipeDetails(details)).then(function(data){
 		$("#recipe-details-table").append(newRecipeDetailsRow(data));
+		$.when(getRecipe(recipeId)).then(function(data) {
+			$("#" + data.id).replaceWith(newRecipeRow(data));	
+		});
 	});
 }
 
@@ -208,8 +220,10 @@ function recipeDetailsUpdate(recipeId, ingId) {
 		'quantity': $("#det_" + ingId + " td:eq(2)").text()
 	};
 	$.when(updateRecipeDetails(details)).then(function(data){
-		console.log(data);
 		$("#det_" + ingId).replaceWith(newRecipeDetailsRow(data));
+		$.when(getRecipe(recipeId)).then(function(data) {
+			$("#" + data.id).replaceWith(newRecipeRow(data));	
+		});
 	});	
 }
 
@@ -218,8 +232,11 @@ function recipeDetailsDelete(recipeId, ingId) {
 		'recipe': { 'id': recipeId},
 		'ingredient': { 'id': ingId },
 	};
-	$.when(deleteRecipeDetails(details)).then(function(data) {
-		$("#det_" + ingId).remove();		
+	$.when(deleteRecipeDetails(details)).then(function() {
+		$("#det_" + ingId).remove();
+		$.when(getRecipe(recipeId)).then(function(data) {
+			$("#" + data.id).replaceWith(newRecipeRow(data));	
+		});
 	});
 }
 

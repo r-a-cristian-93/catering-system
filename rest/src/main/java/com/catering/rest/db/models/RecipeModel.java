@@ -31,5 +31,8 @@ public class RecipeModel {
 	@JoinColumn(name="unit")
 	private UnitModel unit;
 	
+	@Column(name="ing_cost")
+	private Double ingCost;
+	
 	protected RecipeModel() {}
 }
