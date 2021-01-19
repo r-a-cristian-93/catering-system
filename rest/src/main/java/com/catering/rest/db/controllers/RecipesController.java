@@ -115,7 +115,7 @@ public class RecipesController {
 		details = detailsRepo.findByRecipeAndIngredient(recipe, ingredient);
 		details.setQuantity(quantity);
 		return detailsRepo.save(details);		
-	}
+	}	
 }
 
 
