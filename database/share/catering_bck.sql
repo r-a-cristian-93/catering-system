@@ -90,7 +90,7 @@ CREATE TABLE `ingredients` (
   UNIQUE KEY `ID` (`ID`),
   KEY `unit` (`unit`),
   CONSTRAINT `ingredients_ibfk_1` FOREIGN KEY (`unit`) REFERENCES `units` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `ingredients` (
 
 LOCK TABLES `ingredients` WRITE;
 /*!40000 ALTER TABLE `ingredients` DISABLE KEYS */;
-INSERT INTO `ingredients` VALUES (4,'Carne de vita','kg',25),(6,'Marar','legatura',2.5),(8,'Cartofi','kg',6),(10,'Ardei iute','buc',1),(11,'Lapte','l',4),(12,'Ulei','l',7),(13,'Sare','kg',5),(14,'Paine','kg',12),(15,'Apa plata','l',0.5),(16,'Orez','kg',10),(18,'Telina','kg',3),(19,'Bors','l',2),(24,'Gogonele','kg',10),(25,'Morcovi','kg',7),(26,'Ou','buc',0.6),(27,'Otet','l',5);
+INSERT INTO `ingredients` VALUES (4,'Carne de vita','kg',33),(6,'Marar','legatura',2.5),(8,'Cartofi','kg',5),(10,'Ardei iute','buc',1),(11,'Lapte','l',4),(12,'Ulei','l',7),(13,'Sare','kg',5),(14,'Paine','kg',12),(15,'Apa plata','l',0.5),(16,'Orez','kg',10),(18,'Telina','kg',3),(19,'Bors','l',2),(24,'Gogonele','kg',10),(25,'Morcovi','kg',7),(26,'Ou','buc',0.6),(27,'Otet','l',5),(32,'Carne de porc','kg',24);
 /*!40000 ALTER TABLE `ingredients` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -129,16 +129,18 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `ID_client` int DEFAULT NULL,
+  `ID_client` int DEFAULT '0',
   `status` varchar(20) NOT NULL DEFAULT (_latin1'preluata'),
   `ing_cost` double DEFAULT '0',
+  `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `ID_client` (`ID_client`),
   KEY `status` (`status`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +149,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'in lucru',45),(2,2,'preluata',0),(4,1,'livrata',45);
+INSERT INTO `orders` VALUES (1,1,'in lucru',45,'2021-01-20 11:16:21','2021-01-20 11:24:26'),(2,2,'preluata',170.04,'2021-01-20 11:16:21','2021-01-20 11:24:26'),(4,1,'livrata',22.5,'2021-01-20 11:16:21','2021-01-20 11:24:26'),(40,0,'preluata',0,'2021-01-20 14:48:55','2021-01-20 14:48:55');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +179,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,50),(13,2,8,50),(20,4,2,10);
+INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,5);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -258,7 +260,7 @@ CREATE TABLE `recipes` (
 
 LOCK TABLES `recipes` WRITE;
 /*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',4.5),(5,'Cartofi prajiti',200,'g',9.5),(8,'Mititei',250,'g',61.5),(10,'Orez cu lapte',1000,'ml',420),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.06),(16,'Baclava',23,'g',0),(27,'Mamaliga',10,'kg',0.07);
+INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',4.5),(5,'Cartofi prajiti',200,'g',1.025),(8,'Mititei',200,'g',6.0600000000000005),(10,'Orez cu lapte',1000,'ml',420),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.01),(16,'Baclava',23,'g',0),(27,'Mamaliga',10,'kg',0.07);
 /*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -299,7 +301,7 @@ CREATE TABLE `recipes_details` (
   KEY `ID_ingredient` (`ID_ingredient`),
   CONSTRAINT `recipes_details_ibfk_1` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `recipes_details_ibfk_2` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,7 +310,7 @@ CREATE TABLE `recipes_details` (
 
 LOCK TABLES `recipes_details` WRITE;
 /*!40000 ALTER TABLE `recipes_details` DISABLE KEYS */;
-INSERT INTO `recipes_details` VALUES (8,5,8,1),(20,8,4,2),(21,8,6,1),(22,8,8,1),(23,8,10,3),(24,10,11,100),(26,5,12,0.5),(29,10,16,2),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0),(67,2,11,0.1),(69,2,12,0.5),(79,2,26,1);
+INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,100),(29,10,16,2),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.5),(79,2,26,1),(81,8,32,0.06);
 /*!40000 ALTER TABLE `recipes_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -589,4 +591,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-20  9:07:52
+-- Dump completed on 2021-01-20 15:18:36

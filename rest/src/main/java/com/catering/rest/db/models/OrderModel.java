@@ -1,5 +1,7 @@
 package com.catering.rest.db.models;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -36,6 +40,14 @@ public class OrderModel {
 	
 	@Column(name="ing_cost")
 	private Double ingCost;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="order_date")
+	Date orderDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="delivery_date")
+	Date deliveryDate;
 	
 	protected OrderModel() {}
 }
