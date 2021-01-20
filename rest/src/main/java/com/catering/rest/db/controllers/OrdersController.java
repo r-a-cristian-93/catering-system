@@ -2,6 +2,9 @@ package com.catering.rest.db.controllers;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +30,13 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("orders")
+@Transactional
 public class OrdersController {
 	private final OrdersRepository ordersRepo;
 	private final OrdersDetailsRepository detailsRepo;	
 	private final RecipesRepository recipesRepo;
 	private final ClientsRepository clientsRepo;
+	private final EntityManager entityManager;
 	
 	@ResponseBody
 	@GetMapping
@@ -39,11 +44,10 @@ public class OrdersController {
 		return ordersRepo.findAll();
 	}
 	
-	
 	@ResponseBody
 	@PostMapping
 	public OrderModel addOrder(@RequestBody OrderModel order) {
-		return ordersRepo.saveAndFlush(order);
+		return ordersRepo.save(order);
 	}
 	
 	@ResponseBody
