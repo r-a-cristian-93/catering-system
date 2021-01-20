@@ -34,5 +34,8 @@ public class OrderModel {
 	@JoinColumn(name="status")
 	private StatusModel status;
 	
+	@Column(name="ing_cost")
+	private Double ingCost;
+	
 	protected OrderModel() {}
 }
