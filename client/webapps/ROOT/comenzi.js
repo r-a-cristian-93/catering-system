@@ -4,6 +4,15 @@ $(document).ready(function() {
 
 // http requests
 
+function getOrder(id) {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/orders/'+id,
+	});	
+}
+
 function getOrders() {
 	return $.ajax({
 		method: 'GET',
@@ -94,7 +103,7 @@ function orderDelete(id) {
 
 function orderBuildTable() {
 	$.when(getOrders()).then(function(ordersList) {
-		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Adresa"]));	
+		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Adresa", "Cost ingrediente"]));	
 		for(order of ordersList) {
 			table.append(newOrderRow(order));
 		}			
@@ -118,6 +127,7 @@ function newOrderRow(order) {
 		order.status.name, 
 		order.client.name,
 		order.client.address,
+		order.ingCost.toFixed(2) + ' Lei',
 		editButton,
 		deleteButton
 		],[],[
@@ -228,13 +238,16 @@ function buildOrderDetailsEditModal(id) {
 	});
 }
 
-function orderDetailsUpdate(ordeId, recipeId) {
+function orderDetailsUpdate(orderId, recipeId) {
 	var details = {
 		"order": {"id": orderId},
 		"recipe": {"id": recipeId}, 
 		"servings": $("#det_" + recipeId + " td:eq(2)").text()};
 	$.when(updateOrderDetails(details)).then(function(data) {
-		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));		
+		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));
+		$.when(getOrder(orderId)).then(function(data) {
+			$("#"+data.id).replaceWith(newOrderRow(data));
+		});
 	});
 }
 
@@ -245,6 +258,9 @@ function orderDetailsDelete(orderId, recipeId) {
 	};
 	$.when(deleteOrderDetails(details)).then(function() {
 		$("#det_" + details.recipe.id).remove();	
+		$.when(getOrder(orderId)).then(function(data) {
+			$("#"+data.id).replaceWith(newOrderRow(data));
+		});
 	});
 }
 
