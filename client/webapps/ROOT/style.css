@@ -199,6 +199,9 @@ tr:not(:first-child):hover {
 	opacity: 1;
 	}
 
+td.clickable:hover {
+	text-decoration: underline;
+	}
 
 /* ******************* ORDERS TABLE ******************* */
 
@@ -296,3 +299,14 @@ tr:not(:first-child):hover {
 	background-color: var(--bg2);
 	color: var(--grey);
 	}
+
+.date {
+	display: block;
+	border: none;
+	background-color: transparent;
+	font-size: inherit;
+	}
+.date:hover {
+	text-decoration: underline;
+	}
+	

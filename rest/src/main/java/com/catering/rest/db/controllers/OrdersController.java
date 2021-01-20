@@ -28,10 +28,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("orders")
 public class OrdersController {
-	OrdersRepository ordersRepo;
-	OrdersDetailsRepository detailsRepo;	
-	RecipesRepository recipesRepo;
-	ClientsRepository clientsRepo;	
+	private final OrdersRepository ordersRepo;
+	private final OrdersDetailsRepository detailsRepo;	
+	private final RecipesRepository recipesRepo;
+	private final ClientsRepository clientsRepo;
 	
 	@ResponseBody
 	@GetMapping
@@ -39,10 +39,11 @@ public class OrdersController {
 		return ordersRepo.findAll();
 	}
 	
+	
 	@ResponseBody
 	@PostMapping
 	public OrderModel addOrder(@RequestBody OrderModel order) {
-		return ordersRepo.save(order);
+		return ordersRepo.saveAndFlush(order);
 	}
 	
 	@ResponseBody

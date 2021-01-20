@@ -73,7 +73,7 @@ function deleteOrder(id) {
 // ui operations
 
 function orderAdd() {
-	var emptyOrder = {"client": {"id": 0}, "status": {"name": "preluata"}};
+	var emptyOrder = {};
 	$.when(addOrder(emptyOrder)).then(function(data){
 		$("#order-table > table").append(newOrderRow(data));
 	});
@@ -103,7 +103,7 @@ function orderDelete(id) {
 
 function orderBuildTable() {
 	$.when(getOrders()).then(function(ordersList) {
-		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Adresa", "Cost ingrediente"]));	
+		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data comanda", "Data livrare", "Cost ingrediente"]));	
 		for(order of ordersList) {
 			table.append(newOrderRow(order));
 		}			
@@ -113,7 +113,7 @@ function orderBuildTable() {
 	});
 }	
 
-function newOrderRow(order) {	
+function newOrderRow(order) {
 	var editButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
@@ -126,14 +126,15 @@ function newOrderRow(order) {
 		order.id, 
 		order.status.name, 
 		order.client.name,
-		order.client.address,
+		toLocalDateTime(order.orderDate).date,
+		newDeliveryDateDiv(order.deliveryDate),		
 		order.ingCost.toFixed(2) + ' Lei',
 		editButton,
 		deleteButton
 		],[],[
 			null,
-			{"onclick": "buildOrderEditStatusModal("+order.id+")"},
-			{"onclick": "buildOrderEditClientModal("+order.id+")"}
+			{"class": "clickable", "onclick": "buildOrderEditStatusModal("+order.id+")"},
+			{"class": "clickable", "onclick": "buildOrderEditClientModal("+order.id+")"},
 		]).addClass(order.status.name.split(" ").join("-"));
 }
 
@@ -335,3 +336,22 @@ function disableSaveOrderDetails(id) {
 		.attr({"class":"inactive"})
 		.attr({"onclick": ""});	
 }
+
+function toLocalDateTime(dateTimeString) {
+	var dateObj = new Date(dateTimeString)
+	return {
+		date: dateObj.toLocaleDateString('ro-RO'),
+		time: dateObj.toLocaleTimeString('ro-RO')
+	}
+}
+
+function newDeliveryDateDiv(dateTime) {	
+	var date = dateTime.split('T')[0];
+	var time = toLocalDateTime(dateTime).time;
+	return $("<div>")
+		.append($("<input>").attr({"type": "date", "class": "date", "value": date}))
+		.append($("<input>").attr({"type": "time", "class": "date", "value": time}));
+}
+	
+	
+	
