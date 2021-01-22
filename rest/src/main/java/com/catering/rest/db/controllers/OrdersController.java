@@ -1,5 +1,6 @@
 package com.catering.rest.db.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -67,6 +68,7 @@ public class OrdersController {
 	public OrderModel updateOrder(@PathVariable Integer id, @RequestBody OrderModel order) {
 		ClientModel client = order.getClient();
 		StatusModel status = order.getStatus();
+		Date deliveryDate = order.getDeliveryDate();
 		order = ordersRepo.findById(id).get();
 		
 		if(client!=null) {
@@ -75,7 +77,10 @@ public class OrdersController {
 		}
 		if(status!=null) {
 			order.setStatus(status);
-		}			
+		}	
+		if(deliveryDate!=null) {
+			order.setDeliveryDate(deliveryDate);
+		}
 		return ordersRepo.save(order);
 	}
 	

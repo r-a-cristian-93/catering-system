@@ -95,6 +95,13 @@ function orderUpdateClient(id, client) {
 	});	
 }
 
+function orderUpdateDeliveryDate(id, deliveryDate) {
+	info = {"deliveryDate": deliveryDate};
+	$.when(updateOrder(id, info)).then(function(order) {
+		$("#"+order.id).replaceWith(newOrderRow(order));
+	});		
+}
+
 function orderDelete(id) {
 	$.when(deleteOrder(id)).then(function(){
 		$("#"+id).remove();
@@ -118,6 +125,9 @@ function newOrderRow(order) {
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
 		.attr({"onclick": "buildOrderDetailsEditModal("+order.id+")"});
+	var saveButton = $("<img>")
+		.addClass("inactive")
+		.attr({"src": "/img/save.png"});
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
@@ -129,13 +139,18 @@ function newOrderRow(order) {
 		toLocalDateTime(order.orderDate).date,
 		newDeliveryDateDiv(order.deliveryDate),		
 		order.ingCost.toFixed(2) + ' Lei',
+		saveButton,
 		editButton,
 		deleteButton
 		],[],[
 			null,
 			{"class": "clickable", "onclick": "buildOrderEditStatusModal("+order.id+")"},
 			{"class": "clickable", "onclick": "buildOrderEditClientModal("+order.id+")"},
-		]).addClass(order.status.name.split(" ").join("-"));
+		])
+			.addClass(order.status.name.split(" ").join("-"))
+			.on("input", function() {
+				enableSaveOrder(order.id)
+			});
 }
 
 function buildOrderEditStatusModal(id) {
@@ -168,6 +183,24 @@ function newStatusOption(orderId, status) {
 function newClientOption(orderId, client) {	
 	return $("<div>").addClass("modal-option").text(client)
 		.attr({"onclick": 'orderUpdateClient('+orderId+', "'+client+'");'});
+}
+
+function enableSaveOrder(id) {	
+	var date = $("#"+id+">td:eq(4)>div>input")[0].value;
+	var time = $("#"+id+">td:eq(4)>div>input")[1].value;
+	var dateTime = new Date(date + " " +time);
+	console.log(dateTime);
+	var deliveryDate = dateTime.toISOString();
+	console.log(deliveryDate);
+	$("#" + id + " td:eq(6) > img")
+		.attr({"class":"active"})
+		.attr({'onclick': 'orderUpdateDeliveryDate('+id+',"'+deliveryDate+'")'});	
+}
+	
+function disableSaveOrder(id) {
+	$("#" + id + " td:eq(6) > img")
+		.attr({"class":"inactive"})
+		.attr({"onclick": ""});	
 }
 
 
