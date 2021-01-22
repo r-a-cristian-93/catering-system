@@ -110,7 +110,7 @@ function orderDelete(id) {
 
 function orderBuildTable() {
 	$.when(getOrders()).then(function(ordersList) {
-		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data comanda", "Data livrare", "Cost ingrediente"]));	
+		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data primire", "Data livrare", "Cost ingrediente"]));	
 		for(order of ordersList) {
 			table.append(newOrderRow(order));
 		}			
