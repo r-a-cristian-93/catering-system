@@ -1,5 +1,6 @@
 $(document).ready(function() {
-	orderBuildTable();
+	buildFilters();
+	orderBuildTable(getOrders());	
 });
 
 // http requests
@@ -19,6 +20,17 @@ function getOrders() {
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
 		url: REST_URL + '/orders',
+	});	
+}
+
+function getOrdersByStatus(status) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/byStatus',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(status)
 	});	
 }
 
@@ -72,6 +84,60 @@ function deleteOrder(id) {
 
 // ui operations
 
+function newFilterDiv() {}
+
+function newFilterContainer(name) {
+	return $("<div>").addClass("filter-container")
+		.append($("<div>").addClass("filter-name").text(name));
+}
+
+function newDivDDC(childrens) {
+	var ddc = $("<div>").addClass("dropdown-content");
+	for(c of childrens) {
+		ddc.append(c);
+	}	
+	return ddc;
+}
+
+function buildFilters() {
+	var f1 = newFilterContainer("Toate")
+		.on("click", function() {
+			orderBuildTable(getOrders());
+		});	
+	var f2 = newFilterContainer("Stare").addClass("dropdown")
+		.append($("<div>").addClass("dropdown-content")
+			.append($("<a>").text("Preluate").on("click", function() {
+				var status = {name: "preluata"};
+				orderBuildTable(getOrdersByStatus(status));
+			}))
+			.append($("<a>").text("In lucru").on("click", function() {
+				var status = {name: "in lucru"};
+				orderBuildTable(getOrdersByStatus(status));
+			}))
+			.append($("<a>").text("Livrate").on("click", function() {
+				var status = {name: "livrata"};
+				orderBuildTable(getOrdersByStatus(status));
+			})));
+	var f5 = newFilterContainer("Data livrare").addClass("dropdown")
+		.append(newDivDDC([
+			$("<a>").text("Azi"),
+			$("<a>").text("Inainte de")		
+		]));
+	var f6 = newFilterContainer("Data primire").addClass("dropdown")
+		.append(newDivDDC([
+			$("<a>").text("Ultimele 7 zile"),
+			$("<a>").text("Ultimele 30 zile"),	
+			$("<a>").text("Incepand cu")	
+		]));	
+	$("div .box").prepend(
+		$("<div>").addClass("filter-menu")
+			.append(f1)
+			.append(f2)
+			.append(f5)
+			.append(f6)
+		);
+}
+
 function orderAdd() {
 	var emptyOrder = {};
 	$.when(addOrder(emptyOrder)).then(function(data){
@@ -108,13 +174,13 @@ function orderDelete(id) {
 	});
 }
 
-function orderBuildTable() {
-	$.when(getOrders()).then(function(ordersList) {
+function orderBuildTable(getOrdersFunction) {
+	$.when(getOrdersFunction).then(function(ordersList) {
 		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data primire", "Data livrare", "Cost ingrediente"]));	
 		for(order of ordersList) {
 			table.append(newOrderRow(order));
 		}			
-		$("#order-table")
+		$("#order-table").html("")
 			.append(table)
 			.append(newButton("+ Adauga comanda noua", "orderAdd()"))
 	});
