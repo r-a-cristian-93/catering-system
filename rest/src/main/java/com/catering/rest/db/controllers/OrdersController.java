@@ -46,6 +46,24 @@ public class OrdersController {
 	}
 	
 	@ResponseBody
+	@GetMapping("/byStatus")
+	public List<OrderModel> getOrdersByStatus(@RequestBody StatusModel status){
+		return ordersRepo.findByStatus(status);
+	}
+	
+	@ResponseBody
+	@GetMapping("/betweenOrderDates")
+	public List<OrderModel> getOrdersAfterOrderDate(@RequestBody Date first, @RequestBody Date last){
+		return ordersRepo.findByOrderDateBetween(first, last);
+	}
+	
+	@ResponseBody
+	@GetMapping("/betweenDeliveryDates")
+	public List<OrderModel> getOrdersBetweenDeliveryDates(@RequestBody Date first, @RequestBody Date last){
+		return ordersRepo.findByDeliveryDateBetween(first, last);
+	}		
+	
+	@ResponseBody
 	@PostMapping
 	public OrderModel addOrder(@RequestBody OrderModel order) {
 		return ordersRepo.save(order);

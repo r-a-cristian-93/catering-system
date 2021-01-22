@@ -1,7 +1,7 @@
 :root {
 	--text: black;
-	--bg: #A52A2A;
-	--bg2: #731D1D;
+	--bg: #421212;
+	--bg2: #601717;
 	--shadow: lightgray;
 	--grey: #F0F0F0;
 	--grey2: #F5F5F5;
@@ -202,6 +202,29 @@ tr:not(:first-child):hover {
 td.clickable:hover {
 	text-decoration: underline;
 	}
+
+/* ******************* FILTERS ******************* */
+
+.filters {
+	display: flex;
+	}
+
+.filters p {
+	flex-grow: 1;
+	padding: 25px 0 15px 0;
+	margin: 0;
+	text-align: center;	
+	border-bottom: solid white;
+	opacity: 0.5;
+	}
+	
+.filters p:hover {	
+	cursor: default;
+	border-color: var(--bg);
+	opacity:1;
+	}
+	
+
 
 /* ******************* ORDERS TABLE ******************* */
 
