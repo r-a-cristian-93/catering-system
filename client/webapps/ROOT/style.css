@@ -118,7 +118,7 @@ li a, .a-profile {
 	margin-right:10px;
 	}
 
-li a:hover, .dropdown:hover  {
+li a:hover{
   background-color: var(--grey2);
   color:black;
 }
@@ -130,6 +130,18 @@ li.dropdown {
 dropdown {
 	position: relative;
 	}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+dropdown-righ {
+	position: relative;
+	}
+	
+.dropdown-right:hover .dropdown-content {
+  display: inline-block;
+}	
 
 .dropdown-content {
   display: none;
@@ -150,10 +162,6 @@ dropdown {
 .dropdown-content a:hover {
 	color: var(--grey);
 	background-color: var(--bg);
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
 }
 
 
@@ -205,25 +213,34 @@ td.clickable:hover {
 
 /* ******************* FILTERS ******************* */
 
-.filters {
+.filter-menu {
 	display: flex;
-	}
+}
 
-.filters p {
+.filter-container {
+	position: relative;
 	flex-grow: 1;
-	padding: 25px 0 15px 0;
 	margin: 0;
 	text-align: center;	
 	border-bottom: solid white;
 	opacity: 0.5;
 	}
 	
-.filters p:hover {	
-	cursor: default;
+.filter-container:hover {	
+	cursor: pointer;
 	border-color: var(--bg);
 	opacity:1;
 	}
 	
+.filter-container .dropdown-content {
+	left: 50%;
+	top: 80%;
+	transform: translate(-50%);	
+	}
+
+.filter-name {
+	padding: 25px 0 15px 0;
+	}
 
 
 /* ******************* ORDERS TABLE ******************* */
