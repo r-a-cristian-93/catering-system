@@ -187,6 +187,7 @@ function orderBuildTable(getOrdersFunction) {
 }	
 
 function newOrderRow(order) {
+	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
 	var editButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
@@ -199,9 +200,9 @@ function newOrderRow(order) {
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "orderDelete("+order.id+")"});
 	return newRow([
-		order.id, 
-		order.status.name, 
-		order.client.name,
+		order.id,		
+		statusImage,
+		order.client.name, 
 		toLocalDateTime(order.orderDate).date,
 		newDeliveryDateDiv(order.deliveryDate),		
 		order.ingCost.toFixed(2) + ' Lei',
@@ -213,7 +214,6 @@ function newOrderRow(order) {
 			{"class": "clickable", "onclick": "buildOrderEditStatusModal("+order.id+")"},
 			{"class": "clickable", "onclick": "buildOrderEditClientModal("+order.id+")"},
 		])
-			.addClass(order.status.name.split(" ").join("-"))
 			.on("input", function() {
 				enableSaveOrder(order.id)
 			});
