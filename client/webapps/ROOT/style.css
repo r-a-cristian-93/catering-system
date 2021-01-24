@@ -359,6 +359,7 @@ td.clickable:hover {
 	border: none;
 	background-color: transparent;
 	font-size: inherit;
+	color:inherit
 	}
 .date:hover {
 	text-decoration: underline;

@@ -2,6 +2,7 @@ package com.catering.rest.db.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,14 +50,18 @@ public class OrdersController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/betweenOrderDates")
-	public List<OrderModel> getOrdersAfterOrderDate(@RequestBody Date first, @RequestBody Date last){
+	@PostMapping("/betweenOrderDates")
+	public List<OrderModel> getOrdersAfterOrderDate(@RequestBody Map<String, Long> interval){
+		Date first = new Date(interval.get("first"));
+		Date last = new Date(interval.get("last"));		
 		return ordersRepo.findByOrderDateBetween(first, last);
 	}
 	
 	@ResponseBody
-	@GetMapping("/betweenDeliveryDates")
-	public List<OrderModel> getOrdersBetweenDeliveryDates(@RequestBody Date first, @RequestBody Date last){
+	@PostMapping("/betweenDeliveryDates")
+	public List<OrderModel> getOrdersBetweenDeliveryDates(@RequestBody Map<String, Long> interval){
+		Date first = new Date(interval.get("first"));
+		Date last = new Date(interval.get("last"));	
 		return ordersRepo.findByDeliveryDateBetween(first, last);
 	}		
 	
