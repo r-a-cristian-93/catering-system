@@ -34,6 +34,28 @@ function getOrdersByStatus(status) {
 	});	
 }
 
+function getOrdersByOrderDate(first, last) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/betweenOrderDates',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify({first: first, last: last})
+	});
+}	
+
+function getOrdersByDeliveryDate(first, last) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/betweenDeliveryDates',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify({first: first, last: last})
+	});
+}		
+
 function getStatus() {
 	return $.ajax({
 		method: 'GET',
@@ -91,12 +113,29 @@ function newFilterContainer(name) {
 		.append($("<div>").addClass("filter-name").text(name));
 }
 
-function newDivDDC(childrens) {
-	var ddc = $("<div>").addClass("dropdown-content");
-	for(c of childrens) {
-		ddc.append(c);
-	}	
-	return ddc;
+function newStatusFilter(text, status) {
+	return $("<a>").text(text).on("click", function() {
+		orderBuildTable(getOrdersByStatus({name: status}));
+	});
+}
+
+function newOrderDateFilter(days) {
+	return $("<a>").text("Ultimele "+days+" zile").on("click", function() {
+		var last = new Date(Date.now());
+		var first = last.addDays(-days);
+		orderBuildTable(getOrdersByOrderDate(first.getTime(), last.getTime()));
+	});
+}
+
+function newDeliveryDateFilter(days) {
+	return $("<a>").text("Urmatoarele "+days+" zile").on("click", function() {
+		var first = new Date(Date.now());
+		first.setHours(0);
+		first.setMinutes(0);
+		first.setSeconds(0);
+		var last = first.addDays(days);
+		orderBuildTable(getOrdersByDeliveryDate(first.getTime(), last.getTime()));
+	});
 }
 
 function buildFilters() {
@@ -105,29 +144,23 @@ function buildFilters() {
 			orderBuildTable(getOrders());
 		});	
 	var f2 = newFilterContainer("Stare").addClass("dropdown")
-		.append($("<div>").addClass("dropdown-content")
-			.append($("<a>").text("Preluate").on("click", function() {
-				var status = {name: "preluata"};
-				orderBuildTable(getOrdersByStatus(status));
-			}))
-			.append($("<a>").text("In lucru").on("click", function() {
-				var status = {name: "in lucru"};
-				orderBuildTable(getOrdersByStatus(status));
-			}))
-			.append($("<a>").text("Livrate").on("click", function() {
-				var status = {name: "livrata"};
-				orderBuildTable(getOrdersByStatus(status));
-			})));
-	var f5 = newFilterContainer("Data livrare").addClass("dropdown")
 		.append(newDivDDC([
-			$("<a>").text("Azi"),
-			$("<a>").text("Inainte de")		
+			newStatusFilter("Preluate", "preluata"),
+			newStatusFilter("In lucru", "in lucru"),
+			newStatusFilter("Livrate", "livrata")
 		]));
-	var f6 = newFilterContainer("Data primire").addClass("dropdown")
+	var f5 = newFilterContainer("Data primire").addClass("dropdown")
 		.append(newDivDDC([
-			$("<a>").text("Ultimele 7 zile"),
-			$("<a>").text("Ultimele 30 zile"),	
-			$("<a>").text("Incepand cu")	
+			newOrderDateFilter(7),
+			newOrderDateFilter(14),
+			newOrderDateFilter(30)			
+		]));
+	var f6 = newFilterContainer("Data livrare").addClass("dropdown")
+		.append(newDivDDC([
+			newDeliveryDateFilter(1).text("Azi"),
+			newDeliveryDateFilter(7),
+			newDeliveryDateFilter(14),
+			newDeliveryDateFilter(30)	
 		]));	
 	$("div .box").prepend(
 		$("<div>").addClass("filter-menu")
@@ -452,5 +485,9 @@ function newDeliveryDateDiv(dateTime) {
 		.append($("<input>").attr({"type": "time", "class": "date", "value": time}));
 }
 	
-	
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
 	

@@ -132,15 +132,15 @@ CREATE TABLE `orders` (
   `ID_client` int DEFAULT '0',
   `status` varchar(20) NOT NULL DEFAULT (_latin1'preluata'),
   `ing_cost` double DEFAULT '0',
-  `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `ID_client` (`ID_client`),
   KEY `status` (`status`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'in lucru',45,'2021-01-20 11:16:21','2021-01-20 11:24:26'),(2,2,'preluata',170.04,'2021-01-20 11:16:21','2021-01-20 11:24:26'),(4,1,'livrata',22.5,'2021-01-20 11:16:21','2021-01-20 11:24:26'),(40,0,'preluata',0,'2021-01-20 14:48:55','2021-01-20 14:48:55');
+INSERT INTO `orders` VALUES (1,1,'livrata',45,'2021-09-08 10:27:45','2021-01-04 11:27:45'),(2,2,'livrata',170.04,'2021-01-23 11:27:45','2021-01-24 11:27:51'),(4,1,'in lucru',450,'2021-01-26 11:27:45','2021-01-24 11:27:51'),(59,1,'preluata',13.5,'2021-01-24 11:27:45','2021-01-24 11:27:51'),(66,1,'preluata',0,'2021-02-05 11:27:45','2021-01-24 11:27:51'),(67,2,'preluata',0,'2021-02-17 11:27:45','2021-01-24 11:27:51'),(70,0,'preluata',0,'2021-01-24 13:25:33','2021-01-24 13:25:33');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `orders_details` (
   KEY `ID_recipe` (`ID_recipe`),
   CONSTRAINT `orders_details_ibfk_1` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`),
   CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,5);
+INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -435,152 +435,6 @@ LOCK TABLES `units` WRITE;
 INSERT INTO `units` VALUES ('buc'),('g'),('kg'),('l'),('legatura'),('ml');
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'catering'
---
-/*!50003 DROP PROCEDURE IF EXISTS `update_orders_ing_cost_by_ing_id` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_orders_ing_cost_by_ing_id`(IN RECIPE_ID int)
-BEGIN
-
-DROP TEMPORARY TABLE IF EXISTS orders_to_update;
-CREATE TEMPORARY TABLE orders_to_update(ID INT);
-INSERT INTO orders_to_update SELECT DISTINCT ID_order FROM orders_details WHERE ID_recipe=RECIPE_ID;
-
-
-DROP TEMPORARY TABLE IF EXISTS orders_new_price;
-CREATE TEMPORARY TABLE orders_new_price(ID int, ing_cost double);
-INSERT INTO orders_new_price
-SELECT o.ID, SUM(d.servings*r.ing_cost) ing_cost
-FROM orders_details d
-LEFT JOIN recipes r ON d.ID_recipe = r.ID
-LEFT JOIN orders o ON d.ID_order = o.ID
-RIGHT JOIN orders_to_update u ON o.ID=u.ID
-GROUP BY d.ID_order;
-
-
-UPDATE orders o
-RIGHT JOIN orders_new_price n ON o.ID=n.ID
-SET o.ing_cost = n.ing_cost;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `update_orders_ing_cost_by_order_id` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_orders_ing_cost_by_order_id`(IN ORDER_ID int)
-BEGIN 
-
-DROP TEMPORARY TABLE IF EXISTS orders_new_price;
-CREATE TEMPORARY TABLE orders_new_price(ID int, ing_cost double);
-INSERT INTO orders_new_price
-SELECT o.ID, SUM(d.servings*r.ing_cost) ing_cost
-FROM orders_details d
-LEFT JOIN recipes r ON d.ID_recipe = r.ID
-LEFT JOIN orders o ON d.ID_order = o.ID
-WHERE d.ID_order = ORDER_ID
-GROUP BY d.ID_order;
-
-
-UPDATE orders o
-RIGHT JOIN orders_new_price n ON o.ID=n.ID
-SET o.ing_cost = n.ing_cost;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `update_recipes_ing_cost_by_ing_id` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_recipes_ing_cost_by_ing_id`(IN ING_ID int)
-BEGIN
-
-DROP TEMPORARY TABLE IF EXISTS recipes_to_update;
-CREATE TEMPORARY TABLE recipes_to_update(ID INT);
-INSERT INTO recipes_to_update SELECT DISTINCT ID_recipe FROM recipes_details WHERE ID_ingredient=ING_ID;
-
-
-DROP TEMPORARY TABLE IF EXISTS recipes_new_price;
-CREATE TEMPORARY TABLE recipes_new_price(ID int, ing_cost double);
-INSERT INTO recipes_new_price
-SELECT r.ID, SUM(d.quantity*i.price) ing_cost
-FROM recipes_details d
-LEFT JOIN ingredients i ON d.ID_ingredient = i.ID
-LEFT JOIN recipes r ON d.ID_recipe = r.ID
-RIGHT JOIN recipes_to_update u ON r.ID=u.ID
-GROUP BY d.ID_recipe;
-
-
-UPDATE recipes r
-RIGHT JOIN recipes_new_price n ON r.ID=n.ID
-SET r.ing_cost = n.ing_cost;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `update_recipes_ing_cost_by_recipe_id` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = latin1 */ ;
-/*!50003 SET character_set_results = latin1 */ ;
-/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_recipes_ing_cost_by_recipe_id`(IN RECIPE_ID int)
-BEGIN
-
-DROP TEMPORARY TABLE IF EXISTS recipes_new_price;
-CREATE TEMPORARY TABLE recipes_new_price(ID int, ing_cost double);
-INSERT INTO recipes_new_price
-SELECT r.ID, SUM(d.quantity*i.price) ing_cost
-FROM recipes_details d
-LEFT JOIN ingredients i ON d.ID_ingredient = i.ID
-LEFT JOIN recipes r ON d.ID_recipe = r.ID
-WHERE d.ID_recipe = RECIPE_ID
-GROUP BY d.ID_recipe;
-
-
-UPDATE recipes r
-RIGHT JOIN recipes_new_price n ON r.ID=n.ID
-SET r.ing_cost = n.ing_cost;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -591,4 +445,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-20 15:18:36
+-- Dump completed on 2021-01-24 13:30:21
