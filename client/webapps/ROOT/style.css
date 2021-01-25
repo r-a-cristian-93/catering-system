@@ -268,6 +268,12 @@ td.clickable:hover {
 	width:40px;
 	height:40px;
 	}
+.anulata {
+	background-image: url("/img/order_canceled.png");
+	width:40px;
+	height:40px;
+	filter: invert(30%) sepia(100%) saturate(1000%) hue-rotate(-30deg);
+	}
 
 
 /* ***************** MODAL ****************
