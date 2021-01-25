@@ -147,7 +147,8 @@ function buildFilters() {
 		.append(newDivDDC([
 			newStatusFilter("Preluate", "preluata"),
 			newStatusFilter("In lucru", "in lucru"),
-			newStatusFilter("Livrate", "livrata")
+			newStatusFilter("Livrate", "livrata"),
+			newStatusFilter("Anulate", "anulata")
 		]));
 	var f5 = newFilterContainer("Data primire").addClass("dropdown")
 		.append(newDivDDC([
