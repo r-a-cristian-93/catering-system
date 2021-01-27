@@ -210,7 +210,7 @@ function orderDelete(id) {
 
 function orderBuildTable(getOrdersFunction) {
 	$.when(getOrdersFunction).then(function(ordersList) {
-		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data primire", "Data livrare", "Cost ingrediente"]));	
+		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));	
 		for(order of ordersList) {
 			table.append(newOrderRow(order));
 		}			
@@ -238,7 +238,7 @@ function newOrderRow(order) {
 		statusImage,
 		order.client.name, 
 		toLocalDateTime(order.orderDate).date,
-		newDeliveryDateDiv(order.deliveryDate),		
+		newDeliveryDateDiv(order),		
 		order.ingCost.toFixed(2) + ' Lei',
 		saveButton,
 		editButton,
@@ -478,12 +478,25 @@ function toLocalDateTime(dateTimeString) {
 	}
 }
 
-function newDeliveryDateDiv(dateTime) {	
-	var date = dateTime.split('T')[0];
-	var time = toLocalDateTime(dateTime).time;
-	return $("<div>")
+function newDeliveryDateDiv(order) {
+	var date = order.deliveryDate.split('T')[0];
+	var time = toLocalDateTime(order.deliveryDate).time;
+	var div =  $("<div>")
 		.append($("<input>").attr({"type": "date", "class": "date", "value": date}))
 		.append($("<input>").attr({"type": "time", "class": "date", "value": time}));
+	
+	dateDelivery = new Date(date).setHours(0,0,0,0);
+	dateNow = new Date(Date.now()).setHours(0,0,0,0);
+
+	if (order.status.name == 'preluata' || order.status.name == 'in lucru') {
+		if (dateDelivery == dateNow) {
+			div.addClass("due-today");
+		}
+		else if (dateDelivery < dateNow) {
+			div.addClass("overdue");
+		}
+	}
+	return div;
 }
 	
 Date.prototype.addDays = function(days) {

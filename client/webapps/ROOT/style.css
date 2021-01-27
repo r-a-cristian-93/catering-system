@@ -273,8 +273,14 @@ td.clickable:hover {
 	width:40px;
 	height:40px;
 	filter: invert(30%) sepia(100%) saturate(1000%) hue-rotate(-30deg);
+	}	
+.due-today {
+	color: red;
 	}
-
+.overdue {
+	color: #ff00e3;
+}
+	
 
 /* ***************** MODAL ****************
  * */
