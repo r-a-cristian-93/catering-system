@@ -192,3 +192,81 @@ BEGIN
 	CALL update_orders_ing_cost_by_order_id(OLD.ID_order);
 END $$
 DELIMITER ;
+
+
+
+
+/* ============================= */
+/* TRIGGERS FOR orders */
+
+
+/* when DELETE orders */
+DROP TRIGGER IF EXISTS before_delete_orders;
+DELIMITER $$
+CREATE TRIGGER before_delete_orders
+BEFORE DELETE ON orders FOR EACH ROW
+BEGIN
+	DELETE FROM orders_details WHERE ID_order = OLD.ID;
+END $$
+DELIMITER ;
+
+
+
+
+/* ============================= */
+/* TRIGGERS FOR shopping_list */
+
+
+/* when INSERT orders */
+DROP TRIGGER IF EXISTS shopping_list_after_insert_orders;
+DELIMITER $$
+CREATE TRIGGER shopping_list_after_insert_orders
+BEFORE INSERT ON orders FOR EACH ROW
+BEGIN
+	INSERT INTO shopping_list(ID_type) values(1);
+	SET NEW.ID_shopping_list = LAST_INSERT_ID();
+END $$
+DELIMITER ;
+
+/* when DELETE orders */
+DROP TRIGGER IF EXISTS shopping_list_after_delete_orders;
+DELIMITER $$
+CREATE TRIGGER shopping_list_after_delete_orders
+AFTER DELETE ON orders FOR EACH ROW
+BEGIN
+	DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+END $$
+DELIMITER ;
+
+
+/*
+
+DROP PROCEDURE IF EXISTS create_shopping_list_details;
+DELIMITER $$
+CREATE PROCEDURE create_shopping_list_details(IN ORDER_ID int)
+BEGIN		
+	INSERT INTO shopping_list_details(ID_shopping_list, ID_ingredient, quantity)
+		SELECT LAST_INSERT_ID(), i.ID, SUM(rd.quantity*od.servings) quantity
+			FROM recipes_details rd
+			LEFT JOIN ingredients i ON i.ID = rd.ID_ingredient
+			LEFT JOIN orders_details od ON od.ID_recipe = rd.ID_recipe
+			WHERE od.ID_order = ORDER_ID
+			GROUP BY i.ID;	
+END $$
+DELIMITER ;
+
+ when INSERT orders_details 
+DROP TRIGGER IF EXISTS shopping_list_after_insert_orders_details;
+DELIMITER $$
+CREATE TRIGGER shopping_list_after_insert_orders_details
+BEFORE INSERT ON orders_details FOR EACH ROW
+BEGIN
+		IF EXISTS(SELECT ID FROM orders WHERE ID = NEW.ID_order AND ID_shopping_list = 0) 
+		AND NOT EXISTS(SELECT ID_order FROM orders_details WHERE ID_order = NEW.ID_order) THEN
+			CALL create_shopping_list(NEW.ID_order);
+		END IF;
+END $$
+DELIMITER ;
+
+select * from shopping_list; select * from shopping_list_details;
+*/
