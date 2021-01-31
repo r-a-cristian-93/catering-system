@@ -222,6 +222,13 @@ function orderBuildTable(getOrdersFunction) {
 
 function newOrderRow(order) {
 	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
+	var shoppingListButton = $("<img>");
+	if(order.shoppingList.id == 0) {
+		shoppingListButton.attr({"src": "/img/cart.png"});
+	}
+	else {
+		shoppingListButton.attr({"src": "/img/cart_shared.png"});
+	}
 	var editButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
@@ -240,6 +247,7 @@ function newOrderRow(order) {
 		toLocalDateTime(order.orderDate).date,
 		newDeliveryDateDiv(order),		
 		order.ingCost.toFixed(2) + ' Lei',
+		shoppingListButton,
 		saveButton,
 		editButton,
 		deleteButton
@@ -292,13 +300,13 @@ function enableSaveOrder(id) {
 	console.log(dateTime);
 	var deliveryDate = dateTime.toISOString();
 	console.log(deliveryDate);
-	$("#" + id + " td:eq(6) > img")
+	$("#" + id + " td:eq(7) > img")
 		.attr({"class":"active"})
 		.attr({'onclick': 'orderUpdateDeliveryDate('+id+',"'+deliveryDate+'")'});	
 }
 	
 function disableSaveOrder(id) {
-	$("#" + id + " td:eq(6) > img")
+	$("#" + id + " td:eq(7) > img")
 		.attr({"class":"inactive"})
 		.attr({"onclick": ""});	
 }
