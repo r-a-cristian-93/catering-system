@@ -140,7 +140,7 @@ CREATE TABLE `orders` (
   KEY `status` (`status`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'livrata',45,'2021-09-08 10:27:45','2021-01-04 11:27:45'),(2,2,'livrata',170.04,'2021-01-23 11:27:45','2021-01-24 11:27:51'),(4,1,'in lucru',690,'2021-01-26 11:27:45','2021-01-24 11:27:51'),(59,1,'anulata',13.5,'2021-01-24 11:27:45','2021-01-24 11:27:51'),(66,1,'preluata',0,'2021-02-05 11:27:45','2021-01-24 11:27:51'),(67,2,'preluata',0,'2021-02-17 11:27:45','2021-01-24 11:27:51'),(70,1,'anulata',0,'2021-01-24 13:25:33','2021-01-24 13:25:33');
+INSERT INTO `orders` VALUES (1,1,'livrata',16.200000000000003,'2021-09-08 10:27:45','2021-01-04 11:27:45'),(2,2,'livrata',170.04,'2021-01-23 11:27:45','2021-01-24 11:27:51'),(4,1,'in lucru',354,'2021-01-26 11:27:45','2021-01-24 11:27:51'),(59,1,'anulata',3.4200000000000004,'2021-01-24 11:27:45','2021-01-24 11:27:51'),(66,1,'preluata',0,'2021-01-20 11:27:45','2021-01-24 11:27:51'),(67,2,'preluata',0,'2021-01-30 11:27:45','2021-01-24 11:27:51');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,9 +168,9 @@ CREATE TABLE `orders_details` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_order` (`ID_order`,`ID_recipe`),
   KEY `ID_recipe` (`ID_recipe`),
-  CONSTRAINT `orders_details_ibfk_1` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`),
-  CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
+  CONSTRAINT `orders_details_ibfk_3` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(44,4,10,100);
+INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(44,4,10,100),(46,1,10,2);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -260,7 +260,7 @@ CREATE TABLE `recipes` (
 
 LOCK TABLES `recipes` WRITE;
 /*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',4.5),(5,'Cartofi prajiti',200,'g',1.025),(8,'Mititei',200,'g',6.0600000000000005),(10,'Orez cu lapte',300,'ml',2.4),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.01),(16,'Baclava',23,'g',0),(27,'Mamaliga',10,'kg',0.07);
+INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',1.1400000000000001),(5,'Cartofi prajiti',200,'g',1.025),(8,'Mititei',200,'g',6.0600000000000005),(10,'Orez cu lapte',300,'ml',2.4),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.01),(16,'Baclava',23,'g',0),(27,'Mamaliga',10,'kg',0.07);
 /*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -310,7 +310,7 @@ CREATE TABLE `recipes_details` (
 
 LOCK TABLES `recipes_details` WRITE;
 /*!40000 ALTER TABLE `recipes_details` DISABLE KEYS */;
-INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,0.3),(29,10,16,0.15),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.5),(79,2,26,1),(81,8,32,0.06);
+INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,0.3),(29,10,16,0.15),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.02),(79,2,26,1),(81,8,32,0.06);
 /*!40000 ALTER TABLE `recipes_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -389,6 +389,116 @@ INSERT INTO `roles` VALUES ('admin'),('user');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `shopping_list`
+--
+
+DROP TABLE IF EXISTS `shopping_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `shopping_list` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_type` int NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID` (`ID`),
+  KEY `ID_type` (`ID_type`),
+  CONSTRAINT `shopping_list_ibfk_1` FOREIGN KEY (`ID_type`) REFERENCES `shopping_list_type` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shopping_list`
+--
+
+LOCK TABLES `shopping_list` WRITE;
+/*!40000 ALTER TABLE `shopping_list` DISABLE KEYS */;
+INSERT INTO `shopping_list` VALUES (0,0);
+/*!40000 ALTER TABLE `shopping_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shopping_list_ingredients`
+--
+
+DROP TABLE IF EXISTS `shopping_list_ingredients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `shopping_list_ingredients` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_shopping_list` int NOT NULL,
+  `ID_ingredient` int NOT NULL,
+  `quantity` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `ID_shopping_list` (`ID_shopping_list`),
+  KEY `ID_ingredient` (`ID_ingredient`),
+  CONSTRAINT `shopping_list_ingredients_ibfk_1` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`),
+  CONSTRAINT `shopping_list_ingredients_ibfk_2` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shopping_list_ingredients`
+--
+
+LOCK TABLES `shopping_list_ingredients` WRITE;
+/*!40000 ALTER TABLE `shopping_list_ingredients` DISABLE KEYS */;
+/*!40000 ALTER TABLE `shopping_list_ingredients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shopping_list_orders`
+--
+
+DROP TABLE IF EXISTS `shopping_list_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `shopping_list_orders` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_shopping_list` int NOT NULL DEFAULT '0',
+  `ID_order` int NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `ID_shopping_list` (`ID_shopping_list`),
+  KEY `ID_order` (`ID_order`),
+  CONSTRAINT `shopping_list_orders_ibfk_1` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`),
+  CONSTRAINT `shopping_list_orders_ibfk_2` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shopping_list_orders`
+--
+
+LOCK TABLES `shopping_list_orders` WRITE;
+/*!40000 ALTER TABLE `shopping_list_orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `shopping_list_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `shopping_list_type`
+--
+
+DROP TABLE IF EXISTS `shopping_list_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `shopping_list_type` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `ID` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `shopping_list_type`
+--
+
+LOCK TABLES `shopping_list_type` WRITE;
+/*!40000 ALTER TABLE `shopping_list_type` DISABLE KEYS */;
+INSERT INTO `shopping_list_type` VALUES (0,'-'),(2,'compusa'),(1,'proprie');
+/*!40000 ALTER TABLE `shopping_list_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `status`
 --
 
@@ -445,4 +555,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-25 15:36:15
+-- Dump completed on 2021-01-31 13:17:47
