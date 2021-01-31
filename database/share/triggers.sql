@@ -197,36 +197,7 @@ DELIMITER ;
 
 
 /* ============================= */
-/* TRIGGERS FOR orders */
-
-
-/* when DELETE orders */
-DROP TRIGGER IF EXISTS before_delete_orders;
-DELIMITER $$
-CREATE TRIGGER before_delete_orders
-BEFORE DELETE ON orders FOR EACH ROW
-BEGIN
-	DELETE FROM orders_details WHERE ID_order = OLD.ID;
-END $$
-DELIMITER ;
-
-
-
-
-/* ============================= */
 /* TRIGGERS FOR shopping_list */
-
-
-/* when INSERT orders */
-DROP TRIGGER IF EXISTS shopping_list_after_insert_orders;
-DELIMITER $$
-CREATE TRIGGER shopping_list_after_insert_orders
-BEFORE INSERT ON orders FOR EACH ROW
-BEGIN
-	INSERT INTO shopping_list(ID_type) values(1);
-	SET NEW.ID_shopping_list = LAST_INSERT_ID();
-END $$
-DELIMITER ;
 
 /* when DELETE orders */
 DROP TRIGGER IF EXISTS shopping_list_after_delete_orders;
@@ -234,39 +205,65 @@ DELIMITER $$
 CREATE TRIGGER shopping_list_after_delete_orders
 AFTER DELETE ON orders FOR EACH ROW
 BEGIN
-	DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
+		DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+	END IF;
 END $$
 DELIMITER ;
 
-
-/*
-
-DROP PROCEDURE IF EXISTS create_shopping_list_details;
+/* when UPDATE orders */
+DROP TRIGGER IF EXISTS shopping_list_after_delete_orders;
 DELIMITER $$
-CREATE PROCEDURE create_shopping_list_details(IN ORDER_ID int)
-BEGIN		
-	INSERT INTO shopping_list_details(ID_shopping_list, ID_ingredient, quantity)
-		SELECT LAST_INSERT_ID(), i.ID, SUM(rd.quantity*od.servings) quantity
-			FROM recipes_details rd
-			LEFT JOIN ingredients i ON i.ID = rd.ID_ingredient
-			LEFT JOIN orders_details od ON od.ID_recipe = rd.ID_recipe
-			WHERE od.ID_order = ORDER_ID
-			GROUP BY i.ID;	
-END $$
-DELIMITER ;
-
- when INSERT orders_details 
-DROP TRIGGER IF EXISTS shopping_list_after_insert_orders_details;
-DELIMITER $$
-CREATE TRIGGER shopping_list_after_insert_orders_details
-BEFORE INSERT ON orders_details FOR EACH ROW
+CREATE TRIGGER shopping_list_after_delete_orders
+AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
-		IF EXISTS(SELECT ID FROM orders WHERE ID = NEW.ID_order AND ID_shopping_list = 0) 
-		AND NOT EXISTS(SELECT ID_order FROM orders_details WHERE ID_order = NEW.ID_order) THEN
-			CALL create_shopping_list(NEW.ID_order);
-		END IF;
+	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
+		DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+	END IF;
 END $$
 DELIMITER ;
 
-select * from shopping_list; select * from shopping_list_details;
-*/
+/* main procedure */
+DROP PROCEDURE IF EXISTS generate_shopping_list_for_order;
+DELIMITER $$
+CREATE PROCEDURE generate_shopping_list_for_order(IN ORDER_ID int)
+BEGIN
+	DECLARE SL_ID int;
+	SELECT ID_shopping_list INTO SL_ID FROM orders WHERE ID = ORDER_ID;
+	IF (SL_ID = 0 OR SL_ID = NULL) THEN 
+		CALL generate_shopping_list_by_order_id(ORDER_ID);
+	ELSE
+		CALL generate_shopping_list_by_shopping_list_id(SL_ID);
+	END IF;	
+END $$
+DELIMITER ;
+
+/* sub procedure */	
+DROP PROCEDURE IF EXISTS generate_shopping_list_by_order_id;
+DELIMITER $$
+CREATE PROCEDURE generate_shopping_list_by_order_id(IN ORDER_ID int)
+BEGIN
+	SELECT rd.ID_ingredient, SUM(od.servings*rd.quantity)
+		FROM orders o
+		LEFT JOIN orders_details od ON od.ID_Order = o.ID
+		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
+		WHERE o.ID = ORDER_ID
+		GROUP BY rd.ID_ingredient;
+END $$
+DELIMITER ;
+
+/* sub procedure */
+DROP PROCEDURE IF EXISTS generate_shopping_list_by_shopping_list_id;
+DELIMITER $$
+CREATE PROCEDURE generate_shopping_list_by_shopping_list_id(IN SL_ID int)
+BEGIN	
+	SELECT rd.ID_ingredient, SUM(od.servings*rd.quantity)
+		FROM orders o
+		LEFT JOIN orders_details od ON od.ID_Order = o.ID
+		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
+		WHERE o.ID_shopping_list = SL_ID
+		GROUP BY rd.ID_ingredient;
+END $$
+DELIMITER ;
+
+

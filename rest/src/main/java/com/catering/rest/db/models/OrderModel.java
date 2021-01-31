@@ -43,11 +43,15 @@ public class OrderModel {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="order_date")
-	Date orderDate;
+	private Date orderDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="delivery_date")
-	Date deliveryDate;
+	private Date deliveryDate;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_shopping_list")
+	private ShoppingListModel shoppingList;
 	
 	protected OrderModel() {}
 }
