@@ -243,7 +243,7 @@ DROP PROCEDURE IF EXISTS generate_shopping_list_by_order_id;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_by_order_id(IN ORDER_ID int)
 BEGIN
-	SELECT rd.ID_ingredient, SUM(od.servings*rd.quantity)
+	SELECT ROW_NUMBER() OVER() AS 'ID', rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
 		FROM orders o
 		LEFT JOIN orders_details od ON od.ID_Order = o.ID
 		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
@@ -257,7 +257,7 @@ DROP PROCEDURE IF EXISTS generate_shopping_list_by_shopping_list_id;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_by_shopping_list_id(IN SL_ID int)
 BEGIN	
-	SELECT rd.ID_ingredient, SUM(od.servings*rd.quantity)
+	SELECT ROW_NUMBER() OVER() AS 'ID', rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
 		FROM orders o
 		LEFT JOIN orders_details od ON od.ID_Order = o.ID
 		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe

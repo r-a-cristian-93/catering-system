@@ -28,14 +28,15 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=3
-FILE_NAME_0=4034;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fstyle.css;0;4
-FILE_NAME_1=513;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Futil.js;0;4
-FILE_NAME_2=5142;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fcomenzi.js;0;4
-FILE_NAME_3=5855;SQL;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fdatabase%2Fshare%2Ftriggers.sql;0;4
+current_page=2
+FILE_NAME_0=2804;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fstyle.css;0;4
+FILE_NAME_1=1648;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Futil.js;0;4
+FILE_NAME_2=14597;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fcomenzi.js;0;4
+FILE_NAME_3=6662;SQL;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fdatabase%2Fshare%2Ftriggers.sql;0;4
+FILE_NAME_4=1694;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fretete.js;0;4
 
 [VTE]
-last_dir=/home/taifun/NetBeansProjects/Manual
+last_dir=/home/taifun
 
 [prjorg]
 source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;

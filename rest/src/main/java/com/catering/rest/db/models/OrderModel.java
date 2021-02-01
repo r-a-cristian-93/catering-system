@@ -51,7 +51,7 @@ public class OrderModel {
 	
 	@ManyToOne
 	@JoinColumn(name="ID_shopping_list")
-	private ShoppingListModel shoppingList;
+	private ShoppingListIdModel shoppingListId;
 	
 	protected OrderModel() {}
 }

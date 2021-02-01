@@ -17,11 +17,18 @@
 * {
     box-sizing: border-box;
     font-family: sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 h2 {
 	display: inline-block;
 	margin:10px;
+	}
+	
+h5 {
+	font-weight: normal;
+	opacity: 0.7;
 	}
 
 html, body {
@@ -191,6 +198,10 @@ tr:nth-child(even) {
 	text-align:right;
 	}
 	
+#shopping-list-table td:nth-child(2) {
+	text-align:right;
+	}
+	
 tr:not(:first-child):hover {
     background-color: var(--grey);
 }
@@ -278,7 +289,7 @@ td.clickable:hover {
 	color: red;
 	}
 .overdue {
-	color: #ff00e3;
+	color: #c700ff;
 }
 	
 
