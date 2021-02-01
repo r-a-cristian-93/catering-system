@@ -221,9 +221,13 @@ function orderBuildTable(getOrdersFunction) {
 }	
 
 function newOrderRow(order) {
+	var clientName = $("<div>")
+		.append($("<div>").text(order.client.name))
+		.append($("<h5>").text(order.client.phone));	
 	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
-	var shoppingListButton = $("<img>");
-	if(order.shoppingList.id == 0) {
+	var shoppingListButton = $("<img>")
+		.attr({"onclick": "buildOrderEditShoppingListModal("+order.id+")"});
+	if(order.shoppingListId.id == 0) {
 		shoppingListButton.attr({"src": "/img/cart.png"});
 	}
 	else {
@@ -243,7 +247,7 @@ function newOrderRow(order) {
 	return newRow([
 		order.id,		
 		statusImage,
-		order.client.name, 
+		clientName,
 		toLocalDateTime(order.orderDate).date,
 		newDeliveryDateDiv(order),		
 		order.ingCost.toFixed(2) + ' Lei',
@@ -513,3 +517,39 @@ Date.prototype.addDays = function(days) {
     return date;
 }
 	
+	
+	
+/* ******************* SHOPPING LIST ******************* */
+
+function getShoppingList(orderId) {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/orders/'+orderId+'/shoppingList'
+	});
+}
+
+function buildOrderEditShoppingListModal(orderId) {
+	var modal = new ModalBuilder("#" + orderId +" - Lista cumparaturi" , "edit-shopping-list-modal");
+	
+	$.when(getShoppingList(orderId)).then(function(data) {
+		modal.content.append(newShoppingListTable(data));
+		$("body").append(modal.modal);	
+	});	
+}
+
+function newShoppingListTable(shoppingList) {
+	var table = $("<table>")
+		.attr({"id": "shopping-list-table"})
+		.append(newHeader(["Ingredient", "Cantitate"], [0, 2]));
+	for(el of shoppingList) {
+		table.append(newShoppingListRow(el));
+	}
+	return table;
+}
+
+function newShoppingListRow(ingredient) {
+	return newRow([el.ingredient.name, el.quantity.toFixed(2), el.ingredient.unit.name],[],[]);
+}
+

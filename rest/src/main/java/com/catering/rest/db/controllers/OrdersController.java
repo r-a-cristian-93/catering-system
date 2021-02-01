@@ -19,11 +19,13 @@ import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
 import com.catering.rest.db.models.RecipeModel;
+import com.catering.rest.db.models.ShoppingListModel;
 import com.catering.rest.db.models.StatusModel;
 import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.OrdersDetailsRepository;
 import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
+import com.catering.rest.db.repositories.ShoppingListRepository;
 
 import lombok.AllArgsConstructor;
 	
@@ -36,6 +38,7 @@ public class OrdersController {
 	private final OrdersDetailsRepository detailsRepo;	
 	private final RecipesRepository recipesRepo;
 	private final ClientsRepository clientsRepo;
+	private final ShoppingListRepository shoppingListRepo;
 	
 	@ResponseBody
 	@GetMapping
@@ -146,4 +149,12 @@ public class OrdersController {
 		details.setServings(servings);
 		return detailsRepo.save(details);		
 	}
+	
+	//ORDER SHOPPING LIST
+	
+	@ResponseBody
+	@GetMapping("/{id}/shoppingList")
+	public List<ShoppingListModel> generateShoppingList(@PathVariable Integer id) {
+		return shoppingListRepo.generateShoppingList(id);		
+	}	
 }

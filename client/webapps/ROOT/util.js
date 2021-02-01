@@ -67,7 +67,7 @@ class ModalBuilder {
 	constructor(title, divId) {
 		this.extraBox = [];		
 		this.content = $("<div>").addClass("modal-content");
-		this.title = $("<h2>").addClass("modal-title").text(title);
+		this.title = $("<h2>").addClass("modal-title").html(title);
 		this.modalContainer = $("<div>").addClass("modal-container").append(
 				$("<div>").addClass("modal-box")
 					.append(
