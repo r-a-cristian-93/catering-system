@@ -1,3 +1,5 @@
+var navigationMenu = null;
+
 $(document).ready(function(){
 	$.ajax({
 		method: 'GET',
@@ -5,8 +7,9 @@ $(document).ready(function(){
 		dataType: 'json',
 		url: REST_URL + '/employees/myinfo',
 		success: function(data, status, xhr) {
-			buildMenu(data);
-			console.log(data);
+			navigationMenu = newNavMenu(data);
+			setCurrentPage(navigationMenu);
+			$("body").prepend(navigationMenu);
 		},
 		error: function() {
 			window.location = CLIENT_URL + '/login.html';
@@ -20,34 +23,28 @@ $(document).ready(function(){
  * 
  * */
 
-function buildMenu(user) {
-	var adminMenu=null;
-	
+function newNavMenu(user) {	
+	var nav = $("<div>")
+		.addClass("nav")
+		.append(newUserA(user.name, "user.html"))	
+		.append(newNavEl("Acasa", "index.html"))
+		.append(newNavEl("Comenzi", "comenzi.html"))
+		.append(newNavEl("Retete", "retete.html"))
+		.append(newNavEl("Ingrediente", "ingrediente.html"));
+		
 	if(user.role.name=='admin') {
-		adminMenu = newLiDD("-ADMIN-", [
-			newA("Mange", "")]);
-	}			
-	
-	$("body").prepend(
-		$("<ul></ul>")
-			.append(newDivUsr(user.name, ""))
-			.append(newLiA("Acasa", "index.html"))
-			.append(newLiDD("Comenzi", [
-						newA("Toate comenzile", "comenzi.html"),
-						newA("Comanda Noua", "comanda-noua.html")]))
-			.append(newLiDD("Retete", [
-						newA("Toate retetele", "retete.html"),
-						newA("Adauga reteta")]))
-			.append(newLiA("Ingrediente", "ingrediente.html"))
-			.append(adminMenu)			
-	);
+		nav.append(newNavEl("-ADMIN-", "admin.html"));
+	}		
+	return nav;
 }
 
 function newA(text, url) {
-	return  $("<a></a>")
-				.text(text)
-				.attr({"href": url});
-			}		
+	return  $("<a>").text(text)	.attr({"href": url});
+}		
+
+function newNavEl(text, url) {
+	return  newA(text, url).addClass("nav-el");
+}		
 
 function newDivDDC(arrayA) {
 	var ddc = $("<div></div>")
@@ -57,25 +54,24 @@ function newDivDDC(arrayA) {
 	}	
 	return ddc;
 }
-
-function newLiA(text, url){
-	return $("<li></li>").append(newA(text, url));
-}
-function newLiDD(text, arrayA){
-	return $("<li></li>")
-				.attr({"class": "dropdown"})
-				.append(newA(text, "javascript:void(0)"))
-				.append(newDivDDC(arrayA));
-			}
 			
-function newDivUsr(username, url) {
-	return $("<div></div>")
-				.attr({"class": "fr"})
-				.append(
-					newA(username, url)
-						.attr({"class": "a-profile"})
-						.prepend($("<img>").attr({"src": "/img/profile.png"})));
-			}
+function newUserA(username, url) {
+	return newA(username, url)
+		.addClass("profile")
+		.prepend($("<img>").attr({"src": "/img/profile.png"}));
+}
+			
+function setCurrentPage(nav) {
+	var currentAddress = document.location.href;
+	console.log(currentAddress);
+	
+	var list = nav.find("a");
+	for (a of list) {
+		if(currentAddress == a.href) {
+			$(a).addClass("current-page");
+		}
+	}	
+}
 
 //**************END MENU*****************
 
