@@ -47,7 +47,7 @@ function newNavEl(text, url) {
 }		
 
 function newDivDDC(arrayA) {
-	var ddc = $("<div></div>")
+	var ddc = $("<div>")
 				.attr({"class": "dropdown-content"});
 	for(a of arrayA) {
 		ddc.append(a);
