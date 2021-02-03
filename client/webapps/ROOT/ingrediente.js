@@ -84,7 +84,6 @@ function ingredientBuildTable() {
 		}
 		
 		$("#ing-table")
-			.append($("<h2>").text("Tabel ingrediente"))
 			.append(table)
 			.append(
 				$("<button>")

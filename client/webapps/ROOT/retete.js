@@ -93,8 +93,7 @@ function recipeBuildTable() {
 			table.append(newRecipeRow(recipe));
 		}
 		
-		$("#table")
-			.append($("<h2>").text("Tabel retete"))					
+		$("#table")				
 			.append(table)
 			.append(
 				$("<button>")
