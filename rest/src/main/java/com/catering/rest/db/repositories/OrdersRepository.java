@@ -12,4 +12,5 @@ public interface OrdersRepository extends JpaRepository<OrderModel, Integer> {
 	List<OrderModel> findByStatus(StatusModel status);
 	List<OrderModel> findByOrderDateBetween(Date first, Date last);
 	List<OrderModel> findByDeliveryDateBetween(Date first, Date last);	
+	List<OrderModel> findByShoppingListId(Integer shopingListId);
 }

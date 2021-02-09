@@ -86,8 +86,7 @@ class ModalBuilder {
 		var index = this.extraBox.length;
 		if(this.extraBox[index] != null) {
 			index++;
-		}
-		
+		}		
 		this.extraBox[index] = new ExtraBox(title, index);
 		this.modalContainer.append(this.extraBox[index].box);
 	}

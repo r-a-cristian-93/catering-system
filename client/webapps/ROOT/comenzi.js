@@ -23,6 +23,17 @@ function getOrders() {
 	});	
 }
 
+function getOrdersByShoppingListId(shoppingListId) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/byShoppingListId',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(shoppingListId)
+	});
+}		
+
 function getOrdersByStatus(status) {
 	return $.ajax({
 		method: 'POST',
@@ -226,8 +237,8 @@ function newOrderRow(order) {
 		.append($("<h5>").text(order.client.phone));	
 	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
 	var shoppingListButton = $("<img>")
-		.attr({"onclick": "buildOrderEditShoppingListModal("+order.id+")"});
-	if(order.shoppingListId.id == 0) {
+		.attr({"onclick": "buildOrderEditShoppingListModal("+order.id+","+order.shoppingListId+")"});
+	if(order.shoppingListId == 0 || !order.shoppingListId) {
 		shoppingListButton.attr({"src": "/img/cart.png"});
 	}
 	else {
@@ -521,23 +532,88 @@ Date.prototype.addDays = function(days) {
 	
 /* ******************* SHOPPING LIST ******************* */
 
-function getShoppingList(orderId) {
+function getShoppingListById(shoppingListId) {
 	return $.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/orders/'+orderId+'/shoppingList'
+		url: REST_URL + '/shoppingList/' + shoppingListId
 	});
 }
 
-function buildOrderEditShoppingListModal(orderId) {
+function getShoppingListByOrderId(orderId) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/shoppingList/byOrderId',
+		contentType: 'application/json',
+		data: JSON.stringify(orderId)
+	});
+}
+
+function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 	var modal = new ModalBuilder("#" + orderId +" - Lista cumparaturi" , "edit-shopping-list-modal");
 	
-	$.when(getShoppingList(orderId)).then(function(data) {
+	$.when(getShoppingListByOrderId(orderId)).then(function(data) {
 		modal.content.append(newShoppingListTable(data));
+		modal.addExtraBox("Detalii");
+		modal.extraBox[0].box.addClass('modal-fixed');
+		if(shoppingListId == 0 || !shoppingListId) {						
+			$.when(getOrders()).then(function(data) {
+				modal.extraBox[0].content
+					.append($("<p>").html('Aceasta lista de cumparaturi este proprie acestei comenzi.'))
+					.append(newAllOrdersList(data));
+			});
+		}
+		else {
+			$.when(getOrdersByShoppingListId(shoppingListId), getOrders()).then(function(currentOrders, allOrders) {
+				modal.extraBox[0].content
+					.append(newCurrentOrdersList(currentOrders[0]))
+					.append(newAllOrdersList(ordersListDiff(allOrders[0], currentOrders[0])));
+			});
+		}			
 		$("body").append(modal.modal);	
 	});	
 }
+
+function ordersListDiff(arrayA, arrayB) {
+	var arrayC = [];
+	arrayA.forEach(function(orderA) {
+		var skip = false;
+		arrayB.forEach(function(orderB) {			
+			if(orderA.id == orderB.id) {
+				skip = true;
+			}
+		});
+		if(!skip) {
+			arrayC.push(orderA);
+		}
+	});
+	return arrayC;
+}
+
+function newCurrentOrdersList(orders) {
+	return $("<div>")
+		.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:')
+		.append(newOrdersDivBox(orders));	
+}	
+
+function newAllOrdersList(orders) {
+	return $("<div>")
+		.append('Adauga si alte comenzi:')
+		.append(newOrdersDivBox(orders));
+}	
+
+function newOrdersDivBox(orders) {	
+	var ordersDiv = $("<div>").addClass('orders-list');
+	orders.forEach(function(order) {
+		ordersDiv.append(
+			newButton(+order.id, '')
+		)
+	});
+	return ordersDiv;
+}	
 
 function newShoppingListTable(shoppingList) {
 	var table = $("<table>")

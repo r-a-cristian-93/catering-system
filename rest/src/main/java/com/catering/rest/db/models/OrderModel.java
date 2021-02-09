@@ -49,9 +49,8 @@ public class OrderModel {
 	@Column(name="delivery_date")
 	private Date deliveryDate;
 	
-	@ManyToOne
-	@JoinColumn(name="ID_shopping_list")
-	private ShoppingListIdModel shoppingListId;
+	@Column(name="ID_shopping_list")
+	private Integer shoppingListId;
 	
 	protected OrderModel() {}
 }

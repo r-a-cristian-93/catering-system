@@ -9,5 +9,7 @@ import com.catering.rest.db.models.ShoppingListModel;
 
 public interface ShoppingListRepository extends JpaRepository<ShoppingListModel, Integer> {
 	@Query(value = "CALL generate_shopping_list_for_order(?1);", nativeQuery = true)
-	List<ShoppingListModel> generateShoppingList(Integer recipeId);
+	List<ShoppingListModel> generateShoppingListForOrderId(Integer orderId);
+	@Query(value = "CALL generate_shopping_list_by_shopping_list_id(?1);", nativeQuery = true)
+	List<ShoppingListModel> generateShoppingListById(Integer shoppingListId);
 }
