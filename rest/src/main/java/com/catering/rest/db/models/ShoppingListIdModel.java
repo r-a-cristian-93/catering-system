@@ -17,5 +17,7 @@ public class ShoppingListIdModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
-	Integer id;
+	private Integer id;
+	
+	protected ShoppingListIdModel() {};	
 }
