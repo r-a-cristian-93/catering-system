@@ -563,14 +563,17 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 			$.when(getOrders()).then(function(data) {
 				modal.extraBox[0].content
 					.append($("<p>").html('Aceasta lista de cumparaturi este proprie acestei comenzi.'))
-					.append(newAllOrdersList(data));
+					.append('Adauga si alte comenzi:')
+					.append(newOrdersDivBox(data));
 			});
 		}
 		else {
 			$.when(getOrdersByShoppingListId(shoppingListId), getOrders()).then(function(currentOrders, allOrders) {
 				modal.extraBox[0].content
-					.append(newCurrentOrdersList(currentOrders[0]))
-					.append(newAllOrdersList(ordersListDiff(allOrders[0], currentOrders[0])));
+					.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:')
+					.append(newOrdersDivBox((currentOrders[0])))
+					.append('Adauga si alte comenzi:')
+					.append(newOrdersDivBox(ordersListDiff(allOrders[0], currentOrders[0])));
 			});
 		}			
 		$("body").append(modal.modal);	
@@ -592,18 +595,6 @@ function ordersListDiff(arrayA, arrayB) {
 	});
 	return arrayC;
 }
-
-function newCurrentOrdersList(orders) {
-	return $("<div>")
-		.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:')
-		.append(newOrdersDivBox(orders));	
-}	
-
-function newAllOrdersList(orders) {
-	return $("<div>")
-		.append('Adauga si alte comenzi:')
-		.append(newOrdersDivBox(orders));
-}	
 
 function newOrdersDivBox(orders) {	
 	var ordersDiv = $("<div>").addClass('orders-list');
