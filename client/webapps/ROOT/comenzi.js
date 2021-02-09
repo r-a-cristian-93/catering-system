@@ -564,14 +564,14 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 				modal.extraBox[0].content
 					.append($("<p>").html('Aceasta lista de cumparaturi este proprie acestei comenzi.'))
 					.append('Adauga si alte comenzi:')
-					.append(newOrdersDivBox(data));
+					.append(newOrdersDivBox(ordersListDiff(data, [{id: orderId}])));
 			});
 		}
 		else {
 			$.when(getOrdersByShoppingListId(shoppingListId), getOrders()).then(function(currentOrders, allOrders) {
 				modal.extraBox[0].content
 					.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:')
-					.append(newOrdersDivBox((currentOrders[0])))
+					.append(newOrdersDivBox(currentOrders[0]))
 					.append('Adauga si alte comenzi:')
 					.append(newOrdersDivBox(ordersListDiff(allOrders[0], currentOrders[0])));
 			});
