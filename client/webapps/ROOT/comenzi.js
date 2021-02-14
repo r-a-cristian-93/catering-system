@@ -616,7 +616,9 @@ function newShoppingListTable(shoppingList) {
 	return table;
 }
 
-function newShoppingListRow(ingredient) {
-	return newRow([el.ingredient.name, el.quantity.toFixed(2), el.ingredient.unit.name],[],[]);
+function newShoppingListRow(el) {
+	if(el.ingredient) {
+		return newRow([el.ingredient.name, el.quantity.toFixed(2), el.ingredient.unit.name],[],[]);
+	}
 }
 
