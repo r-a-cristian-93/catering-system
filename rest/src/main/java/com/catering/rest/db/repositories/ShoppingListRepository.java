@@ -12,4 +12,6 @@ public interface ShoppingListRepository extends JpaRepository<ShoppingListModel,
 	List<ShoppingListModel> generateShoppingListForOrderId(Integer orderId);
 	@Query(value = "CALL generate_shopping_list_by_shopping_list_id(?1);", nativeQuery = true)
 	List<ShoppingListModel> generateShoppingListById(Integer shoppingListId);
+	@Query(value = "CALL merge_shopping_list(?1, ?2);", nativeQuery = true)
+	List<ShoppingListModel> mergeShoppingList(Integer orderIdA, Integer orderIdB);
 }

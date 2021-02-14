@@ -552,6 +552,17 @@ function getShoppingListByOrderId(orderId) {
 	});
 }
 
+function mergeShoppingList(orderIds) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/shoppingList/merge',
+		contentType: 'application/json',
+		data: JSON.stringify(orderIds)
+	});
+}
+
 function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 	var modal = new ModalBuilder("#" + orderId +" - Lista cumparaturi" , "edit-shopping-list-modal");
 	
@@ -564,7 +575,7 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 				modal.extraBox[0].content
 					.append($("<p>").html('Aceasta lista de cumparaturi este proprie acestei comenzi.'))
 					.append('Adauga si alte comenzi:')
-					.append(newOrdersDivBox(ordersListDiff(data, [{id: orderId}])));
+					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(data, [{id: orderId}])));
 			});
 		}
 		else {
@@ -573,7 +584,7 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 					.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:')
 					.append(newOrdersDivBox(currentOrders[0]))
 					.append('Adauga si alte comenzi:')
-					.append(newOrdersDivBox(ordersListDiff(allOrders[0], currentOrders[0])));
+					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(allOrders[0], currentOrders[0])));
 			});
 		}			
 		$("body").append(modal.modal);	
@@ -596,12 +607,22 @@ function ordersListDiff(arrayA, arrayB) {
 	return arrayC;
 }
 
-function newOrdersDivBox(orders) {	
+function newOrdersDivBox(orders, action) {	
 	var ordersDiv = $("<div>").addClass('orders-list');
 	orders.forEach(function(order) {
 		ordersDiv.append(
-			newButton(+order.id, '')
+			newButton(+order.id, action)
 		)
+	});
+	return ordersDiv;
+}	
+function newOrdersDivBoxMerge(orderIdA, orders) {	
+	var ordersDiv = $("<div>").addClass('orders-list');
+	orders.forEach(function(order) {
+		ordersDiv.append(
+			newButton(+order.id)
+				.attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
+		);
 	});
 	return ordersDiv;
 }	
@@ -622,3 +643,9 @@ function newShoppingListRow(el) {
 	}
 }
 
+function shoppingListMerge(orderIdA, orderIdB) {
+	var orderIds = [orderIdA, orderIdB];
+	$.when(mergeShoppingList(orderIds)).then(function(data){		
+		$('#shopping-list-table').replaceWith(newShoppingListTable(data));		
+	});
+}

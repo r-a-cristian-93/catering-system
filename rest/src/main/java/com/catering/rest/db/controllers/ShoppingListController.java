@@ -32,4 +32,11 @@ public class ShoppingListController {
 	List<ShoppingListModel> getShoppingListByOrderID(@RequestBody Integer id) {
 		return shoppingListRepo.generateShoppingListForOrderId(id);
 	}
+	
+	@ResponseBody
+	@PostMapping("/merge")
+	List<ShoppingListModel> mergeShoppingList(@RequestBody Integer[] orderIds) {
+		System.out.println(orderIds[0] + " and " + orderIds[1]);
+		return shoppingListRepo.mergeShoppingList(orderIds[0], orderIds[1]);		
+	}
 }

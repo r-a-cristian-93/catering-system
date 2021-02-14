@@ -287,6 +287,7 @@ BEGIN
 			UPDATE orders SET ID_shopping_list = ID_SL_A WHERE ID = ID_ORD_B;			
 		END IF;
 	END IF;
+	call generate_shopping_list_for_order(ID_ORD_A);
 END $$
 DELIMITER ;
 
