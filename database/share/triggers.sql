@@ -199,6 +199,7 @@ DELIMITER ;
 /* ============================= */
 /* TRIGGERS FOR shopping_list */
 
+
 /* when DELETE orders */
 DROP TRIGGER IF EXISTS shopping_list_after_delete_orders;
 DELIMITER $$
@@ -206,15 +207,15 @@ CREATE TRIGGER shopping_list_after_delete_orders
 AFTER DELETE ON orders FOR EACH ROW
 BEGIN
 	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
-		DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+		DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;	
 	END IF;
 END $$
 DELIMITER ;
 
 /* when UPDATE orders */
-DROP TRIGGER IF EXISTS shopping_list_after_delete_orders;
+DROP TRIGGER IF EXISTS shopping_list_after_update_orders;
 DELIMITER $$
-CREATE TRIGGER shopping_list_after_delete_orders
+CREATE TRIGGER shopping_list_after_update_orders
 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
 	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
@@ -265,5 +266,32 @@ BEGIN
 		GROUP BY rd.ID_ingredient;
 END $$
 DELIMITER ;
+
+
+
+
+/* ============================= */
+/* DEBUG UTILS */
+
+
+DROP TABLE IF EXISTS debug_var;
+CREATE TABLE debug_var (
+	ID int NOT NULL auto_increment,
+	name varchar(50),
+	value int,  
+	PRIMARY KEY(ID)
+);
+
+/* when DELETE orders */
+
+DROP PROCEDURE IF EXISTS log_var;
+DELIMITER $$
+CREATE PROCEDURE log_var(IN NAME varchar(50), IN VAL int)
+BEGIN
+	INSERT INTO debug_var(name, value) VALUES(NAME, VAL);
+END $$
+DELIMITER ;
+
+
 
 
