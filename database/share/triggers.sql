@@ -224,7 +224,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* main procedure */
+/* generate_shopping_list main procedure */
 DROP PROCEDURE IF EXISTS generate_shopping_list_for_order;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_for_order(IN ORDER_ID int)
@@ -239,7 +239,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* sub procedure */	
+/* generate_shopping_list sub procedure */	
 DROP PROCEDURE IF EXISTS generate_shopping_list_by_order_id;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_by_order_id(IN ORDER_ID int)
@@ -253,7 +253,7 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* sub procedure */
+/* generate_shopping_list sub procedure */
 DROP PROCEDURE IF EXISTS generate_shopping_list_by_shopping_list_id;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_by_shopping_list_id(IN SL_ID int)
@@ -264,6 +264,29 @@ BEGIN
 		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
 		WHERE o.ID_shopping_list = SL_ID
 		GROUP BY rd.ID_ingredient;
+END $$
+DELIMITER ;
+
+/* merge_shopping_list */
+DROP PROCEDURE IF EXISTS merge_shopping_list;
+DELIMITER $$
+CREATE PROCEDURE merge_shopping_list(in ID_ORD_A int, in ID_ORD_B int)
+BEGIN
+	DECLARE ID_SL_A int;
+	DECLARE ID_SL_B int;
+	DECLARE ID_SL_NEW int;
+	SELECT ID_shopping_list INTO ID_SL_A FROM orders WHERE ID = ID_ORD_A;
+	SELECT ID_shopping_list INTO ID_SL_B FROM orders WHERE ID = ID_ORD_B;
+	
+	IF (ID_SL_B = 0) THEN
+		IF (ID_SL_A = 0) THEN
+			INSERT INTO shopping_list() values();
+			SET ID_SL_NEW = LAST_INSERT_ID();
+			UPDATE orders SET ID_shopping_list = ID_SL_NEW WHERE ID = ID_ORD_A OR ID = ID_ORD_B;
+		ELSE
+			UPDATE orders SET ID_shopping_list = ID_SL_A WHERE ID = ID_ORD_B;			
+		END IF;
+	END IF;
 END $$
 DELIMITER ;
 

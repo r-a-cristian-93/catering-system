@@ -43,6 +43,31 @@ INSERT INTO `clients` VALUES (0,'-',NULL,NULL),(1,'Vasile Ciupitu','Str. Valea V
 UNLOCK TABLES;
 
 --
+-- Table structure for table `debug_var`
+--
+
+DROP TABLE IF EXISTS `debug_var`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `debug_var` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `value` int DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `debug_var`
+--
+
+LOCK TABLES `debug_var` WRITE;
+/*!40000 ALTER TABLE `debug_var` DISABLE KEYS */;
+INSERT INTO `debug_var` VALUES (1,'x',0),(2,'after update on orders, OLD.ID_shopping_list',0),(3,'after update on orders, NEW.ID_shopping_list',25),(4,'after update on orders, OLD.ID_shopping_list',0),(5,'after update on orders, NEW.ID_shopping_list',25),(10,'after delete on orders, ORD_C=',1),(11,'after update on orders, OLD.ID_shopping_list',25),(12,'after update on orders, NEW.ID_shopping_list',25),(13,'after update on orders, OLD.ID_shopping_list',0),(14,'after update on orders, NEW.ID_shopping_list',26),(15,'after update on orders, OLD.ID_shopping_list',0),(16,'after update on orders, NEW.ID_shopping_list',26),(17,'after update on orders, OLD.ID_shopping_list',26),(18,'after update on orders, NEW.ID_shopping_list',26),(19,'after update on orders, OLD.ID_shopping_list',26),(20,'after update on orders, NEW.ID_shopping_list',26),(21,'after update on orders, OLD.ID_shopping_list',26),(22,'after update on orders, NEW.ID_shopping_list',26),(23,'after update on orders, OLD.ID_shopping_list',26),(24,'after update on orders, NEW.ID_shopping_list',26),(25,'after update on orders, OLD.ID_shopping_list',26),(26,'after update on orders, NEW.ID_shopping_list',26),(27,'after update on orders, OLD.ID_shopping_list',0),(28,'after update on orders, NEW.ID_shopping_list',0),(29,'after update on orders, OLD.ID_shopping_list',26),(30,'after update on orders, NEW.ID_shopping_list',26),(31,'after update on orders, OLD.ID_shopping_list',0),(32,'after update on orders, NEW.ID_shopping_list',26),(33,'after update on orders, OLD.ID_shopping_list',0),(34,'after update on orders, NEW.ID_shopping_list',27),(35,'after update on orders, OLD.ID_shopping_list',0),(36,'after update on orders, NEW.ID_shopping_list',27);
+/*!40000 ALTER TABLE `debug_var` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `employees`
 --
 
@@ -143,7 +168,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`),
   CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +177,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,'livrata',16.200000000000003,'2021-09-08 10:27:45','2021-01-04 11:27:45',0),(2,2,'livrata',170.04,'2021-01-23 11:27:45','2021-01-24 11:27:51',0),(4,2,'in lucru',354,'2021-01-26 11:27:45','2021-01-24 11:27:51',0),(59,1,'anulata',3.4200000000000004,'2021-01-24 11:27:45','2021-01-24 11:27:51',0),(66,2,'preluata',0.7000000000000001,'2021-01-20 11:27:45','2021-01-24 11:27:51',0),(91,2,'preluata',2.9800000000000004,'2021-02-01 16:33:30','2021-01-31 16:33:30',24),(92,2,'preluata',45.300000000000004,'2021-02-02 16:47:30','2021-01-31 16:47:30',24);
+INSERT INTO `orders` VALUES (1,2,'livrata',28.320000000000004,'2021-09-08 10:27:45','2021-01-04 11:27:45',27),(2,2,'livrata',170.04,'2021-01-23 11:27:45','2021-01-24 11:27:51',27),(4,2,'in lucru',354,'2021-02-03 11:27:45','2021-01-24 11:27:51',0),(59,2,'anulata',3.4200000000000004,'2021-01-24 11:27:45','2021-01-24 11:27:51',0),(102,1,'preluata',70.85000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:37',26),(103,2,'preluata',0,'2021-02-14 10:56:39','2021-02-14 10:56:39',26),(104,1,'preluata',0,'2021-02-14 11:03:09','2021-02-14 11:03:09',26);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -164,7 +189,28 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `shopping_list_after_delete_orders` AFTER UPDATE ON `orders` FOR EACH ROW BEGIN
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `shopping_list_after_update_orders` AFTER UPDATE ON `orders` FOR EACH ROW BEGIN
+call log_var('after update on orders, OLD.ID_shopping_list', OLD.ID_shopping_list);
+call log_var('after update on orders, NEW.ID_shopping_list', NEW.ID_shopping_list);
+IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
+DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `shopping_list_after_delete_orders` AFTER DELETE ON `orders` FOR EACH ROW BEGIN
 IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
 DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
 END IF;
@@ -192,7 +238,7 @@ CREATE TABLE `orders_details` (
   KEY `ID_recipe` (`ID_recipe`),
   CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `orders_details_ibfk_3` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +247,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(44,4,10,100),(46,1,10,2),(93,91,27,10),(94,91,2,2),(95,92,2,10),(96,92,16,2),(97,92,8,5),(98,66,27,10);
+INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(44,4,10,100),(46,1,10,2),(101,1,15,12),(103,102,8,10),(104,102,5,10);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -323,7 +369,7 @@ CREATE TABLE `recipes_details` (
   KEY `ID_ingredient` (`ID_ingredient`),
   CONSTRAINT `recipes_details_ibfk_1` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `recipes_details_ibfk_2` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,7 +467,7 @@ CREATE TABLE `shopping_list` (
   `ID` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -430,7 +476,7 @@ CREATE TABLE `shopping_list` (
 
 LOCK TABLES `shopping_list` WRITE;
 /*!40000 ALTER TABLE `shopping_list` DISABLE KEYS */;
-INSERT INTO `shopping_list` VALUES (0),(24);
+INSERT INTO `shopping_list` VALUES (0),(26),(27);
 /*!40000 ALTER TABLE `shopping_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -491,4 +537,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-01 14:49:08
+-- Dump completed on 2021-02-14 11:27:34
