@@ -267,10 +267,10 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* merge_shopping_list */
-DROP PROCEDURE IF EXISTS merge_shopping_list;
+/* shopping_list_merge_orders */
+DROP PROCEDURE IF EXISTS shopping_list_merge_orders;
 DELIMITER $$
-CREATE PROCEDURE merge_shopping_list(in ID_ORD_A int, in ID_ORD_B int)
+CREATE PROCEDURE shopping_list_merge_orders(in ID_ORD_A int, in ID_ORD_B int)
 BEGIN
 	DECLARE ID_SL_A int;
 	DECLARE ID_SL_B int;
@@ -291,8 +291,23 @@ BEGIN
 END $$
 DELIMITER ;
 
-
-
+/* shopping_list_remove_order */
+DROP PROCEDURE IF EXISTS shopping_list_remove_order;
+DELIMITER $$
+CREATE PROCEDURE shopping_list_remove_order(IN ID_ORD int)
+BEGIN
+	DECLARE SL_ID_OLD int;
+	DECLARE ORD_C int;
+	SELECT ID_shopping_list INTO SL_ID_OLD FROM orders WHERE ID = ID_ORD;	
+	SELECT COUNT(*) INTO ORD_C FROM orders WHERE ID_shopping_list = SL_ID_OLD;
+	IF (ORD_C = 2) THEN
+		UPDATE orders SET ID_shopping_list=0 WHERE ID_shopping_list = SL_ID_OLD;
+	ELSE
+		UPDATE orders SET ID_shopping_list=0 WHERE ID=ID_ORD;
+	END IF;
+	call generate_shopping_list_for_order(ID_ORD);
+END $$
+DELIMITER ;
 
 /* ============================= */
 /* DEBUG UTILS */

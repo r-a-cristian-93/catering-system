@@ -24,6 +24,7 @@ import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.OrdersDetailsRepository;
 import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
+import com.catering.rest.db.repositories.ShoppingListRepository;
 
 import lombok.AllArgsConstructor;
 	
@@ -36,6 +37,7 @@ public class OrdersController {
 	private final OrdersDetailsRepository detailsRepo;	
 	private final RecipesRepository recipesRepo;
 	private final ClientsRepository clientsRepo;
+	private final ShoppingListRepository shoppingListRepo;
 	
 	@ResponseBody
 	@GetMapping
@@ -86,6 +88,7 @@ public class OrdersController {
 	@ResponseBody
 	@DeleteMapping("/{id}")
 	public void deleteOrder(@PathVariable Integer id) {
+		shoppingListRepo.removeOrder(id);					//workaround for MySQL trigger restriction
 		ordersRepo.deleteById(id);
 	}
 	
