@@ -563,6 +563,17 @@ function mergeShoppingList(orderIds) {
 	});
 }
 
+function removeShoppingList(orderId) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/shoppingList/remove',
+		contentType: 'application/json',
+		data: JSON.stringify(orderId)
+	});
+}
+
 function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 	var modal = new ModalBuilder("#" + orderId +" - Lista cumparaturi" , "edit-shopping-list-modal");
 	
@@ -570,23 +581,19 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 		modal.content.append(newShoppingListTable(data));
 		modal.addExtraBox("Detalii");
 		modal.extraBox[0].box.addClass('modal-fixed');
-		if(shoppingListId == 0 || !shoppingListId) {						
-			$.when(getOrders()).then(function(data) {
+		$.when(getOrdersByShoppingListId(shoppingListId), getOrdersByShoppingListId(0))
+			.then(function(sharringOrders, nonSharringOrders) {
+				modal.extraBox[0].content.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
+				if(shoppingListId==0) {
+					modal.extraBox[0].content.append(newOrdersDivBoxRemove([{id: orderId}]));
+				}
+				else {
+					modal.extraBox[0].content.append(newOrdersDivBoxRemove(sharringOrders[0]));
+				}
 				modal.extraBox[0].content
-					.append($("<p>").html('Aceasta lista de cumparaturi este proprie acestei comenzi.'))
 					.append('Adauga si alte comenzi:')
-					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(data, [{id: orderId}])));
-			});
-		}
-		else {
-			$.when(getOrdersByShoppingListId(shoppingListId), getOrders()).then(function(currentOrders, allOrders) {
-				modal.extraBox[0].content
-					.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:')
-					.append(newOrdersDivBox(currentOrders[0]))
-					.append('Adauga si alte comenzi:')
-					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(allOrders[0], currentOrders[0])));
-			});
-		}			
+					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(nonSharringOrders[0], [{id: orderId}])));
+			});		
 		$("body").append(modal.modal);	
 	});	
 }
@@ -620,8 +627,17 @@ function newOrdersDivBoxMerge(orderIdA, orders) {
 	var ordersDiv = $("<div>").addClass('orders-list');
 	orders.forEach(function(order) {
 		ordersDiv.append(
-			newButton(+order.id)
-				.attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
+			newButton(+order.id).attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
+		);
+	});
+	return ordersDiv;
+}	
+
+function newOrdersDivBoxRemove(orders) {	
+	var ordersDiv = $("<div>").addClass('orders-list');
+	orders.forEach(function(order) {
+		ordersDiv.append(
+			newButton(+order.id).attr('ondblclick', 'shoppingListRemove('+order.id+')')
 		);
 	});
 	return ordersDiv;
@@ -646,6 +662,12 @@ function newShoppingListRow(el) {
 function shoppingListMerge(orderIdA, orderIdB) {
 	var orderIds = [orderIdA, orderIdB];
 	$.when(mergeShoppingList(orderIds)).then(function(data){		
+		$('#shopping-list-table').replaceWith(newShoppingListTable(data));		
+	});
+}
+
+function shoppingListRemove(orderId) {
+	$.when(removeShoppingList(orderId)).then(function(data){		
 		$('#shopping-list-table').replaceWith(newShoppingListTable(data));		
 	});
 }

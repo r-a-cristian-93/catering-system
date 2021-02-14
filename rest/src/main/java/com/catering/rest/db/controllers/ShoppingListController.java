@@ -35,8 +35,13 @@ public class ShoppingListController {
 	
 	@ResponseBody
 	@PostMapping("/merge")
-	List<ShoppingListModel> mergeShoppingList(@RequestBody Integer[] orderIds) {
-		System.out.println(orderIds[0] + " and " + orderIds[1]);
-		return shoppingListRepo.mergeShoppingList(orderIds[0], orderIds[1]);		
+	List<ShoppingListModel> mergeMergeOrders(@RequestBody Integer[] orderIds) {
+		return shoppingListRepo.mergeOrders(orderIds[0], orderIds[1]);		
+	}
+	
+	@ResponseBody
+	@PostMapping("/remove")
+	List<ShoppingListModel> removeOrder(@RequestBody Integer orderId) {
+		return shoppingListRepo.removeOrder(orderId);		
 	}
 }
