@@ -239,7 +239,7 @@ function newOrderRow(order) {
 		.append($("<h5>").text(order.client.phone));	
 	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
 	var shoppingListButton = $("<img>")
-		.attr({"onclick": "buildOrderEditShoppingListModal("+order.id+","+order.shoppingListId+")"});
+		.attr({"onclick": "buildShoppingListModal("+order.id+","+order.shoppingListId+")"});
 	if(order.shoppingListId == 0 || !order.shoppingListId) {
 		shoppingListButton.attr({"src": "/img/cart.png"});
 	}
@@ -600,6 +600,45 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 	});	
 }
 
+function buildShoppingListModal(orderId) {
+	var dataSet = {};
+	$.when(getOrder(orderId), getShoppingListByOrderId(orderId)).then(function(order, shoppingList) {
+		dataSet["order"] = order[0];
+		dataSet["shoppingList"] = shoppingList[0];		
+		$.when(getOrdersByShoppingListId(dataSet.order.shoppingListId), getOrdersByShoppingListId(0))
+			.then(function(sharingOrders, nonSharingOrders) {
+				dataSet["sharingOrders"] = sharingOrders[0];
+				dataSet["nonSharingOrders"] = nonSharingOrders[0];
+				var modal = newShoppingListModal(dataSet);
+				
+				if ($("#edit-shopping-list-modal")[0]) { 
+					$("#edit-shopping-list-modal").replaceWith(modal);
+				}
+				else {					
+					$("body").append(modal);
+				}
+			});		
+	});	
+}
+
+function newShoppingListModal(dataSet) {
+	var modal = new ModalBuilder("#" + dataSet.order.id +" - Lista cumparaturi" , "edit-shopping-list-modal");
+	modal.content.append(newShoppingListTable(dataSet.shoppingList));
+	var manager = $("<div>").addClass('modal-fixed').addClass('ibt')
+		.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
+	if(dataSet.order.shoppingListId==0) {
+		manager.append(newOrdersDivBoxRemove(dataSet.order.id, [{id: dataSet.order.id}]));
+	}
+	else {
+		manager.append(newOrdersDivBoxRemove(dataSet.order.id, dataSet.sharingOrders));
+	}
+	manager
+		.append('Adauga si alte comenzi:')
+		.append(newOrdersDivBoxMerge(dataSet.order.id, ordersListDiff(dataSet.nonSharingOrders, [{id: dataSet.order.id}])));
+	modal.content.append(manager);
+	return modal.modal;
+}
+
 function ordersListDiff(arrayA, arrayB) {
 	var arrayC = [];
 	arrayA.forEach(function(orderA) {
@@ -635,11 +674,11 @@ function newOrdersDivBoxMerge(orderIdA, orders) {
 	return ordersDiv;
 }	
 
-function newOrdersDivBoxRemove(orders, shoppingListId) {	
+function newOrdersDivBoxRemove(orderIdA, orders) {	
 	var ordersDiv = $("<div>").addClass('orders-list');
-	orders.forEach(function(order) {
+	orders.forEach(function(orderB) {
 		ordersDiv.append(
-			newButton(+order.id).attr('ondblclick', 'shoppingListRemove('+order.id+','+shoppingListId+')')
+			newButton(+orderB.id).attr('ondblclick', 'shoppingListRemove('+orderIdA+','+orderB.id+')')
 		);
 	});
 	return ordersDiv;
@@ -664,13 +703,13 @@ function newShoppingListRow(el) {
 
 function shoppingListMerge(orderIdA, orderIdB) {
 	var orderIds = [orderIdA, orderIdB];
-	$.when(mergeShoppingList(orderIds)).then(function(data){		
-		$('#shopping-list-table').replaceWith(newShoppingListTable(data));		
+	$.when(mergeShoppingList(orderIds)).then(function(){		
+		buildShoppingListModal(orderIdA);	
 	});
 }
 
-function shoppingListRemove(orderId, shoppingListId) {
-	$.when(removeShoppingList(orderId)).then(function(data){	
-		$('#shopping-list-table').replaceWith(newShoppingListTable(data));
+function shoppingListRemove(orderIdA, orderIdB) {
+	$.when(removeShoppingList(orderIdB)).then(function(){	
+		buildShoppingListModal(orderIdA);
 	});
 }
