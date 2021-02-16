@@ -73,7 +73,7 @@ class ModalBuilder {
 					.append(
 						$("<div>").addClass("modal-top")
 							.append(
-								$("<span>").addClass("modal-close").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
+								$("<span>").addClass("modal-close no-print").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
 							.append(this.title)
 					)
 					.append(
