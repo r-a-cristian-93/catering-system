@@ -35,7 +35,7 @@ public class ShoppingListController {
 	
 	@ResponseBody
 	@PostMapping("/merge")
-	List<ShoppingListModel> mergeMergeOrders(@RequestBody Integer[] orderIds) {
+	List<ShoppingListModel> mergeOrders(@RequestBody Integer[] orderIds) {
 		return shoppingListRepo.mergeOrders(orderIds[0], orderIds[1]);		
 	}
 	

@@ -12,6 +12,13 @@
 	
 .fl { float:left; }
 
+.full { width: 100%; }
+
+.ibt {
+	display: inline-block;
+	vertical-align: top;
+	}
+
 .mb10 { margin-bottom:10px; }
 
 * {
@@ -183,7 +190,6 @@ dropdown {
 
 table {
 	border-collapse: collapse;
-	width: 100%;
 	margin-bottom: 10px;
 	cursor: default;
 	}
@@ -385,7 +391,8 @@ td.clickable:hover {
 	}
 	
 .modal-fixed {
-	max-width: 500px;
+	max-width: 350px;
+	margin-left: 30px;
 	}
 	
 .orders-list {
