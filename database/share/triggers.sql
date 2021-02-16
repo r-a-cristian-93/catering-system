@@ -207,7 +207,9 @@ CREATE TRIGGER shopping_list_after_delete_orders
 AFTER DELETE ON orders FOR EACH ROW
 BEGIN
 	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
-		DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;	
+		IF (OLD.ID_shopping_list <> 0) THEN
+			DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;	
+		END IF;
 	END IF;
 END $$
 DELIMITER ;
@@ -219,7 +221,9 @@ CREATE TRIGGER shopping_list_after_update_orders
 AFTER UPDATE ON orders FOR EACH ROW
 BEGIN
 	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
-		DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+		IF (OLD.ID_shopping_list <> 0) THEN
+			DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+		END IF;
 	END IF;
 END $$
 DELIMITER ;

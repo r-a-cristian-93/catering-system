@@ -221,7 +221,9 @@ function orderDelete(id) {
 
 function orderBuildTable(getOrdersFunction) {
 	$.when(getOrdersFunction).then(function(ordersList) {
-		var table = $("<table>").append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));	
+		var table = $("<table>")
+			.addClass("full")
+			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));	
 		for(order of ordersList) {
 			table.append(newOrderRow(order));
 		}			
@@ -579,20 +581,20 @@ function buildOrderEditShoppingListModal(orderId, shoppingListId) {
 	
 	$.when(getShoppingListByOrderId(orderId)).then(function(data) {
 		modal.content.append(newShoppingListTable(data));
-		modal.addExtraBox("Detalii");
-		modal.extraBox[0].box.addClass('modal-fixed');
 		$.when(getOrdersByShoppingListId(shoppingListId), getOrdersByShoppingListId(0))
 			.then(function(sharringOrders, nonSharringOrders) {
-				modal.extraBox[0].content.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
+				var manager = $("<div>").addClass('modal-fixed').addClass('ibt')
+					.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
 				if(shoppingListId==0) {
-					modal.extraBox[0].content.append(newOrdersDivBoxRemove([{id: orderId}]));
+					manager.append(newOrdersDivBoxRemove([{id: orderId}], shoppingListId));
 				}
 				else {
-					modal.extraBox[0].content.append(newOrdersDivBoxRemove(sharringOrders[0]));
+					manager.append(newOrdersDivBoxRemove(sharringOrders[0], shoppingListId));
 				}
-				modal.extraBox[0].content
+				manager
 					.append('Adauga si alte comenzi:')
 					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(nonSharringOrders[0], [{id: orderId}])));
+				modal.content.append(manager);
 			});		
 		$("body").append(modal.modal);	
 	});	
@@ -633,11 +635,11 @@ function newOrdersDivBoxMerge(orderIdA, orders) {
 	return ordersDiv;
 }	
 
-function newOrdersDivBoxRemove(orders) {	
+function newOrdersDivBoxRemove(orders, shoppingListId) {	
 	var ordersDiv = $("<div>").addClass('orders-list');
 	orders.forEach(function(order) {
 		ordersDiv.append(
-			newButton(+order.id).attr('ondblclick', 'shoppingListRemove('+order.id+')')
+			newButton(+order.id).attr('ondblclick', 'shoppingListRemove('+order.id+','+shoppingListId+')')
 		);
 	});
 	return ordersDiv;
@@ -646,6 +648,7 @@ function newOrdersDivBoxRemove(orders) {
 function newShoppingListTable(shoppingList) {
 	var table = $("<table>")
 		.attr({"id": "shopping-list-table"})
+		.addClass("ibt")
 		.append(newHeader(["Ingredient", "Cantitate"], [0, 2]));
 	for(el of shoppingList) {
 		table.append(newShoppingListRow(el));
@@ -666,8 +669,8 @@ function shoppingListMerge(orderIdA, orderIdB) {
 	});
 }
 
-function shoppingListRemove(orderId) {
-	$.when(removeShoppingList(orderId)).then(function(data){		
-		$('#shopping-list-table').replaceWith(newShoppingListTable(data));		
+function shoppingListRemove(orderId, shoppingListId) {
+	$.when(removeShoppingList(orderId)).then(function(data){	
+		$('#shopping-list-table').replaceWith(newShoppingListTable(data));
 	});
 }
