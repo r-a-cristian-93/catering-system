@@ -23,7 +23,7 @@
 
 * {
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -38,7 +38,6 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
     background-color: var(--bg);
 }
 
@@ -94,6 +93,12 @@ p {
 		
 .content {
 	margin-top:100px;
+	}
+	
+.printer {
+	position: relative;
+	margin-left: 50%;
+	transform: translateX(-50%);
 	}
 	
 	
@@ -352,6 +357,7 @@ td.clickable:hover {
 	
 .modal-content {
 	padding:25px;
+	width: max-content;
 	}
 	
 .modal-close {
@@ -411,4 +417,3 @@ td.clickable:hover {
 .date:hover {
 	text-decoration: underline;
 	}
-	

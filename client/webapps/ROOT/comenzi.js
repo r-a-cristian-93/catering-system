@@ -633,9 +633,11 @@ function newShoppingListModal(dataSet) {
 		manager.append(newOrdersDivBoxRemove(dataSet.order.id, dataSet.sharingOrders));
 	}
 	manager
-		.append('Adauga si alte comenzi:')
+		.append($("<p>").addClass("no-print").html('Adauga si alte comenzi:'))
 		.append(newOrdersDivBoxMerge(dataSet.order.id, ordersListDiff(dataSet.nonSharingOrders, [{id: dataSet.order.id}])));
-	modal.content.append(manager);
+	modal.content
+		.append(manager)
+		.append($("<img>").addClass("printer no-print").attr({"src": "/img/print.png", "onclick": "printShoppingList()"}));
 	return modal.modal;
 }
 
@@ -665,7 +667,7 @@ function newOrdersDivBox(orders, action) {
 	return ordersDiv;
 }	
 function newOrdersDivBoxMerge(orderIdA, orders) {	
-	var ordersDiv = $("<div>").addClass('orders-list');
+	var ordersDiv = $("<div>").addClass('orders-list no-print');
 	orders.forEach(function(order) {
 		ordersDiv.append(
 			newButton(+order.id).attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
@@ -712,4 +714,15 @@ function shoppingListRemove(orderIdA, orderIdB) {
 	$.when(removeShoppingList(orderIdB)).then(function(){	
 		buildShoppingListModal(orderIdA);
 	});
+}
+
+function printShoppingList() {
+	var shoppingList = $("#edit-shopping-list-modal").clone();
+	shoppingList.find(".orders-list button").after('<span>, </span>');
+	shoppingList.find(".orders-list span:last-child").remove();
+	var header = $("<div>").addClass("doc-header")
+		.append('Tiparit la: ' + new Date(Date.now()).toLocaleString())
+		.append("<hr/>");
+	shoppingList.prepend(header);	
+	shoppingList.printThis({importCSS: false, loadCSS: "print.css"});
 }
