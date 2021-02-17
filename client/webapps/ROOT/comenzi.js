@@ -468,7 +468,8 @@ function newOrderDetailRow(detail) {
 
 function newStaticRecipeTable(recipes) {
 	var table = $("<table>")
-			.append(newHeader(["ID", "Name"]));
+		.addClass("full")
+		.append(newHeader(["ID", "Name"]));
 	for(recipe of recipes) {
 		table.append(newStaticRecipeRow(recipe));
 	}
@@ -576,30 +577,6 @@ function removeShoppingList(orderId) {
 	});
 }
 
-function buildOrderEditShoppingListModal(orderId, shoppingListId) {
-	var modal = new ModalBuilder("#" + orderId +" - Lista cumparaturi" , "edit-shopping-list-modal");
-	
-	$.when(getShoppingListByOrderId(orderId)).then(function(data) {
-		modal.content.append(newShoppingListTable(data));
-		$.when(getOrdersByShoppingListId(shoppingListId), getOrdersByShoppingListId(0))
-			.then(function(sharringOrders, nonSharringOrders) {
-				var manager = $("<div>").addClass('modal-fixed').addClass('ibt')
-					.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
-				if(shoppingListId==0) {
-					manager.append(newOrdersDivBoxRemove([{id: orderId}], shoppingListId));
-				}
-				else {
-					manager.append(newOrdersDivBoxRemove(sharringOrders[0], shoppingListId));
-				}
-				manager
-					.append('Adauga si alte comenzi:')
-					.append(newOrdersDivBoxMerge(orderId, ordersListDiff(nonSharringOrders[0], [{id: orderId}])));
-				modal.content.append(manager);
-			});		
-		$("body").append(modal.modal);	
-	});	
-}
-
 function buildShoppingListModal(orderId) {
 	var dataSet = {};
 	$.when(getOrder(orderId), getShoppingListByOrderId(orderId)).then(function(order, shoppingList) {
@@ -624,7 +601,10 @@ function buildShoppingListModal(orderId) {
 function newShoppingListModal(dataSet) {
 	var modal = new ModalBuilder("#" + dataSet.order.id +" - Lista cumparaturi" , "edit-shopping-list-modal");
 	modal.content.append(newShoppingListTable(dataSet.shoppingList));
-	var manager = $("<div>").addClass('modal-fixed').addClass('ibt')
+	
+	//manager div
+	var manager = $("<div>")
+		.attr({'id': 'shopping-list-manager'})
 		.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
 	if(dataSet.order.shoppingListId==0) {
 		manager.append(newOrdersDivBoxRemove(dataSet.order.id, [{id: dataSet.order.id}]));
@@ -635,9 +615,18 @@ function newShoppingListModal(dataSet) {
 	manager
 		.append($("<p>").addClass("no-print").html('Adauga si alte comenzi:'))
 		.append(newOrdersDivBoxMerge(dataSet.order.id, ordersListDiff(dataSet.nonSharingOrders, [{id: dataSet.order.id}])));
-	modal.content
+	// end manager div
+	
+	var costPerOrder = $("<div>")
+		//.append($('<h5>').html('Costul ingredientelor'))
+		.append(newCostPerOrderTable(dataSet.sharingOrders));
+	var rightColumn = $('<div>').addClass('modal-fixed ibt')
 		.append(manager)
+		.append(costPerOrder);
+	modal.content
+		.append(rightColumn)
 		.append($("<img>").addClass("printer no-print").attr({"src": "/img/print.png", "onclick": "printShoppingList()"}));
+	modal.modal.find('.modal-top').addClass("no-print");
 	return modal.modal;
 }
 
@@ -703,6 +692,20 @@ function newShoppingListRow(el) {
 	}
 }
 
+function newCostPerOrderTable(orders){
+	var totalCost = 0;
+	var table = $('<table>')
+		.attr({'id': 'cost-per-order-table'})
+		.addClass('full')
+		.append(newHeader(['Comanda', 'Cost ingrediente'], [0, 2]));
+	for(o of orders) {
+		table.append(newRow([o.id, o.ingCost.toFixed(2), 'Lei']));
+		totalCost += o.ingCost;
+	}
+	table.append(newRow(['Total', totalCost.toFixed(2), ' Lei']));
+	return table;
+}
+
 function shoppingListMerge(orderIdA, orderIdB) {
 	var orderIds = [orderIdA, orderIdB];
 	$.when(mergeShoppingList(orderIds)).then(function(){		
@@ -719,10 +722,11 @@ function shoppingListRemove(orderIdA, orderIdB) {
 function printShoppingList() {
 	var shoppingList = $("#edit-shopping-list-modal").clone();
 	shoppingList.find(".orders-list button").after('<span>, </span>');
-	shoppingList.find(".orders-list span:last-child").remove();
+	shoppingList.find(".orders-list span:last-child").html('.');
 	var header = $("<div>").addClass("doc-header")
-		.append('Tiparit la: ' + new Date(Date.now()).toLocaleString())
+		.append('Lista de cumparaturi')
+		.append($('<span>').addClass('fr').html('Tiparit la: ' + new Date(Date.now()).toLocaleString()))
 		.append("<hr/>");
 	shoppingList.prepend(header);	
-	shoppingList.printThis({importCSS: false, loadCSS: "print.css"});
+	shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
 }

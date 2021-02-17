@@ -28,12 +28,12 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=547;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fstyle.css;0;4
-FILE_NAME_1=1238;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Futil.js;0;4
-FILE_NAME_2=18004;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fcomenzi.js;0;4
-FILE_NAME_3=6145;SQL;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fdatabase%2Fshare%2Ftriggers.sql;0;4
-FILE_NAME_4=5809;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fretete.js;0;4
+current_page=1
+FILE_NAME_0=5996;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fstyle.css;0;4
+FILE_NAME_1=1884;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Futil.js;0;4
+FILE_NAME_2=19982;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fcomenzi.js;0;4
+FILE_NAME_3=6221;SQL;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fdatabase%2Fshare%2Ftriggers.sql;0;4
+FILE_NAME_4=279;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fprint.css;0;4
 
 [VTE]
 last_dir=/home/taifun

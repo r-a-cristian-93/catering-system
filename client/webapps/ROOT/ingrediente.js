@@ -77,7 +77,9 @@ function ingredientDelete(id) {
 
 function ingredientBuildTable() {
 	$.when(getIngredients()).then(function(ingredients){
-		var table = $("<table>").append(newHeader(["ID", "Denumire", "Pret [Lei]", "U/M"]));
+		var table = $("<table>")
+			.addClass('full')
+			.append(newHeader(["ID", "Denumire", "Pret [Lei]", "U/M"]));
 			
 		for(ing of ingredients) {
 			table.append(newIngRow(ing));

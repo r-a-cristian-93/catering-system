@@ -41,10 +41,6 @@ html, body {
     background-color: var(--bg);
 }
 
-p {
-	margin-bottom: 20px;
-	}
-
 .box {
 	margin:10px;
 	background-color: white;
@@ -220,6 +216,14 @@ tr:nth-child(even) {
 	text-align:right;
 	}
 	
+#cost-per-order-table td:nth-child(2) {
+	text-align:right;
+	}
+	
+#cost-per-order-table tr:last-child {
+	font-weight: bold;
+	}
+	
 tr:not(:first-child):hover {
     background-color: var(--grey);
 }
@@ -357,7 +361,6 @@ td.clickable:hover {
 	
 .modal-content {
 	padding:25px;
-	width: max-content;
 	}
 	
 .modal-close {
@@ -417,3 +420,8 @@ td.clickable:hover {
 .date:hover {
 	text-decoration: underline;
 	}
+	
+#shopping-list-manager {
+	margin-bottom: 20px;
+	}
+iframe {width:100%}

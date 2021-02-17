@@ -87,7 +87,9 @@ function recipeDelete(id) {
 
 function recipeBuildTable() {
 	$.when(getRecipes()).then(function(recipes) {
-		var table = $("<table>").append(newHeader(["ID", "Denumire", "Categorie", "Portie", "Cost ingrediente"], [0, 0, 0, 2, 0]));
+		var table = $("<table>")
+			.addClass('full')
+			.append(newHeader(["ID", "Denumire", "Categorie", "Portie", "Cost ingrediente"], [0, 0, 0, 2, 0]));
 			
 		for(recipe of recipes) {
 			table.append(newRecipeRow(recipe));
@@ -255,6 +257,7 @@ function buildRecipeEditModal(id) {
 
 function recipeDetailsBuildTable(ingredients, recipeId) {	
 	var table = $("<table>")
+		.addClass('full')
 		.attr({"id": "recipe-details-table"})
 		.append(newHeader(["ID", "Denumire", "Cantitate"], [0, 0, 2, 0]));
 		
@@ -301,8 +304,9 @@ function disableSaveDetails(id) {
 }
 
 function newStaticIngTable(data) {
-	var table = $("<table>");
-	table.append(newHeader(["ID", "Denumire"]));
+	var table = $("<table>")
+		.addClass('full')
+		.append(newHeader(["ID", "Denumire"]));
 		
 	for(ing of data) {
 		click = 'buildEditIngModal("' +ing.id+ '");';
