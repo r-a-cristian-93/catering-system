@@ -9,9 +9,33 @@
 	font-size: 10pt;
 	}
 	
+.fr { 
+	float:right; 
+}
+	
+td {
+	padding: 0.5mm;
+	}
+	
 #shopping-list-table td:nth-child(2) {
     text-align: right;
     }
+    
+#shopping-list-manager {
+    margin-bottom: 5mm;
+}
+	
+#cost-per-order-table td:nth-child(2) {
+	text-align:right;
+	}
+
+#cost-per-order-table th {
+	padding-right: 5mm;
+	}
+	
+#cost-per-order-table tr:last-child {
+	font-weight: bold;
+	}
     
 .ibt {
 	display: inline-block;
