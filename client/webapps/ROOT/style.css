@@ -92,6 +92,7 @@ html, body {
 	}
 	
 .printer {
+	display: block;
 	position: relative;
 	margin-left: 50%;
 	transform: translateX(-50%);
@@ -424,4 +425,3 @@ td.clickable:hover {
 #shopping-list-manager {
 	margin-bottom: 20px;
 	}
-iframe {width:100%}
