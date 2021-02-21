@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -120,25 +121,25 @@ public class OrdersController {
 	
 	@ResponseBody
 	@GetMapping("/allPageable")
-	public Iterable<OrderModel> getOrdersPageable(@RequestParam Integer page, @RequestParam Integer size) {
-		return ordersRepo.findAll(PageRequest.of(page, size)).getContent();
+	public Page<OrderModel> getOrdersPageable(@RequestParam Integer page, @RequestParam Integer size) {
+		return ordersRepo.findAll(PageRequest.of(page, size));
 	}
 	
 	@ResponseBody
 	@PostMapping("/byStatusPageable")
-	public List<OrderModel> getOrdersByStatusRange(@RequestBody StatusModel status, @RequestParam Integer page, @RequestParam Integer size){
+	public Page<OrderModel> getOrdersByStatusRange(@RequestBody StatusModel status, @RequestParam Integer page, @RequestParam Integer size){
 		return ordersRepo.findByStatus(status, PageRequest.of(page, size));
 	}
 	
 	@ResponseBody
 	@PostMapping("/byShoppingListIdPageable")
-	public List<OrderModel> getOrdersByShoppingListIdPageable(@RequestBody Integer shoppingListId, @RequestParam Integer page, @RequestParam Integer size) {
+	public Page<OrderModel> getOrdersByShoppingListIdPageable(@RequestBody Integer shoppingListId, @RequestParam Integer page, @RequestParam Integer size) {
 		return ordersRepo.findByShoppingListId(shoppingListId, PageRequest.of(page, size));
 	}
 	
 	@ResponseBody
 	@PostMapping("/betweenOrderDatesPageable")
-	public List<OrderModel> getOrdersAfterOrderDatePageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
+	public Page<OrderModel> getOrdersAfterOrderDatePageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));		
 		return ordersRepo.findByOrderDateBetween(first, last, PageRequest.of(page, size));
@@ -146,7 +147,7 @@ public class OrdersController {
 	
 	@ResponseBody
 	@PostMapping("/betweenDeliveryDatesPageable")
-	public List<OrderModel> getOrdersBetweenDeliveryDatesPageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
+	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));	
 		return ordersRepo.findByDeliveryDateBetween(first, last, PageRequest.of(page, size));
