@@ -220,6 +220,8 @@ function orderDelete(id) {
 }
 
 function orderBuildTable(getOrdersFunction) {
+	var pager = $("<div>").addClass("pager").html("&laquo; 1, 2, 3, 4, 5 ... &raquo;");
+	
 	$.when(getOrdersFunction).then(function(ordersList) {
 		var table = $("<table>")
 			.addClass("full")
@@ -230,6 +232,7 @@ function orderBuildTable(getOrdersFunction) {
 		$("#order-table").html("")
 			.append(table)
 			.append(newButton("+ Adauga comanda noua", "orderAdd()"))
+			.append(pager);
 	});
 }	
 
