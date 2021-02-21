@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +43,7 @@ public class OrdersController {
 	
 	@ResponseBody
 	@GetMapping
-	public List<OrderModel> getOrders() {
+	public Iterable<OrderModel> getOrders() {
 		return ordersRepo.findAll();
 	}
 	
@@ -71,7 +73,7 @@ public class OrdersController {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));	
 		return ordersRepo.findByDeliveryDateBetween(first, last);
-	}		
+	}	
 	
 	@ResponseBody
 	@PostMapping
@@ -112,6 +114,44 @@ public class OrdersController {
 		}
 		return ordersRepo.save(order);
 	}
+	
+
+	//PAGEABLE
+	
+	@ResponseBody
+	@GetMapping("/allPageable")
+	public Iterable<OrderModel> getOrdersPageable(@RequestParam Integer page, @RequestParam Integer size) {
+		return ordersRepo.findAll(PageRequest.of(page, size)).getContent();
+	}
+	
+	@ResponseBody
+	@PostMapping("/byStatusPageable")
+	public List<OrderModel> getOrdersByStatusRange(@RequestBody StatusModel status, @RequestParam Integer page, @RequestParam Integer size){
+		return ordersRepo.findByStatus(status, PageRequest.of(page, size));
+	}
+	
+	@ResponseBody
+	@PostMapping("/byShoppingListIdPageable")
+	public List<OrderModel> getOrdersByShoppingListIdPageable(@RequestBody Integer shoppingListId, @RequestParam Integer page, @RequestParam Integer size) {
+		return ordersRepo.findByShoppingListId(shoppingListId, PageRequest.of(page, size));
+	}
+	
+	@ResponseBody
+	@PostMapping("/betweenOrderDatesPageable")
+	public List<OrderModel> getOrdersAfterOrderDatePageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
+		Date first = new Date(interval.get("first"));
+		Date last = new Date(interval.get("last"));		
+		return ordersRepo.findByOrderDateBetween(first, last, PageRequest.of(page, size));
+	}
+	
+	@ResponseBody
+	@PostMapping("/betweenDeliveryDatesPageable")
+	public List<OrderModel> getOrdersBetweenDeliveryDatesPageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
+		Date first = new Date(interval.get("first"));
+		Date last = new Date(interval.get("last"));	
+		return ordersRepo.findByDeliveryDateBetween(first, last, PageRequest.of(page, size));
+	}	
+	
 	
 	//ORDER DETAILS
 	
