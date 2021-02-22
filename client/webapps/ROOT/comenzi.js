@@ -1,5 +1,4 @@
 var defaultPageSize = 5;
-var glArgs;
 
 $(document).ready(function() {
 	buildFilters();
@@ -174,7 +173,7 @@ function newFilterContainer(name) {
 		.append($("<div>").addClass("filter-name").text(name));
 }
 
-function newStatusFilter(text, status, ) {
+function newStatusFilter(text, status) {
 	return $("<a>").text(text).on("click", function() {
 		var args = {
 			page: 0, 
