@@ -1,6 +1,13 @@
+var defaultPageSize = 5;
+var glArgs;
+
 $(document).ready(function() {
 	buildFilters();
-	orderBuildTable(getOrders());	
+	var args = {
+		page: 0,
+		size: defaultPageSize,
+	};
+	orderBuildTableAll(args);	
 });
 
 // http requests
@@ -85,6 +92,49 @@ function getClients() {
 	});
 }	
 
+function getOrdersPageable(args) {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/orders/allPageable',
+		data: { "page": args.page, "size":args.size }
+	});	
+}
+
+function getOrdersByStatusPageable(args) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/byStatusPageable?page=' + args.page + '&size=' + args.size,
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(args.data)
+	});	
+}
+
+function getOrdersByOrderDatePageable(args) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/betweenOrderDatesPageable?page=' + args.page + '&size=' + args.size,
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(args.data)
+	});
+}	
+
+function getOrdersByDeliverDatePageable(args) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/betweenDeliveryDatesPageable?page=' + args.page + '&size=' + args.size,
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(args.data)
+	});
+}	
+
 function updateOrder(id, info) {
 	return $.ajax({
 		method: 'PUT',
@@ -124,9 +174,14 @@ function newFilterContainer(name) {
 		.append($("<div>").addClass("filter-name").text(name));
 }
 
-function newStatusFilter(text, status) {
+function newStatusFilter(text, status, ) {
 	return $("<a>").text(text).on("click", function() {
-		orderBuildTable(getOrdersByStatus({name: status}));
+		var args = {
+			page: 0, 
+			size: defaultPageSize, 
+			currentPage: 0, 
+			data:{name: status}};
+		orderBuildTableByStatus(args);
 	});
 }
 
@@ -134,7 +189,12 @@ function newOrderDateFilter(days) {
 	return $("<a>").text("Ultimele "+days+" zile").on("click", function() {
 		var last = new Date(Date.now());
 		var first = last.addDays(-days);
-		orderBuildTable(getOrdersByOrderDate(first.getTime(), last.getTime()));
+		var args = {
+			page: 0, 
+			size: defaultPageSize, 
+			currentPage:0, 
+			data:{first: first.getTime(), last: last.getTime()}};
+		orderBuildTableByOrderDate(args);
 	});
 }
 
@@ -145,14 +205,19 @@ function newDeliveryDateFilter(days) {
 		first.setMinutes(0);
 		first.setSeconds(0);
 		var last = first.addDays(days);
-		orderBuildTable(getOrdersByDeliveryDate(first.getTime(), last.getTime()));
+		var args = {
+			page: 0, 
+			size: defaultPageSize, 
+			currentPage:0, 
+			data:{first: first.getTime(), last: last.getTime()}};
+		orderBuildTableByDeliveryDate(args);
 	});
 }
 
 function buildFilters() {
 	var f1 = newFilterContainer("Toate")
 		.on("click", function() {
-			orderBuildTable(getOrders());
+			orderBuildTableAll({page: 0, size: defaultPageSize, currentPage: 0});
 		});	
 	var f2 = newFilterContainer("Stare").addClass("dropdown")
 		.append(newDivDDC([
@@ -219,14 +284,16 @@ function orderDelete(id) {
 	});
 }
 
-function orderBuildTable(getOrdersFunction) {
-	var pager = $("<div>").addClass("pager").html("&laquo; 1, 2, 3, 4, 5 ... &raquo;");
-	
-	$.when(getOrdersFunction).then(function(ordersList) {
+function orderBuildTable(args) {
+	$.when(args.getFunction(args)).then(function(ordersList) {
+		args.currentPage = ordersList.pageable.pageNumber;
+		args.totalPages = ordersList.totalPages;		
+		var pager = newPager(args);
+		
 		var table = $("<table>")
 			.addClass("full")
 			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));	
-		for(order of ordersList) {
+		for(order of ordersList.content) {
 			table.append(newOrderRow(order));
 		}			
 		$("#order-table").html("")
@@ -621,7 +688,6 @@ function newShoppingListModal(dataSet) {
 	// end manager div
 	
 	var costPerOrder = $("<div>")
-		//.append($('<h5>').html('Costul ingredientelor'))
 		.append(newCostPerOrderTable(dataSet.sharingOrders));
 	var rightColumn = $('<div>').addClass('modal-fixed ibt')
 		.append(manager)
@@ -733,3 +799,57 @@ function printShoppingList() {
 	shoppingList.prepend(header);	
 	shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
 }
+
+/* ************** PAGER *************** */
+
+function newPagerButton(text, action) {
+	return $("<button>").addClass("pager-button").attr({"type": "button", "onclick": action}).html(text);
+}
+
+function newPager(args) {
+	var pager = $("<div>").addClass("pager");
+	args.page = 0;
+	pager.append(newPagerButton("&laquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
+	for(i = 0; i<args.totalPages; i++) {
+		args.page = i;
+		pager.append(newPagerButton(i+1, args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
+	}
+	pager.append(newPagerButton("&raquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
+	
+	return pager;
+}
+
+function serialize(obj) {
+	var str = '{';
+	for (p in obj) {
+		str += '\"' + p + '\":\"' + obj[p] + '\",';
+	}
+	str += '}'
+	return str;
+}
+
+function orderBuildTableAll(args) {
+	args.buildFunction = orderBuildTableAll;
+	args.getFunction = getOrdersPageable;
+	orderBuildTable(args);	
+}
+
+function orderBuildTableByStatus(args) {
+	args.buildFunction = orderBuildTableByStatus;
+	args.getFunction = getOrdersByStatusPageable;
+	orderBuildTable(args);	
+}
+
+function orderBuildTableByOrderDate(args) {
+	args.buildFunction = orderBuildTableByOrderDate;
+	args.getFunction = getOrdersByOrderDatePageable;
+	orderBuildTable(args);	
+}
+
+function orderBuildTableByDeliveryDate(args) {
+	args.buildFunction = orderBuildTableByDeliveryDate;
+	args.getFunction = getOrdersByDeliverDatePageable;
+	orderBuildTable(args);	
+}
+
+

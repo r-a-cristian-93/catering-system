@@ -6,6 +6,7 @@
 	--grey: #F0F0F0;
 	--grey2: #F5F5F5;
 	--grey3: #FAFAFA;
+	--grey4: #D4D3D3;
 	}
 	
 .fr { float:right; }
@@ -58,11 +59,6 @@ html, body {
 	padding: 20px;
 	}	
 	
-.pager {
-	padding: 0 20px 20px 20px;
-	text-align: center;
-	}
-	
 .login-box {
 	padding:0;
 	max-width:400px;
@@ -103,6 +99,34 @@ html, body {
 	transform: translateX(-50%);
 	}
 	
+.pager {
+	margin: auto;
+	width: max-content;
+	padding: 0;
+	text-align: center;
+	border-radius:10px;
+	background-color: var(--grey3);
+	}	
+	
+.pager-button {	
+	padding:10px;
+	margin: 0;
+	border:none;
+	color: var(--text);
+	cursor: pointer;
+	}
+	
+.pager-button:first-child {
+	border-radius: 10px 0 0 10px;
+	}
+
+.pager-button:last-child {
+	border-radius: 0 10px 10px 0;
+	}
+	
+.pager-button:hover {
+	background-color: var(--grey4);
+	}
 	
 /* **************** NAVIGATION MENU	************** */
 	
