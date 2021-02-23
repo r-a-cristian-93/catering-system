@@ -1,4 +1,4 @@
-var defaultPageSize = 5;
+var defaultPageSize = 10;
 
 $(document).ready(function() {
 	buildFilters();
@@ -758,29 +758,6 @@ function printShoppingList() {
 		.append("<hr/>");
 	shoppingList.prepend(header);	
 	shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
-}
-
-/* ************** PAGER *************** */
-
-function newPagerButton(text, action) {
-	return $("<button>").addClass("pager-button").attr({"type": "button", "onclick": action}).html(text);
-}
-
-function newPager(args) {
-	var pager = $("<div>").addClass("pager");
-	args.page = 0;
-	pager.append(newPagerButton("&laquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
-	for(i = 0; i<args.totalPages; i++) {
-		args.page = i;
-		var button = newPagerButton(i+1, args.buildFunction.name +"("+ JSON.stringify(args) + ");");
-		if(args.currentPage == i) {
-			button.addClass("pager-current");
-		}
-		pager.append(button);
-	}
-	pager.append(newPagerButton("&raquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
-	
-	return pager;
 }
 
 function orderBuildTableAll(args) {
