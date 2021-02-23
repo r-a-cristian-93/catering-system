@@ -685,7 +685,6 @@ function newOrdersDivBox(orders, action) {
 function newOrdersDivBoxMerge(orderIdA, orders) {	
 	var ordersDiv = $("<div>").addClass('orders-list no-print');
 	orders.forEach(function(order) {
-		console.log(order.id + ": "+ order.status.name);
 		if(order.status.name!='anulata' && order.status.name!='livrata') {
 			ordersDiv.append(
 				newButton(+order.id).attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
