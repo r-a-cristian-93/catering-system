@@ -7,11 +7,12 @@ function newPagerButton(text, action) {
 
 function newPager(args) {
 	var pager = $("<div>").addClass("pager");
-	args.page = 0;
+		
+	//chevron left	
+	args.page = (args.currentPage>0) ? args.currentPage-1 : 0;
 	pager.append(newPagerButton("&laquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
 
-	for(i = 0; i<args.totalPages; i++) {
-		args.page = i;
+	for(args.page = 0; args.page<args.totalPages; args.page++) {
 		if(
 			args.page < 2 || 							//first two pages
 			args.page > args.totalPages-3 ||			//last two pages			
@@ -32,7 +33,9 @@ function newPager(args) {
 			pager.append(button);
 		}		
 	}
-		
+	
+	//chevron right
+	args.page = (args.currentPage<args.totalPages-1) ? args.currentPage+1 : args.page = args.totalPages-1;
 	pager.append(newPagerButton("&raquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));	
 	return pager;
 }
