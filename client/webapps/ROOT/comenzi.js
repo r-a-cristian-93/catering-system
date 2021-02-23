@@ -645,8 +645,16 @@ function newShoppingListModal(dataSet) {
 		.append(newOrdersDivBoxMerge(dataSet.order.id, ordersListDiff(dataSet.nonSharingOrders, [{id: dataSet.order.id}])));
 	// end manager div
 	
+	var validOrders;
+	if (dataSet.order.shoppingListId == 0) {
+		validOrders = [dataSet.order];
+	}
+	else { 
+		validOrders = dataSet.sharingOrders;
+	}
+	
 	var costPerOrder = $("<div>")
-		.append(newCostPerOrderTable(dataSet.sharingOrders));
+		.append(newCostPerOrderTable(validOrders));
 	var rightColumn = $('<div>').addClass('modal-fixed ibt')
 		.append(manager)
 		.append(costPerOrder);
