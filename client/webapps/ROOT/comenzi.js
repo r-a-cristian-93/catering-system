@@ -772,7 +772,11 @@ function newPager(args) {
 	pager.append(newPagerButton("&laquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
 	for(i = 0; i<args.totalPages; i++) {
 		args.page = i;
-		pager.append(newPagerButton(i+1, args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
+		var button = newPagerButton(i+1, args.buildFunction.name +"("+ JSON.stringify(args) + ");");
+		if(args.currentPage == i) {
+			button.addClass("pager-current");
+		}
+		pager.append(button);
 	}
 	pager.append(newPagerButton("&raquo;", args.buildFunction.name +"("+ JSON.stringify(args) + ");"));
 	
