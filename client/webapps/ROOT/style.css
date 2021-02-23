@@ -135,6 +135,10 @@ html, body {
 	opacity: 1;
 	}	
 	
+.pager-extend {
+	opacity: 0.4
+	}
+	
 /* **************** NAVIGATION MENU	************** */
 	
 .nav {
