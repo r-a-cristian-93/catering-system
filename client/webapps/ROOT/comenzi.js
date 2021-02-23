@@ -20,78 +20,7 @@ function getOrder(id) {
 	});	
 }
 
-function getOrders() {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: REST_URL + '/orders',
-	});	
-}
-
-function getOrdersByShoppingListId(shoppingListId) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/byShoppingListId',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(shoppingListId)
-	});
-}		
-
-function getOrdersByStatus(status) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/byStatus',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(status)
-	});	
-}
-
-function getOrdersByOrderDate(first, last) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/betweenOrderDates',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify({first: first, last: last})
-	});
-}	
-
-function getOrdersByDeliveryDate(first, last) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/betweenDeliveryDates',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify({first: first, last: last})
-	});
-}		
-
-function getStatus() {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: REST_URL + '/status'		
-	});		
-}
-
-function getClients() {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: REST_URL + '/clients'
-	});
-}	
-
-function getOrdersPageable(args) {
+function getOrders(args) {
 	return $.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
@@ -101,7 +30,7 @@ function getOrdersPageable(args) {
 	});	
 }
 
-function getOrdersByStatusPageable(args) {
+function getOrdersByStatus(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
@@ -112,7 +41,7 @@ function getOrdersByStatusPageable(args) {
 	});	
 }
 
-function getOrdersByOrderDatePageable(args) {
+function getOrdersByOrderDate(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
@@ -123,7 +52,7 @@ function getOrdersByOrderDatePageable(args) {
 	});
 }	
 
-function getOrdersByDeliverDatePageable(args) {
+function getOrdersByDeliveryDate(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
@@ -131,6 +60,18 @@ function getOrdersByDeliverDatePageable(args) {
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
+	});
+}	
+
+
+function getOrdersByShoppingListId(shoppingListId) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		url: REST_URL + '/orders/byShoppingListId',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(shoppingListId)
 	});
 }	
 
@@ -163,6 +104,24 @@ function deleteOrder(id) {
 		url: REST_URL + '/orders/'+id
 	});
 }
+
+function getStatus() {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/status'		
+	});		
+}
+
+function getClients() {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/clients'
+	});
+}	
 
 // ui operations
 
@@ -726,9 +685,12 @@ function newOrdersDivBox(orders, action) {
 function newOrdersDivBoxMerge(orderIdA, orders) {	
 	var ordersDiv = $("<div>").addClass('orders-list no-print');
 	orders.forEach(function(order) {
-		ordersDiv.append(
-			newButton(+order.id).attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
-		);
+		console.log(order.id + ": "+ order.status.name);
+		if(order.status.name!='anulata' && order.status.name!='livrata') {
+			ordersDiv.append(
+				newButton(+order.id).attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
+			);
+		}
 	});
 	return ordersDiv;
 }	
@@ -818,36 +780,27 @@ function newPager(args) {
 	return pager;
 }
 
-function serialize(obj) {
-	var str = '{';
-	for (p in obj) {
-		str += '\"' + p + '\":\"' + obj[p] + '\",';
-	}
-	str += '}'
-	return str;
-}
-
 function orderBuildTableAll(args) {
 	args.buildFunction = orderBuildTableAll;
-	args.getFunction = getOrdersPageable;
+	args.getFunction = getOrders;
 	orderBuildTable(args);	
 }
 
 function orderBuildTableByStatus(args) {
 	args.buildFunction = orderBuildTableByStatus;
-	args.getFunction = getOrdersByStatusPageable;
+	args.getFunction = getOrdersByStatus;
 	orderBuildTable(args);	
 }
 
 function orderBuildTableByOrderDate(args) {
 	args.buildFunction = orderBuildTableByOrderDate;
-	args.getFunction = getOrdersByOrderDatePageable;
+	args.getFunction = getOrdersByOrderDate;
 	orderBuildTable(args);	
 }
 
 function orderBuildTableByDeliveryDate(args) {
 	args.buildFunction = orderBuildTableByDeliveryDate;
-	args.getFunction = getOrdersByDeliverDatePageable;
+	args.getFunction = getOrdersByDeliveryDate;
 	orderBuildTable(args);	
 }
 
