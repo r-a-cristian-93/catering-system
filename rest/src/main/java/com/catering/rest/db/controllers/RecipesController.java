@@ -2,6 +2,8 @@ package com.catering.rest.db.controllers;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +35,7 @@ public class RecipesController {
 	
 	@ResponseBody
 	@GetMapping
-	public List<RecipeModel> getRecipes() {
+	public Iterable<RecipeModel> getRecipes() {
 		return recipesRepo.findAll();
 	}
 	
@@ -73,6 +76,16 @@ public class RecipesController {
 		}
 		return recipesRepo.save(recipe);
 	}
+	
+	
+	// PAGEABLE
+	
+	@ResponseBody
+	@GetMapping("/allPageable")
+	public Page<RecipeModel> getRecipesPageable(@RequestParam Integer page, @RequestParam Integer size) {
+		return recipesRepo.findAll(PageRequest.of(page, size));
+	}
+	
 	
 	//RECIPE DETAILS
 	

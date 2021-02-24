@@ -1,24 +1,32 @@
 /* *************** RECIPE ****************/
 
+var defaultPageSize = 10;
+
 $(document).ready(function(){
-	recipeBuildTable();
+	var args = {
+		page: 0,
+		size: defaultPageSize
+	}
+	recipeBuildTableAll(args);
 });
 
 // http requests
+
+function getRecipes(args) {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: REST_URL + '/recipes/allPageable',
+		data: { "page": args.page, "size": args.size }
+	});	
+}
 
 function getRecipe(id) {
 	return 	$.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		url: REST_URL + '/recipes/'+id		
-	});	
-}
-
-function getRecipes() {
-	return 	$.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes'		
 	});	
 }
 
@@ -85,23 +93,27 @@ function recipeDelete(id) {
 	});
 }
 
-function recipeBuildTable() {
-	$.when(getRecipes()).then(function(recipes) {
+function recipeBuildTable(args) {
+	$.when(args.getFunction(args)).then(function(recipes) {
+		args.currentPage = recipes.pageable.pageNumber;
+		args.totalPages = recipes.totalPages;
+		
 		var table = $("<table>")
 			.addClass('full')
 			.append(newHeader(["ID", "Denumire", "Categorie", "Portie", "Cost ingrediente"], [0, 0, 0, 2, 0]));
 			
-		for(recipe of recipes) {
+		for(recipe of recipes.content) {
 			table.append(newRecipeRow(recipe));
 		}
 		
-		$("#table")				
+		$("#table").html("")
 			.append(table)
 			.append(
 				$("<button>")
 					.addClass("button")
 					.attr({"onclick": "recipeAdd()"})
-					.html("+ Reteta noua"));
+					.html("+ Reteta noua"))
+			.append(newPager(args));
 	});			
 }
 
@@ -327,3 +339,10 @@ function newStaticIngRow(ing) {
 			recipeDetailsAdd(recipeId, ingId);
 		});
 }
+
+function recipeBuildTableAll(args) {
+	args.buildFunction = recipeBuildTableAll;
+	args.getFunction = getRecipes;
+	recipeBuildTable(args);
+}
+	
