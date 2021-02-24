@@ -1,16 +1,24 @@
 /* ********** INGREDIENT **********/
 
-$(document).ready(function(){
-	ingredientBuildTable();
+var defaultPageSize = 10;
+
+$(document).ready(function(){		
+	var args = {
+		page: 0, 
+		size: defaultPageSize
+	}
+	ingredientBuildTableAll(args);
 });
 
 // http requests
 
-function getIngredients() {
+function getIngredients(args) {
 	return $.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients'
+		dataType: 'json',
+		url: REST_URL + '/ingredients/allPageable',
+		data: { "page": args.page, "size": args.size }		
 	});
 }
 
@@ -75,23 +83,27 @@ function ingredientDelete(id) {
 	});
 }
 
-function ingredientBuildTable() {
-	$.when(getIngredients()).then(function(ingredients){
+function ingredientBuildTable(args) {
+	$.when(args.getFunction(args)).then(function(ingredients){
+		args.currentPage = ingredients.pageable.pageNumber;
+		args.totalPages = ingredients.totalPages;	
+		
 		var table = $("<table>")
 			.addClass('full')
 			.append(newHeader(["ID", "Denumire", "Pret [Lei]", "U/M"]));
 			
-		for(ing of ingredients) {
+		for(ing of ingredients.content) {
 			table.append(newIngRow(ing));
 		}
 		
-		$("#ing-table")
+		$("#ing-table").html("")
 			.append(table)
 			.append(
 				$("<button>")
 					.addClass("button")
 					.attr({"onclick": "ingredientAdd()"})
-					.html("+ Adauga ingredient nou"));
+					.html("+ Adauga ingredient nou"))
+			.append(newPager(args));
 		});	
 }
 
@@ -128,3 +140,8 @@ function disableSaveIngredient(id) {
 		.attr({"class":"inactive"});
 }
 
+function ingredientBuildTableAll(args) {
+	args.buildFunction = ingredientBuildTableAll;
+	args.getFunction = getIngredients;
+	ingredientBuildTable(args);	
+}
