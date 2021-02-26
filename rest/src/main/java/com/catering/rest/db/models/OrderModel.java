@@ -24,7 +24,7 @@ import lombok.Setter;
 @Getter @Setter
 @DynamicUpdate
 @DynamicInsert
-public class OrderModel {
+public class OrderModel extends SortableModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
@@ -52,5 +52,9 @@ public class OrderModel {
 	@Column(name="ID_shopping_list")
 	private Integer shoppingListId;
 	
-	protected OrderModel() {}
+	protected OrderModel() {}	
+	
+	static {
+		clazz = OrderModel.class;
+	}
 }

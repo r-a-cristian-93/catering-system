@@ -1,11 +1,9 @@
 /* *************** RECIPE ****************/
 
-var defaultPageSize = 10;
-
 $(document).ready(function(){
 	var args = {
 		page: 0,
-		size: defaultPageSize
+		size: localStorage.PAGE_SIZE]
 	}
 	recipeBuildTableAll(args);
 });
@@ -17,7 +15,7 @@ function getRecipes(args) {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/recipes/allPageable',
+		url: DEFAULTS.REST_URL + '/recipes/allPageable',
 		data: { "page": args.page, "size": args.size }
 	});	
 }
@@ -26,7 +24,7 @@ function getRecipe(id) {
 	return 	$.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes/'+id		
+		url: DEFAULTS.REST_URL + '/recipes/'+id		
 	});	
 }
 
@@ -34,7 +32,7 @@ function deleteRecipe(id) {
 	return $.ajax({
 		method: 'DELETE',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes/' + id,
+		url: DEFAULTS.REST_URL + '/recipes/' + id,
 	});
 }
 
@@ -42,7 +40,7 @@ function updateRecipe(recipe) {
 	return $.ajax({
 		method: 'PUT',		
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes/'+recipe.id,
+		url: DEFAULTS.REST_URL + '/recipes/'+recipe.id,
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(recipe)
@@ -53,7 +51,7 @@ function addRecipe(recipe) {
 	return $.ajax({
 		method: 'POST',		
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes',
+		url: DEFAULTS.REST_URL + '/recipes',
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(recipe),
@@ -166,7 +164,7 @@ function getRecipeDetails(recipeId) {
 	return $.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials:true },
-		url: REST_URL + '/recipes/'+recipeId+'/details',
+		url: DEFAULTS.REST_URL + '/recipes/'+recipeId+'/details',
 		dataType: 'json'
 	});
 }
@@ -174,7 +172,7 @@ function getIngredients() {
 	return $.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients'
+		url: DEFAULTS.REST_URL + '/ingredients'
 	});
 }
 
@@ -182,7 +180,7 @@ function updateRecipeDetails(details) {
 	return $.ajax({
 		method: 'PUT',		
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes/'+details.recipe.id+'/details',
+		url: DEFAULTS.REST_URL + '/recipes/'+details.recipe.id+'/details',
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(details)
@@ -193,7 +191,7 @@ function deleteRecipeDetails(details) {
 	return $.ajax({
 		method: 'DELETE',		
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes/'+details.recipe.id+'/details',
+		url: DEFAULTS.REST_URL + '/recipes/'+details.recipe.id+'/details',
 		contentType: "application/json",
 		data: JSON.stringify(details),
 	});	
@@ -203,7 +201,7 @@ function addRecipeDetails(details) {
 	return $.ajax({
 		method: 'POST',		
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/recipes/'+details.recipe.id+'/details',
+		url: DEFAULTS.REST_URL + '/recipes/'+details.recipe.id+'/details',
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(details)

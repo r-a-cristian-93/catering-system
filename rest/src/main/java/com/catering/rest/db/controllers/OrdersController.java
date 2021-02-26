@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.domain.PageRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.catering.rest.Constants;
 import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
@@ -121,14 +124,26 @@ public class OrdersController {
 	
 	@ResponseBody
 	@GetMapping("/allPageable")
-	public Page<OrderModel> getOrdersPageable(@RequestParam Integer page, @RequestParam Integer size) {
-		return ordersRepo.findAll(PageRequest.of(page, size));
+	public Page<OrderModel> getOrdersPageable(
+			@RequestParam Integer page, 
+			@RequestParam Integer size, 
+			@RequestParam String prop, 
+			@RequestParam String dir) {
+		//Sort sort = sortBy(OrderModel.class, prop, dir);
+		Sort sort = OrderModel.sortBy(prop, dir);
+		return ordersRepo.findAll(PageRequest.of(page, size, sort));
 	}
 	
 	@ResponseBody
 	@PostMapping("/byStatusPageable")
-	public Page<OrderModel> getOrdersByStatusRange(@RequestBody StatusModel status, @RequestParam Integer page, @RequestParam Integer size){
-		return ordersRepo.findByStatus(status, PageRequest.of(page, size));
+	public Page<OrderModel> getOrdersByStatusRange(
+			@RequestBody StatusModel status, 
+			@RequestParam Integer page, 
+			@RequestParam Integer size, 
+			@RequestParam String prop, 
+			@RequestParam String dir) {
+		Sort sort = OrderModel.sortBy(prop, dir);
+		return ordersRepo.findByStatus(status, PageRequest.of(page, size, sort));
 	}
 	
 	@ResponseBody
@@ -139,18 +154,30 @@ public class OrdersController {
 	
 	@ResponseBody
 	@PostMapping("/betweenOrderDatesPageable")
-	public Page<OrderModel> getOrdersAfterOrderDatePageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
+	public Page<OrderModel> getOrdersAfterOrderDatePageable(
+			@RequestBody Map<String, Long> interval, 
+			@RequestParam Integer page, 
+			@RequestParam Integer size, 
+			@RequestParam String prop,
+			@RequestParam String dir){
 		Date first = new Date(interval.get("first"));
-		Date last = new Date(interval.get("last"));		
-		return ordersRepo.findByOrderDateBetween(first, last, PageRequest.of(page, size));
+		Date last = new Date(interval.get("last"));
+		Sort sort = OrderModel.sortBy(prop, dir);
+		return ordersRepo.findByOrderDateBetween(first, last, PageRequest.of(page, size, sort));
 	}
 	
 	@ResponseBody
 	@PostMapping("/betweenDeliveryDatesPageable")
-	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(@RequestBody Map<String, Long> interval, @RequestParam Integer page, @RequestParam Integer size){
+	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(
+			@RequestBody Map<String, Long> interval, 
+			@RequestParam Integer page, 
+			@RequestParam Integer size, 
+			@RequestParam String prop, 
+			@RequestParam String dir){
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));	
-		return ordersRepo.findByDeliveryDateBetween(first, last, PageRequest.of(page, size));
+		Sort sort = OrderModel.sortBy(prop, dir);
+		return ordersRepo.findByDeliveryDateBetween(first, last, PageRequest.of(page, size, sort));
 	}	
 	
 	
