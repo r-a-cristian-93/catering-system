@@ -1,5 +1,22 @@
-var REST_URL = "http://localhost:8888"
-var CLIENT_URL = "http://localhost:8080"
+var DEFAULTS = Object.freeze({
+	REST_URL: "http://localhost:8888",
+	CLIENT_URL: "http://localhost:8080",
+});
+
+var DEFAULT_PREFERENCES = {
+	PAGE_SIZE: 10,
+	SORT_DIRECTION: "ASC",
+	ORDERS_SORT_BY: "deliveryDate",
+};
+
+$(document).ready(function() {
+	Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
+		if (localStorage.getItem(key) == null) {
+			localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
+		}
+	});	
+});
+
 
 /* ************* TABLE ************* */
 

@@ -1,11 +1,9 @@
 /* ********** INGREDIENT **********/
 
-var defaultPageSize = 10;
-
 $(document).ready(function(){		
 	var args = {
 		page: 0, 
-		size: defaultPageSize
+		size: localStorage.PAGE_SIZE]
 	}
 	ingredientBuildTableAll(args);
 });
@@ -17,7 +15,7 @@ function getIngredients(args) {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/ingredients/allPageable',
+		url: DEFAULTS.REST_URL + '/ingredients/allPageable',
 		data: { "page": args.page, "size": args.size }		
 	});
 }
@@ -26,7 +24,7 @@ function addIngredient(ingredient) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients',
+		url: DEFAULTS.REST_URL + '/ingredients',
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(ingredient),
@@ -37,7 +35,7 @@ function updateIngredient(ingredient) {
 	return $.ajax({
 		method: 'PUT',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients/'+ingredient.id,
+		url: DEFAULTS.REST_URL + '/ingredients/'+ingredient.id,
 		dataType: 'json',
 		contentType: "application/json",
 		data: JSON.stringify(ingredient)
@@ -48,7 +46,7 @@ function deleteIngredient(id) {
 	return $.ajax({
 		method: 'DELETE',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/ingredients/' + id
+		url: DEFAULTS.REST_URL + '/ingredients/' + id
 	});
 }
 

@@ -7,6 +7,7 @@ function newPagerButton(text, action) {
 
 function newPager(args) {
 	var pager = $("<div>").addClass("pager");
+	console.log("currentPage: " + args.currentPage);
 		
 	//chevron left	
 	args.page = (args.currentPage>0) ? args.currentPage-1 : 0;

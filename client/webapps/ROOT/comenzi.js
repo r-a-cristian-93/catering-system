@@ -1,10 +1,10 @@
-var defaultPageSize = 10;
-
 $(document).ready(function() {
 	buildFilters();
 	var args = {
 		page: 0,
-		size: defaultPageSize,
+		size: localStorage.PAGE_SIZE,
+		prop: localStorage.ORDERS_SORT_BY,
+		dir: localStorage.SORT_DIRECTION
 	};
 	orderBuildTableAll(args);	
 });
@@ -16,7 +16,7 @@ function getOrder(id) {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/orders/'+id,
+		url: DEFAULTS.REST_URL + '/orders/'+id,
 	});	
 }
 
@@ -25,8 +25,13 @@ function getOrders(args) {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/orders/allPageable',
-		data: { "page": args.page, "size":args.size }
+		url: DEFAULTS.REST_URL + '/orders/allPageable',
+		data: {
+			"page": args.page,
+			"size":args.size,
+			"prop": args.prop,
+			"dir": args.dir
+		}
 	});	
 }
 
@@ -34,7 +39,7 @@ function getOrdersByStatus(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/byStatusPageable?page=' + args.page + '&size=' + args.size,
+		url: DEFAULTS.REST_URL + '/orders/byStatusPageable?page=' + args.page + '&size=' + args.size + '&prop=' + args.prop + '&dir=' + args.dir,
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
@@ -45,7 +50,7 @@ function getOrdersByOrderDate(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/betweenOrderDatesPageable?page=' + args.page + '&size=' + args.size,
+		url: DEFAULTS.REST_URL + '/orders/betweenOrderDatesPageable?page=' + args.page + '&size=' + args.size + '&prop=' + args.prop + '&dir=' + args.dir,
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
@@ -56,7 +61,7 @@ function getOrdersByDeliveryDate(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/betweenDeliveryDatesPageable?page=' + args.page + '&size=' + args.size,
+		url: DEFAULTS.REST_URL + '/orders/betweenDeliveryDatesPageable?page=' + args.page + '&size=' + args.size + '&prop=' + args.prop + '&dir=' + args.dir,
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
@@ -68,7 +73,7 @@ function getOrdersByShoppingListId(shoppingListId) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders/byShoppingListId',
+		url: DEFAULTS.REST_URL + '/orders/byShoppingListId',
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(shoppingListId)
@@ -79,7 +84,7 @@ function updateOrder(id, info) {
 	return $.ajax({
 		method: 'PUT',
 		xhrFields: { withCredentials:true },
-		url: REST_URL + '/orders/'+id,
+		url: DEFAULTS.REST_URL + '/orders/'+id,
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(info)
@@ -90,7 +95,7 @@ function addOrder(order){
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
-		url: REST_URL + '/orders',
+		url: DEFAULTS.REST_URL + '/orders',
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify(order)
@@ -101,7 +106,7 @@ function deleteOrder(id) {
 	return $.ajax({
 		method: 'DELETE',
 		xhrFields: { withCredentials:true },
-		url: REST_URL + '/orders/'+id
+		url: DEFAULTS.REST_URL + '/orders/'+id
 	});
 }
 
@@ -110,7 +115,7 @@ function getStatus() {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/status'		
+		url: DEFAULTS.REST_URL + '/status'		
 	});		
 }
 
@@ -119,7 +124,7 @@ function getClients() {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/clients'
+		url: DEFAULTS.REST_URL + '/clients'
 	});
 }	
 
@@ -136,9 +141,11 @@ function newStatusFilter(text, status) {
 	return $("<a>").text(text).on("click", function() {
 		var args = {
 			page: 0, 
-			size: defaultPageSize, 
-			currentPage: 0, 
-			data:{name: status}};
+			size: localStorage.PAGE_SIZE,
+			data:{name: status},
+			prop: localStorage.ORDERS_SORT_BY,
+			dir: localStorage.SORT_DIRECTION
+		};
 		orderBuildTableByStatus(args);
 	});
 }
@@ -149,9 +156,11 @@ function newOrderDateFilter(days) {
 		var first = last.addDays(-days);
 		var args = {
 			page: 0, 
-			size: defaultPageSize, 
-			currentPage:0, 
-			data:{first: first.getTime(), last: last.getTime()}};
+			size: localStorage.PAGE_SIZE,
+			data:{first: first.getTime(), last: last.getTime()},
+			prop: localStorage.ORDERS_SORT_BY,
+			dir: localStorage.SORT_DIRECTION
+		};
 		orderBuildTableByOrderDate(args);
 	});
 }
@@ -165,9 +174,11 @@ function newDeliveryDateFilter(days) {
 		var last = first.addDays(days);
 		var args = {
 			page: 0, 
-			size: defaultPageSize, 
-			currentPage:0, 
-			data:{first: first.getTime(), last: last.getTime()}};
+			size: localStorage.PAGE_SIZE, 
+			data: { first: first.getTime(), last: last.getTime() },
+			prop: localStorage.ORDERS_SORT_BY,
+			dir: localStorage.SORT_DIRECTION
+		};
 		orderBuildTableByDeliveryDate(args);
 	});
 }
@@ -175,7 +186,13 @@ function newDeliveryDateFilter(days) {
 function buildFilters() {
 	var f1 = newFilterContainer("Toate")
 		.on("click", function() {
-			orderBuildTableAll({page: 0, size: defaultPageSize, currentPage: 0});
+			var args = {
+				page: 0,
+				size: localStorage.PAGE_SIZE,
+				prop: localStorage.ORDERS_SORT_BY,
+				dir: localStorage.SORT_DIRECTION
+			};
+			orderBuildTableAll(args);
 		});	
 	var f2 = newFilterContainer("Stare").addClass("dropdown")
 		.append(newDivDDC([
@@ -342,7 +359,6 @@ function enableSaveOrder(id) {
 	var date = $("#"+id+">td:eq(4)>div>input")[0].value;
 	var time = $("#"+id+">td:eq(4)>div>input")[1].value;
 	var dateTime = new Date(date + " " +time);
-	console.log(dateTime);
 	var deliveryDate = dateTime.toISOString();
 	console.log(deliveryDate);
 	$("#" + id + " td:eq(7) > img")
@@ -366,7 +382,7 @@ function getOrderDetails(orderId) {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/orders/'+orderId+'/details'
+		url: DEFAULTS.REST_URL + '/orders/'+orderId+'/details'
 	});
 }
 
@@ -377,7 +393,7 @@ function updateOrderDetails(details) {
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify(details),
-		url: REST_URL + '/orders/'+details.order.id+'/details'
+		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
 	});
 }
 
@@ -388,7 +404,7 @@ function addOrderDetails(details) {
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify(details),
-		url: REST_URL + '/orders/'+details.order.id+'/details'
+		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
 	});
 }
 
@@ -398,7 +414,7 @@ function deleteOrderDetails(details) {
 		xhrFields: { withCredentials: true },
 		contentType: 'application/json',
 		data: JSON.stringify(details),
-		url: REST_URL + '/orders/'+details.order.id+'/details'
+		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
 	});
 }
 
@@ -407,7 +423,7 @@ function getRecipes() {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/recipes'
+		url: DEFAULTS.REST_URL + '/recipes'
 	});
 }
 
@@ -568,7 +584,7 @@ function getShoppingListById(shoppingListId) {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/shoppingList/' + shoppingListId
+		url: DEFAULTS.REST_URL + '/shoppingList/' + shoppingListId
 	});
 }
 
@@ -577,7 +593,7 @@ function getShoppingListByOrderId(orderId) {
 		method: 'POST',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/shoppingList/byOrderId',
+		url: DEFAULTS.REST_URL + '/shoppingList/byOrderId',
 		contentType: 'application/json',
 		data: JSON.stringify(orderId)
 	});
@@ -588,7 +604,7 @@ function mergeShoppingList(orderIds) {
 		method: 'POST',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/shoppingList/merge',
+		url: DEFAULTS.REST_URL + '/shoppingList/merge',
 		contentType: 'application/json',
 		data: JSON.stringify(orderIds)
 	});
@@ -599,7 +615,7 @@ function removeShoppingList(orderId) {
 		method: 'POST',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/shoppingList/remove',
+		url: DEFAULTS.REST_URL + '/shoppingList/remove',
 		contentType: 'application/json',
 		data: JSON.stringify(orderId)
 	});

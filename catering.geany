@@ -28,11 +28,14 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=535;CSS;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fstyle.css;0;4
-FILE_NAME_1=1817;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Futil.js;0;4
-FILE_NAME_2=178;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fcomenzi.js;0;4
-FILE_NAME_3=6221;SQL;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fdatabase%2Fshare%2Ftriggers.sql;0;4
+current_page=0
+FILE_NAME_0=142;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Futil.js;0;4
+FILE_NAME_1=15811;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fcomenzi.js;0;4
+FILE_NAME_2=1063;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fingrediente.js;0;4
+FILE_NAME_3=4563;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fretete.js;0;4
+FILE_NAME_4=393;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fnavigation.js;0;4
+FILE_NAME_5=438;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Flogin.js;0;4
+FILE_NAME_6=0;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Ftaifun%2Fcatering%2Fclient%2Fwebapps%2FROOT%2Fpager.js;0;4
 
 [VTE]
 last_dir=/home/taifun

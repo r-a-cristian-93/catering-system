@@ -5,14 +5,14 @@ $(document).ready(function(){
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: REST_URL + '/employees/myinfo',
+		url: DEFAULTS.REST_URL + '/employees/myinfo',
 		success: function(data, status, xhr) {
 			navigationMenu = newNavMenu(data);
 			setCurrentPage(navigationMenu);
 			$("body").prepend(navigationMenu);
 		},
 		error: function() {
-			window.location = CLIENT_URL + '/login.html';
+			window.location = DEFAULTS.CLIENT_URL + '/login.html';
 		}
 	});		
 });

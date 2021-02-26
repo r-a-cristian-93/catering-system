@@ -14,4 +14,6 @@ public class Constants {
 	public static final String JWT_CLAIM_ROLES = "roles";
 	public static final Integer JWT_AGE = 1;			//hours 
 	public static final String COOKIE_NAME = "JWT";
+	public static final String FALLBACK_COLUMN = "id";
+	public static final String FALLBACK_DIRECTION = "DESC";
 }
