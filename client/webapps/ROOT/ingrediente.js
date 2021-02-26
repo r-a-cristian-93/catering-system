@@ -3,7 +3,7 @@
 $(document).ready(function(){		
 	var args = {
 		page: 0, 
-		size: localStorage.PAGE_SIZE]
+		size: localStorage.PAGE_SIZE
 	}
 	ingredientBuildTableAll(args);
 });

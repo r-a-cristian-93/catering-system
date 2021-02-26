@@ -22,7 +22,7 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @ToString
-public class IngredientModel extends SortableModel {
+public class IngredientModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
