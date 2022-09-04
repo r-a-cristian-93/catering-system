@@ -6,7 +6,6 @@ import static com.catering.rest.Constants.JWT_CLAIM_ROLES;
 import static com.catering.rest.Constants.JWT_ISSUER;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.FilterChain;
