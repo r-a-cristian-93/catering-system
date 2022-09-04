@@ -1,6 +1,6 @@
 /* ============================= */
 /* TRIGGERS FOR recipes.ing_cost */
-
+USE catering
 
 DROP PROCEDURE IF EXISTS update_recipes_ing_cost_by_ing_id;
 DELIMITER $$
@@ -8,12 +8,12 @@ CREATE PROCEDURE update_recipes_ing_cost_by_ing_id(IN ING_ID int)
 BEGIN
 	/* make a table with recipes to be updated */
 	DROP TEMPORARY TABLE IF EXISTS recipes_to_update;
-	CREATE TEMPORARY TABLE recipes_to_update(ID INT);	
-	INSERT INTO recipes_to_update SELECT DISTINCT ID_recipe FROM recipes_details WHERE ID_ingredient=ING_ID;		
-				
-	/* recalculate recipes ing_cost */	
+	CREATE TEMPORARY TABLE recipes_to_update(ID INT);
+	INSERT INTO recipes_to_update SELECT DISTINCT ID_recipe FROM recipes_details WHERE ID_ingredient=ING_ID;
+
+	/* recalculate recipes ing_cost */
 	DROP TEMPORARY TABLE IF EXISTS recipes_new_price;
-	CREATE TEMPORARY TABLE recipes_new_price(ID int, ing_cost double);	
+	CREATE TEMPORARY TABLE recipes_new_price(ID int, ing_cost double);
 	INSERT INTO recipes_new_price
 	SELECT r.ID, SUM(d.quantity*i.price) ing_cost
 		FROM recipes_details d
@@ -34,9 +34,9 @@ DROP PROCEDURE IF EXISTS update_recipes_ing_cost_by_recipe_id;
 DELIMITER $$
 CREATE PROCEDURE update_recipes_ing_cost_by_recipe_id(IN RECIPE_ID int)
 BEGIN
-	/* recalculate recipes ing_cost */	
+	/* recalculate recipes ing_cost */
 	DROP TEMPORARY TABLE IF EXISTS recipes_new_price;
-	CREATE TEMPORARY TABLE recipes_new_price(ID int, ing_cost double);	
+	CREATE TEMPORARY TABLE recipes_new_price(ID int, ing_cost double);
 	INSERT INTO recipes_new_price
 	SELECT r.ID, SUM(d.quantity*i.price) ing_cost
 		FROM recipes_details d
@@ -106,12 +106,12 @@ CREATE PROCEDURE update_orders_ing_cost_by_ing_id(IN RECIPE_ID int)
 BEGIN
 	/* make a table with orders to be updated */
 	DROP TEMPORARY TABLE IF EXISTS orders_to_update;
-	CREATE TEMPORARY TABLE orders_to_update(ID INT);	
-	INSERT INTO orders_to_update SELECT DISTINCT ID_order FROM orders_details WHERE ID_recipe=RECIPE_ID;		
-				
-	/* recalculate orders ing_cost */	
+	CREATE TEMPORARY TABLE orders_to_update(ID INT);
+	INSERT INTO orders_to_update SELECT DISTINCT ID_order FROM orders_details WHERE ID_recipe=RECIPE_ID;
+
+	/* recalculate orders ing_cost */
 	DROP TEMPORARY TABLE IF EXISTS orders_new_price;
-	CREATE TEMPORARY TABLE orders_new_price(ID int, ing_cost double);	
+	CREATE TEMPORARY TABLE orders_new_price(ID int, ing_cost double);
 	INSERT INTO orders_new_price
 	SELECT o.ID, SUM(d.servings*r.ing_cost) ing_cost
 		FROM orders_details d
@@ -131,10 +131,10 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS update_orders_ing_cost_by_order_id;
 DELIMITER $$
 CREATE PROCEDURE update_orders_ing_cost_by_order_id(IN ORDER_ID int)
-BEGIN			
-	/* recalculate orders ing_cost */	
+BEGIN
+	/* recalculate orders ing_cost */
 	DROP TEMPORARY TABLE IF EXISTS orders_new_price;
-	CREATE TEMPORARY TABLE orders_new_price(ID int, ing_cost double);	
+	CREATE TEMPORARY TABLE orders_new_price(ID int, ing_cost double);
 	INSERT INTO orders_new_price
 	SELECT o.ID, SUM(d.servings*r.ing_cost) ing_cost
 		FROM orders_details d
@@ -208,7 +208,7 @@ AFTER DELETE ON orders FOR EACH ROW
 BEGIN
 	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
 		IF (OLD.ID_shopping_list <> 0) THEN
-			DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;	
+			DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
 		END IF;
 	END IF;
 END $$
@@ -235,15 +235,15 @@ CREATE PROCEDURE generate_shopping_list_for_order(IN ORDER_ID int)
 BEGIN
 	DECLARE SL_ID int;
 	SELECT ID_shopping_list INTO SL_ID FROM orders WHERE ID = ORDER_ID;
-	IF (SL_ID = 0 OR SL_ID = NULL) THEN 
+	IF (SL_ID = 0 OR SL_ID = NULL) THEN
 		CALL generate_shopping_list_by_order_id(ORDER_ID);
 	ELSE
 		CALL generate_shopping_list_by_shopping_list_id(SL_ID);
-	END IF;	
+	END IF;
 END $$
 DELIMITER ;
 
-/* generate_shopping_list sub procedure */	
+/* generate_shopping_list sub procedure */
 DROP PROCEDURE IF EXISTS generate_shopping_list_by_order_id;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_by_order_id(IN ORDER_ID int)
@@ -261,7 +261,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS generate_shopping_list_by_shopping_list_id;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_by_shopping_list_id(IN SL_ID int)
-BEGIN	
+BEGIN
 	SELECT ROW_NUMBER() OVER() AS 'ID', rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
 		FROM orders o
 		LEFT JOIN orders_details od ON od.ID_Order = o.ID
@@ -281,14 +281,14 @@ BEGIN
 	DECLARE ID_SL_NEW int;
 	SELECT ID_shopping_list INTO ID_SL_A FROM orders WHERE ID = ID_ORD_A;
 	SELECT ID_shopping_list INTO ID_SL_B FROM orders WHERE ID = ID_ORD_B;
-	
+
 	IF (ID_SL_B = 0) THEN
 		IF (ID_SL_A = 0) THEN
 			INSERT INTO shopping_list() values();
 			SET ID_SL_NEW = LAST_INSERT_ID();
 			UPDATE orders SET ID_shopping_list = ID_SL_NEW WHERE ID = ID_ORD_A OR ID = ID_ORD_B;
 		ELSE
-			UPDATE orders SET ID_shopping_list = ID_SL_A WHERE ID = ID_ORD_B;			
+			UPDATE orders SET ID_shopping_list = ID_SL_A WHERE ID = ID_ORD_B;
 		END IF;
 	END IF;
 	call generate_shopping_list_for_order(ID_ORD_A);
@@ -302,7 +302,7 @@ CREATE PROCEDURE shopping_list_remove_order(IN ID_ORD int)
 BEGIN
 	DECLARE SL_ID_OLD int;
 	DECLARE ORD_C int;
-	SELECT ID_shopping_list INTO SL_ID_OLD FROM orders WHERE ID = ID_ORD;	
+	SELECT ID_shopping_list INTO SL_ID_OLD FROM orders WHERE ID = ID_ORD;
 	SELECT COUNT(*) INTO ORD_C FROM orders WHERE ID_shopping_list = SL_ID_OLD;
 	IF (ORD_C = 2) THEN
 		UPDATE orders SET ID_shopping_list=0 WHERE ID_shopping_list = SL_ID_OLD;
@@ -321,7 +321,7 @@ DROP TABLE IF EXISTS debug_var;
 CREATE TABLE debug_var (
 	ID int NOT NULL auto_increment,
 	name varchar(50),
-	value int,  
+	value int,
 	PRIMARY KEY(ID)
 );
 

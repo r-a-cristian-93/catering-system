@@ -1,4 +1,4 @@
-# Catering Management Applicaiton
+# Catering Management Application
 
 WORK IN PROGRESS</br>
 </br>
