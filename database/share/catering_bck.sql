@@ -98,7 +98,7 @@ CREATE TABLE `employees` (
 
 LOCK TABLES `employees` WRITE;
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
-INSERT INTO `employees` VALUES (1,'alex','$2a$10$APd3mb1f.DVh.Qwm4qXHqu1djH86cEjGrZ4bGxH0QDNOn8q4r8NJq','Radu Alexandru Cristian',NULL,'admin'),(2,'daniel','$2a$10$v.pp.ftt/K42FLb0ohmPOuvX0Wk1hNenQ0LtsLpTknZ5QIb/3H2Wy','Radu Daniel Ion',NULL,'user');
+INSERT INTO `employees` VALUES (1,'admin','$2a$10$AH4ZhACPDDDMnOBbw2fSyun3aSbGOlPHi.J7TBbf47btmv0XO5ln6','Radu Alexandru Cristian',NULL,'admin'),(2,'daniel','$2a$10$AH4ZhACPDDDMnOBbw2fSyun3aSbGOlPHi.J7TBbf47btmv0XO5ln6','Radu Daniel Ion',NULL,'user');
 /*!40000 ALTER TABLE `employees` ENABLE KEYS */;
 UNLOCK TABLES;
 
