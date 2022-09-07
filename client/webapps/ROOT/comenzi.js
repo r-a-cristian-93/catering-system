@@ -6,7 +6,7 @@ $(document).ready(function() {
 		prop: localStorage.ORDERS_SORT_BY,
 		dir: localStorage.SORT_DIRECTION
 	};
-	orderBuildTableAll(args);	
+	orderBuildTableAll(args);
 });
 
 // http requests
@@ -17,7 +17,7 @@ function getOrder(id) {
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
 		url: DEFAULTS.REST_URL + '/orders/'+id,
-	});	
+	});
 }
 
 function getOrders(args) {
@@ -32,7 +32,7 @@ function getOrders(args) {
 			"prop": args.prop,
 			"dir": args.dir
 		}
-	});	
+	});
 }
 
 function getOrdersByStatus(args) {
@@ -43,7 +43,7 @@ function getOrdersByStatus(args) {
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
-	});	
+	});
 }
 
 function getOrdersByOrderDate(args) {
@@ -55,7 +55,7 @@ function getOrdersByOrderDate(args) {
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
 	});
-}	
+}
 
 function getOrdersByDeliveryDate(args) {
 	return $.ajax({
@@ -66,7 +66,7 @@ function getOrdersByDeliveryDate(args) {
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
 	});
-}	
+}
 
 
 function getOrdersByShoppingListId(shoppingListId) {
@@ -78,7 +78,7 @@ function getOrdersByShoppingListId(shoppingListId) {
 		contentType: 'application/json',
 		data: JSON.stringify(shoppingListId)
 	});
-}	
+}
 
 function updateOrder(id, info) {
 	return $.ajax({
@@ -89,7 +89,7 @@ function updateOrder(id, info) {
 		contentType: 'application/json',
 		data: JSON.stringify(info)
 	});
-}	
+}
 
 function addOrder(order){
 	return $.ajax({
@@ -99,7 +99,7 @@ function addOrder(order){
 		contentType: 'application/json',
 		dataType: 'json',
 		data: JSON.stringify(order)
-	});	
+	});
 }
 
 function deleteOrder(id) {
@@ -115,8 +115,8 @@ function getStatus() {
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/status'		
-	});		
+		url: DEFAULTS.REST_URL + '/status'
+	});
 }
 
 function getClients() {
@@ -126,7 +126,7 @@ function getClients() {
 		dataType: 'json',
 		url: DEFAULTS.REST_URL + '/clients'
 	});
-}	
+}
 
 // ui operations
 
@@ -140,7 +140,7 @@ function newFilterContainer(name) {
 function newStatusFilter(text, status) {
 	return $("<a>").text(text).on("click", function() {
 		var args = {
-			page: 0, 
+			page: 0,
 			size: localStorage.PAGE_SIZE,
 			data:{name: status},
 			prop: localStorage.ORDERS_SORT_BY,
@@ -155,7 +155,7 @@ function newOrderDateFilter(days) {
 		var last = new Date(Date.now());
 		var first = last.addDays(-days);
 		var args = {
-			page: 0, 
+			page: 0,
 			size: localStorage.PAGE_SIZE,
 			data:{first: first.getTime(), last: last.getTime()},
 			prop: localStorage.ORDERS_SORT_BY,
@@ -173,8 +173,8 @@ function newDeliveryDateFilter(days) {
 		first.setSeconds(0);
 		var last = first.addDays(days);
 		var args = {
-			page: 0, 
-			size: localStorage.PAGE_SIZE, 
+			page: 0,
+			size: localStorage.PAGE_SIZE,
 			data: { first: first.getTime(), last: last.getTime() },
 			prop: localStorage.ORDERS_SORT_BY,
 			dir: localStorage.SORT_DIRECTION
@@ -193,7 +193,7 @@ function buildFilters() {
 				dir: localStorage.SORT_DIRECTION
 			};
 			orderBuildTableAll(args);
-		});	
+		});
 	var f2 = newFilterContainer("Stare").addClass("dropdown")
 		.append(newDivDDC([
 			newStatusFilter("Preluate", "preluata"),
@@ -205,15 +205,15 @@ function buildFilters() {
 		.append(newDivDDC([
 			newOrderDateFilter(7),
 			newOrderDateFilter(14),
-			newOrderDateFilter(30)			
+			newOrderDateFilter(30)
 		]));
 	var f6 = newFilterContainer("Data livrare").addClass("dropdown")
 		.append(newDivDDC([
 			newDeliveryDateFilter(1).text("Azi"),
 			newDeliveryDateFilter(7),
 			newDeliveryDateFilter(14),
-			newDeliveryDateFilter(30)	
-		]));	
+			newDeliveryDateFilter(30)
+		]));
 	$("div .box").prepend(
 		$("<div>").addClass("filter-menu")
 			.append(f1)
@@ -234,23 +234,28 @@ function orderUpdateStatus(id, status) {
 	status = {"status": {"name": status}};
 	$.when(updateOrder(id, status)).then(function(order) {
 		$("#"+order.id).replaceWith(newOrderRow(order));
-		$("#edit-order-status-modal").remove();		
-	});	
+		$("#edit-order-status-modal").remove();
+	});
 }
 
 function orderUpdateClient(id, client) {
 	info = {"client": {"name": client}};
 	$.when(updateOrder(id, info)).then(function(order) {
 		$("#"+order.id).replaceWith(newOrderRow(order));
-		$("#edit-order-client-modal").remove();		
-	});	
+		$("#edit-order-client-modal").remove();
+	});
 }
 
-function orderUpdateDeliveryDate(id, deliveryDate) {
+function orderUpdateDeliveryDate(id) {
+	var date = $("#"+id+">td:eq(4)>div>input")[0].value;
+	var time = $("#"+id+">td:eq(4)>div>input")[1].value;
+	var dateTime = new Date(date + " " +time);
+	var deliveryDate = dateTime.toISOString();
+
 	info = {"deliveryDate": deliveryDate};
 	$.when(updateOrder(id, info)).then(function(order) {
 		$("#"+order.id).replaceWith(newOrderRow(order));
-	});		
+	});
 }
 
 function orderDelete(id) {
@@ -262,26 +267,26 @@ function orderDelete(id) {
 function orderBuildTable(args) {
 	$.when(args.getFunction(args)).then(function(ordersList) {
 		args.currentPage = ordersList.pageable.pageNumber;
-		args.totalPages = ordersList.totalPages;		
+		args.totalPages = ordersList.totalPages;
 		var pager = newPager(args);
-		
+
 		var table = $("<table>")
 			.addClass("full")
-			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));	
+			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));
 		for(order of ordersList.content) {
 			table.append(newOrderRow(order));
-		}			
+		}
 		$("#order-table").html("")
 			.append(table)
 			.append(newButton("+ Adauga comanda noua", "orderAdd()"))
 			.append(pager);
 	});
-}	
+}
 
 function newOrderRow(order) {
 	var clientName = $("<div>")
 		.append($("<div>").text(order.client.name))
-		.append($("<h5>").text(order.client.phone));	
+		.append($("<h5>").text(order.client.phone));
 	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
 	var shoppingListButton = $("<img>")
 		.attr({"onclick": "buildShoppingListModal("+order.id+","+order.shoppingListId+")"});
@@ -295,83 +300,58 @@ function newOrderRow(order) {
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
 		.attr({"onclick": "buildOrderDetailsEditModal("+order.id+")"});
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "orderDelete("+order.id+")"});
 	return newRow([
-		order.id,		
+		order.id,
 		statusImage,
 		clientName,
 		toLocalDateTime(order.orderDate).date,
-		newDeliveryDateDiv(order),		
+		newDeliveryDateDiv(order),
 		order.ingCost.toFixed(2) + ' Lei',
 		shoppingListButton,
-		saveButton,
 		editButton,
 		deleteButton
 		],[],[
 			null,
 			{"class": "clickable", "onclick": "buildOrderEditStatusModal("+order.id+")"},
 			{"class": "clickable", "onclick": "buildOrderEditClientModal("+order.id+")"},
-		])
-			.on("input", function() {
-				enableSaveOrder(order.id)
-			});
+		]);
 }
 
 function buildOrderEditStatusModal(id) {
 	var modal = new ModalBuilder("#" + id+ " Modifica starea comenzii", "edit-order-status-modal");
-	
+
 	$.when(getStatus()).then(function(statusList) {
 		for(st of statusList) {
 			modal.content.append(newStatusOption(id, st.name));
-		}				
-		$("body").append(modal.modal);		
+		}
+		$("body").append(modal.modal);
 	});
 }
 
 function buildOrderEditClientModal(id) {
 	var modal = new ModalBuilder("#" + id+ " Modifica client", "edit-order-client-modal");
-	
+
 	$.when(getClients()).then(function(clientsList) {
 		for(client of clientsList) {
 			modal.content.append(newClientOption(id, client.name));
-		}				
-		$("body").append(modal.modal);		
+		}
+		$("body").append(modal.modal);
 	});
 }
 
-function newStatusOption(orderId, status) {	
+function newStatusOption(orderId, status) {
 	return $("<div>").addClass("modal-option").text(status)
 		.attr({"onclick": 'orderUpdateStatus('+orderId+', "'+status+'");'});
 }
 
-function newClientOption(orderId, client) {	
+function newClientOption(orderId, client) {
 	return $("<div>").addClass("modal-option").text(client)
 		.attr({"onclick": 'orderUpdateClient('+orderId+', "'+client+'");'});
 }
-
-function enableSaveOrder(id) {	
-	var date = $("#"+id+">td:eq(4)>div>input")[0].value;
-	var time = $("#"+id+">td:eq(4)>div>input")[1].value;
-	var dateTime = new Date(date + " " +time);
-	var deliveryDate = dateTime.toISOString();
-	console.log(deliveryDate);
-	$("#" + id + " td:eq(7) > img")
-		.attr({"class":"active"})
-		.attr({'onclick': 'orderUpdateDeliveryDate('+id+',"'+deliveryDate+'")'});	
-}
-	
-function disableSaveOrder(id) {
-	$("#" + id + " td:eq(7) > img")
-		.attr({"class":"inactive"})
-		.attr({"onclick": ""});	
-}
-
 
 /* ******************* ORDERS DETAILS ******************* */
 
@@ -430,10 +410,10 @@ function getRecipes() {
 // ui operations
 
 function buildOrderDetailsEditModal(id) {
-	$.when(getOrderDetails(id), getRecipes()).then(function(details, recipes){			
-		var recipesBox = new ExtraBox("Retete disponibile", 0);	
+	$.when(getOrderDetails(id), getRecipes()).then(function(details, recipes){
+		var recipesBox = new ExtraBox("Retete disponibile", 0);
 		recipesBox.content.append(newStaticRecipeTable(recipes[0]));
-		
+
 		var modal = new ModalBuilder("#" + id+ " Modifica comanda", "edit-order-details-modal");
 		modal.content.append(newOrderDetailsTable(details[0]));
 		modal.modalContainer.append(recipesBox.box);
@@ -444,7 +424,7 @@ function buildOrderDetailsEditModal(id) {
 function orderDetailsUpdate(orderId, recipeId) {
 	var details = {
 		"order": {"id": orderId},
-		"recipe": {"id": recipeId}, 
+		"recipe": {"id": recipeId},
 		"servings": $("#det_" + recipeId + " td:eq(2)").text()};
 	$.when(updateOrderDetails(details)).then(function(data) {
 		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));
@@ -460,7 +440,7 @@ function orderDetailsDelete(orderId, recipeId) {
 		"recipe": {"id": recipeId}
 	};
 	$.when(deleteOrderDetails(details)).then(function() {
-		$("#det_" + details.recipe.id).remove();	
+		$("#det_" + details.recipe.id).remove();
 		$.when(getOrder(orderId)).then(function(data) {
 			$("#"+data.id).replaceWith(newOrderRow(data));
 		});
@@ -474,20 +454,20 @@ function orderDetailsAdd(orderId, recipeId) {
 		"servings": 0
 	};
 	$.when(addOrderDetails(details)).then(function(data) {
-		$("#order-details-table").append(newOrderDetailRow(data));	
+		$("#order-details-table").append(newOrderDetailRow(data));
 	});
 }
 
 function newOrderDetailsTable(details) {
 	var table = $("<table>")
 		.attr({"id": "order-details-table"})
-		.append(newHeader(["ID", "Reteta", "Portii"],[]));	
+		.append(newHeader(["ID", "Reteta", "Portii"],[]));
 	for(detail of details) {
 		table.append(newOrderDetailRow(detail));
 	}
 	return table;
-}		
-	
+}
+
 function newOrderDetailRow(detail) {
 	var saveButton = $("<img>")
 		.addClass("inactive")
@@ -506,8 +486,7 @@ function newOrderDetailRow(detail) {
 		.attr({"id": "det_" + detail.recipe.id})
 		.on("input", function() {
 			orderId = $(".modal-title").text().split(" ")[0].substring(1);
-			recipeId = this.id.split("_")[1];
-			enableSaveOrderDetails(orderId, recipeId)});
+			recipeId = this.id.split("_")[1];});
 }
 
 function newStaticRecipeTable(recipes) {
@@ -527,17 +506,17 @@ function newStaticRecipeRow(recipe) {
 			orderDetailsAdd(orderId, recipe.id);
 		});
 }
-	
+
 function enableSaveOrderDetails(orderId, recipeId) {
 	$("#det_" + recipeId + " td:eq(3) > img")
 		.attr({"class":"active"})
-		.attr({"onclick": "orderDetailsUpdate("+orderId+ ","+recipeId+ ")"});	
+		.attr({"onclick": "orderDetailsUpdate("+orderId+ ","+recipeId+ ")"});
 }
-	
+
 function disableSaveOrderDetails(id) {
 	$("#" + id + " td:eq(3) > img")
 		.attr({"class":"inactive"})
-		.attr({"onclick": ""});	
+		.attr({"onclick": ""});
 }
 
 function toLocalDateTime(dateTimeString) {
@@ -552,9 +531,8 @@ function newDeliveryDateDiv(order) {
 	var date = order.deliveryDate.split('T')[0];
 	var time = toLocalDateTime(order.deliveryDate).time;
 	var div =  $("<div>")
-		.append($("<input>").attr({"type": "date", "class": "date", "value": date}))
-		.append($("<input>").attr({"type": "time", "class": "date", "value": time}));
-	
+		.append($("<input>").attr({"type": "date", "class": "date", "value": date, "onchange": 'orderUpdateDeliveryDate(' + order.id + ')'}))
+		.append($("<input>").attr({"type": "time", "class": "date", "value": time, "onchange": 'orderUpdateDeliveryDate(' + order.id + ')'}));
 	dateDelivery = new Date(date).setHours(0,0,0,0);
 	dateNow = new Date(Date.now()).setHours(0,0,0,0);
 
@@ -568,15 +546,15 @@ function newDeliveryDateDiv(order) {
 	}
 	return div;
 }
-	
+
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
 }
-	
-	
-	
+
+
+
 /* ******************* SHOPPING LIST ******************* */
 
 function getShoppingListById(shoppingListId) {
@@ -625,27 +603,27 @@ function buildShoppingListModal(orderId) {
 	var dataSet = {};
 	$.when(getOrder(orderId), getShoppingListByOrderId(orderId)).then(function(order, shoppingList) {
 		dataSet["order"] = order[0];
-		dataSet["shoppingList"] = shoppingList[0];		
+		dataSet["shoppingList"] = shoppingList[0];
 		$.when(getOrdersByShoppingListId(dataSet.order.shoppingListId), getOrdersByShoppingListId(0))
 			.then(function(sharingOrders, nonSharingOrders) {
 				dataSet["sharingOrders"] = sharingOrders[0];
 				dataSet["nonSharingOrders"] = nonSharingOrders[0];
 				var modal = newShoppingListModal(dataSet);
-				
-				if ($("#edit-shopping-list-modal")[0]) { 
+
+				if ($("#edit-shopping-list-modal")[0]) {
 					$("#edit-shopping-list-modal").replaceWith(modal);
 				}
-				else {					
+				else {
 					$("body").append(modal);
 				}
-			});		
-	});	
+			});
+	});
 }
 
 function newShoppingListModal(dataSet) {
 	var modal = new ModalBuilder("#" + dataSet.order.id +" - Lista cumparaturi" , "edit-shopping-list-modal");
 	modal.content.append(newShoppingListTable(dataSet.shoppingList));
-	
+
 	//manager div
 	var manager = $("<div>")
 		.attr({'id': 'shopping-list-manager'})
@@ -660,15 +638,15 @@ function newShoppingListModal(dataSet) {
 		.append($("<p>").addClass("no-print").html('Adauga si alte comenzi:'))
 		.append(newOrdersDivBoxMerge(dataSet.order.id, ordersListDiff(dataSet.nonSharingOrders, [{id: dataSet.order.id}])));
 	// end manager div
-	
+
 	var validOrders;
 	if (dataSet.order.shoppingListId == 0) {
 		validOrders = [dataSet.order];
 	}
-	else { 
+	else {
 		validOrders = dataSet.sharingOrders;
 	}
-	
+
 	var costPerOrder = $("<div>")
 		.append(newCostPerOrderTable(validOrders));
 	var rightColumn = $('<div>').addClass('modal-fixed ibt')
@@ -685,7 +663,7 @@ function ordersListDiff(arrayA, arrayB) {
 	var arrayC = [];
 	arrayA.forEach(function(orderA) {
 		var skip = false;
-		arrayB.forEach(function(orderB) {			
+		arrayB.forEach(function(orderB) {
 			if(orderA.id == orderB.id) {
 				skip = true;
 			}
@@ -697,7 +675,7 @@ function ordersListDiff(arrayA, arrayB) {
 	return arrayC;
 }
 
-function newOrdersDivBox(orders, action) {	
+function newOrdersDivBox(orders, action) {
 	var ordersDiv = $("<div>").addClass('orders-list');
 	orders.forEach(function(order) {
 		ordersDiv.append(
@@ -705,8 +683,8 @@ function newOrdersDivBox(orders, action) {
 		)
 	});
 	return ordersDiv;
-}	
-function newOrdersDivBoxMerge(orderIdA, orders) {	
+}
+function newOrdersDivBoxMerge(orderIdA, orders) {
 	var ordersDiv = $("<div>").addClass('orders-list no-print');
 	orders.forEach(function(order) {
 		if(order.status.name!='anulata' && order.status.name!='livrata') {
@@ -716,9 +694,9 @@ function newOrdersDivBoxMerge(orderIdA, orders) {
 		}
 	});
 	return ordersDiv;
-}	
+}
 
-function newOrdersDivBoxRemove(orderIdA, orders) {	
+function newOrdersDivBoxRemove(orderIdA, orders) {
 	var ordersDiv = $("<div>").addClass('orders-list');
 	orders.forEach(function(orderB) {
 		ordersDiv.append(
@@ -726,7 +704,7 @@ function newOrdersDivBoxRemove(orderIdA, orders) {
 		);
 	});
 	return ordersDiv;
-}	
+}
 
 function newShoppingListTable(shoppingList) {
 	var table = $("<table>")
@@ -761,13 +739,13 @@ function newCostPerOrderTable(orders){
 
 function shoppingListMerge(orderIdA, orderIdB) {
 	var orderIds = [orderIdA, orderIdB];
-	$.when(mergeShoppingList(orderIds)).then(function(){		
-		buildShoppingListModal(orderIdA);	
+	$.when(mergeShoppingList(orderIds)).then(function(){
+		buildShoppingListModal(orderIdA);
 	});
 }
 
 function shoppingListRemove(orderIdA, orderIdB) {
-	$.when(removeShoppingList(orderIdB)).then(function(){	
+	$.when(removeShoppingList(orderIdB)).then(function(){
 		buildShoppingListModal(orderIdA);
 	});
 }
@@ -780,32 +758,32 @@ function printShoppingList() {
 		.append('Lista de cumparaturi')
 		.append($('<span>').addClass('fr').html('Tiparit la: ' + new Date(Date.now()).toLocaleString()))
 		.append("<hr/>");
-	shoppingList.prepend(header);	
+	shoppingList.prepend(header);
 	shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
 }
 
 function orderBuildTableAll(args) {
 	args.buildFunction = orderBuildTableAll;
 	args.getFunction = getOrders;
-	orderBuildTable(args);	
+	orderBuildTable(args);
 }
 
 function orderBuildTableByStatus(args) {
 	args.buildFunction = orderBuildTableByStatus;
 	args.getFunction = getOrdersByStatus;
-	orderBuildTable(args);	
+	orderBuildTable(args);
 }
 
 function orderBuildTableByOrderDate(args) {
 	args.buildFunction = orderBuildTableByOrderDate;
 	args.getFunction = getOrdersByOrderDate;
-	orderBuildTable(args);	
+	orderBuildTable(args);
 }
 
 function orderBuildTableByDeliveryDate(args) {
 	args.buildFunction = orderBuildTableByDeliveryDate;
 	args.getFunction = getOrdersByDeliveryDate;
-	orderBuildTable(args);	
+	orderBuildTable(args);
 }
 
 
