@@ -127,5 +127,7 @@ class ExtraBox {
 /* ******************* INPUT FILTERING ****************** */
 
 function inputOnlyNumbers(e) {
-	if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
+	if (String.fromCharCode(e.which) != ".") {
+		if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
+	}
 }
