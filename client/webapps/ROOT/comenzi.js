@@ -476,13 +476,18 @@ function newOrderDetailRow(detail) {
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
+	var divServings = $("<div>")
+		.attr({"contenteditable":true})
+		.keypress(inputOnlyNumbers)
+		.attr({"oninput": "enableSaveOrderDetails("+detail.order.id+","+detail.recipe.id+");"});
+	divServings.html(detail.servings);
 	return newRow([
 		detail.recipe.id,
 		detail.recipe.name,
-		detail.servings,
+		divServings,
 		saveButton,
 		deleteButton
-	], [0, 0, 1], [])
+	], [0, 0, 0], [])
 		.attr({"id": "det_" + detail.recipe.id})
 		.on("input", function() {
 			orderId = $(".modal-title").text().split(" ")[0].substring(1);
