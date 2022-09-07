@@ -14,7 +14,7 @@ $(document).ready(function() {
 		if (localStorage.getItem(key) == null) {
 			localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
 		}
-	});	
+	});
 });
 
 
@@ -24,7 +24,7 @@ function newRow(arrayVal, editable, attrList) {
 	var tr = $("<tr>").attr({"id": arrayVal[0]});
 	var index = 0;
 	for(val of arrayVal) {
-		var td = $("<td>").html(val);		
+		var td = $("<td>").html(val);
 		if(editable && editable[index]==1) {
 			td.attr({"contenteditable": true});
 		}
@@ -56,7 +56,7 @@ function newHeader(arrayVal, colspan){
 
 /* ******************* MODAL ****************** */
 
-function newLabel(text) {	
+function newLabel(text) {
 	return $("<label>").append($("<b>").html(text));
 }
 function newField(name, value) {
@@ -82,7 +82,7 @@ function deleteModal(divId) {
 
 class ModalBuilder {
 	constructor(title, divId) {
-		this.extraBox = [];		
+		this.extraBox = [];
 		this.content = $("<div>").addClass("modal-content");
 		this.title = $("<h2>").addClass("modal-title").html(title);
 		this.modalContainer = $("<div>").addClass("modal-container").append(
@@ -97,13 +97,13 @@ class ModalBuilder {
 						this.content
 					)
 				);
-		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(this.modalContainer);			
+		this.modal = $("<div>").addClass("modal").attr({"id": divId}).append(this.modalContainer);
 	}
 	addExtraBox(title){
 		var index = this.extraBox.length;
 		if(this.extraBox[index] != null) {
 			index++;
-		}		
+		}
 		this.extraBox[index] = new ExtraBox(title, index);
 		this.modalContainer.append(this.extraBox[index].box);
 	}
@@ -111,7 +111,7 @@ class ModalBuilder {
 
 class ExtraBox {
 	constructor(title, index) {
-		this.content = $("<div>").addClass("modal-content").attr({"id": "extra-" + index});					
+		this.content = $("<div>").addClass("modal-content").attr({"id": "extra-" + index});
 		this.box = $("<div>").addClass("modal-box")
 					.append(
 						$("<div>").addClass("modal-top")
@@ -120,5 +120,12 @@ class ExtraBox {
 							)
 					)
 					.append(this.content);
-	}	
+	}
+}
+
+
+/* ******************* INPUT FILTERING ****************** */
+
+function inputOnlyNumbers(e) {
+	if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
 }
