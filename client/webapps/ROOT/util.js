@@ -13,11 +13,13 @@ var DEFAULT_PREFERENCES = {
 
 $(document).ready(function() {
 	$.when(getUnits()).then(function(unitsList){
-		k = 0;
+
+		var unitsArray = [];
 		for(unit of unitsList) {
-			DEFAULT_PREFERENCES.UNITS[k] = unit.name;
-			k++
+			unitsArray.push(unit.name);
 		}
+
+		DEFAULT_PREFERENCES.UNITS = JSON.stringify(unitsArray);
 
 		Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
 			if (localStorage.getItem(key) == null) {
