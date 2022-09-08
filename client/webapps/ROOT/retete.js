@@ -77,7 +77,7 @@ function recipeUpdate(id) {
 		'id': id,
 		'name': $("#" + id + " td:eq(1)").text(),
 		'quantity': $("#" + id + " td:eq(3)").text(),
-		'unit': {'name': $("#" + id + " td:eq(4)").text()}
+		'unit': {'name': $("#" + id + " td:eq(4) > div > div:eq(0)").text()}
 	};
 
 	$.when(updateRecipe(recipe)).then(function(data){
@@ -152,7 +152,6 @@ function newUnitSelector(recipe_id, current_unit) {
 	unitSelectorDiv.append(ddc);
 	return unitSelectorDiv;
 }
-
 
 function newRecipeRow(recipe) {
 	var saveButton = $("<img>")
