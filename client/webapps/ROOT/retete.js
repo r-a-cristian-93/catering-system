@@ -85,6 +85,17 @@ function recipeUpdate(id) {
 	});
 }
 
+function recipeUpdateUnit(id, unit) {
+	var recipe = {
+		'id': id,
+		'unit': {'name': unit}
+	};
+
+	$.when(updateRecipe(recipe)).then(function(data){
+		$("#" + data.id).replaceWith(newRecipeRow(data));
+	});
+}
+
 function recipeDelete(id) {
 	$.when(deleteRecipe(id)).then(function(){
 		$("#" + id).remove();
@@ -115,25 +126,32 @@ function recipeBuildTable(args) {
 	});
 }
 
-
-function newUnitSelector(name) {
-	return $("<div>").addClass("select-list-container")
-		.append($("<div>").addClass("select-list-current").text(name));
-}
-
-function newSelectOption(text, status) {
-	return $("<a>").text(text).on("click", function() {
-		var args = {
-			page: 0,
-			size: localStorage.PAGE_SIZE,
-			data:{name: status},
-			prop: localStorage.ORDERS_SORT_BY,
-			dir: localStorage.SORT_DIRECTION
-		};
-		orderBuildTableByStatus(args);
+function newUnitSelectOption(recipe_id, new_unit) {
+	return $("<a>").text(new_unit).on("click", function() {
+		recipeUpdateUnit(recipe_id, new_unit);
 	});
 }
 
+function newUnitSelector(recipe_id, current_unit) {
+	var unitSelectorDiv =  $("<div>").addClass("select-list-container")
+		.append($("<div>").addClass("select-list-current").text(current_unit))
+		.on("click", function(e){
+			this.classList.add("dropdown");
+		})
+		.on("mouseleave", function(e){
+			this.classList.remove("dropdown");
+		});
+
+	var ddc = newDivDDC([]);
+	var unitsArray = JSON.parse(localStorage.getItem("UNITS"));
+	for (unit of unitsArray) {
+		console.log(unit);
+		ddc.append(newUnitSelectOption(recipe_id, unit));
+	}
+
+	unitSelectorDiv.append(ddc);
+	return unitSelectorDiv;
+}
 
 
 function newRecipeRow(recipe) {
@@ -148,19 +166,7 @@ function newRecipeRow(recipe) {
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "recipeDelete("+recipe.id+")"});
-	var divUnit = newUnitSelector(recipe.unit.name)/*.addClass("dropdown")*/
-		.append(newDivDDC([
-			newSelectOption("Preluate", "preluata"),
-			newSelectOption("In lucru", "in lucru"),
-			newSelectOption("Livrate", "livrata"),
-			newSelectOption("Anulate", "anulata")
-		]))
-		.on("click", function(e){
-			this.classList.add("dropdown");
-		})
-		.on("mouseleave", function(e){
-			this.classList.remove("dropdown");
-		});
+	var divUnit = newUnitSelector(recipe.id, recipe.unit.name);
 
 	return newRow([
 		recipe.id,
