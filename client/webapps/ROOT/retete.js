@@ -58,14 +58,6 @@ function addRecipe(recipe) {
 	});
 }
 
-function getUnits() {
-	return $ajax({
-		method: 'GET',
-		xhrFields: {withCredentials: true },
-		url: DEFAULTS.REST_URL + '/',
-	});
-}
-
 // ui operations
 
 function recipeAdd(){
@@ -162,12 +154,12 @@ function newRecipeRow(recipe) {
 			newSelectOption("In lucru", "in lucru"),
 			newSelectOption("Livrate", "livrata"),
 			newSelectOption("Anulate", "anulata")
-		])
+		]))
 		.on("click", function(e){
 			this.classList.add("dropdown");
 		})
 		.on("mouseleave", function(e){
-			this.classList.remove("dropdown")
+			this.classList.remove("dropdown");
 		});
 
 	return newRow([

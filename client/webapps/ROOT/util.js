@@ -7,13 +7,23 @@ var DEFAULT_PREFERENCES = {
 	PAGE_SIZE: 10,
 	SORT_DIRECTION: "ASC",
 	ORDERS_SORT_BY: "deliveryDate",
+	UNITS: [],
 };
 
+
 $(document).ready(function() {
-	Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
-		if (localStorage.getItem(key) == null) {
-			localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
+	$.when(getUnits()).then(function(unitsList){
+		k = 0;
+		for(unit of unitsList) {
+			DEFAULT_PREFERENCES.UNITS[k] = unit.name;
+			k++
 		}
+
+		Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
+			if (localStorage.getItem(key) == null) {
+				localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
+			}
+		});
 	});
 });
 
@@ -130,4 +140,14 @@ function inputOnlyNumbers(e) {
 	if (String.fromCharCode(e.which) != ".") {
 		if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
 	}
+}
+
+/* ******************* API CALLS ****************** */
+
+function getUnits() {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: {withCredentials: true },
+		url: DEFAULTS.REST_URL + '/units',
+	});
 }
