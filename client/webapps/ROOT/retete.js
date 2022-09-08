@@ -58,6 +58,14 @@ function addRecipe(recipe) {
 	});
 }
 
+function getUnits() {
+	return $ajax({
+		method: 'GET',
+		xhrFields: {withCredentials: true },
+		url: DEFAULTS.REST_URL + '/',
+	});
+}
+
 // ui operations
 
 function recipeAdd(){
@@ -115,6 +123,27 @@ function recipeBuildTable(args) {
 	});
 }
 
+
+function newUnitSelector(name) {
+	return $("<div>").addClass("select-list-container")
+		.append($("<div>").addClass("select-list-current").text(name));
+}
+
+function newSelectOption(text, status) {
+	return $("<a>").text(text).on("click", function() {
+		var args = {
+			page: 0,
+			size: localStorage.PAGE_SIZE,
+			data:{name: status},
+			prop: localStorage.ORDERS_SORT_BY,
+			dir: localStorage.SORT_DIRECTION
+		};
+		orderBuildTableByStatus(args);
+	});
+}
+
+
+
 function newRecipeRow(recipe) {
 	var saveButton = $("<img>")
 		.addClass("inactive")
@@ -127,18 +156,31 @@ function newRecipeRow(recipe) {
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "recipeDelete("+recipe.id+")"});
+	var divUnit = newUnitSelector(recipe.unit.name)/*.addClass("dropdown")*/
+		.append(newDivDDC([
+			newSelectOption("Preluate", "preluata"),
+			newSelectOption("In lucru", "in lucru"),
+			newSelectOption("Livrate", "livrata"),
+			newSelectOption("Anulate", "anulata")
+		])
+		.on("click", function(e){
+			this.classList.add("dropdown");
+		})
+		.on("mouseleave", function(e){
+			this.classList.remove("dropdown")
+		});
 
 	return newRow([
 		recipe.id,
 		recipe.name,
 		"recipe.category.name",
 		recipe.quantity,
-		recipe.unit.name,
+		divUnit,
 		recipe.ingCost.toFixed(2) + " Lei",
 		saveButton,
 		editButton,
 		deleteButton
-	], [0, 1, 1, 1, 1, 0, 0])
+	], [0, 1, 1, 1, 0, 0, 0])
 		.on("input", function() {
 			enableSaveRecipe(this.id)});
 }

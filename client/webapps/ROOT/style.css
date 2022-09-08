@@ -8,9 +8,9 @@
 	--grey3: #FAFAFA;
 	--grey4: #D4D3D3;
 	}
-	
+
 .fr { float:right; }
-	
+
 .fl { float:left; }
 
 .full { width: 100%; }
@@ -28,7 +28,7 @@
     margin: 0;
     padding: 0;
 }
-	
+
 h5 {
 	font-weight: normal;
 	opacity: 0.7;
@@ -47,33 +47,33 @@ html, body {
 	box-shadow: 0 0 5px var(--shadow);
 	border-radius:10px;
 	}
-	
+
 .box-title {
 	background-color: var(--grey);
 	padding:15px;
 	border-radius:10px 10px 0 0;
 	}
-	
+
 .box-content {
 	padding: 20px;
-	}	
-	
+	}
+
 .login-box {
 	padding:0;
 	max-width:400px;
 	margin:auto;
 	margin-top:150px;
 	}
-	
-.form-big label, 
-.form-big input, 
+
+.form-big label,
+.form-big input,
 .form-big button{
 	display:block;
 	width:100%;
 	margin-top:10px;
 	margin-bottom:10px;
-	}	
-	
+	}
+
 .button {
 	border-radius:10px;
 	padding:10px;
@@ -82,22 +82,22 @@ html, body {
 	border-style:none;
 	color: var(--grey);
 	}
-	
+
 .button:hover {
 	background-color: var(--bg2);
 	}
-		
+
 .content {
 	margin-top:100px;
 	}
-	
+
 .printer {
 	display: block;
 	position: relative;
 	margin-left: 50%;
 	transform: translateX(-50%);
 	}
-	
+
 .pager {
 	margin: auto;
 	width: max-content;
@@ -105,9 +105,9 @@ html, body {
 	text-align: center;
 	border-radius:10px;
 	background-color: var(--grey2);
-	}	
-	
-.pager-button {	
+	}
+
+.pager-button {
 	padding:10px;
 	margin: 0;
 	border:none;
@@ -116,7 +116,7 @@ html, body {
 	opacity: 0.4;
 	background-color:inherit;
 	}
-	
+
 .pager-button:first-child {
 	border-radius: 10px 0 0 10px;
 	}
@@ -124,22 +124,22 @@ html, body {
 .pager-button:last-child {
 	border-radius: 0 10px 10px 0;
 	}
-	
+
 .pager-button:hover {
 	background-color: var(--grey4);
 	opacity: 1;
 	}
-	
+
 .pager-current {
 	opacity: 1;
-	}	
-	
+	}
+
 .pager-extend {
 	opacity: 0.4
 	}
-	
+
 /* **************** NAVIGATION MENU	************** */
-	
+
 .nav {
 	position:fixed;
 	left:0;
@@ -151,7 +151,7 @@ html, body {
 	background-color: var(--grey);
 	z-index: 10;
 }
-	
+
 .nav-el {
 	display: inline-block;
 	color: inherit;
@@ -161,7 +161,7 @@ html, body {
 	border-bottom:solid;
 	border-color: var(--grey);
 	}
-	
+
 .nav-el:hover {
 	border-color: var(--bg);
 	}
@@ -171,7 +171,7 @@ html, body {
 	border-color: var(--bg);
 	color: white;
 	}
-	
+
 .current-page:hover {
 	color: var(--grey);
 	}
@@ -187,7 +187,7 @@ html, body {
 	text-decoration: underline;
 	background-color: var(--grey);
 	}
-	
+
 .profile img {
 	height: 20px;
 	vertical-align: middle;
@@ -214,7 +214,6 @@ dropdown {
 }
 
 .dropdown-content a {
-  color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -239,31 +238,31 @@ td, th {
 	text-align: left;
 	padding: 8px;
 	}
-	
+
 tr {
 	user-select: none;
 	}
-  
+
 tr:nth-child(even) {
 	background-color: var(--grey3);
 	}
-	
+
 #recipe-details-table td:nth-child(3) {
 	text-align:right;
 	}
-	
+
 #shopping-list-table td:nth-child(2) {
 	text-align:right;
 	}
-	
+
 #cost-per-order-table td:nth-child(2) {
 	text-align:right;
 	}
-	
+
 #cost-per-order-table tr:last-child {
 	font-weight: bold;
 	}
-	
+
 tr:not(:first-child):hover {
     background-color: var(--grey);
 }
@@ -271,7 +270,7 @@ tr:not(:first-child):hover {
 .inactive {
 	opacity: 0.2;
 	}
-	
+
 .active {
 	opacity: 0.7;
 	}
@@ -294,24 +293,24 @@ td.clickable:hover {
 	position: relative;
 	flex-grow: 1;
 	margin: 0;
-	text-align: center;	
+	text-align: center;
 	border-bottom: solid white;
 	opacity: 0.5;
 	}
-	
-.filter-container:hover {	
+
+.filter-container:hover {
 	cursor: pointer;
 	border-color: var(--bg);
 	opacity:1;
 	}
-	
+
 .filter-container .dropdown-content {
 	left: 50%;
 	top: 80%;
-	transform: translate(-50%);	
+	transform: translate(-50%);
 	background-color: var(--bg);
 	}
-	
+
 .filter-container a {
 	color: white;
 	}
@@ -346,18 +345,17 @@ td.clickable:hover {
 	width:40px;
 	height:40px;
 	filter: invert(30%) sepia(100%) saturate(1000%) hue-rotate(-30deg);
-	}	
+	}
 .due-today {
 	color: red;
 	}
 .overdue {
 	color: #c700ff;
 }
-	
 
-/* ***************** MODAL ****************
- * */
- 
+
+/* ***************** MODAL **************** */
+
  .modal {
 	position:fixed;
 	left:0;
@@ -389,7 +387,7 @@ td.clickable:hover {
 	padding:10px;
 	background-color:var(--grey);
 	}
-	
+
 .modal-top h2 {
 	margin:10px;
 	}
@@ -398,11 +396,11 @@ td.clickable:hover {
 	color:var(--color-background);
 	display:inline;
 	}
-	
+
 .modal-content {
 	padding:25px;
 	}
-	
+
 .modal-close {
   float: right;
   font-size: 22px;
@@ -415,7 +413,7 @@ td.clickable:hover {
   cursor: pointer;
   font-weight: bold;
 }
-	
+
 .modal-hidden {
 	display:none;
 	}
@@ -438,12 +436,12 @@ td.clickable:hover {
 	background-color: var(--bg2);
 	color: var(--grey);
 	}
-	
+
 .modal-fixed {
 	max-width: 350px;
 	margin-left: 30px;
 	}
-	
+
 .orders-list {
 	padding: 10px;
 	margin: 10px;
@@ -460,7 +458,39 @@ td.clickable:hover {
 .date:hover {
 	text-decoration: underline;
 	}
-	
+
 #shopping-list-manager {
 	margin-bottom: 20px;
+	}
+
+
+/* ******************* SELECT LIST ******************* */
+
+.select-list-container {
+	position: relative;
+	flex-grow: 1;
+	margin: 0;
+	text-align: center;
+	border-bottom: solid white;
+	opacity: 0.5;
+	}
+
+.select-list-container:hover {
+	cursor: pointer;
+	border-color: var(--bg);
+	opacity:1;
+	}
+
+.select-list-container .dropdown-content {
+	left: 100%;
+	top: 0;
+	background-color: var(--grey);
+	}
+
+.select-list-container a:hover {
+	background-color: var(--bg2);
+	}
+
+.select-list-current {
+	padding: 8px;
 	}
