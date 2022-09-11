@@ -22,9 +22,7 @@ $(document).ready(function() {
 		DEFAULT_PREFERENCES.UNITS = JSON.stringify(unitsArray);
 
 		Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
-			if (localStorage.getItem(key) == null) {
-				localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
-			}
+			localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
 		});
 	});
 });
