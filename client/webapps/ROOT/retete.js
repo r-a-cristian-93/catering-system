@@ -145,7 +145,6 @@ function newUnitSelector(recipe_id, current_unit) {
 	var ddc = newDivDDC([]);
 	var unitsArray = JSON.parse(localStorage.getItem("UNITS"));
 	for (unit of unitsArray) {
-		console.log(unit);
 		ddc.append(newUnitSelectOption(recipe_id, unit));
 	}
 

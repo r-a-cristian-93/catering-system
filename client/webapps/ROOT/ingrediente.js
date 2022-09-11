@@ -68,10 +68,21 @@ function ingredientUpdate(id) {
 		'id': id,
 		'name': $("#" + id + " td:eq(1)").text(),
 		'price': $("#" + id + " td:eq(2)").text(),
-		'unit': {'name': $("#" + id + " td:eq(3)").text()}
+		'unit': {'name': $("#" + id + " td:eq(3) > div > div:eq(0)").text()}
 	}
 	$.when(updateIngredient(ingredient)).then(function(data){
 		$("#" + id).replaceWith(newIngRow(data));
+	});
+}
+
+function ingredientUpdateUnit(id, unit) {
+	var ingredient = {
+		'id': id,
+		'unit': {'name': unit}
+	};
+
+	$.when(updateIngredient(ingredient)).then(function(data){
+		$("#" + data.id).replaceWith(newIngRow(data));
 	});
 }
 
@@ -108,7 +119,7 @@ function ingredientBuildTable(args) {
 
 function newUnitSelectOption(ing_id, new_unit) {
 	return $("<a>").text(new_unit).on("click", function() {
-		ingredientUpdate(ing_id);
+		ingredientUpdateUnit(ing_id, new_unit);
 	});
 }
 
@@ -125,7 +136,6 @@ function newUnitSelector(ing_id, current_unit) {
 	var ddc = newDivDDC([]);
 	var unitsArray = JSON.parse(localStorage.getItem("UNITS"));
 	for (unit of unitsArray) {
-		console.log(unit);
 		ddc.append(newUnitSelectOption(ing_id, unit));
 	}
 
