@@ -27,7 +27,7 @@ function newNavMenu(user) {
 	var nav = $("<div>")
 		.addClass("nav")
 		.append(newUserA(user.name, "user.html"))	
-		.append(newNavEl("Acasa", "index.html"))
+		.append(newNavEl("Acasa", "home.html"))
 		.append(newNavEl("Comenzi", "comenzi.html"))
 		.append(newNavEl("Retete", "retete.html"))
 		.append(newNavEl("Ingrediente", "ingrediente.html"));
