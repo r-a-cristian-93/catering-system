@@ -470,7 +470,7 @@ td.clickable:hover {
 	position: relative;
 	flex-grow: 1;
 	margin: 0;
-	text-align: center;
+	text-align: left;
 	border-bottom: solid white;
 	opacity: 0.5;
 	}
