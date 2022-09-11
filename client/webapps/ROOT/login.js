@@ -10,7 +10,7 @@ $(document).ready(function(){
 				password: document.login.password.value
 			},
 			success: function(){
-				window.location = DEFAULTS.CLIENT_URL + '/';
+				window.location = DEFAULTS.CLIENT_URL + '/home.html';
 			},
 			error: function() {
 				window.location = DEFAULTS.CLIENT_URL + '/login.html';
