@@ -19,6 +19,10 @@
 -- Table structure for table `clients`
 --
 
+DROP DATABASE IF EXISTS `catering`;
+CREATE DATABASE `catering`;
+USE `catering`;
+
 DROP TABLE IF EXISTS `clients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -155,11 +159,11 @@ CREATE TABLE `ingredients_prices` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `ID_ingredient` int NOT NULL,
   `price` int NOT NULL DEFAULT '0',
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` date NOT NULL DEFAULT (curdate()),
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_ingredient` (`ID_ingredient`,`date`),
   CONSTRAINT `ingredients_prices_ibfk_1` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,6 +172,23 @@ CREATE TABLE `ingredients_prices` (
 
 LOCK TABLES `ingredients_prices` WRITE;
 /*!40000 ALTER TABLE `ingredients_prices` DISABLE KEYS */;
+INSERT INTO `ingredients_prices` VALUES (1,4,33,'2022-08-05'),(2,4,40,'2022-09-01');
+INSERT INTO `ingredients_prices` VALUES (3,6,2.5,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (4,8,5,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (5,10,1,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (6,11,4,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (7,12,7,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (8,13,5,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (9,14,12,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (10,15,0.5,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (11,16,8,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (12,18,3,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (13,19,2,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (14,24,10,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (15,25,7,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (16,26,0.6,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (17,27,5,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (18,32,24,'2022-09-25');
 /*!40000 ALTER TABLE `ingredients_prices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -565,4 +586,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-25  7:48:45
+-- Dump completed on 2022-09-25  8:08:56
