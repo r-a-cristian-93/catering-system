@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.22, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Linux (x86_64)
 --
 -- Host: localhost    Database: catering
 -- ------------------------------------------------------
--- Server version	8.0.22
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,9 +18,6 @@
 --
 -- Table structure for table `clients`
 --
-
-CREATE DATABASE catering;
-USE catering;
 
 DROP TABLE IF EXISTS `clients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -57,7 +54,7 @@ CREATE TABLE `debug_var` (
   `name` varchar(50) DEFAULT NULL,
   `value` int DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +63,6 @@ CREATE TABLE `debug_var` (
 
 LOCK TABLES `debug_var` WRITE;
 /*!40000 ALTER TABLE `debug_var` DISABLE KEYS */;
-INSERT INTO `debug_var` VALUES (1,'x',0),(2,'after update on orders, OLD.ID_shopping_list',0),(3,'after update on orders, NEW.ID_shopping_list',25),(4,'after update on orders, OLD.ID_shopping_list',0),(5,'after update on orders, NEW.ID_shopping_list',25),(10,'after delete on orders, ORD_C=',1),(11,'after update on orders, OLD.ID_shopping_list',25),(12,'after update on orders, NEW.ID_shopping_list',25),(13,'after update on orders, OLD.ID_shopping_list',0),(14,'after update on orders, NEW.ID_shopping_list',26),(15,'after update on orders, OLD.ID_shopping_list',0),(16,'after update on orders, NEW.ID_shopping_list',26),(17,'after update on orders, OLD.ID_shopping_list',26),(18,'after update on orders, NEW.ID_shopping_list',26),(19,'after update on orders, OLD.ID_shopping_list',26),(20,'after update on orders, NEW.ID_shopping_list',26),(21,'after update on orders, OLD.ID_shopping_list',26),(22,'after update on orders, NEW.ID_shopping_list',26),(23,'after update on orders, OLD.ID_shopping_list',26),(24,'after update on orders, NEW.ID_shopping_list',26),(25,'after update on orders, OLD.ID_shopping_list',26),(26,'after update on orders, NEW.ID_shopping_list',26),(27,'after update on orders, OLD.ID_shopping_list',0),(28,'after update on orders, NEW.ID_shopping_list',0),(29,'after update on orders, OLD.ID_shopping_list',26),(30,'after update on orders, NEW.ID_shopping_list',26),(31,'after update on orders, OLD.ID_shopping_list',0),(32,'after update on orders, NEW.ID_shopping_list',26),(33,'after update on orders, OLD.ID_shopping_list',0),(34,'after update on orders, NEW.ID_shopping_list',27),(35,'after update on orders, OLD.ID_shopping_list',0),(36,'after update on orders, NEW.ID_shopping_list',27),(37,'after update on orders, OLD.ID_shopping_list',27),(38,'after update on orders, NEW.ID_shopping_list',0),(39,'after update on orders, OLD.ID_shopping_list',27),(40,'after update on orders, NEW.ID_shopping_list',0),(41,'after update on orders, OLD.ID_shopping_list',0),(42,'after update on orders, NEW.ID_shopping_list',0),(43,'after update on orders, OLD.ID_shopping_list',0),(44,'after update on orders, NEW.ID_shopping_list',28),(45,'after update on orders, OLD.ID_shopping_list',0),(46,'after update on orders, NEW.ID_shopping_list',28),(47,'after update on orders, OLD.ID_shopping_list',28),(48,'after update on orders, NEW.ID_shopping_list',0),(49,'after update on orders, OLD.ID_shopping_list',28),(50,'after update on orders, NEW.ID_shopping_list',0),(51,'after update on orders, OLD.ID_shopping_list',0),(52,'after update on orders, NEW.ID_shopping_list',0),(53,'after update on orders, OLD.ID_shopping_list',0),(54,'after update on orders, NEW.ID_shopping_list',29),(55,'after update on orders, OLD.ID_shopping_list',0),(56,'after update on orders, NEW.ID_shopping_list',29),(57,'after update on orders, OLD.ID_shopping_list',0),(58,'after update on orders, NEW.ID_shopping_list',0),(59,'after update on orders, OLD.ID_shopping_list',26),(60,'after update on orders, NEW.ID_shopping_list',0),(61,'after update on orders, OLD.ID_shopping_list',26),(62,'after update on orders, NEW.ID_shopping_list',0),(63,'after update on orders, OLD.ID_shopping_list',26),(64,'after update on orders, NEW.ID_shopping_list',0),(65,'after update on orders, OLD.ID_shopping_list',0),(66,'after update on orders, NEW.ID_shopping_list',29),(67,'after update on orders, OLD.ID_shopping_list',0),(68,'after update on orders, NEW.ID_shopping_list',29),(69,'after update on orders, OLD.ID_shopping_list',0),(70,'after update on orders, NEW.ID_shopping_list',30),(71,'after update on orders, OLD.ID_shopping_list',0),(72,'after update on orders, NEW.ID_shopping_list',30),(73,'after update on orders, OLD.ID_shopping_list',29),(74,'after update on orders, NEW.ID_shopping_list',0),(75,'after update on orders, OLD.ID_shopping_list',29),(76,'after update on orders, NEW.ID_shopping_list',0),(77,'after update on orders, OLD.ID_shopping_list',29),(78,'after update on orders, NEW.ID_shopping_list',0),(79,'after update on orders, OLD.ID_shopping_list',0),(80,'after update on orders, NEW.ID_shopping_list',0),(81,'after update on orders, OLD.ID_shopping_list',0),(82,'after update on orders, NEW.ID_shopping_list',0),(83,'after update on orders, OLD.ID_shopping_list',0),(84,'after update on orders, NEW.ID_shopping_list',0),(85,'after update on orders, OLD.ID_shopping_list',29),(86,'after update on orders, NEW.ID_shopping_list',0),(87,'after update on orders, OLD.ID_shopping_list',0),(88,'after update on orders, NEW.ID_shopping_list',30),(89,'after update on orders, OLD.ID_shopping_list',0),(90,'after update on orders, NEW.ID_shopping_list',30),(91,'after update on orders, OLD.ID_shopping_list',0),(92,'after update on orders, NEW.ID_shopping_list',30),(93,'after update on orders, OLD.ID_shopping_list',0),(94,'after update on orders, NEW.ID_shopping_list',30),(95,'after update on orders, OLD.ID_shopping_list',30),(96,'after update on orders, NEW.ID_shopping_list',0),(97,'after update on orders, OLD.ID_shopping_list',0),(98,'after update on orders, NEW.ID_shopping_list',0),(99,'after update on orders, OLD.ID_shopping_list',30),(100,'after update on orders, NEW.ID_shopping_list',0),(101,'after update on orders, OLD.ID_shopping_list',30),(102,'after update on orders, NEW.ID_shopping_list',0),(103,'after update on orders, OLD.ID_shopping_list',0),(104,'after update on orders, NEW.ID_shopping_list',31),(105,'after update on orders, OLD.ID_shopping_list',0),(106,'after update on orders, NEW.ID_shopping_list',31),(107,'after update on orders, OLD.ID_shopping_list',0),(108,'after update on orders, NEW.ID_shopping_list',31),(109,'after update on orders, OLD.ID_shopping_list',31),(110,'after update on orders, NEW.ID_shopping_list',0),(111,'after update on orders, OLD.ID_shopping_list',31),(112,'after update on orders, NEW.ID_shopping_list',0),(113,'after update on orders, OLD.ID_shopping_list',31),(114,'after update on orders, NEW.ID_shopping_list',0),(115,'after update on orders, OLD.ID_shopping_list',0),(116,'after update on orders, NEW.ID_shopping_list',0),(117,'after update on orders, OLD.ID_shopping_list',0),(118,'after update on orders, NEW.ID_shopping_list',32),(119,'after update on orders, OLD.ID_shopping_list',0),(120,'after update on orders, NEW.ID_shopping_list',32),(121,'after update on orders, OLD.ID_shopping_list',0),(122,'after update on orders, NEW.ID_shopping_list',0),(123,'after update on orders, OLD.ID_shopping_list',0),(124,'after update on orders, NEW.ID_shopping_list',0),(125,'after update on orders, OLD.ID_shopping_list',0),(126,'after update on orders, NEW.ID_shopping_list',0),(127,'after update on orders, OLD.ID_shopping_list',30),(128,'after update on orders, NEW.ID_shopping_list',30),(129,'after update on orders, OLD.ID_shopping_list',30),(130,'after update on orders, NEW.ID_shopping_list',30),(131,'after update on orders, OLD.ID_shopping_list',30),(132,'after update on orders, NEW.ID_shopping_list',30),(133,'after update on orders, OLD.ID_shopping_list',30),(134,'after update on orders, NEW.ID_shopping_list',30),(135,'after update on orders, OLD.ID_shopping_list',30),(136,'after update on orders, NEW.ID_shopping_list',0),(137,'after update on orders, OLD.ID_shopping_list',30),(138,'after update on orders, NEW.ID_shopping_list',0),(139,'after update on orders, OLD.ID_shopping_list',30),(140,'after update on orders, NEW.ID_shopping_list',0),(141,'after update on orders, OLD.ID_shopping_list',32),(142,'after update on orders, NEW.ID_shopping_list',0),(143,'after update on orders, OLD.ID_shopping_list',32),(144,'after update on orders, NEW.ID_shopping_list',0),(145,'after update on orders, OLD.ID_shopping_list',0),(146,'after update on orders, NEW.ID_shopping_list',33),(147,'after update on orders, OLD.ID_shopping_list',0),(148,'after update on orders, NEW.ID_shopping_list',33),(149,'after update on orders, OLD.ID_shopping_list',0),(150,'after update on orders, NEW.ID_shopping_list',33),(151,'after update on orders, OLD.ID_shopping_list',0),(152,'after update on orders, NEW.ID_shopping_list',0),(153,'after update on orders, OLD.ID_shopping_list',0),(154,'after update on orders, NEW.ID_shopping_list',34),(155,'after update on orders, OLD.ID_shopping_list',0),(156,'after update on orders, NEW.ID_shopping_list',34),(157,'after update on orders, OLD.ID_shopping_list',0),(158,'after update on orders, NEW.ID_shopping_list',34),(159,'after update on orders, OLD.ID_shopping_list',34),(160,'after update on orders, NEW.ID_shopping_list',0),(161,'after update on orders, OLD.ID_shopping_list',34),(162,'after update on orders, NEW.ID_shopping_list',0),(163,'after update on orders, OLD.ID_shopping_list',0),(164,'after update on orders, NEW.ID_shopping_list',35),(165,'after update on orders, OLD.ID_shopping_list',0),(166,'after update on orders, NEW.ID_shopping_list',35),(167,'after update on orders, OLD.ID_shopping_list',0),(168,'after update on orders, NEW.ID_shopping_list',35),(169,'after update on orders, OLD.ID_shopping_list',35),(170,'after update on orders, NEW.ID_shopping_list',0),(171,'after update on orders, OLD.ID_shopping_list',35),(172,'after update on orders, NEW.ID_shopping_list',0),(173,'after update on orders, OLD.ID_shopping_list',35),(174,'after update on orders, NEW.ID_shopping_list',0),(175,'after update on orders, OLD.ID_shopping_list',0),(176,'after update on orders, NEW.ID_shopping_list',36),(177,'after update on orders, OLD.ID_shopping_list',0),(178,'after update on orders, NEW.ID_shopping_list',36),(179,'after update on orders, OLD.ID_shopping_list',0),(180,'after update on orders, NEW.ID_shopping_list',36),(181,'after update on orders, OLD.ID_shopping_list',36),(182,'after update on orders, NEW.ID_shopping_list',0),(183,'after update on orders, OLD.ID_shopping_list',36),(184,'after update on orders, NEW.ID_shopping_list',0),(185,'after update on orders, OLD.ID_shopping_list',36),(186,'after update on orders, NEW.ID_shopping_list',0);
 /*!40000 ALTER TABLE `debug_var` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,13 +136,40 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `recipes_after_update_ingredient` AFTER UPDATE ON `ingredients` FOR EACH ROW BEGIN
-CALL update_recipes_ing_cost_by_ing_id(OLD.ID);
+	CALL update_recipes_ing_cost_by_ing_id(OLD.ID);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `ingredients_prices`
+--
+
+DROP TABLE IF EXISTS `ingredients_prices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ingredients_prices` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_ingredient` int NOT NULL,
+  `price` int NOT NULL DEFAULT '0',
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_ingredient` (`ID_ingredient`,`date`),
+  CONSTRAINT `ingredients_prices_ibfk_1` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ingredients_prices`
+--
+
+LOCK TABLES `ingredients_prices` WRITE;
+/*!40000 ALTER TABLE `ingredients_prices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ingredients_prices` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `orders`
@@ -193,11 +216,11 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `shopping_list_after_update_orders` AFTER UPDATE ON `orders` FOR EACH ROW BEGIN
-call log_var('after update on orders, OLD.ID_shopping_list', OLD.ID_shopping_list);
-call log_var('after update on orders, NEW.ID_shopping_list', NEW.ID_shopping_list);
-IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
-DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
-END IF;
+	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
+		IF (OLD.ID_shopping_list <> 0) THEN
+			DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+		END IF;
+	END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -214,9 +237,11 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `shopping_list_after_delete_orders` AFTER DELETE ON `orders` FOR EACH ROW BEGIN
-IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
-DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
-END IF;
+	IF NOT EXISTS (SELECT * FROM orders WHERE ID_shopping_list = OLD.ID_shopping_list) THEN
+		IF (OLD.ID_shopping_list <> 0) THEN
+			DELETE FROM shopping_list WHERE ID = OLD.ID_shopping_list;
+		END IF;
+	END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -263,7 +288,7 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `orders_after_insert_details` AFTER INSERT ON `orders_details` FOR EACH ROW BEGIN
-CALL update_orders_ing_cost_by_order_id(NEW.ID_order);
+	CALL update_orders_ing_cost_by_order_id(NEW.ID_order);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -280,7 +305,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `orders_after_update_details` AFTER UPDATE ON `orders_details` FOR EACH ROW BEGIN
-CALL update_orders_ing_cost_by_order_id(OLD.ID_order);
+	CALL update_orders_ing_cost_by_order_id(OLD.ID_order);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -297,7 +322,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `orders_after_delete_details` AFTER DELETE ON `orders_details` FOR EACH ROW BEGIN
-CALL update_orders_ing_cost_by_order_id(OLD.ID_order);
+	CALL update_orders_ing_cost_by_order_id(OLD.ID_order);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -344,9 +369,9 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `orders_after_update_recipe` AFTER UPDATE ON `recipes` FOR EACH ROW BEGIN
-IF !(OLD.ing_cost <=> NEW.ing_cost) THEN
-CALL update_orders_ing_cost_by_ing_id(OLD.ID);
-END IF;
+	IF !(OLD.ing_cost <=> NEW.ing_cost) THEN
+		CALL update_orders_ing_cost_by_ing_id(OLD.ID);
+	END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -394,7 +419,7 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `recipes_after_insert_details` AFTER INSERT ON `recipes_details` FOR EACH ROW BEGIN
-CALL update_recipes_ing_cost_by_recipe_id(NEW.ID_recipe);
+	CALL update_recipes_ing_cost_by_recipe_id(NEW.ID_recipe);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -411,7 +436,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `recipes_after_update_details` AFTER UPDATE ON `recipes_details` FOR EACH ROW BEGIN
-CALL update_recipes_ing_cost_by_recipe_id(OLD.ID_recipe);
+	CALL update_recipes_ing_cost_by_recipe_id(OLD.ID_recipe);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -428,7 +453,7 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `recipes_after_delete_details` AFTER DELETE ON `recipes_details` FOR EACH ROW BEGIN
-CALL update_recipes_ing_cost_by_recipe_id(OLD.ID_recipe);
+	CALL update_recipes_ing_cost_by_recipe_id(OLD.ID_recipe);
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -540,4 +565,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-14 18:28:17
+-- Dump completed on 2022-09-25  7:48:45
