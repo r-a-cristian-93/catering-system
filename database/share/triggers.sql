@@ -53,6 +53,49 @@ END $$
 DELIMITER ;
 
 
+DROP PROCEDURE IF EXISTS update_ingredient_price;
+DELIMITER $$
+CREATE PROCEDURE update_ingredient_price(IN ING_ID int)
+BEGIN
+	/* get latest price for current ingredient */
+	DECLARE LATEST_PRICE int;
+	SELECT MAX(price) INTO LATEST_PRICE FROM ingredients_prices WHERE ID_ingredient=ING_ID;
+
+	/* update ingredients table with latest price */
+	UPDATE ingredients SET price = LATEST_PRICE WHERE ID=ING_ID;
+END $$
+DELIMITER ;
+
+/* when UPDATE ingredients_prices */
+DROP TRIGGER IF EXISTS ingredients_after_update_ingredients_prices;
+DELIMITER $$
+CREATE TRIGGER ingredients_after_update_ingredients_prices
+AFTER UPDATE ON ingredients_prices FOR EACH ROW
+BEGIN
+	CALL update_ingredient_price(NEW.ID_ingredient);
+END $$
+DELIMITER ;
+
+/* when INSERT ingredients_prices */
+DROP TRIGGER IF EXISTS ingredients_after_insert_ingredients_prices;
+DELIMITER $$
+CREATE TRIGGER ingredients_after_insert_ingredients_prices
+AFTER INSERT ON ingredients_prices FOR EACH ROW
+BEGIN
+	CALL update_ingredient_price(NEW.ID_ingredient);
+END $$
+DELIMITER ;
+
+/* when DELETE ingredients_prices */
+DROP TRIGGER IF EXISTS ingredients_after_delete_ingredients_prices;
+DELIMITER $$
+CREATE TRIGGER ingredients_after_delete_ingredients_prices
+AFTER DELETE ON ingredients_prices FOR EACH ROW
+BEGIN
+	CALL update_ingredient_price(OLD.ID_ingredient);
+END $$
+DELIMITER ;
+
 /* when update ingredients.price */
 DROP TRIGGER IF EXISTS recipes_after_update_ingredient;
 DELIMITER $$
