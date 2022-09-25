@@ -64,7 +64,8 @@ function recipeAdd(){
 	var recipe = {
 		"name": "[reteta noua]",
 		"quantity": 0,
-		"unit": { "name": "g" }
+		"unit": { "name": "g" },
+		"ingCost": 0
 	};
 
 	$.when(addRecipe(recipe)).then(function(data){
