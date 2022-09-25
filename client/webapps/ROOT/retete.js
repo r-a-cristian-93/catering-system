@@ -308,7 +308,7 @@ function recipeDetailsBuildTable(ingredients, recipeId) {
 	var table = $("<table>")
 		.addClass('full')
 		.attr({"id": "recipe-details-table"})
-		.append(newHeader(["ID", "Denumire", "Cantitate"], [0, 0, 2, 0]));
+		.append(newHeader(["ID", "Denumire", "Cantitate", "Cost/UM", "Cost total"], [0, 0, 2, 3]));
 
 	for(ing of ingredients) {
 		table.append(newRecipeDetailsRow(ing));
@@ -335,9 +335,13 @@ function newRecipeDetailsRow(det) {
 		det.ingredient.name,
 		divQuantity,
 		det.ingredient.unit.name,
+		det.ingredient.price + " Lei",
+		"/",
+		det.ingredient.unit.name,
+		(det.ingredient.price * det.quantity).toFixed(2),
 		saveButton,
 		deleteButton
-	], [0, 0, 0, 0, 0, 0])
+	], [0, 0, 0, 0, 0, 0],[],[,,,,["align-right", "space-right-0"],,["align-left", "space-left-0"],])
 		.attr({"id": "det_"+det.ingredient.id})
 		.on("input", function() {
 			recipeId = $(".modal-title").text().split(" ")[0].substring(1);
@@ -346,7 +350,7 @@ function newRecipeDetailsRow(det) {
 }
 
 function enableSaveDetails(recipeId, ingId) {
-	$("#det_"+ingId + " td:eq(4) > img")
+	$("#det_"+ingId + " td:eq(8) > img")
 		.attr({"class":"active"})
 		.attr({"onclick": "recipeDetailsUpdate("+recipeId+", "+ingId+")"});
 }
@@ -360,7 +364,7 @@ function disableSaveDetails(id) {
 function newStaticIngTable(data) {
 	var table = $("<table>")
 		.addClass('full')
-		.append(newHeader(["ID", "Denumire"]));
+		.append(newHeader(["ID", "Denumire", "Cost/UM"],[,,3],[,,["align-center"]]));
 
 	for(ing of data) {
 		click = 'buildEditIngModal("' +ing.id+ '");';
@@ -374,7 +378,10 @@ function newStaticIngRow(ing) {
 	return newRow([
 		ing.id,
 		ing.name,
-	], [0, 0])
+		ing.price.toFixed(2) + " Lei",
+		"/",
+		ing.unit.name
+	], [0, 0], [],[,,["align-right", "space-right-0"],,["align-left", "space-left-0"]])
 		.on("dblclick", function() {
 			var recipeId = $(".modal-title").text().split(" ")[0].substring(1);
 			var ingId = this.id
