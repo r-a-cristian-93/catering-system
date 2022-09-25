@@ -127,7 +127,7 @@ CREATE TABLE `ingredients` (
 
 LOCK TABLES `ingredients` WRITE;
 /*!40000 ALTER TABLE `ingredients` DISABLE KEYS */;
-INSERT INTO `ingredients` VALUES (4,'Carne de vita','kg',33),(6,'Marar','legatura',2.5),(8,'Cartofi','kg',5),(10,'Ardei iute','buc',1),(11,'Lapte','l',4),(12,'Ulei','l',7),(13,'Sare','kg',5),(14,'Paine','kg',12),(15,'Apa plata','l',0.5),(16,'Orez','kg',8),(18,'Telina','kg',3),(19,'Bors','l',2),(24,'Gogonele','kg',10),(25,'Morcovi','kg',7),(26,'Ou','buc',0.6),(27,'Otet','l',5),(32,'Carne de porc','kg',24);
+INSERT INTO `ingredients` VALUES (4,'Carne de vita','kg',40),(6,'Marar','legatura',3),(8,'Cartofi','kg',5),(10,'Ardei iute','buc',1),(11,'Lapte','l',4),(12,'Ulei','l',7),(13,'Sare','kg',5),(14,'Paine','kg',12),(15,'Apa plata','l',1),(16,'Orez','kg',8),(18,'Telina','kg',3),(19,'Bors','l',2),(24,'Gogonele','kg',10),(25,'Morcovi','kg',7),(26,'Ou','buc',1),(27,'Otet','l',5),(32,'Carne de porc','kg',24);
 /*!40000 ALTER TABLE `ingredients` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -163,7 +163,7 @@ CREATE TABLE `ingredients_prices` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_ingredient` (`ID_ingredient`,`date`),
   CONSTRAINT `ingredients_prices_ibfk_1` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,25 +172,60 @@ CREATE TABLE `ingredients_prices` (
 
 LOCK TABLES `ingredients_prices` WRITE;
 /*!40000 ALTER TABLE `ingredients_prices` DISABLE KEYS */;
-INSERT INTO `ingredients_prices` VALUES (1,4,33,'2022-08-05'),(2,4,40,'2022-09-01');
-INSERT INTO `ingredients_prices` VALUES (3,6,2.5,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (4,8,5,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (5,10,1,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (6,11,4,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (7,12,7,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (8,13,5,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (9,14,12,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (10,15,0.5,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (11,16,8,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (12,18,3,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (13,19,2,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (14,24,10,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (15,25,7,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (16,26,0.6,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (17,27,5,'2022-09-25');
-INSERT INTO `ingredients_prices` VALUES (18,32,24,'2022-09-25');
+INSERT INTO `ingredients_prices` VALUES (1,4,33,'2022-09-24'),(2,4,40,'2022-09-01'),(3,6,3,'2022-09-24'),(4,8,5,'2022-09-24'),(5,10,1,'2022-09-24'),(6,11,4,'2022-09-24'),(7,12,7,'2022-09-24'),(8,13,5,'2022-09-24'),(9,14,12,'2022-09-24'),(10,15,1,'2022-09-24'),(11,16,8,'2022-09-24'),(12,18,3,'2022-09-24'),(13,19,2,'2022-09-24'),(14,24,10,'2022-09-24'),(15,25,7,'2022-09-24'),(16,26,1,'2022-09-24'),(17,27,5,'2022-09-24'),(18,32,24,'2022-09-24');
 /*!40000 ALTER TABLE `ingredients_prices` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `ingredients_after_insert_ingredients_prices` AFTER INSERT ON `ingredients_prices` FOR EACH ROW BEGIN
+	CALL update_ingredient_price(NEW.ID_ingredient);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `ingredients_after_update_ingredients_prices` AFTER UPDATE ON `ingredients_prices` FOR EACH ROW BEGIN
+	CALL update_ingredient_price(NEW.ID_ingredient);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `ingredients_after_delete_ingredients_prices` AFTER DELETE ON `ingredients_prices` FOR EACH ROW BEGIN
+	CALL update_ingredient_price(OLD.ID_ingredient);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `orders`
@@ -224,7 +259,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,2,'livrata',28.320000000000004,'2021-09-08 10:27:45','2021-01-04 11:27:45',33),(2,2,'livrata',170.04,'2021-01-23 11:27:45','2021-01-24 11:27:51',33),(4,2,'in lucru',354,'2021-02-03 11:27:45','2021-01-24 11:27:51',33),(59,2,'anulata',3.4200000000000004,'2021-01-24 11:27:45','2021-01-24 11:27:51',0),(102,1,'preluata',70.85000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:37',0),(103,2,'preluata',30.300000000000004,'2021-02-14 10:56:39','2021-02-14 10:56:39',0);
+INSERT INTO `orders` VALUES (1,2,'livrata',33.519999999999996,'2021-09-08 10:27:45','2021-01-04 11:27:45',33),(2,2,'livrata',193.56000000000003,'2021-01-23 11:27:45','2021-01-24 11:27:51',33),(4,2,'in lucru',394,'2021-02-03 11:27:45','2021-01-24 11:27:51',33),(59,2,'anulata',4.62,'2021-01-24 11:27:45','2021-01-24 11:27:51',0),(102,1,'preluata',80.65,'2021-02-14 10:55:37','2021-02-14 10:55:37',0),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',0);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -368,7 +403,7 @@ CREATE TABLE `recipes` (
   UNIQUE KEY `ID` (`ID`),
   KEY `unit` (`unit`),
   CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`unit`) REFERENCES `units` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,7 +412,7 @@ CREATE TABLE `recipes` (
 
 LOCK TABLES `recipes` WRITE;
 /*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',1.1400000000000001),(5,'Cartofi prajiti',200,'g',1.025),(8,'Mititei',200,'g',6.0600000000000005),(10,'Orez cu lapte',300,'ml',2.4),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.01),(16,'Baclava',23,'g',1.7999999999999998),(27,'Mamaliga',1,'kg',0.07);
+INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',1.54),(5,'Cartofi prajiti',200,'g',1.025),(8,'Mititei',200,'g',7.040000000000001),(10,'Orez cu lapte',300,'ml',2.4),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.11),(16,'Baclava',23,'g',3),(27,'Mamaliga',1,'kg',0.07),(29,'Friptura de vita',300,'g',12);
 /*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -418,7 +453,7 @@ CREATE TABLE `recipes_details` (
   KEY `ID_ingredient` (`ID_ingredient`),
   CONSTRAINT `recipes_details_ibfk_1` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `recipes_details_ibfk_2` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -427,7 +462,7 @@ CREATE TABLE `recipes_details` (
 
 LOCK TABLES `recipes_details` WRITE;
 /*!40000 ALTER TABLE `recipes_details` DISABLE KEYS */;
-INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,0.3),(29,10,16,0.15),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.02),(79,2,26,1),(81,8,32,0.06),(82,16,26,3);
+INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,0.3),(29,10,16,0.15),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.02),(79,2,26,1),(81,8,32,0.06),(82,16,26,3),(86,29,4,0.3);
 /*!40000 ALTER TABLE `recipes_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -586,4 +621,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-25  8:08:56
+-- Dump completed on 2022-09-25 10:27:10
