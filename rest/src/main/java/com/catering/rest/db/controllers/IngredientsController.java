@@ -53,14 +53,10 @@ public class IngredientsController {
 	@ResponseBody
 	@PutMapping("/{id}")
 	public IngredientModel updateIngredient(@PathVariable Integer id, @RequestBody IngredientModel ingredient) {
-		Double price = ingredient.getPrice();
 		String name = ingredient.getName();
 		UnitModel unit = ingredient.getUnit();
 		ingredient = ingredientsRepo.findById(id).get();
 		
-		if(price!=null) {
-			ingredient.setPrice(price);
-		}
 		if(name!=null) {
 			ingredient.setName(name);
 		}
