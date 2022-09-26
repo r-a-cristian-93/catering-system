@@ -272,6 +272,7 @@ function recipeDetailsUpdate(recipeId, ingId) {
 	$.when(updateRecipeDetails(details)).then(function(data){
 		$("#det_" + ingId).replaceWith(newRecipeDetailsRow(data));
 		$.when(getRecipe(recipeId)).then(function(data) {
+			$("#det_total th:eq(5)").html(data.ingCost + " Lei");
 			$("#" + data.id).replaceWith(newRecipeRow(data));
 		});
 	});
@@ -313,6 +314,9 @@ function recipeDetailsBuildTable(ingredients, recipeId) {
 	for(ing of ingredients) {
 		table.append(newRecipeDetailsRow(ing));
 	}
+
+	table.append(newHeader([,,,,"Total:",ingredients[0].recipe.ingCost.toFixed(2) + " Lei"],[,,,,3]).attr({"id":"det_total"}));
+
 	return table;
 }
 
@@ -338,7 +342,7 @@ function newRecipeDetailsRow(det) {
 		det.ingredient.price + " Lei",
 		"/",
 		det.ingredient.unit.name,
-		(det.ingredient.price * det.quantity).toFixed(2),
+		(det.ingredient.price * det.quantity).toFixed(2) + " Lei",
 		saveButton,
 		deleteButton
 	], [0, 0, 0, 0, 0, 0],[],[,,,,["align-right", "space-right-0"],,["align-left", "space-left-0"],])
