@@ -430,7 +430,7 @@ function orderDetailsUpdate(orderId, recipeId) {
 		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));
 
 		$.when(getOrder(orderId)).then(function(data) {
-			$("#det_total td:eq(5)").html("<b>" + data.ingCost.toFixed(2) + " Lei</b>");
+			$("#det_total th:eq(5)").html(data.ingCost.toFixed(2) + " Lei");
 			$("#"+data.id).replaceWith(newOrderRow(data));
 		});
 	});
@@ -468,13 +468,7 @@ function newOrderDetailsTable(details) {
 		table.append(newOrderDetailRow(detail));
 	}
 
-	table.append(newRow(["","","","",
-			"<b>Total:</b>",
-			"<b>" + details[0].order.ingCost.toFixed(2) + " Lei</b>",
-			"",
-			""
-		]).attr({"id":"det_total"})
-	);
+	table.append(newHeader([,,,,"Total:",details[0].order.ingCost.toFixed(2) + " Lei"]).attr({"id":"det_total"}));
 
 	return table;
 }
