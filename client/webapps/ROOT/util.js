@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 /* ************* TABLE ************* */
 
-function newRow(arrayVal, editable, attrList) {
+function newRow(arrayVal, editable, attrList, classList) {
 	var tr = $("<tr>").attr({"id": arrayVal[0]});
 	var index = 0;
 	for(val of arrayVal) {
@@ -41,22 +41,34 @@ function newRow(arrayVal, editable, attrList) {
 		if(attrList && attrList[index]!=null) {
 			td.attr(attrList[index]);
 		}
+		if(classList && classList[index]!=null) {
+			for (cls of classList[index]) {
+				td.addClass(cls);
+			}
+		}
 		tr.append(td);
 		index++
 	}
 	return tr;
 }
 
-function newHeader(arrayVal, colspan){
+function newHeader(arrayVal, colspan, classList){
 	var tr = $("<tr>");
 	var index = 0;
 	for(val of arrayVal) {
+		var th = $("<th>");
 		if(colspan && colspan[index]!=0) {
-			tr.append($("<th>").text(val).attr({"colspan": colspan[index]}));
+			th.text(val).attr({"colspan": colspan[index]});
 		}
 		else {
-			tr.append($("<th>").text(val));
+			th.text(val);
 		}
+		if(classList && classList[index]!=null) {
+			for (cls of classList[index]) {
+				th.addClass(cls);
+			}
+		}
+		tr.append(th)
 		index++;
 	}
 	return tr;

@@ -428,7 +428,9 @@ function orderDetailsUpdate(orderId, recipeId) {
 		"servings": $("#det_" + recipeId + " td:eq(2)").text()};
 	$.when(updateOrderDetails(details)).then(function(data) {
 		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));
+
 		$.when(getOrder(orderId)).then(function(data) {
+			$("#det_total th:eq(5)").html(data.ingCost.toFixed(2) + " Lei");
 			$("#"+data.id).replaceWith(newOrderRow(data));
 		});
 	});
@@ -454,17 +456,20 @@ function orderDetailsAdd(orderId, recipeId) {
 		"servings": 0
 	};
 	$.when(addOrderDetails(details)).then(function(data) {
-		$("#order-details-table").append(newOrderDetailRow(data));
+		newOrderDetailRow(data).insertBefore("#order-details-table tr:last");
 	});
 }
 
 function newOrderDetailsTable(details) {
 	var table = $("<table>")
 		.attr({"id": "order-details-table"})
-		.append(newHeader(["ID", "Reteta", "Portii"],[]));
+		.append(newHeader(["ID", "Reteta", "Portii", "Gramaj", "Cost unitar", "Cost total"],[]));
 	for(detail of details) {
 		table.append(newOrderDetailRow(detail));
 	}
+
+	table.append(newHeader([,,,,"Total:",details[0].order.ingCost.toFixed(2) + " Lei"]).attr({"id":"det_total"}));
+
 	return table;
 }
 
@@ -485,6 +490,9 @@ function newOrderDetailRow(detail) {
 		detail.recipe.id,
 		detail.recipe.name,
 		divServings,
+		detail.recipe.quantity + " " + detail.recipe.unit.name,
+		detail.recipe.ingCost.toFixed(2) + " Lei",
+		(detail.servings * detail.recipe.ingCost).toFixed(2) + " Lei",
 		saveButton,
 		deleteButton
 	], [0, 0, 0], [])
@@ -497,7 +505,7 @@ function newOrderDetailRow(detail) {
 function newStaticRecipeTable(recipes) {
 	var table = $("<table>")
 		.addClass("full")
-		.append(newHeader(["ID", "Name"]));
+		.append(newHeader(["ID", "Reteta", "Gramaj", "Cost unitar"]));
 	for(recipe of recipes) {
 		table.append(newStaticRecipeRow(recipe));
 	}
@@ -505,7 +513,11 @@ function newStaticRecipeTable(recipes) {
 }
 
 function newStaticRecipeRow(recipe) {
-	return newRow([recipe.id, recipe.name],[],[])
+	return newRow([
+		recipe.id,
+		recipe.name,
+		recipe.quantity + " " + recipe.unit.name,
+		recipe.ingCost.toFixed(2) + " Lei"])
 		.on("dblclick", function() {
 			var orderId = $(".modal-title").text().split(" ")[0].substring(1);
 			orderDetailsAdd(orderId, recipe.id);
@@ -513,7 +525,7 @@ function newStaticRecipeRow(recipe) {
 }
 
 function enableSaveOrderDetails(orderId, recipeId) {
-	$("#det_" + recipeId + " td:eq(3) > img")
+	$("#det_" + recipeId + " td:eq(6) > img")
 		.attr({"class":"active"})
 		.attr({"onclick": "orderDetailsUpdate("+orderId+ ","+recipeId+ ")"});
 }
