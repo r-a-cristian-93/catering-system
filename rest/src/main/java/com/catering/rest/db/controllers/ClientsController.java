@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.ClientModel;
-import com.catering.rest.db.repositories.ClientsRepository;
+import com.catering.rest.db.services.ClientsService;
 
 import lombok.AllArgsConstructor;
 
@@ -21,49 +21,35 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("clients")
 public class ClientsController {
-	ClientsRepository clientsRepo;		
-	
+	private final ClientsService clientsService;
+
 	@ResponseBody
 	@GetMapping
 	public List<ClientModel> getClients() {
-		return clientsRepo.findAll();
+		return clientsService.getClients();
 	}
-	
+
 	@ResponseBody
 	@PostMapping
 	public ClientModel addClient(@RequestBody ClientModel client) {
-		return clientsRepo.save(client);		
+		return clientsService.addClient(client);
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/{id}")
 	public ClientModel getClient(@PathVariable Integer id) {
-		return clientsRepo.findById(id).get();
+		return clientsService.getClient(id);
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping("/{id}")
 	public void deleteClient(@PathVariable Integer id) {
-		clientsRepo.deleteById(id);		
+		clientsService.deleteClient(id);
 	}
-	
+
 	@ResponseBody
 	@PutMapping("/{id}")
 	public ClientModel updateClient(@PathVariable Integer id, @RequestBody ClientModel client) {
-		String name = client.getName();
-		String address = client.getAddress();
-		String phone = client.getPhone();
-		client = clientsRepo.findById(id).get();
-		
-		if(name!=null) {
-			client.setName(name);
-		}
-		if(address!=null) {
-			client.setAddress(address);
-		}
-		if(phone!=null) {
-			client.setPhone(phone);
-		}
-		return clientsRepo.save(client);
+		return clientsService.updateClient(id, client);
 	}
 }

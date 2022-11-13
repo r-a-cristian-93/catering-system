@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.ShoppingListModel;
-import com.catering.rest.db.repositories.ShoppingListRepository;
 import com.catering.rest.db.services.ShoppingListService;
 
 import lombok.AllArgsConstructor;
