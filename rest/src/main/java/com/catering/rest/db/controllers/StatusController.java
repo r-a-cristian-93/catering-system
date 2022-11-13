@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.StatusModel;
-import com.catering.rest.db.repositories.StatusRepository;
+import com.catering.rest.db.services.StatusService;
 
 import lombok.AllArgsConstructor;
 
@@ -15,11 +15,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("status")
 public class StatusController {
-	StatusRepository statusRepo;
-	
+	private final StatusService statusService;
+
 	@GetMapping
 	public List<StatusModel> getStatus() {
-		return statusRepo.findAll();
+		return statusService.getStatus();
 	}
 
 }
