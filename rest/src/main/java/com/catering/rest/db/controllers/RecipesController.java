@@ -3,7 +3,6 @@ package com.catering.rest.db.controllers;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.catering.rest.db.models.IngredientModel;
 import com.catering.rest.db.models.RecipeModel;
 import com.catering.rest.db.models.RecipesDetailsModel;
-import com.catering.rest.db.models.UnitModel;
-import com.catering.rest.db.repositories.IngredientsRepository;
-import com.catering.rest.db.repositories.RecipesDetailsRepository;
-import com.catering.rest.db.repositories.RecipesRepository;
+import com.catering.rest.db.services.RecipesService;
 
 import lombok.AllArgsConstructor;
 
@@ -29,106 +24,71 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RequestMapping("recipes")
 public class RecipesController {
-	private final RecipesRepository recipesRepo;
-	private final RecipesDetailsRepository detailsRepo;
-	private final IngredientsRepository ingredientsRepo;
-	
+	private final RecipesService recipesService;
+
 	@ResponseBody
 	@GetMapping
 	public Iterable<RecipeModel> getRecipes() {
-		return recipesRepo.findAll();
+		return recipesService.getRecipes();
 	}
-	
+
 	@ResponseBody
 	@PostMapping
 	public RecipeModel addRecipe(@RequestBody RecipeModel recipe) {
-		return recipesRepo.save(recipe);
+		return recipesService.addRecipe(recipe);
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/{id}")
 	public RecipeModel getRecipe(@PathVariable Integer id) {
-		return recipesRepo.findById(id).get();
+		return recipesService.getRecipe(id);
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping("/{id}")
 	public void deleteRecipe(@PathVariable Integer id) {
-		recipesRepo.deleteById(id);
+		recipesService.deleteRecipe(id);;
 	}
-	
+
 	@ResponseBody
 	@PutMapping("/{id}")
 	public RecipeModel updateRecipe(@PathVariable Integer id, @RequestBody RecipeModel recipe) {
-		String name = recipe.getName();
-		Double quantity = recipe.getQuantity();
-		UnitModel unit = recipe.getUnit();
-		recipe = recipesRepo.findById(id).get();
-		
-		if(name!=null) {
-			recipe.setName(name);
-		}		
-		if(quantity!=null) {
-			recipe.setQuantity(quantity);
-		}
-		if(unit!=null) {
-			recipe.setUnit(unit);
-		}
-		return recipesRepo.save(recipe);
+		return recipesService.updateRecipe(id, recipe);
 	}
-	
-	
+
+
 	// PAGEABLE
-	
+
 	@ResponseBody
 	@GetMapping("/allPageable")
 	public Page<RecipeModel> getRecipesPageable(@RequestParam Integer page, @RequestParam Integer size) {
-		return recipesRepo.findAll(PageRequest.of(page, size));
+		return recipesService.getRecipesPageable(page, size);
 	}
-	
-	
+
+
 	//RECIPE DETAILS
-	
+
 	@ResponseBody
 	@GetMapping("/{id}/details")
 	public List<RecipesDetailsModel> getDetails(@PathVariable Integer id) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
-		return detailsRepo.findByRecipe(recipe);
+		return recipesService.getDetails(id);
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/{id}/details")
 	public RecipesDetailsModel addDetails(@PathVariable Integer id,	@RequestBody RecipesDetailsModel details) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
-		IngredientModel ingredient = ingredientsRepo.findById(details.getIngredient().getId()).get();
-		details.setRecipe(recipe);
-		details.setIngredient(ingredient);
-		return detailsRepo.save(details);
-	}	
-	
+		return recipesService.addDetails(id, details);
+	}
+
 	@ResponseBody
 	@DeleteMapping("/{id}/details")
 	public void deleteDetails(@PathVariable Integer id, @RequestBody RecipesDetailsModel details) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
-		Integer ingredientId = details.getIngredient().getId();
-		IngredientModel ingredient = ingredientsRepo.findById(ingredientId).get();
-		
-		details = detailsRepo.findByRecipeAndIngredient(recipe, ingredient);
-		detailsRepo.delete(details);
+		recipesService.deleteDetails(id, details);;
 	}
-	
+
 	@ResponseBody
 	@PutMapping("/{id}/details")
 	public RecipesDetailsModel updateDetailsQuantity(@PathVariable Integer id, @RequestBody RecipesDetailsModel details) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
-		Integer ingredientId = details.getIngredient().getId();
-		IngredientModel ingredient = ingredientsRepo.findById(ingredientId).get();
-		Double quantity = details.getQuantity();
-		
-		details = detailsRepo.findByRecipeAndIngredient(recipe, ingredient);
-		details.setQuantity(quantity);
-		return detailsRepo.save(details);		
-	}	
+		return recipesService.updateDetailsQuantity(id, details);
+	}
 }
-
-
