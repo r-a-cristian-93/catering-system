@@ -22,17 +22,23 @@ public class RecipeModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	
+
+	@Column(name="name")
 	private String name;
-	
+
+	@Column(name="quantity")
 	private Double quantity;
-	
+
 	@ManyToOne
 	@JoinColumn(name="unit")
 	private UnitModel unit;
-	
+
+	@ManyToOne
+	@JoinColumn(name="category")
+	private CategoryModel category;
+
 	@Column(name="ing_cost")
 	private Double ingCost;
-	
+
 	protected RecipeModel() {}
 }
