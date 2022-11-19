@@ -58,8 +58,10 @@ DELIMITER $$
 CREATE PROCEDURE update_ingredient_price(IN ING_ID int)
 BEGIN
 	/* get latest price for current ingredient */
+	DECLARE LATEST_DATE date;
 	DECLARE LATEST_PRICE int;
-	SELECT MAX(price) INTO LATEST_PRICE FROM ingredients_prices WHERE ID_ingredient=ING_ID;
+	SELECT MAX(date) INTO LATEST_DATE FROM ingredients_prices WHERE ID_ingredient=ING_ID;
+	SELECT price INTO LATEST_PRICE FROM ingredients_prices WHERE ID_ingredient=ING_ID AND date=LATEST_DATE;
 
 	/* update ingredients table with latest price */
 	UPDATE ingredients SET price = LATEST_PRICE WHERE ID=ING_ID;
