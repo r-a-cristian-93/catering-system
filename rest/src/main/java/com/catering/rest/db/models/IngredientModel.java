@@ -27,16 +27,16 @@ public class IngredientModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	
+
 	@Column(name="name")
 	private String name;
-	
+
 	@Column(name="price")
 	private Double price;
-	
+
 	@ManyToOne
 	@JoinColumn(name="unit")
 	private UnitModel unit;
-	
+
 	protected IngredientModel() {}
 }
