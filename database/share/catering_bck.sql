@@ -140,7 +140,10 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `recipes_after_update_ingredient` AFTER UPDATE ON `ingredients` FOR EACH ROW BEGIN
-	CALL update_recipes_ing_cost_by_ing_id(OLD.ID);
+	IF (OLD.price <> NEW.price) THEN
+		CALL update_recipes_ing_cost_by_ing_id(OLD.ID);
+		CALL update_ingredient_price_history(OLD.ID, NEW.price);
+	END IF;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -570,4 +573,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-25 10:27:10
+-- Dump completed on 2022-11-19 18:01:48
