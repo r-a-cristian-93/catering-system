@@ -1,5 +1,6 @@
 package com.catering.rest.db.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class IngredientsService {
+	@Autowired
     private final IngredientsRepository ingredientsRepo;
 
 	public Iterable<IngredientModel> getIngredients() {
@@ -34,6 +36,8 @@ public class IngredientsService {
 	public IngredientModel updateIngredient(Integer id, IngredientModel ingredient) {
 		String name = ingredient.getName();
 		UnitModel unit = ingredient.getUnit();
+		Double price = ingredient.getPrice();
+
 		ingredient = ingredientsRepo.findById(id).get();
 
 		if(name!=null) {
@@ -41,6 +45,9 @@ public class IngredientsService {
 		}
 		if(unit!=null) {
 			ingredient.setUnit(unit);
+		}
+		if (price!=null) {
+			ingredient.setPrice(price);
 		}
 		return ingredientsRepo.save(ingredient);
 	}
