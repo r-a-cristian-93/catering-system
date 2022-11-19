@@ -351,10 +351,13 @@ CREATE TABLE `recipes` (
   `quantity` double NOT NULL,
   `unit` varchar(25) NOT NULL,
   `ing_cost` double NOT NULL DEFAULT '0',
+  `category` varchar(20) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `unit` (`unit`),
-  CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`unit`) REFERENCES `units` (`name`)
+  KEY `category` (`category`),
+  CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`unit`) REFERENCES `units` (`name`),
+  CONSTRAINT `recipes_ibfk_2` FOREIGN KEY (`category`) REFERENCES `recipes_categories` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -364,7 +367,7 @@ CREATE TABLE `recipes` (
 
 LOCK TABLES `recipes` WRITE;
 /*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',1.54),(5,'Cartofi prajiti',200,'g',1.025),(8,'Mititei',200,'g',7.040000000000001),(10,'Orez cu lapte',300,'ml',2.4),(12,'Ciorba de perisoare',300,'ml',0),(15,'Ciorba de legume',400,'ml',1.11),(16,'Baclava',23,'g',3),(27,'Mamaliga',1,'kg',0.07),(29,'Friptura de vita',300,'g',12);
+INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',1.54,'Deserturi'),(5,'Cartofi prajiti',200,'g',1.025,'Garnituri'),(8,'Mititei',200,'g',7.040000000000001,'Mancaruri calde'),(10,'Orez cu lapte',300,'ml',2.4,'Deserturi'),(12,'Ciorba de perisoare',300,'ml',0,'Super, Ciorbe'),(15,'Ciorba de legume',400,'ml',1.11,'Super, Ciorbe'),(16,'Baclava',23,'g',3,'Deserturi'),(27,'Mamaliga',1,'kg',0.07,'Accesorii'),(29,'Friptura de vita',300,'g',12,'Fripturi');
 /*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -386,6 +389,30 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `recipes_categories`
+--
+
+DROP TABLE IF EXISTS `recipes_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `recipes_categories` (
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`name`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recipes_categories`
+--
+
+LOCK TABLES `recipes_categories` WRITE;
+/*!40000 ALTER TABLE `recipes_categories` DISABLE KEYS */;
+INSERT INTO `recipes_categories` VALUES ('Accesorii'),('Aperitive'),('Bauturi'),('Deserturi'),('Fripturi'),('Garnituri'),('Mancaruri calde'),('Salate'),('Super, Ciorbe');
+/*!40000 ALTER TABLE `recipes_categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `recipes_details`
@@ -573,4 +600,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-19 18:01:48
+-- Dump completed on 2022-11-19 18:59:42
