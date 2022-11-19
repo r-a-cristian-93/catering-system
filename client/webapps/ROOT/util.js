@@ -8,6 +8,7 @@ var DEFAULT_PREFERENCES = {
 	SORT_DIRECTION: "ASC",
 	ORDERS_SORT_BY: "deliveryDate",
 	UNITS: [],
+	CATEGORIES: [],
 };
 
 
@@ -20,6 +21,20 @@ $(document).ready(function() {
 		}
 
 		DEFAULT_PREFERENCES.UNITS = JSON.stringify(unitsArray);
+
+		Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
+			localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
+		});
+	});
+
+	$.when(getCategories()).then(function(categoriesList){
+
+		var categoriesArray = [];
+		for(categories of categoriesList) {
+			categoriesArray.push(categories.name);
+		}
+
+		DEFAULT_PREFERENCES.CATEGORIES = JSON.stringify(categoriesArray);
 
 		Object.keys(DEFAULT_PREFERENCES).forEach(function(key) {
 			localStorage.setItem(key, DEFAULT_PREFERENCES[key]);
@@ -161,5 +176,13 @@ function getUnits() {
 		method: 'GET',
 		xhrFields: {withCredentials: true },
 		url: DEFAULTS.REST_URL + '/units',
+	});
+}
+
+function getCategories() {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: {withCredentials: true },
+		url: DEFAULTS.REST_URL + '/categories',
 	});
 }

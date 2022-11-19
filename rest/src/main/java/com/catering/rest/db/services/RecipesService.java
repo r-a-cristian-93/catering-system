@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.catering.rest.db.models.CategoryModel;
 import com.catering.rest.db.models.IngredientModel;
 import com.catering.rest.db.models.RecipeModel;
 import com.catering.rest.db.models.RecipesDetailsModel;
@@ -47,6 +48,7 @@ public class RecipesService {
 		String name = recipe.getName();
 		Double quantity = recipe.getQuantity();
 		UnitModel unit = recipe.getUnit();
+		CategoryModel category = recipe.getCategory();
 		recipe = recipesRepo.findById(id).get();
 
 		if(name!=null) {
@@ -57,6 +59,9 @@ public class RecipesService {
 		}
 		if(unit!=null) {
 			recipe.setUnit(unit);
+		}
+		if (category!=null) {
+			recipe.setCategory(category);
 		}
 		return recipesRepo.save(recipe);
 	}
