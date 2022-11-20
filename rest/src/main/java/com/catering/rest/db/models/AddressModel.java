@@ -11,17 +11,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="clients")
+@Table(name="addresses")
 @Getter @Setter
-public class ClientModel {
-	@Id
+public class AddressModel {
+    @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
-	private Integer id;
+    private Integer id;
 
-	private String name;
+    @Column(name="value")
+    private String value;
 
-	private String phone;
-
-	protected ClientModel() {}
+    protected AddressModel() {}
 }

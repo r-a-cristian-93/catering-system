@@ -32,15 +32,11 @@ public class ClientsService {
 
 	public ClientModel updateClient(Integer id, ClientModel client) {
 		String name = client.getName();
-		String address = client.getAddress();
 		String phone = client.getPhone();
 		client = clientsRepo.findById(id).get();
 
 		if(name!=null) {
 			client.setName(name);
-		}
-		if(address!=null) {
-			client.setAddress(address);
 		}
 		if(phone!=null) {
 			client.setPhone(phone);
