@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.catering.rest.db.models.AddressModel;
 import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
@@ -78,6 +79,7 @@ public class OrdersService {
 		ClientModel client = order.getClient();
 		StatusModel status = order.getStatus();
 		Date deliveryDate = order.getDeliveryDate();
+		AddressModel deliveryAddress = order.getDeliveryAddress();
 		order = ordersRepo.findById(id).get();
 
 		if(client!=null) {
@@ -90,6 +92,10 @@ public class OrdersService {
 		if(deliveryDate!=null) {
 			order.setDeliveryDate(deliveryDate);
 		}
+		if(deliveryAddress!=null) {
+			order.setDeliveryAddress(deliveryAddress);
+		}
+
 		return ordersRepo.save(order);
 	}
 
