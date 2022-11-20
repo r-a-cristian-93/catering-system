@@ -53,46 +53,18 @@ END $$
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS update_ingredient_price;
+DROP PROCEDURE IF EXISTS update_ingredient_price_history;
 DELIMITER $$
-CREATE PROCEDURE update_ingredient_price(IN ING_ID int)
+CREATE PROCEDURE update_ingredient_price_history(IN ING_ID int, IN ING_PRICE double)
 BEGIN
-	/* get latest price for current ingredient */
-	DECLARE LATEST_PRICE int;
-	SELECT MAX(price) INTO LATEST_PRICE FROM ingredients_prices WHERE ID_ingredient=ING_ID;
+	DECLARE HAS_TODAY_RECORD BOOLEAN;
+	SELECT EXISTS (SELECT ID FROM ingredients_price_history WHERE date=CURDATE()) INTO HAS_TODAY_RECORD;
 
-	/* update ingredients table with latest price */
-	UPDATE ingredients SET price = LATEST_PRICE WHERE ID=ING_ID;
-END $$
-DELIMITER ;
-
-/* when UPDATE ingredients_prices */
-DROP TRIGGER IF EXISTS ingredients_after_update_ingredients_prices;
-DELIMITER $$
-CREATE TRIGGER ingredients_after_update_ingredients_prices
-AFTER UPDATE ON ingredients_prices FOR EACH ROW
-BEGIN
-	CALL update_ingredient_price(NEW.ID_ingredient);
-END $$
-DELIMITER ;
-
-/* when INSERT ingredients_prices */
-DROP TRIGGER IF EXISTS ingredients_after_insert_ingredients_prices;
-DELIMITER $$
-CREATE TRIGGER ingredients_after_insert_ingredients_prices
-AFTER INSERT ON ingredients_prices FOR EACH ROW
-BEGIN
-	CALL update_ingredient_price(NEW.ID_ingredient);
-END $$
-DELIMITER ;
-
-/* when DELETE ingredients_prices */
-DROP TRIGGER IF EXISTS ingredients_after_delete_ingredients_prices;
-DELIMITER $$
-CREATE TRIGGER ingredients_after_delete_ingredients_prices
-AFTER DELETE ON ingredients_prices FOR EACH ROW
-BEGIN
-	CALL update_ingredient_price(OLD.ID_ingredient);
+	IF (HAS_TODAY_RECORD) THEN
+		UPDATE ingredients_price_history SET price = ING_PRICE WHERE ID_ingredient=ING_ID AND date=CURDATE();
+	ELSE
+		INSERT INTO ingredients_price_history(ID_ingredient, price) values(ING_ID, ING_PRICE);
+	END IF;
 END $$
 DELIMITER ;
 
@@ -102,7 +74,10 @@ DELIMITER $$
 CREATE TRIGGER recipes_after_update_ingredient
 AFTER UPDATE ON ingredients FOR EACH ROW
 BEGIN
-	CALL update_recipes_ing_cost_by_ing_id(OLD.ID);
+	IF (OLD.price <> NEW.price) THEN
+		CALL update_recipes_ing_cost_by_ing_id(OLD.ID);
+		CALL update_ingredient_price_history(OLD.ID, NEW.price);
+	END IF;
 END $$
 DELIMITER ;
 

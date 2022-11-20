@@ -67,7 +67,8 @@ function ingredientUpdate(id) {
 	var ingredient = {
 		'id': id,
 		'name': $("#" + id + " td:eq(1)").text(),
-		'unit': {'name': $("#" + id + " td:eq(3) > div > div:eq(0)").text()}
+		'unit': {'name': $("#" + id + " td:eq(3) > div > div:eq(0)").text()},
+		'price': $("#" + id + " td:eq(2)").text()
 	}
 	$.when(updateIngredient(ingredient)).then(function(data){
 		$("#" + id).replaceWith(newIngRow(data));
@@ -161,7 +162,7 @@ function newIngRow(ing) {
 		divUnit,
 		saveButton,
 		deleteButton
-	], [0, 1, 0, 0, 0, 0])
+	], [0, 1, 1, 0, 0, 0])
 		.on("input", function() {
 			enableSaveIngredient(this.id)});
 }

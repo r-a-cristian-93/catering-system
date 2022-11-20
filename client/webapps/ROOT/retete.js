@@ -97,6 +97,17 @@ function recipeUpdateUnit(id, unit) {
 	});
 }
 
+function recipeUpdateCategory(id, category) {
+	var recipe = {
+		'id': id,
+		'category': {'name': category}
+	};
+
+	$.when(updateRecipe(recipe)).then(function(data){
+		$("#" + data.id).replaceWith(newRecipeRow(data));
+	});
+}
+
 function recipeDelete(id) {
 	$.when(deleteRecipe(id)).then(function(){
 		$("#" + id).remove();
@@ -153,6 +164,32 @@ function newUnitSelector(recipe_id, current_unit) {
 	return unitSelectorDiv;
 }
 
+function newCategorySelectOption(recipe_id, new_category) {
+	return $("<a>").text(new_category).on("click", function() {
+		recipeUpdateCategory(recipe_id, new_category);
+	});
+}
+
+function newCategorySelector(recipe_id, current_category) {
+	var categorySelectorDiv =  $("<div>").addClass("select-list-container")
+		.append($("<div>").addClass("select-list-current").text(current_category))
+		.on("click", function(e){
+			this.classList.add("dropdown");
+		})
+		.on("mouseleave", function(e){
+			this.classList.remove("dropdown");
+		});
+
+	var ddc = newDivDDC([]);
+	var categoriesArray = JSON.parse(localStorage.getItem("CATEGORIES"));
+	for (category of categoriesArray) {
+		ddc.append(newCategorySelectOption(recipe_id, category));
+	}
+
+	categorySelectorDiv.append(ddc);
+	return categorySelectorDiv;
+}
+
 function newRecipeRow(recipe) {
 	var saveButton = $("<img>")
 		.addClass("inactive")
@@ -166,18 +203,19 @@ function newRecipeRow(recipe) {
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "recipeDelete("+recipe.id+")"});
 	var divUnit = newUnitSelector(recipe.id, recipe.unit.name);
+	var divCategory = newCategorySelector(recipe.id, recipe.category.name);
 
 	return newRow([
 		recipe.id,
 		recipe.name,
-		"recipe.category.name",
+		divCategory,
 		recipe.quantity,
 		divUnit,
 		recipe.ingCost.toFixed(2) + " Lei",
 		saveButton,
 		editButton,
 		deleteButton
-	], [0, 1, 1, 1, 0, 0, 0])
+	], [0, 1, 0, 1, 0, 0, 0])
 		.on("input", function() {
 			enableSaveRecipe(this.id)});
 }
