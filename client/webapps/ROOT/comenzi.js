@@ -304,7 +304,8 @@ function newOrderRow(order) {
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "orderDelete("+order.id+")"});
-	return newRow([
+
+	var order_row = newRow([
 		order.id,
 		statusImage,
 		clientName,
@@ -319,6 +320,12 @@ function newOrderRow(order) {
 			{"class": "clickable", "onclick": "buildOrderEditStatusModal("+order.id+")"},
 			{"class": "clickable", "onclick": "buildOrderEditClientModal("+order.id+")"},
 		]);
+
+		order_row.click(function() {
+			window.location = DEFAULTS.CLIENT_URL+"/detalii_comanda.html?id=" + order.id;
+		});
+
+		return order_row;
 }
 
 function buildOrderEditStatusModal(id) {
@@ -802,5 +809,3 @@ function orderBuildTableByDeliveryDate(args) {
 	args.getFunction = getOrdersByDeliveryDate;
 	orderBuildTable(args);
 }
-
-
