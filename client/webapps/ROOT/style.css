@@ -10,6 +10,7 @@
 	--grey3: #FAFAFA;
 	--grey4: #D4D3D3;
 	--grey-hover: #e3e3e3;
+	--menu-hover: #d84343;
 	}
 
 .fr { float:right; }
@@ -53,7 +54,8 @@ html, body {
 .box-title {
 	background-color: var(--grey);
 	padding:15px;
-	border-radius:10px 10px 0 0;
+	border-radius:8px 8px 0 0;
+	color: var(--bg)
 	}
 
 .box-content {
@@ -65,6 +67,8 @@ html, body {
 	max-width:400px;
 	margin:auto;
 	margin-top:150px;
+	border-width: 1px;
+	border-style: solid;
 	}
 
 .form-big label,
@@ -167,17 +171,11 @@ html, body {
 	}
 
 .nav-el:hover {
-	border-color: var(--bg);
+	border-color: var(--menu-hover);
 	}
 
 .current-page {
-	background-color: var(--bg);
-	border-color: var(--bg);
-	color: var(--grey);
-	}
-
-.current-page:hover {
-	color: var(--grey);
+	border-color: var(--menu-hover);
 	}
 
 .profile {
@@ -201,7 +199,7 @@ html, body {
 
 /* ******************* DROPDOWN ******************* */
 
-dropdown {
+.dropdown {
 	position: relative;
 	}
 
@@ -212,7 +210,7 @@ dropdown {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: var(--grey2);
+  background-color: var(--bg);
   box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
@@ -247,8 +245,9 @@ tr {
 	user-select: none;
 	}
 
-tr:nth-child(even) {
-	background-color: var(--grey3);
+tr:not(:first-child) {
+	border-bottom: solid var(--grey-hover);
+	border-width: 1px;
 	}
 
 #recipe-details-table td:nth-child(3) {
@@ -298,13 +297,13 @@ td.clickable:hover {
 	flex-grow: 1;
 	margin: 0;
 	text-align: center;
-	border-bottom: solid white;
+	border-bottom: solid var(--bg);
 	opacity: 0.5;
 	}
 
 .filter-container:hover {
 	cursor: pointer;
-	border-color: var(--bg);
+	border-color: var(--text);
 	opacity:1;
 	}
 
@@ -316,10 +315,10 @@ td.clickable:hover {
 	}
 
 .filter-container a {
-	color: white;
+	color: var(--text);
 	}
 .filter-container a:hover {
-	background-color: var(--bg2);
+	background-color: var(--grey-hover);
 	}
 
 .filter-name {
@@ -476,24 +475,21 @@ td.clickable:hover {
 	flex-grow: 1;
 	margin: 0;
 	text-align: left;
-	border-bottom: solid white;
-	opacity: 0.5;
 	}
 
 .select-list-container:hover {
 	cursor: pointer;
-	border-color: var(--bg);
-	opacity:1;
+	border-color: var(--menu-hover);
 	}
 
 .select-list-container .dropdown-content {
-	left: 100%;
-	top: 0;
-	background-color: var(--grey);
+	left: 0;
+	top: 100%;
+	background-color: var(--bg);
 	}
 
 .select-list-container a:hover {
-	background-color: var(--bg2);
+	background-color: var(--grey-hover);
 	}
 
 .select-list-current {
