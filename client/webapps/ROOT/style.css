@@ -11,6 +11,8 @@
 	--grey4: #D4D3D3;
 	--grey-hover: #e3e3e3;
 	--menu-hover: #d84343;
+	--progress-complete: #a7e200;
+	--progress-hover: #cfff49;
 	}
 
 .fr { float:right; }
@@ -669,6 +671,7 @@ td.clickable:hover {
 	flex-direction: column;
 	align-items: center;
 	flex: 1;
+	color: var(--grey4);
 
 	@media (max-width: 768px) {
 	  font-size: 12px;
@@ -712,14 +715,26 @@ td.clickable:hover {
 	font-weight: bold;
   }
 
+  .stepper-item.completed {
+	color: var(--text);
+  }
+
   .stepper-item.completed .step-counter {
-	background-color: #a7e200;
+	background-color: var(--progress-complete);
+  }
+
+  .step-counter:hover {
+	background-color: var(--progress-hover);
+  }
+
+  .stepper-item.completed .step-counter:hover {
+	background-color: var(--progress-hover);
   }
 
   .stepper-item.completed::after {
 	position: absolute;
 	content: "";
-	border-bottom: 5px solid #a7e200;
+	border-bottom: 5px solid var(--progress-complete);
 	width: 100%;
 	top: 15px;
 	left: 50%;
