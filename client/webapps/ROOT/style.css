@@ -3,11 +3,11 @@
 	--bg: #ffffff;
 	--bg2: #601717;
 	--button-bg: #000000;
-	--button-hover: #3e3e3e;
+	--button-hover: #000000;
 	--shadow: lightgray;
 	--grey: #3e3e3e;
 	--grey2: #F5F5F5;
-	--grey3: #FAFAFA;
+	--grey3: #fbfbfb;
 	--grey4: #D4D3D3;
 	--grey-hover: #e3e3e3;
 	--menu-hover: #d84343;
@@ -69,6 +69,7 @@ html, body {
 	margin-top:150px;
 	border-width: 1px;
 	border-style: solid;
+	border-color: var(--grey);
 	}
 
 .form-big label,
@@ -78,13 +79,19 @@ html, body {
 	width:100%;
 	margin-top:10px;
 	margin-bottom:10px;
+	font-size:medium;
+	}
+
+.form-big input {
+	height: 30px;
+	padding: 15px;
 	}
 
 .button {
 	border-radius:10px;
 	padding:10px;
 	margin: 5px;
-	background-color: var(--button-bg);
+	background-color: var(--grey);
 	border-style:none;
 	color: var(--bg);
 	font-weight: bold;
@@ -245,10 +252,9 @@ tr {
 	user-select: none;
 	}
 
-tr:not(:first-child) {
-	border-bottom: solid var(--grey-hover);
-	border-width: 1px;
-	}
+tr:nth-child(even) {
+	background-color: var(--grey3);
+}
 
 #recipe-details-table td:nth-child(3) {
 	text-align:right;
