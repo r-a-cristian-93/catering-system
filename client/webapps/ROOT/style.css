@@ -595,6 +595,11 @@ td.clickable:hover {
 	display: inline-block;
 	text-align: left;
 	vertical-align: top;
+	max-width: 250px;
+}
+
+#card-deadline .card-details {
+	text-align: center;
 }
 
 .card-title {
@@ -608,7 +613,8 @@ td.clickable:hover {
 }
 
 .card-text-medium {
-	font-size: 110%;
+	font-size: 115%;
+	margin-bottom: 5px;
 }
 
 .card-text-small {
