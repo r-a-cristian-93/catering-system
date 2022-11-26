@@ -186,3 +186,20 @@ function getCategories() {
 		url: DEFAULTS.REST_URL + '/categories',
 	});
 }
+
+/* ******************* DATE UTILS ****************** */
+
+function toLocalDateTime(dateTimeString) {
+	var dateObj = new Date(dateTimeString)
+	return {
+		date: dateObj.toLocaleDateString('ro-RO'),
+		time: dateObj.toLocaleTimeString('ro-RO')
+	}
+}
+
+function cardDateTime(dateTime) {
+	localDateTime = toLocalDateTime(dateTime);
+	var strDate = localDateTime.date;
+	var strTime = localDateTime.time;
+	return strDate + " / " + strTime.substring(0 , strTime.length-3);
+}
