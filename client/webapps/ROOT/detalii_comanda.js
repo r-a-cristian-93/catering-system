@@ -9,12 +9,21 @@ $(document).ready(function() {
 });
 
 
-function getOrderDetails(id) {
+function getOrder(id) {
 	return $.ajax({
 		method: 'GET',
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
 		url: DEFAULTS.REST_URL + '/orders/'+id,
+	});
+}
+
+function getOrderDetails(orderId) {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: DEFAULTS.REST_URL + '/orders/'+orderId+'/details'
 	});
 }
 
@@ -93,11 +102,58 @@ function orderDetailsBuildView(args) {
         $("#order-details")
 			.append($("<div>").addClass("order-details-title").html("Detalii comanda #" + order.id))
 			.append(newCards(order));
+
+		buildOrderDetailsTable(args.order_id);
     });
+}
+
+
+function buildOrderDetailsTable(id) {
+	$.when(getOrderDetails(id)).then(function(details){
+		$("#order-details")
+			.append(newOrderDetailsTable(details));
+	});
+}
+
+function newOrderDetailsTable(details) {
+	var table = $("<table>")
+		.attr({"id": "order-details-table"})
+		.addClass("full")
+		.append(newHeader(["Articol", "Portii", "Cost unitar", "Cost total"],[]).addClass("font-size-120"));
+	for(detail of details) {
+		table.append(newOrderDetailRow(detail).addClass("font-size-120"));
+	}
+
+	table.append(newHeader([,,"Total:",details[0].order.ingCost.toFixed(2) + " Lei"]).attr({"id":"det_total"}).addClass("font-size-140"));
+
+	return table;
+}
+
+function newOrderDetailRow(detail) {
+	var deleteButton = $("<img>")
+		.addClass("active")
+		.attr({"src": "/img/delete.png"})
+		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
+	var divServings = $("<div>")
+		.attr({"contenteditable":true})
+		.keypress(inputOnlyNumbers)
+		.attr({"oninput": "enableSaveOrderDetails("+detail.order.id+","+detail.recipe.id+");"});
+	divServings.html(detail.servings);
+	return newRow([
+		detail.recipe.name,
+		divServings,
+		detail.recipe.ingCost.toFixed(2) + " Lei",
+		(detail.servings * detail.recipe.ingCost).toFixed(2) + " Lei",
+		deleteButton
+	], [0, 0, 0], [])
+		.attr({"id": "det_" + detail.recipe.id})
+		.on("input", function() {
+			orderId = $(".modal-title").text().split(" ")[0].substring(1);
+			recipeId = this.id.split("_")[1];});
 }
 
 function orderDetailsView(args) {
 	args.buildFunction = orderDetailsView;
-	args.getFunction = getOrderDetails;
+	args.getFunction = getOrder;
 	orderDetailsBuildView(args);
 }
