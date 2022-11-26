@@ -543,14 +543,6 @@ function disableSaveOrderDetails(id) {
 		.attr({"onclick": ""});
 }
 
-function toLocalDateTime(dateTimeString) {
-	var dateObj = new Date(dateTimeString)
-	return {
-		date: dateObj.toLocaleDateString('ro-RO'),
-		time: dateObj.toLocaleTimeString('ro-RO')
-	}
-}
-
 function newDeliveryDateDiv(order) {
 	var date = order.deliveryDate.split('T')[0];
 	var time = toLocalDateTime(order.deliveryDate).time;
