@@ -43,7 +43,7 @@ function newCards(order) {
 		case "pregatire":
 			statusDate = order.preparingDate;
 		break;
-		case "livrata": // "livrare"
+		case "livrata": // "expediere"
 			statusDate = order.deliveryDate; // order.shipping_date;
 		break;
 	}
@@ -101,7 +101,8 @@ function orderDetailsBuildView(args) {
 
         $("#order-details")
 			.append($("<div>").addClass("order-details-title").html("Detalii comanda #" + order.id))
-			.append(newCards(order));
+			.append(newCards(order))
+			.append(newStepperBar(order));
 
 		buildOrderDetailsTable(args.order_id);
     });
@@ -150,6 +151,52 @@ function newOrderDetailRow(detail) {
 		.on("input", function() {
 			orderId = $(".modal-title").text().split(" ")[0].substring(1);
 			recipeId = this.id.split("_")[1];});
+}
+
+function newStepperBar(order) {
+	var sPlacement = $("<div>").addClass("stepper-item")
+		.append($("<div>").addClass("step-counter"))
+		.append($("<div>").addClass("step-name").html("Preluare"))
+	if (order.orderDate != null) {
+		sPlacement.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.orderDate)));
+	}
+
+	var sSupply = $("<div>").addClass("stepper-item")
+		.append($("<div>").addClass("step-counter"))
+		.append($("<div>").addClass("step-name").html("Aprovizionare"));
+	if (order.supplyDate != null) {
+		sSupply.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.supplyDate)));
+	}
+
+	var sProduction = $("<div>").addClass("stepper-item")
+		.append($("<div>").addClass("step-counter"))
+		.append($("<div>").addClass("step-name").html("Preparare"));
+	if (order.productionDate != null) {
+		sProduction.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.productionDate)));
+	}
+
+	var sPreparing = $("<div>").addClass("stepper-item")
+		.append($("<div>").addClass("step-counter"))
+		.append($("<div>").addClass("step-name").html("Pregatire"));
+	if (order.preparingDate != null) {
+		sPreparing.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.preparingDate)));
+	}
+
+	var sShipping = $("<div>").addClass("stepper-item")
+		.append($("<div>").addClass("step-counter"))
+		.append($("<div>").addClass("step-name").html("Expediere"));
+	if(order.deliveryDate != null) {
+		sShipping.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.deliveryDate)));
+	}
+
+	var stepperBar = $("<div>").addClass("stepper-wrapper")
+		.append(sPlacement)
+		.append(sSupply)
+		.append(sProduction)
+		.append(sPreparing)
+		.append(sShipping);
+
+	return stepperBar;
 }
 
 function orderDetailsView(args) {
