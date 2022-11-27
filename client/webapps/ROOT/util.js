@@ -203,3 +203,12 @@ function cardDateTime(dateTime) {
 	var strTime = localDateTime.time;
 	return strDate + " / " + strTime.substring(0 , strTime.length-3);
 }
+
+/* ************* ADD BUTTON ************* */
+
+function newAddButton(text, action) {
+	return $("<button>").addClass("add-button")
+		.append($("<div>").addClass("add-button-text").html(text))
+		.append($("<div>").addClass("add-button-dot").html("+"))
+		.attr({"onclick": action});
+}

@@ -2,7 +2,7 @@
 	--text: #000000;
 	--bg: #ffffff;
 	--bg2: #601717;
-	--button-bg: #000000;
+	--button-bg: #212121;
 	--button-hover: #000000;
 	--shadow: lightgray;
 	--grey: #3e3e3e;
@@ -93,7 +93,7 @@ html, body {
 	border-radius:10px;
 	padding:10px;
 	margin: 5px;
-	background-color: var(--grey);
+	background-color: var(--button-bg);
 	border-style:none;
 	color: var(--bg);
 	font-weight: bold;
@@ -747,3 +747,54 @@ td.clickable:hover {
   .stepper-item:last-child::after {
 	content: none;
   }
+
+
+
+/* ******************* ADD BUTTON ******************* */
+
+.add-button {
+	display:flex;
+	height:45px;
+	width:fit-content;
+	color:white;
+	margin:0;
+	padding:0;
+	border:none;
+	background-color: white;
+	font-weight: bold;
+}
+
+.add-button:hover .add-button-dot, .add-button:hover .add-button-text {
+	background-color: var(--button-hover);
+}
+
+.add-button-text {
+	background-color: var(--button-bg);
+	flex:auto;
+	padding:5px 20px 5px 15px;
+	border-radius: 0px 10px 10px 0;
+
+	position: relative;
+	left: 40px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 16px;
+}
+
+.add-button-dot {
+	background-color: var(--button-bg);
+	width:45px;
+	height:45px;
+	border-radius: 50%;
+	text-align: center;
+	position: relative;
+	left: -100%;
+	top: -100%;
+	transform: translate(100%, 100%);
+
+	/*center symbol*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+}
