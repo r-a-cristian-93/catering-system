@@ -586,7 +586,7 @@ td.clickable:hover {
 
 #cards {
 	text-align: center;
-	margin-bottom: 100px;
+	margin-bottom: 80px;
 }
 
 .card {
@@ -663,7 +663,7 @@ td.clickable:hover {
 	margin-top: auto;
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 15px;
+	margin-bottom: 80px;
   }
   .stepper-item {
 	position: relative;
