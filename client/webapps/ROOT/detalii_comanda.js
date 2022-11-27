@@ -112,7 +112,8 @@ function orderDetailsBuildView(args) {
 function buildOrderDetailsTable(id) {
 	$.when(getOrderDetails(id)).then(function(details){
 		$("#order-details")
-			.append(newOrderDetailsTable(details));
+			.append(newOrderDetailsTable(details))
+			.append(newAddButton("Adauga articol", null))
 	});
 }
 
