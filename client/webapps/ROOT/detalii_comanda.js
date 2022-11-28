@@ -27,6 +27,16 @@ function getOrderDetails(orderId) {
 	});
 }
 
+function deleteOrderDetails(details) {
+	return $.ajax({
+		method: 'DELETE',
+		xhrFields: { withCredentials: true },
+		contentType: 'application/json',
+		data: JSON.stringify(details),
+		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
+	});
+}
+
 function newCards(order) {
 	var statusDate;
 
@@ -198,6 +208,21 @@ function newStepperBar(order) {
 		.append(sShipping);
 
 	return stepperBar;
+}
+
+function orderDetailsDelete(orderId, recipeId) {
+	var details = {
+		"order": {"id": orderId},
+		"recipe": {"id": recipeId}
+	};
+
+	$.when(deleteOrderDetails(details)).then(function() {
+		$("#det_" + details.recipe.id).remove();
+
+		$.when(getOrder(orderId)).then(function(order) {
+			$("#det_total th:eq(3)").html(order.ingCost.toFixed(2) + " Lei");
+		});
+	});
 }
 
 function orderDetailsView(args) {
