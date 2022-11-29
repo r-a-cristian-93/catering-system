@@ -142,6 +142,14 @@ function newOrderDetailsTable(details) {
 	return table;
 }
 
+function selectContentOf(node) {
+	var range = document.createRange();
+	range.selectNodeContents(node);
+	var sel = window.getSelection();
+	sel.removeAllRanges();
+	sel.addRange(range);
+}
+
 function newOrderDetailRow(detail) {
 	var deleteButton = $("<img>")
 		.addClass("active")
@@ -150,8 +158,15 @@ function newOrderDetailRow(detail) {
 	var divServings = $("<div>")
 		.attr({"contenteditable":true})
 		.keypress(inputOnlyNumbers)
-		.attr({"oninput": "enableSaveOrderDetails("+detail.order.id+","+detail.recipe.id+");"});
+		.on("focusout", () => {
+			if (divServings.attr("mustsave") == "true") {
+				orderDetailsUpdate(detail.order.id, detail.recipe.id)
+				$(divServings).attr("mustsave", false);
+			}
+		})
+		.on("focus", () => selectContentOf(divServings.get(0)));
 	divServings.html(detail.servings);
+
 	return newRow([
 		detail.recipe.name,
 		divServings,
@@ -162,6 +177,7 @@ function newOrderDetailRow(detail) {
 		.addClass("font-size-120")
 		.attr({"id": "det_" + detail.recipe.id})
 		.on("input", function() {
+			divServings.attr("mustsave", "true");
 			orderId = $(".modal-title").text().split(" ")[0].substring(1);
 			recipeId = this.id.split("_")[1];});
 }
@@ -298,5 +314,34 @@ function getRecipes() {
 		xhrFields: { withCredentials: true },
 		dataType: 'json',
 		url: DEFAULTS.REST_URL + '/recipes'
+	});
+}
+
+
+
+/* UPDATE ORDER DETAILS */
+
+function orderDetailsUpdate(orderId, recipeId) {
+	var details = {
+		"order": {"id": orderId},
+		"recipe": {"id": recipeId},
+		"servings": $("#det_" + recipeId + " td:eq(1)").text()};
+	$.when(updateOrderDetails(details)).then(function(data) {
+		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));
+
+		$.when(getOrder(orderId)).then(function(order) {
+			$("#det_total th:eq(3)").html(order.ingCost.toFixed(2) + " Lei");
+		});
+	});
+}
+
+function updateOrderDetails(details) {
+	return $.ajax({
+		method: 'PUT',
+		xhrFields: { withCredentials: true },
+		contentType: 'application/json',
+		dataType: 'json',
+		data: JSON.stringify(details),
+		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
 	});
 }
