@@ -119,11 +119,12 @@ function orderDetailsBuildView(args) {
 }
 
 
-function buildOrderDetailsTable(id) {
-	$.when(getOrderDetails(id)).then(function(details){
+function buildOrderDetailsTable(order_id) {
+	$.when(getOrderDetails(order_id)).then(function(details){
 		$("#order-details")
 			.append(newOrderDetailsTable(details))
-			.append(newAddButton("Adauga articol", null))
+			.append(newAddButton("Adauga articol", null)
+				.attr({"onclick": "buildAddItemsModal("+order_id+")"}))
 	});
 }
 
@@ -133,7 +134,7 @@ function newOrderDetailsTable(details) {
 		.addClass("full")
 		.append(newHeader(["Articol", "Portii", "Cost unitar", "Cost total"],[]).addClass("font-size-120"));
 	for(detail of details) {
-		table.append(newOrderDetailRow(detail).addClass("font-size-120"));
+		table.append(newOrderDetailRow(detail));
 	}
 
 	table.append(newHeader([,,"Total:",details[0].order.ingCost.toFixed(2) + " Lei"]).attr({"id":"det_total"}).addClass("font-size-140"));
@@ -158,6 +159,7 @@ function newOrderDetailRow(detail) {
 		(detail.servings * detail.recipe.ingCost).toFixed(2) + " Lei",
 		deleteButton
 	], [0, 0, 0], [])
+		.addClass("font-size-120")
 		.attr({"id": "det_" + detail.recipe.id})
 		.on("input", function() {
 			orderId = $(".modal-title").text().split(" ")[0].substring(1);
@@ -229,4 +231,72 @@ function orderDetailsView(args) {
 	args.buildFunction = orderDetailsView;
 	args.getFunction = getOrder;
 	orderDetailsBuildView(args);
+}
+
+
+
+
+
+/* ADD NEW ITEM TO THE ORDER MODAL */
+
+function buildAddItemsModal(id) {
+	$.when(getOrderDetails(id), getRecipes()).then(function(details, recipes){
+		var modal = new ModalBuilder("#" + id+ " Modifica comanda", "edit-order-details-modal");
+
+		modal.content.append(new newStaticRecipeTable(recipes[0]));
+		$("body").append(modal.modal);
+	});
+}
+
+function newStaticRecipeTable(recipes) {
+	var table = $("<table>")
+		.addClass("full")
+		.append(newHeader(["ID", "Reteta", "Gramaj", "Cost unitar"]));
+	for(recipe of recipes) {
+		table.append(newStaticRecipeRow(recipe));
+	}
+	return table;
+}
+
+function newStaticRecipeRow(recipe) {
+	return newRow([
+		recipe.id,
+		recipe.name,
+		recipe.quantity + " " + recipe.unit.name,
+		recipe.ingCost.toFixed(2) + " Lei"])
+		.on("dblclick", function() {
+			var orderId = $(".modal-title").text().split(" ")[0].substring(1);
+			orderDetailsAdd(orderId, recipe.id);
+		});
+}
+
+function orderDetailsAdd(orderId, recipeId) {
+	var details = {
+		"order": {"id": orderId},
+		"recipe": {"id": recipeId},
+		"servings": 0
+	};
+	$.when(addOrderDetails(details)).then(function(data) {
+		newOrderDetailRow(data).insertBefore("#order-details-table tr:last");
+	});
+}
+
+function addOrderDetails(details) {
+	return $.ajax({
+		method: 'POST',
+		xhrFields: { withCredentials: true },
+		contentType: 'application/json',
+		dataType: 'json',
+		data: JSON.stringify(details),
+		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
+	});
+}
+
+function getRecipes() {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: { withCredentials: true },
+		dataType: 'json',
+		url: DEFAULTS.REST_URL + '/recipes'
+	});
 }
