@@ -65,6 +65,10 @@ public class OrderModel extends SortableModel{
 	@Column(name="shipping_date")
 	private Date shippingDate;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="cancel_date")
+	private Date cancelDate;
+
 	@Column(name="ID_shopping_list")
 	private Integer shoppingListId;
 
