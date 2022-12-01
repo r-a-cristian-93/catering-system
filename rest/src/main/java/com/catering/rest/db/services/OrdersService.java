@@ -78,7 +78,12 @@ public class OrdersService {
 	public OrderModel updateOrder(Integer id, OrderModel order) {
 		ClientModel client = order.getClient();
 		StatusModel status = order.getStatus();
-		Date deliveryDate = order.getDeliveryDate();
+		Date placementDate = order.getPlacementDate();
+		Date dueDate = order.getDueDate();
+		Date supplyDate = order.getSupplyDate();
+		Date productionDate = order.getProductionDate();
+		Date preparingDate = order.getPreparingDate();
+		Date shippingDate = order.getShippingDate();
 		AddressModel deliveryAddress = order.getDeliveryAddress();
 		order = ordersRepo.findById(id).get();
 
@@ -89,8 +94,23 @@ public class OrdersService {
 		if(status!=null) {
 			order.setStatus(status);
 		}
-		if(deliveryDate!=null) {
-			order.setDeliveryDate(deliveryDate);
+		if(placementDate!=null) {
+			order.setPlacementDate(placementDate);
+		}
+		if (dueDate != null) {
+			order.setDueDate(dueDate);
+		}
+		if (supplyDate != null) {
+			order.setSupplyDate(supplyDate);
+		}
+		if (productionDate != null) {
+			order.setProductionDate(productionDate);
+		}
+		if (preparingDate != null) {
+			order.setPreparingDate(preparingDate);
+		}
+		if (shippingDate != null) {
+			order.setShippingDate(shippingDate);
 		}
 		if(deliveryAddress!=null) {
 			order.setDeliveryAddress(deliveryAddress);

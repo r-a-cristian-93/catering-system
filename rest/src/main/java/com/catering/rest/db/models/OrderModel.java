@@ -42,12 +42,28 @@ public class OrderModel extends SortableModel{
 	private Double ingCost;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="order_date")
-	private Date orderDate;
+	@Column(name="placement_date")
+	private Date placementDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="delivery_date")
-	private Date deliveryDate;
+	@Column(name="due_date")
+	private Date dueDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="supply_date")
+	private Date supplyDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="production_date")
+	private Date productionDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="preparing_date")
+	private Date preparingDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="shipping_date")
+	private Date shippingDate;
 
 	@Column(name="ID_shopping_list")
 	private Integer shoppingListId;
