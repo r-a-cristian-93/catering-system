@@ -57,7 +57,7 @@ function getOrdersByOrderDate(args) {
 	});
 }
 
-function getOrdersByDeliveryDate(args) {
+function getOrdersByDueDate(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
@@ -165,7 +165,7 @@ function newOrderDateFilter(days) {
 	});
 }
 
-function newDeliveryDateFilter(days) {
+function newDueDateFilter(days) {
 	return $("<a>").text("Urmatoarele "+days+" zile").on("click", function() {
 		var first = new Date(Date.now());
 		first.setHours(0);
@@ -179,7 +179,7 @@ function newDeliveryDateFilter(days) {
 			prop: localStorage.ORDERS_SORT_BY,
 			dir: localStorage.SORT_DIRECTION
 		};
-		orderBuildTableByDeliveryDate(args);
+		orderBuildTableByDueDate(args);
 	});
 }
 
@@ -209,10 +209,10 @@ function buildFilters() {
 		]));
 	var f6 = newFilterContainer("Data livrare").addClass("dropdown")
 		.append(newDivDDC([
-			newDeliveryDateFilter(1).text("Azi"),
-			newDeliveryDateFilter(7),
-			newDeliveryDateFilter(14),
-			newDeliveryDateFilter(30)
+			newDueDateFilter(1).text("Azi"),
+			newDueDateFilter(7),
+			newDueDateFilter(14),
+			newDueDateFilter(30)
 		]));
 	$("div .box").prepend(
 		$("<div>").addClass("filter-menu")
@@ -246,13 +246,13 @@ function orderUpdateClient(id, client) {
 	});
 }
 
-function orderUpdateDeliveryDate(id) {
+function orderUpdateDueDate(id) {
 	var date = $("#"+id+">td:eq(4)>div>input")[0].value;
 	var time = $("#"+id+">td:eq(4)>div>input")[1].value;
 	var dateTime = new Date(date + " " +time);
-	var deliveryDate = dateTime.toISOString();
+	var dueDate = dateTime.toISOString();
 
-	info = {"deliveryDate": deliveryDate};
+	info = {"dueDate": dueDate};
 	$.when(updateOrder(id, info)).then(function(order) {
 		$("#"+order.id).replaceWith(newOrderRow(order));
 	});
@@ -272,7 +272,7 @@ function orderBuildTable(args) {
 
 		var table = $("<table>")
 			.addClass("full")
-			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));
+			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Termen limita", "Cost ingrediente"]));
 		for(order of ordersList.content) {
 			table.append(newOrderRow(order));
 		}
@@ -284,6 +284,7 @@ function orderBuildTable(args) {
 }
 
 function newOrderRow(order) {
+	console.log(order);
 	var clientName = $("<div>")
 		.append($("<div>").text(order.client.name))
 		.append($("<h5>").text(order.client.phone));
@@ -309,8 +310,8 @@ function newOrderRow(order) {
 		order.id,
 		statusImage,
 		clientName,
-		toLocalDateTime(order.orderDate).date,
-		newDeliveryDateDiv(order),
+		toLocalDateTime(order.placementDate).date,
+		toLocalDateTime(order.dueDate).date,
 		order.ingCost.toFixed(2) + ' Lei',
 		shoppingListButton,
 		editButton,
@@ -541,26 +542,6 @@ function disableSaveOrderDetails(id) {
 	$("#" + id + " td:eq(3) > img")
 		.attr({"class":"inactive"})
 		.attr({"onclick": ""});
-}
-
-function newDeliveryDateDiv(order) {
-	var date = order.deliveryDate.split('T')[0];
-	var time = toLocalDateTime(order.deliveryDate).time;
-	var div =  $("<div>")
-		.append($("<input>").attr({"type": "date", "class": "date", "value": date, "onchange": 'orderUpdateDeliveryDate(' + order.id + ')'}))
-		.append($("<input>").attr({"type": "time", "class": "date", "value": time, "onchange": 'orderUpdateDeliveryDate(' + order.id + ')'}));
-	dateDelivery = new Date(date).setHours(0,0,0,0);
-	dateNow = new Date(Date.now()).setHours(0,0,0,0);
-
-	if (order.status.name == 'preluata' || order.status.name == 'in lucru') {
-		if (dateDelivery == dateNow) {
-			div.addClass("due-today");
-		}
-		else if (dateDelivery < dateNow) {
-			div.addClass("overdue");
-		}
-	}
-	return div;
 }
 
 Date.prototype.addDays = function(days) {
@@ -796,8 +777,8 @@ function orderBuildTableByOrderDate(args) {
 	orderBuildTable(args);
 }
 
-function orderBuildTableByDeliveryDate(args) {
-	args.buildFunction = orderBuildTableByDeliveryDate;
-	args.getFunction = getOrdersByDeliveryDate;
+function orderBuildTableByDueDate(args) {
+	args.buildFunction = orderBuildTableByDueDate;
+	args.getFunction = getOrdersByDueDate;
 	orderBuildTable(args);
 }

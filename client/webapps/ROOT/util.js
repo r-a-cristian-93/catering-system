@@ -6,7 +6,7 @@ var DEFAULTS = Object.freeze({
 var DEFAULT_PREFERENCES = {
 	PAGE_SIZE: 10,
 	SORT_DIRECTION: "ASC",
-	ORDERS_SORT_BY: "deliveryDate",
+	ORDERS_SORT_BY: "dueDate",
 	UNITS: [],
 	CATEGORIES: [],
 };
@@ -218,7 +218,23 @@ function cardDateTime(dateTime) {
 	localDateTime = toLocalDateTime(dateTime);
 	var strDate = localDateTime.date;
 	var strTime = localDateTime.time;
-	return strDate + " / " + strTime.substring(0 , strTime.length-3);
+	return new CardDateTime(strDate, strTime.substring(0 , strTime.length-3));
+}
+
+class CardDateTime {
+	constructor(date, time) {
+		this.date = date;
+		this.time = time;
+	}
+	getDate() {
+		return this.date;
+	}
+	getTime() {
+		return this.time;
+	}
+	getDateTime() {
+		return this.date + " " + this.time;
+	}
 }
 
 /* ************* ADD BUTTON ************* */
