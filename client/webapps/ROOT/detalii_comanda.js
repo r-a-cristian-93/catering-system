@@ -173,8 +173,8 @@ function newOrderDetailRow(detail) {
 		})
 		.on("focus", function() {
 			selectContentOf($(this).get(0))
-		});
-	divServings.html(detail.servings);
+		})
+		.html(detail.servings);
 
 	return newRow([
 		detail.recipe.name,
