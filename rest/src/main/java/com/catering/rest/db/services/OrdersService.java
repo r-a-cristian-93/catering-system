@@ -53,13 +53,13 @@ public class OrdersService {
 	public List<OrderModel> getOrdersAfterOrderDate(Map<String, Long> interval) {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
-		return ordersRepo.findByOrderDateBetween(first, last);
+		return ordersRepo.findByPlacementDateBetween(first, last);
 	}
 
 	public List<OrderModel> getOrdersBetweenDeliveryDates(Map<String, Long> interval) {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
-		return ordersRepo.findByDeliveryDateBetween(first, last);
+		return ordersRepo.findByPlacementDateBetween(first, last);
 	}
 
 	public OrderModel addOrder(OrderModel order) {
@@ -155,7 +155,7 @@ public class OrdersService {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
 		Sort sort = OrderModel.sortBy(prop, dir);
-		return ordersRepo.findByOrderDateBetween(first, last, PageRequest.of(page, size, sort));
+		return ordersRepo.findByPlacementDateBetween(first, last, PageRequest.of(page, size, sort));
 	}
 
 	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(
@@ -167,7 +167,7 @@ public class OrdersService {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
 		Sort sort = OrderModel.sortBy(prop, dir);
-		return ordersRepo.findByDeliveryDateBetween(first, last, PageRequest.of(page, size, sort));
+		return ordersRepo.findByDueDateBetween(first, last, PageRequest.of(page, size, sort));
 	}
 
 
