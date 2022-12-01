@@ -44,7 +44,6 @@ function newCards(order) {
 		case "preluata": //"preluare"
 			statusDate = order.placementDate;
 		break;
-
 		case "aprovizionare":
 			statusDate = order.supplyDate;
 		break;
@@ -56,6 +55,9 @@ function newCards(order) {
 		break;
 		case "livrata": // "expediere"
 			statusDate = order.shippingDate;
+		break;
+		case "anulata":
+			statusDate = order.cancelDate;
 		break;
 	}
 

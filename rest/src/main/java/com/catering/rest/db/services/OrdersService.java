@@ -84,6 +84,7 @@ public class OrdersService {
 		Date productionDate = order.getProductionDate();
 		Date preparingDate = order.getPreparingDate();
 		Date shippingDate = order.getShippingDate();
+		Date cancelDate = order.getCancelDate();
 		AddressModel deliveryAddress = order.getDeliveryAddress();
 		order = ordersRepo.findById(id).get();
 
@@ -112,9 +113,13 @@ public class OrdersService {
 		if (shippingDate != null) {
 			order.setShippingDate(shippingDate);
 		}
+		if(cancelDate != null) {
+			order.setCancelDate(cancelDate);
+		}
 		if(deliveryAddress!=null) {
 			order.setDeliveryAddress(deliveryAddress);
 		}
+
 
 		return ordersRepo.save(order);
 	}
