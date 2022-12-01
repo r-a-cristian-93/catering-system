@@ -561,7 +561,7 @@ td.clickable:hover {
 	margin-bottom: 80px;
 }
 
-#order-details-table td:not(:first-child), th:not(:first-child) {
+#order-details-table td:not(:first-child), #order-details-table th:not(:first-child) {
 	text-align: right;
 }
 
