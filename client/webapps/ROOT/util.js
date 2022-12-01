@@ -163,11 +163,28 @@ class ExtraBox {
 
 /* ******************* INPUT FILTERING ****************** */
 
-function inputOnlyNumbers(e) {
-	if (String.fromCharCode(e.which) != ".") {
-		if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
+function inputFloats(e) {
+	var key = e.keyCode || e.which;
+	key = String.fromCharCode(key);
+
+	var regex = /[0-9]|\./;
+	if( !regex.test(key) ) {
+		e.returnValue = false;
+		if(e.preventDefault) e.preventDefault();
 	}
 }
+
+function inputIntegers(e) {
+	var key = e.keyCode || e.which;
+	key = String.fromCharCode(key);
+
+	var regex = /[0-9]/;
+	if( !regex.test(key) ) {
+		e.returnValue = false;
+		if(e.preventDefault) e.preventDefault();
+	}
+}
+
 
 /* ******************* API CALLS ****************** */
 
