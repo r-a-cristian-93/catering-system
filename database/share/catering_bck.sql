@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.30, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
 --
 -- Host: localhost    Database: catering
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -214,8 +214,12 @@ CREATE TABLE `orders` (
   `ID_client` int DEFAULT '0',
   `status` varchar(20) NOT NULL DEFAULT (_latin1'preluata'),
   `ing_cost` double DEFAULT '0',
-  `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `placement_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `due_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `supply_date` datetime DEFAULT NULL,
+  `production_date` datetime DEFAULT NULL,
+  `preparing_date` datetime DEFAULT NULL,
+  `shipping_date` datetime DEFAULT NULL,
   `ID_shopping_list` int NOT NULL DEFAULT '0',
   `ID_delivery_address` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
@@ -237,7 +241,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,2,'livrata',33.519999999999996,'2021-09-08 10:27:45','2021-01-04 11:27:45',33,1),(2,2,'livrata',193.56000000000003,'2021-01-23 11:27:45','2021-01-24 11:27:51',33,1),(4,2,'in lucru',394,'2021-02-03 11:27:45','2021-01-24 11:27:51',33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:45','2021-01-24 11:27:51',0,1),(102,1,'preluata',80.65,'2021-02-14 10:55:37','2021-02-14 10:55:37',0,2),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',0,1);
+INSERT INTO `orders` VALUES (1,2,'livrata',33.519999999999996,'2021-01-04 11:27:45','2021-09-08 10:27:45',NULL,NULL,NULL,NULL,33,1),(2,2,'livrata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45',NULL,NULL,NULL,NULL,33,1),(4,2,'in lucru',394,'2021-01-24 11:27:51','2021-02-03 11:27:45',NULL,NULL,NULL,NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,0,1),(102,1,'preluata',80.65,'2021-02-14 10:55:37','2021-02-14 10:55:37',NULL,NULL,NULL,NULL,0,2),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',NULL,NULL,NULL,NULL,0,1);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -626,4 +630,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-20  9:52:44
+-- Dump completed on 2022-12-01 14:49:10
