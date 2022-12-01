@@ -157,14 +157,23 @@ function newOrderDetailRow(detail) {
 		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
 	var divServings = $("<div>")
 		.attr({"contenteditable":true})
-		.keypress(inputOnlyNumbers)
-		.on("focusout", () => {
-			if (divServings.attr("mustsave") == "true") {
-				orderDetailsUpdate(detail.order.id, detail.recipe.id)
-				$(divServings).attr("mustsave", false);
+		.keypress(function(event) {
+			inputIntegers(event);
+			var keyCode = event.keyCode || event.which;
+
+			if (keyCode === 13) {
+				$(this).focusout(); // when pressing ENTER
 			}
 		})
-		.on("focus", () => selectContentOf(divServings.get(0)));
+		.on("focusout", function() {
+			if ($(this).attr("mustsave") == "true") {
+				orderDetailsUpdate(detail.order.id, detail.recipe.id)
+				$(this).attr("mustsave", false);
+			}
+		})
+		.on("focus", function() {
+			selectContentOf($(this).get(0))
+		});
 	divServings.html(detail.servings);
 
 	return newRow([
