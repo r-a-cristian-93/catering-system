@@ -20,7 +20,6 @@ import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.OrdersDetailsRepository;
 import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
-import com.catering.rest.db.repositories.ShoppingListRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,8 +34,6 @@ public class OrdersService {
 	private final RecipesRepository recipesRepo;
     @Autowired
 	private final ClientsRepository clientsRepo;
-    @Autowired
-	private final ShoppingListRepository shoppingListRepo;
 
 	public Iterable<OrderModel> getOrders() {
 		return ordersRepo.findAll();
@@ -71,7 +68,6 @@ public class OrdersService {
 	}
 
 	public void deleteOrder(Integer id) {
-		shoppingListRepo.removeOrder(id);					//workaround for MySQL trigger restriction
 		ordersRepo.deleteById(id);
 	}
 
