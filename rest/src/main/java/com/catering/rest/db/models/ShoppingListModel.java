@@ -18,13 +18,13 @@ public class ShoppingListModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name="ID_ingredient")
 	private IngredientModel ingredient;
-	
+
 	@Column
 	private Double quantity;
-	
-	protected ShoppingListModel() {}	
+
+	protected ShoppingListModel() {}
 }

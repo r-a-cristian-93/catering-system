@@ -58,6 +58,15 @@ function updateOrderNextStep(order) {
 	});
 }
 
+function getShoppingList(order_id) {
+	return $.ajax({
+		method: 'GET',
+		xhrFields: {withCredentials:true },
+		url: DEFAULTS.REST_URL + '/shoppingList/byOrderId/'+order_id,
+		dataType: 'json'
+	});
+}
+
 
 /* ORDER CARDS */
 
@@ -158,6 +167,7 @@ function buildOrderDetailsTable(order_id) {
 			.append(newOrderDetailsTable(details))
 			.append(newAddButton("Adauga articol", null)
 				.attr({"onclick": "buildAddItemsModal("+order_id+")"}))
+			.append(newActionsBar(order_id));
 	});
 }
 
@@ -290,7 +300,74 @@ function orderDetailsView(args) {
 	orderDetailsBuildView(args);
 }
 
+/* ACTIONS BAR */
 
+function newActionsBar(order_id) {
+	var closeOrderButton = $("<div>").addClass("action-button")
+		.append($("<div>").addClass("action-icon anulata"))
+		.append($("<div>").addClass("action-details")
+			.append($("<div>").html("Anuleaza"))
+			.append($("<div>").html("comanda"))
+		)
+		.attr({"onclick": null});
+
+
+
+	var shoppingListButton = $("<div>").addClass("action-button")
+		.append($("<div>").addClass("action-icon img-cart"))
+		.append($("<div>").addClass("action-details")
+			.append($("<div>").html("Lista"))
+			.append($("<div>").html("aprovizionare"))
+		)
+		.on({"click": () => printShoppingList(order_id)});
+
+
+
+	return $("<div>").addClass("action-bar")
+		.append(closeOrderButton)
+		.append(shoppingListButton);
+}
+
+function printShoppingList(order_id) {
+	$.when(getShoppingList(order_id).then(function(shoppingList) {
+		var print_date = cardDateTime(new Date().toISOString()).getDateTime();
+
+		var header = $("<div>").addClass("doc-header")
+			.append('Lista de cumparaturi pentru comanda #' + order_id)
+			.append($('<span>').addClass('fr').html('Tiparit la: ' + print_date))
+			.append("<hr/>");
+
+		var item_table = $("<table>")
+			.append(newHeader(["ID", "Articol", "Cantitate", "Cost unitar", "Cost total"], [,,2,,], []));
+
+		var total_cost = 0;
+		for (item of shoppingList) {
+			console.log(item[0]);
+
+			total_cost = total_cost + item.quantity * item.ingredient.price;
+			item_table.append(newRow([
+				item.ingredient.id,
+				item.ingredient.name,
+				item.quantity.toFixed(2),
+				item.ingredient.unit.name,
+				item.ingredient.price.toFixed(2) + ' Lei',
+				(item.quantity * item.ingredient.price).toFixed(2) + ' Lei'
+			], [], [], []));
+		}
+
+		item_table.append(newHeader([
+			,,,,'Total',total_cost.toFixed(2)
+
+		],[],[]))
+
+		var shoppingList = $("<div>")
+			.append(header)
+			.append(item_table);
+
+		shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
+
+	}));
+}
 
 
 

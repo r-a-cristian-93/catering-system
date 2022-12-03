@@ -292,25 +292,10 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* generate_shopping_list main procedure */
+/* generate_shopping_list for order */
 DROP PROCEDURE IF EXISTS generate_shopping_list_for_order;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_for_order(IN ORDER_ID int)
-BEGIN
-	DECLARE SL_ID int;
-	SELECT ID_shopping_list INTO SL_ID FROM orders WHERE ID = ORDER_ID;
-	IF (SL_ID = 0 OR SL_ID = NULL) THEN
-		CALL generate_shopping_list_by_order_id(ORDER_ID);
-	ELSE
-		CALL generate_shopping_list_by_shopping_list_id(SL_ID);
-	END IF;
-END $$
-DELIMITER ;
-
-/* generate_shopping_list sub procedure */
-DROP PROCEDURE IF EXISTS generate_shopping_list_by_order_id;
-DELIMITER $$
-CREATE PROCEDURE generate_shopping_list_by_order_id(IN ORDER_ID int)
 BEGIN
 	SELECT ROW_NUMBER() OVER() AS 'ID', rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
 		FROM orders o
@@ -318,62 +303,6 @@ BEGIN
 		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
 		WHERE o.ID = ORDER_ID
 		GROUP BY rd.ID_ingredient;
-END $$
-DELIMITER ;
-
-/* generate_shopping_list sub procedure */
-DROP PROCEDURE IF EXISTS generate_shopping_list_by_shopping_list_id;
-DELIMITER $$
-CREATE PROCEDURE generate_shopping_list_by_shopping_list_id(IN SL_ID int)
-BEGIN
-	SELECT ROW_NUMBER() OVER() AS 'ID', rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
-		FROM orders o
-		LEFT JOIN orders_details od ON od.ID_Order = o.ID
-		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
-		WHERE o.ID_shopping_list = SL_ID
-		GROUP BY rd.ID_ingredient;
-END $$
-DELIMITER ;
-
-/* shopping_list_merge_orders */
-DROP PROCEDURE IF EXISTS shopping_list_merge_orders;
-DELIMITER $$
-CREATE PROCEDURE shopping_list_merge_orders(in ID_ORD_A int, in ID_ORD_B int)
-BEGIN
-	DECLARE ID_SL_A int;
-	DECLARE ID_SL_B int;
-	DECLARE ID_SL_NEW int;
-	SELECT ID_shopping_list INTO ID_SL_A FROM orders WHERE ID = ID_ORD_A;
-	SELECT ID_shopping_list INTO ID_SL_B FROM orders WHERE ID = ID_ORD_B;
-
-	IF (ID_SL_B = 0) THEN
-		IF (ID_SL_A = 0) THEN
-			INSERT INTO shopping_list() values();
-			SET ID_SL_NEW = LAST_INSERT_ID();
-			UPDATE orders SET ID_shopping_list = ID_SL_NEW WHERE ID = ID_ORD_A OR ID = ID_ORD_B;
-		ELSE
-			UPDATE orders SET ID_shopping_list = ID_SL_A WHERE ID = ID_ORD_B;
-		END IF;
-	END IF;
-	call generate_shopping_list_for_order(ID_ORD_A);
-END $$
-DELIMITER ;
-
-/* shopping_list_remove_order */
-DROP PROCEDURE IF EXISTS shopping_list_remove_order;
-DELIMITER $$
-CREATE PROCEDURE shopping_list_remove_order(IN ID_ORD int)
-BEGIN
-	DECLARE SL_ID_OLD int;
-	DECLARE ORD_C int;
-	SELECT ID_shopping_list INTO SL_ID_OLD FROM orders WHERE ID = ID_ORD;
-	SELECT COUNT(*) INTO ORD_C FROM orders WHERE ID_shopping_list = SL_ID_OLD;
-	IF (ORD_C = 2) THEN
-		UPDATE orders SET ID_shopping_list=0 WHERE ID_shopping_list = SL_ID_OLD;
-	ELSE
-		UPDATE orders SET ID_shopping_list=0 WHERE ID=ID_ORD;
-	END IF;
-	call generate_shopping_list_for_order(ID_ORD);
 END $$
 DELIMITER ;
 
