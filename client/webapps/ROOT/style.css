@@ -343,33 +343,72 @@ td.clickable:hover {
 	}
 
 
-/* ******************* ORDERS TABLE ******************* */
+/* ******************* ORDER STATUS ******************* */
 
 .preluata {
 	background-image: url("/img/order_received.png");
 	width:40px;
 	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
 	}
-.in-lucru {
+
+.aprovizionata {
+	background-image: url("/img/order_supplied.png");
+	width:40px;
+	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
+	}
+.preparata {
 	background-image: url("/img/order_in_progress.png");
 	width:40px;
 	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
 	}
-.livrata {
+.pregatita {
+	background-image: url("/img/order_prepared.png");
+	width:40px;
+	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
+	}
+.expediata {
 	background-image: url("/img/order_delivered.png");
 	width:40px;
 	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
 	}
 .anulata {
 	background-image: url("/img/order_canceled.png");
 	width:40px;
 	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
 	filter: invert(30%) sepia(100%) saturate(1000%) hue-rotate(-30deg);
 	}
 .profil {
 	background-image: url("/img/profile.png");
 	width:40px;
 	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
+	}
+.img-pinlocation {
+	background-image: url("/img/pinlocation.png");
+	width:40px;
+	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
+	}
+.img-hourglass {
+	background-image: url("/img/hourglass.png");
+	width:40px;
+	height:40px;
+	background-repeat: no-repeat;
+    background-size: contain;
 	}
 .due-today {
 	color: red;
@@ -607,7 +646,7 @@ td.clickable:hover {
 	filter: brightness(0.0);
 }
 
-.stretch-bg {
+.card-bg {
 	background-repeat: no-repeat;
     width: 65px;
     height: 65px;
@@ -627,6 +666,7 @@ td.clickable:hover {
 
 .card-title {
 	font-size: 100%;
+	font-weight: bold;
 	margin-bottom: 15px;
 }
 
@@ -724,10 +764,6 @@ td.clickable:hover {
   }
 
   .step-counter:hover {
-	background-color: var(--progress-hover);
-  }
-
-  .stepper-item.completed .step-counter:hover {
 	background-color: var(--progress-hover);
   }
 

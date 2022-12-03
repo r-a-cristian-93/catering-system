@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.catering.rest.db.models.OrderModel;
@@ -20,4 +21,8 @@ public interface OrdersRepository extends PagingAndSortingRepository<OrderModel,
 	Page<OrderModel> findByPlacementDateBetween(Date first, Date last, Pageable pageable);
 	Page<OrderModel> findByDueDateBetween(Date first, Date last, Pageable pageable);
 	Page<OrderModel> findByShoppingListId(Integer shopingListId, Pageable pageable);
+
+
+	@Query(value = "CALL order_next_step(?1);", nativeQuery = true)
+	OrderModel nextStep(Integer orderId);
 }
