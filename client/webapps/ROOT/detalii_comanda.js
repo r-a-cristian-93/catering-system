@@ -233,15 +233,20 @@ function newStepperItem(order, text, propName) {
 		.append($("<div>").addClass("step-name").html(text));
 
 	if (order[propName] != null) {
-		item.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order[propName]).getDateTime()));
+		item.append($("<div>").addClass("step-date").html(cardDateTime(order[propName]).getDateTime()));
+		if (order.status.name != "anulata") {
+			item.addClass("completed");
+		}
 	}
 	else {
-		item.on("click", function() {
-			$.when(updateOrderNextStep(order)).then(function(updated_order) {
-				$(item).replaceWith(newStepperItem(updated_order, text, propName));
-				$('#card-status').replaceWith(newStatusCard(updated_order));
+		if (order.status.name != "anulata") {
+			item.on("click", function() {
+				$.when(updateOrderNextStep(order)).then(function(updated_order) {
+					$(item).replaceWith(newStepperItem(updated_order, text, propName));
+					$('#card-status').replaceWith(newStatusCard(updated_order));
+				});
 			});
-		});
+		}
 	}
 
 	return item;
