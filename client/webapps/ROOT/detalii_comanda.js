@@ -242,8 +242,8 @@ function newStepperItem(order, text, propName) {
 		if (order.status.name != "anulata") {
 			item.on("click", function() {
 				$.when(updateOrderNextStep(order)).then(function(updated_order) {
-					$(item).replaceWith(newStepperItem(updated_order, text, propName));
 					$('#card-status').replaceWith(newStatusCard(updated_order));
+					$('.stepper-wrapper').replaceWith(newStepperBar(updated_order));
 				});
 			});
 		}
