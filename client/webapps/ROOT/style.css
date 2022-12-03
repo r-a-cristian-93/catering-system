@@ -212,6 +212,7 @@ html, body {
 	height: 20px;
 	vertical-align: middle;
 	margin-right:10px;
+	filter: invert(1);
 	}
 
 
@@ -643,7 +644,6 @@ td.clickable:hover {
 	margin-right: 20px;
 	transform: translateY(20px);
 	vertical-align: top;
-	filter: brightness(0.0);
 }
 
 .card-bg {
