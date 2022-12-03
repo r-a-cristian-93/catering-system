@@ -1,6 +1,53 @@
+USE catering;
+
+/* ============================= */
+/* PROCEDURE order.status and dates */
+
+DROP PROCEDURE IF EXISTS order_next_step;
+DELIMITER $$
+CREATE PROCEDURE order_next_step(IN ORDER_ID int)
+BEGIN
+	DECLARE placemnetDate datetime;
+	DECLARE supplyDate datetime;
+	DECLARE productionDate datetime;
+	DECLARE preparingDate datetime;
+	DECLARE shippingDate datetime;
+	DECLARE PREV_STATUS varchar(20);
+
+	SELECT status INTO PREV_STATUS FROM orders WHERE ID = ORDER_ID;
+
+	IF (PREV_STATUS = "preluata") THEN
+		UPDATE orders SET status = "aprovizionata" WHERE ID = ORDER_ID;
+		UPDATE orders SET supply_date = CURRENT_TIMESTAMP WHERE ID = ORDER_ID;
+	END IF;
+
+	IF (PREV_STATUS = "aprovizionata") THEN
+		UPDATE orders SET status = "preparata" WHERE ID = ORDER_ID;
+		UPDATE orders SET production_date = CURRENT_TIMESTAMP WHERE ID = ORDER_ID;
+	END IF;
+
+	IF (PREV_STATUS = "preparata") THEN
+		UPDATE orders SET status = "pregatita" WHERE ID = ORDER_ID;
+		UPDATE orders SET preparing_date = CURRENT_TIMESTAMP WHERE ID = ORDER_ID;
+	END IF;
+
+	IF (PREV_STATUS = "pregatita") THEN
+		UPDATE orders SET status = "expediata" WHERE ID = ORDER_ID;
+		UPDATE orders SET shipping_date = CURRENT_TIMESTAMP WHERE ID = ORDER_ID;
+	END IF;
+
+	SELECT * FROM orders WHERE ID = ORDER_ID;
+
+END $$
+DELIMITER ;
+
+/* ============================= */
+/* PROCEDURE FOR order canceling*/
+
+
+
 /* ============================= */
 /* TRIGGERS FOR recipes.ing_cost */
-USE catering
 
 DROP PROCEDURE IF EXISTS update_recipes_ing_cost_by_ing_id;
 DELIMITER $$
@@ -28,7 +75,6 @@ BEGIN
 	SET r.ing_cost = n.ing_cost;
 END $$
 DELIMITER ;
-
 
 DROP PROCEDURE IF EXISTS update_recipes_ing_cost_by_recipe_id;
 DELIMITER $$
@@ -352,7 +398,3 @@ BEGIN
 	INSERT INTO debug_var(name, value) VALUES(NAME, VAL);
 END $$
 DELIMITER ;
-
-
-
-

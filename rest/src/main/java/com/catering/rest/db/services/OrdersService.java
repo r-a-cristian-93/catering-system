@@ -124,6 +124,10 @@ public class OrdersService {
 		return ordersRepo.save(order);
 	}
 
+	public OrderModel nextStep(Integer id) {
+		return ordersRepo.nextStep(id);
+	}
+
 
 	//PAGEABLE
 

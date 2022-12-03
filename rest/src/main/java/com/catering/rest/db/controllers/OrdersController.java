@@ -86,6 +86,12 @@ public class OrdersController {
 		return ordersService.updateOrder(id, order);
 	}
 
+	@ResponseBody
+	@PutMapping("/{id}/nextstep")
+	public OrderModel nextStep(@PathVariable Integer id) {
+		return ordersService.nextStep(id);
+	}
+
 
 	//PAGEABLE
 

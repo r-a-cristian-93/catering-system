@@ -37,23 +37,47 @@ function deleteOrderDetails(details) {
 	});
 }
 
-function newCards(order) {
+function updateOrder(order) {
+	return $.ajax({
+		method: 'PUT',
+		xhrFields: { withCredentials:true },
+		url: DEFAULTS.REST_URL + '/orders/'+order.id,
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify(order)
+	});
+}
+
+function updateOrderNextStep(order) {
+	return $.ajax({
+		method: 'PUT',
+		xhrFields: { withCredentials:true },
+		url: DEFAULTS.REST_URL + '/orders/'+order.id+'/nextstep',
+		dataType: 'json',
+		contentType: 'application/json',
+	});
+}
+
+
+/* ORDER CARDS */
+
+function newStatusCard(order) {
 	var statusDate;
 
 	switch (order.status.name) {
-		case "preluata": //"preluare"
+		case "preluata":
 			statusDate = order.placementDate;
 		break;
-		case "aprovizionare":
+		case "aprovizionata":
 			statusDate = order.supplyDate;
 		break;
-		case "in lucru": // "preparare"
+		case "preparata":
 			statusDate = order.productionDate;
 		break;
-		case "pregatire":
+		case "pregatita":
 			statusDate = order.preparingDate;
 		break;
-		case "livrata": // "expediere"
+		case "expediata":
 			statusDate = order.shippingDate;
 		break;
 		case "anulata":
@@ -65,16 +89,21 @@ function newCards(order) {
 
 	var cardStatus = $("<div>").addClass("card").attr({"id": "card-status"})
 		.append($("<div>").addClass("card-icon")
-			.append($("<div>").addClass("stretch-bg " + order.status.name.replace(/ /g, "-"))))
+			.append($("<div>").addClass("card-bg " + order.status.name.replace(/ /g, "-"))))
 		.append($("<div>").addClass("card-details")
 			.append($("<div>").addClass("card-title").html("Stare"))
 			.append($("<div>").addClass("card-text-big first-big").html(order.status.name))
 			.append($("<div>").addClass("card-text-medium").html(statusDate.date + " / " + statusDate.time))
 		);
+	return cardStatus;
+}
+
+function newCards(order) {
+	var cardStatus = newStatusCard(order);
 
 	var cardClient = $("<div>").addClass("card").attr({"id": "card-client"})
 		.append($("<div>").addClass("card-icon")
-			.append($("<div>").addClass("stretch-bg profil")))
+			.append($("<div>").addClass("card-bg profil")))
 		.append($("<div>").addClass("card-details")
 			.append($("<div>").addClass("card-title").html("Client"))
 			.append($("<div>").addClass("card-text-big first-big").html(order.client.name))
@@ -83,7 +112,7 @@ function newCards(order) {
 
 	var cardAddress = $("<div>").addClass("card").attr({"id": "card-address"})
 		.append($("<div>").addClass("card-icon")
-			.append($("<div>").addClass("stretch-bg " + order.status.name.replace(/ /g, "-"))))
+			.append($("<div>").addClass("card-bg img-pinlocation")))
 		.append($("<div>").addClass("card-details")
 			.append($("<div>").addClass("card-title").html("Adresa livrare"))
 			.append($("<div>").addClass("card-text-medium").html(order.deliveryAddress.value))
@@ -92,7 +121,7 @@ function newCards(order) {
 	var dueDate = cardDateTime(order.dueDate);
 	var cardDeadline = $("<div>").addClass("card").attr({"id": "card-deadline"})
 		.append($("<div>").addClass("card-icon")
-			.append($("<div>").addClass("stretch-bg " + order.status.name.replace(/ /g, "-"))))
+			.append($("<div>").addClass("card-bg img-hourglass")))
 		.append($("<div>").addClass("card-details")
 			.append($("<div>").addClass("card-title").html("Termen livrare"))
 			.append($("<div>").addClass("card-text-medium").html(dueDate.date))
@@ -195,41 +224,35 @@ function newOrderDetailRow(detail) {
 			recipeId = this.id.split("_")[1];});
 }
 
+
+/* ORDER PROGRESS BAR */
+
+function newStepperItem(order, text, propName) {
+	var item = $("<div>").addClass("stepper-item")
+		.append($("<div>").addClass("step-counter"))
+		.append($("<div>").addClass("step-name").html(text));
+
+	if (order[propName] != null) {
+		item.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order[propName]).getDateTime()));
+	}
+	else {
+		item.on("click", function() {
+			$.when(updateOrderNextStep(order)).then(function(updated_order) {
+				$(item).replaceWith(newStepperItem(updated_order, text, propName));
+				$('#card-status').replaceWith(newStatusCard(updated_order));
+			});
+		});
+	}
+
+	return item;
+}
+
 function newStepperBar(order) {
-	var sPlacement = $("<div>").addClass("stepper-item")
-		.append($("<div>").addClass("step-counter"))
-		.append($("<div>").addClass("step-name").html("Preluare"))
-	if (order.placementDate != null) {
-		sPlacement.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.placementDate).getDateTime()));
-	}
-
-	var sSupply = $("<div>").addClass("stepper-item")
-		.append($("<div>").addClass("step-counter"))
-		.append($("<div>").addClass("step-name").html("Aprovizionare"));
-	if (order.supplyDate != null) {
-		sSupply.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.supplyDate).getDateTime()));
-	}
-
-	var sProduction = $("<div>").addClass("stepper-item")
-		.append($("<div>").addClass("step-counter"))
-		.append($("<div>").addClass("step-name").html("Preparare"));
-	if (order.productionDate != null) {
-		sProduction.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.productionDate).getDateTime()));
-	}
-
-	var sPreparing = $("<div>").addClass("stepper-item")
-		.append($("<div>").addClass("step-counter"))
-		.append($("<div>").addClass("step-name").html("Pregatire"));
-	if (order.preparingDate != null) {
-		sPreparing.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.preparingDate).getDateTime()));
-	}
-
-	var sShipping = $("<div>").addClass("stepper-item")
-		.append($("<div>").addClass("step-counter"))
-		.append($("<div>").addClass("step-name").html("Expediere"));
-	if(order.shippingDate != null) {
-		sShipping.addClass("completed").append($("<div>").addClass("step-date").html(cardDateTime(order.shippingDate).getDateTime()));
-	}
+	var sPlacement = newStepperItem(order, "Preluare", "placementDate");
+	var sSupply = newStepperItem(order, "Aprovizionare", "supplyDate");
+	var sProduction = newStepperItem(order, "Preparare", "productionDate");
+	var sPreparing = newStepperItem(order, "Pregatire", "preparingDate");
+	var sShipping = newStepperItem(order, "Expediere", "shippingDate");
 
 	var stepperBar = $("<div>").addClass("stepper-wrapper")
 		.append(sPlacement)
