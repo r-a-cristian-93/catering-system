@@ -328,44 +328,44 @@ function newActionsBar(order_id) {
 		.append(shoppingListButton);
 }
 
+function newShoppingList(order_id, item_list) {
+	var print_date = cardDateTime(new Date().toISOString()).getDateTime();
+
+	var header = $("<div>").addClass("shopping-list-header")
+		.append('Lista aprovizionare pentru comanda #' + order_id)
+		.append($('<span>').addClass('fr').html('Tiparit la: ' + print_date))
+		.append("<hr/>");
+
+	var item_table = $("<table>").addClass("shopping-list-table")
+		.append(newHeader(["ID", "Articol", "Cantitate", "Cost unitar", "Cost total"], [], []));
+
+	var total_cost = 0;
+	for (item of item_list) {
+		total_cost = total_cost + item.quantity * item.ingredient.price;
+		item_table.append(newRow([
+			item.ingredient.id,
+			item.ingredient.name,
+			item.quantity.toFixed(2) + ' ' + item.ingredient.unit.name,
+			item.ingredient.price.toFixed(2) + ' Lei',
+			(item.quantity * item.ingredient.price).toFixed(2) + ' Lei'
+		], [], [], []));
+	}
+
+	item_table.append(newHeader([
+		,,,'Total:',total_cost.toFixed(2) + ' Lei'
+
+	],[],[]))
+
+	return $("<div>")
+		.append(header)
+		.append(item_table);
+}
+
 function printShoppingList(order_id) {
-	$.when(getShoppingList(order_id).then(function(shoppingList) {
-		var print_date = cardDateTime(new Date().toISOString()).getDateTime();
-
-		var header = $("<div>").addClass("doc-header")
-			.append('Lista de cumparaturi pentru comanda #' + order_id)
-			.append($('<span>').addClass('fr').html('Tiparit la: ' + print_date))
-			.append("<hr/>");
-
-		var item_table = $("<table>")
-			.append(newHeader(["ID", "Articol", "Cantitate", "Cost unitar", "Cost total"], [,,2,,], []));
-
-		var total_cost = 0;
-		for (item of shoppingList) {
-			console.log(item[0]);
-
-			total_cost = total_cost + item.quantity * item.ingredient.price;
-			item_table.append(newRow([
-				item.ingredient.id,
-				item.ingredient.name,
-				item.quantity.toFixed(2),
-				item.ingredient.unit.name,
-				item.ingredient.price.toFixed(2) + ' Lei',
-				(item.quantity * item.ingredient.price).toFixed(2) + ' Lei'
-			], [], [], []));
-		}
-
-		item_table.append(newHeader([
-			,,,,'Total',total_cost.toFixed(2)
-
-		],[],[]))
-
-		var shoppingList = $("<div>")
-			.append(header)
-			.append(item_table);
+	$.when(getShoppingList(order_id).then(function(item_list) {
+		var shoppingList = newShoppingList(order_id, item_list);
 
 		shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
-
 	}));
 }
 
