@@ -139,10 +139,9 @@ function newCards(order) {
 
 	var cards = $("<div>").attr({"id": "cards"})
 		.append(cardStatus)
+		.append(cardDeadline)
 		.append(cardClient)
-		.append(cardAddress)
-		.append(cardDeadline);
-
+		.append(cardAddress);
 
 	return cards;
 }
@@ -321,51 +320,79 @@ function newActionsBar(order_id) {
 		)
 		.on({"click": () => printShoppingList(order_id)});
 
+	var printReportButton = $("<div>").addClass("action-button")
+		.append($("<div>").addClass("action-icon img-cart"))
+		.append($("<div>").addClass("action-details")
+			.append($("<div>").html("Printare"))
+			.append($("<div>").html("raport complet"))
+		)
+		.on({"click": () => printReport(order_id)});
+
+
 
 
 	return $("<div>").addClass("action-bar")
 		.append(closeOrderButton)
-		.append(shoppingListButton);
+		.append(shoppingListButton)
+		.append(printReportButton);
 }
 
 function newShoppingList(order_id, item_list) {
-	var print_date = cardDateTime(new Date().toISOString()).getDateTime();
-
-	var header = $("<div>").addClass("shopping-list-header")
-		.append('Lista aprovizionare pentru comanda #' + order_id)
-		.append($('<span>').addClass('fr').html('Tiparit la: ' + print_date))
-		.append("<hr/>");
-
-	var item_table = $("<table>").addClass("shopping-list-table")
-		.append(newHeader(["ID", "Articol", "Cantitate", "Cost unitar", "Cost total"], [], []));
+	var item_table = $("<table>").addClass("shopping-list-table full")
+		.append(newHeader(["Ingredient", "Cantitate", "Cost unitar", "Cost total"], [], []).addClass("font-size-120"));
 
 	var total_cost = 0;
 	for (item of item_list) {
 		total_cost = total_cost + item.quantity * item.ingredient.price;
 		item_table.append(newRow([
-			item.ingredient.id,
 			item.ingredient.name,
 			item.quantity.toFixed(2) + ' ' + item.ingredient.unit.name,
 			item.ingredient.price.toFixed(2) + ' Lei',
 			(item.quantity * item.ingredient.price).toFixed(2) + ' Lei'
-		], [], [], []));
+		], [], [], []).addClass("font-size-120"));
 	}
 
-	item_table.append(newHeader([
-		,,,'Total:',total_cost.toFixed(2) + ' Lei'
-
-	],[],[]))
+	item_table.append(newHeader([,,'Total:',total_cost.toFixed(2) + ' Lei'],[],[]).addClass("font-size-140"));
 
 	return $("<div>")
-		.append(header)
 		.append(item_table);
 }
 
 function printShoppingList(order_id) {
 	$.when(getShoppingList(order_id).then(function(item_list) {
+		var print_date = cardDateTime(new Date().toISOString()).getDateTime();
+		var header = $("<div>").addClass("print-header font-size-140")
+			.append('Lista aprovizionare pentru comanda #' + order_id)
+			.append($('<span>').addClass('fr').html('Tiparit la: ' + print_date))
+			.append("<hr/>");
+
+		var shoppingList = newShoppingList(order_id, item_list).addClass("width-print")
+			.prepend(header);
+
+		shoppingList.printThis({importCSS: false, loadCSS: "style.css", importStyle: true});
+	}));
+}
+
+function printReport(order_id) {
+	var report = $("#order-details").clone();
+	report.addClass("width-print");
+	report.find(".order-details-title").remove();
+	report.find(".add-button").remove();
+	report.find(".action-bar").remove();
+
+	var print_date = cardDateTime(new Date().toISOString()).getDateTime();
+	var header = $("<div>").addClass("print-header font-size-140")
+		.append('Detalii comanda #' + order_id)
+		.append($('<span>').addClass('fr').html('Tiparit la: ' + print_date))
+		.append("<hr/>");
+	report.prepend(header);
+
+
+	$.when(getShoppingList(order_id).then(function(item_list) {
 		var shoppingList = newShoppingList(order_id, item_list);
 
-		shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
+		report.append(shoppingList);
+		report.printThis({importCSS: false, loadCSS: "style.css", importStyle: true});
 	}));
 }
 
