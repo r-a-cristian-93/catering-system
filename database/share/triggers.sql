@@ -42,7 +42,18 @@ END $$
 DELIMITER ;
 
 /* ============================= */
-/* PROCEDURE FOR order canceling*/
+/* TRIGGER FOR order canceling*/
+
+DROP TRIGGER IF EXISTS order_cancel;
+DELIMITER $$
+CREATE TRIGGER order_cancel
+BEFORE UPDATE ON orders FOR EACH ROW
+BEGIN
+	IF (NEW.status = "anulata" AND OLD.status <> "anulata") THEN
+		SET NEW.cancel_date = CURRENT_TIMESTAMP;
+	END IF;
+END $$
+DELIMITER ;
 
 
 

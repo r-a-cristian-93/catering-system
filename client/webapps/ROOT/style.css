@@ -91,13 +91,14 @@ html, body {
 
 .button {
 	border-radius:10px;
-	padding:10px;
+	padding:10px 20px 10px 20px;
 	margin: 5px;
 	background-color: var(--button-bg);
 	border-style:none;
 	color: var(--bg);
 	font-weight: bold;
 	font-size:100%;
+	text-align: center;
 	}
 
 .button:hover {
@@ -925,4 +926,21 @@ td.clickable:hover {
 	justify-content: center;
 	align-items: center;
 	font-size: 30px;
+}
+
+
+/* ******************* ALERT MODAL ******************* */
+
+.alert-message {
+	font-size: 20px;
+}
+
+.alert-buttons {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.alert-button {
+	justify-content: center;
+	max-width: fit-content;
 }
