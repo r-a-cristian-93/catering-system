@@ -148,25 +148,23 @@ function newCards(order) {
 
 function orderDetailsBuildView(args) {
     $.when(args.getFunction(args.order_id)).then(function(order) {
-        console.log(order);
-
         $("#order-details")
 			.append($("<div>").addClass("order-details-title").html("Detalii comanda #" + order.id))
 			.append(newCards(order))
 			.append(newStepperBar(order));
 
-		buildOrderDetailsTable(args.order_id);
+		buildOrderDetailsTable(order);
     });
 }
 
 
-function buildOrderDetailsTable(order_id) {
-	$.when(getOrderDetails(order_id)).then(function(details){
+function buildOrderDetailsTable(order) {
+	$.when(getOrderDetails(order.id)).then(function(details){
 		$("#order-details")
 			.append(newOrderDetailsTable(details))
 			.append(newAddButton("Adauga articol", null)
-				.attr({"onclick": "buildAddItemsModal("+order_id+")"}))
-			.append(newActionsBar(order_id));
+				.attr({"onclick": "buildAddItemsModal("+order.id+")"}))
+			.append(newActionsBar(order));
 	});
 }
 
@@ -301,15 +299,43 @@ function orderDetailsView(args) {
 
 /* ACTIONS BAR */
 
-function newActionsBar(order_id) {
+function newModalAlert(title, msg, action) {
+	var modal = new ModalBuilder(title, "alert");
+
+	modal.content.append($('<p>').addClass("alert-message").html(msg));
+	$("body").append(modal.modal);
+
+	var buttons = $("<div>").addClass("alert-buttons")
+		.append($("<button>").addClass("button alert-button").html("Da")
+			.on({"click": function() {
+				action();
+			}}))
+		.append($("<button>").addClass("button alert-button").html("Nu")
+			.on({"click": () => modal.close()}));
+
+	modal.content.append(buttons);
+
+}
+
+function newActionsBar(order) {
+	var action = function() {
+		var order_update = {"id": order.id, status: {"name": "anulata"}};
+
+		$.when(updateOrder(order_update)).then(function(new_order) {
+			// update page with new_order status
+			$("#alert").remove(); // is there any better way to do this?
+		});
+	};
+
 	var closeOrderButton = $("<div>").addClass("action-button")
 		.append($("<div>").addClass("action-icon anulata"))
 		.append($("<div>").addClass("action-details")
 			.append($("<div>").html("Anuleaza"))
 			.append($("<div>").html("comanda"))
 		)
-		.attr({"onclick": null});
-
+		.on({"click": function() {
+			newModalAlert("Atentie!", "Sigur vrei sa anulezi aceasta comanda?", action)
+		}});
 
 
 	var shoppingListButton = $("<div>").addClass("action-button")
@@ -318,7 +344,7 @@ function newActionsBar(order_id) {
 			.append($("<div>").html("Lista"))
 			.append($("<div>").html("aprovizionare"))
 		)
-		.on({"click": () => printShoppingList(order_id)});
+		.on({"click": () => printShoppingList(order.id)});
 
 	var printReportButton = $("<div>").addClass("action-button")
 		.append($("<div>").addClass("action-icon img-cart"))
@@ -326,15 +352,20 @@ function newActionsBar(order_id) {
 			.append($("<div>").html("Printare"))
 			.append($("<div>").html("raport complet"))
 		)
-		.on({"click": () => printReport(order_id)});
+		.on({"click": () => printReport(order.id)});
 
 
+	var actionBar = $("<div>").addClass("action-bar");
 
+	if (order.status.name != "anulata") {
+		actionBar.append(closeOrderButton);
+	}
 
-	return $("<div>").addClass("action-bar")
-		.append(closeOrderButton)
+	actionBar
 		.append(shoppingListButton)
 		.append(printReportButton);
+
+	return actionBar;
 }
 
 function newShoppingList(order_id, item_list) {

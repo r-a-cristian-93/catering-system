@@ -127,7 +127,8 @@ class ModalBuilder {
 					.append(
 						$("<div>").addClass("modal-top")
 							.append(
-								$("<span>").addClass("modal-close no-print").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
+								$("<span>").addClass("modal-close no-print").html("&times;")
+									.on({"click": () => this.close()}))
 							.append(this.title)
 					)
 					.append(
@@ -143,6 +144,10 @@ class ModalBuilder {
 		}
 		this.extraBox[index] = new ExtraBox(title, index);
 		this.modalContainer.append(this.extraBox[index].box);
+	}
+
+	close() {
+		$(this.modal).remove();
 	}
 }
 
