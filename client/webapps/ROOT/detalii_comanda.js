@@ -318,11 +318,13 @@ function newModalAlert(title, msg, action) {
 }
 
 function newActionsBar(order) {
-	var action = function() {
+	var closeAction = function() {
 		var order_update = {"id": order.id, status: {"name": "anulata"}};
 
-		$.when(updateOrder(order_update)).then(function(new_order) {
+		$.when(updateOrder(order_update)).then(function(updated_order) {
 			// update page with new_order status
+			$('#card-status').replaceWith(newStatusCard(updated_order));
+			$('.stepper-wrapper').replaceWith(newStepperBar(updated_order));
 			$("#alert").remove(); // is there any better way to do this?
 		});
 	};
@@ -334,7 +336,7 @@ function newActionsBar(order) {
 			.append($("<div>").html("comanda"))
 		)
 		.on({"click": function() {
-			newModalAlert("Atentie!", "Sigur vrei sa anulezi aceasta comanda?", action)
+			newModalAlert("Atentie!", "Sigur vrei sa anulezi aceasta comanda?", closeAction)
 		}});
 
 
