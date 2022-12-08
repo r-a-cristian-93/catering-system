@@ -148,10 +148,16 @@ function newCards(order) {
 
 function orderDetailsBuildView(args) {
     $.when(args.getFunction(args.order_id)).then(function(order) {
+		var stepperBar = newStepperBar(order);
+
+		if (order.status.name === "anulata") {
+			stepperBar.addClass("disabled");
+		}
+
         $("#order-details")
 			.append($("<div>").addClass("order-details-title").html("Detalii comanda #" + order.id))
 			.append(newCards(order))
-			.append(newStepperBar(order));
+			.append(stepperBar);
 
 		buildOrderDetailsTable(order);
     });
@@ -160,11 +166,21 @@ function orderDetailsBuildView(args) {
 
 function buildOrderDetailsTable(order) {
 	$.when(getOrderDetails(order.id)).then(function(details){
+		var table = newOrderDetailsTable(details);
+		var addButton = newAddButton("Adauga articol", null)
+			.attr({"onclick": "buildAddItemsModal("+order.id+")"});
+		var actionsBar = newActionsBar(order);
+
+		if (order.status.name === "anulata") {
+			table.addClass("disabled");
+			addButton.addClass("disabled");
+			actionsBar.addClass("disabled");
+		}
+
 		$("#order-details")
-			.append(newOrderDetailsTable(details))
-			.append(newAddButton("Adauga articol", null)
-				.attr({"onclick": "buildAddItemsModal("+order.id+")"}))
-			.append(newActionsBar(order));
+			.append(table)
+			.append(addButton)
+			.append(actionsBar);
 	});
 }
 
@@ -323,8 +339,12 @@ function newActionsBar(order) {
 
 		$.when(updateOrder(order_update)).then(function(updated_order) {
 			// update page with new_order status
+
 			$('#card-status').replaceWith(newStatusCard(updated_order));
 			$('.stepper-wrapper').replaceWith(newStepperBar(updated_order));
+			$('#order-details-table').addClass('disabled');
+			$('.add-button').addClass('disabled');
+			$('.action-bar').addClass('disabled');
 			$("#alert").remove(); // is there any better way to do this?
 		});
 	};
