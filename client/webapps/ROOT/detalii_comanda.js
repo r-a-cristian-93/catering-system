@@ -148,16 +148,10 @@ function newCards(order) {
 
 function orderDetailsBuildView(args) {
     $.when(args.getFunction(args.order_id)).then(function(order) {
-		var stepperBar = newStepperBar(order);
-
-		if (order.status.name === "anulata") {
-			stepperBar.addClass("disabled");
-		}
-
         $("#order-details")
 			.append($("<div>").addClass("order-details-title").html("Detalii comanda #" + order.id))
 			.append(newCards(order))
-			.append(stepperBar);
+			.append(newStepperBar(order));
 
 		buildOrderDetailsTable(order);
     });
@@ -288,6 +282,10 @@ function newStepperBar(order) {
 		.append(sProduction)
 		.append(sPreparing)
 		.append(sShipping);
+
+	if (order.status.name === "anulata") {
+		stepperBar.addClass("disabled");
+	}
 
 	return stepperBar;
 }
