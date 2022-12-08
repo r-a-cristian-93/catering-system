@@ -15,6 +15,11 @@
 	--progress-hover: #cfff49;
 	}
 
+.disabled {
+	pointer-events: none;
+	opacity: 60%;
+    filter: grayscale(1);
+}
 .fr { float:right; }
 
 .fl { float:left; }
@@ -842,6 +847,10 @@ td.clickable:hover {
 	border-radius: 50%;
 	background: #ccc;
 	margin-bottom: 6px;
+}
+
+.step-counter:hover + .step-name{
+	color: #ccc;
 }
 
 .stepper-item.active {
