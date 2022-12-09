@@ -263,7 +263,7 @@ function selectContentsOf(el) {
 
 
 
-function makeContetEditable(element, inputFilter, updateAction) {
+function makeContentEditable(element, inputFilter, updateAction) {
 	element
 		.attr({"contenteditable":true})
 		.keypress(function(event) {

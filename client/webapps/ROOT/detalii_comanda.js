@@ -199,7 +199,7 @@ function newOrderDetailRow(detail) {
 		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
 
 	var divServings = $("<div>").html(detail.servings);
-	makeContetEditable(divServings, inputIntegers, () => orderDetailsUpdate(detail.order.id, detail.recipe.id));
+	makeContentEditable(divServings, inputIntegers, () => orderDetailsUpdate(detail.order.id, detail.recipe.id));
 
 	return newRow([
 		detail.recipe.name,
