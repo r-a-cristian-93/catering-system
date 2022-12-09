@@ -260,3 +260,38 @@ function selectContentsOf(el) {
     sel.removeAllRanges();
     sel.addRange(range);
 }
+
+
+
+function makeContetEditable(element, inputFilter, updateAction) {
+	element
+		.attr({"contenteditable":true})
+		.keypress(function(event) {
+			inputFilter(event);
+			var keyCode = event.keyCode || event.which;
+
+			if (keyCode === 13) {
+				$(this).focusout(); // when pressing ENTER
+			}
+		})
+		.on("focusout", function() {
+			if ($(this).attr("mustsave") == "true") {
+				updateAction();
+				$(this).attr("mustsave", false);
+			}
+		})
+		.on("focus", function() {
+			selectContentOf($(this).get(0))
+		})
+		.on("input", function() {
+			$(this).attr("mustsave", "true");
+		});
+}
+
+function selectContentOf(node) {
+	var range = document.createRange();
+	range.selectNodeContents(node);
+	var sel = window.getSelection();
+	sel.removeAllRanges();
+	sel.addRange(range);
+}
