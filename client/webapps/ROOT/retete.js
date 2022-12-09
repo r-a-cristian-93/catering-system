@@ -121,6 +121,7 @@ function recipeBuildTable(args) {
 
 		var table = $("<table>")
 			.addClass('full')
+			.addClass('table-list')
 			.append(newHeader(["ID", "Denumire", "Categorie", "Portie", "Cost ingrediente"], [0, 0, 0, 2, 0]));
 
 		for(recipe of recipes.content) {
@@ -333,6 +334,7 @@ function buildRecipeEditModal(id) {
 function recipeDetailsBuildTable(ingredients, recipeId) {
 	var table = $("<table>")
 		.addClass('full')
+		.addClass('table-list')
 		.attr({"id": "recipe-details-table"})
 		.append(newHeader(["ID", "Denumire", "Cantitate", "Cost/UM", "Cost total"], [0, 0, 2, 3]));
 

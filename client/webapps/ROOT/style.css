@@ -953,3 +953,22 @@ td.clickable:hover {
 	justify-content: center;
 	max-width: fit-content;
 }
+
+
+/* ******************* TABLE LIST ******************* */
+
+
+.table-list td {
+	padding: 0px;
+	margin:0;
+}
+
+.table-list td:not(div) {
+	padding: 5px;
+	margin: 0px;
+}
+
+.table-list td div {
+	padding: 5px;
+	margin: 0;
+}

@@ -182,6 +182,7 @@ function newOrderDetailsTable(details) {
 	var table = $("<table>")
 		.attr({"id": "order-details-table"})
 		.addClass("full")
+		.addClass("table-list")
 		.append(newHeader(["Articol", "Portii", "Cost unitar", "Cost total"],[]).addClass("font-size-120"));
 	for(detail of details) {
 		table.append(newOrderDetailRow(detail));
