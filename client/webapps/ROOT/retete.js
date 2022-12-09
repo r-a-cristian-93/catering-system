@@ -346,9 +346,6 @@ function recipeDetailsBuildTable(ingredients, recipeId) {
 }
 
 function newRecipeDetailsRow(det) {
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
@@ -366,7 +363,6 @@ function newRecipeDetailsRow(det) {
 		"/",
 		det.ingredient.unit.name,
 		(det.ingredient.price * det.quantity).toFixed(2) + " Lei",
-		saveButton,
 		deleteButton
 	], [0, 0, 0, 0, 0, 0],[],[,,,,["align-right", "space-right-0"],,["align-left", "space-left-0"],])
 		.attr({"id": "det_"+det.ingredient.id});
