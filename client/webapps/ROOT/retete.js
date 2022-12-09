@@ -292,7 +292,7 @@ function recipeDetailsUpdate(recipeId, ingId) {
 	var details = {
 		'recipe': { 'id': recipeId},
 		'ingredient': { 'id': ingId },
-		'quantity': $("#det_" + ingId + " td:eq(2)").text()
+		'quantity': $("#det_" + ingId + " td:eq(2) div").text()
 	};
 	$.when(updateRecipeDetails(details)).then(function(data){
 		$("#det_" + ingId).replaceWith(newRecipeDetailsRow(data));
@@ -353,11 +353,9 @@ function newRecipeDetailsRow(det) {
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "recipeDetailsDelete("+det.recipe.id+", "+det.ingredient.id+")"});
-	var divQuantity = $("<div>")
-		.attr({"contenteditable":true})
-		.keypress(inputFloats)
-		.attr({"oninput": "enableSaveDetails("+det.recipe.id+", "+det.ingredient.id+")"});
-	divQuantity.html(det.quantity);
+
+	var divQuantity = $("<div>").html(det.quantity);
+	makeContetEditable(divQuantity, inputFloats, () => recipeDetailsUpdate(det.recipe.id, det.ingredient.id));
 
 	return newRow([
 		det.ingredient.id,
@@ -371,23 +369,7 @@ function newRecipeDetailsRow(det) {
 		saveButton,
 		deleteButton
 	], [0, 0, 0, 0, 0, 0],[],[,,,,["align-right", "space-right-0"],,["align-left", "space-left-0"],])
-		.attr({"id": "det_"+det.ingredient.id})
-		.on("input", function() {
-			recipeId = $(".modal-title").text().split(" ")[0].substring(1);
-			enableSaveDetails(recipeId, this.id.split("_")[1])
-		});
-}
-
-function enableSaveDetails(recipeId, ingId) {
-	$("#det_"+ingId + " td:eq(8) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": "recipeDetailsUpdate("+recipeId+", "+ingId+")"});
-}
-
-function disableSaveDetails(id) {
-	$("#det_" + id + " td:eq(4) > img")
-		.attr({"onclick": ""})
-		.attr({"class":"inactive"});
+		.attr({"id": "det_"+det.ingredient.id});
 }
 
 function newStaticIngTable(data) {
