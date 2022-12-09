@@ -99,6 +99,7 @@ function ingredientBuildTable(args) {
 
 		var table = $("<table>")
 			.addClass('full')
+			.addClass('table-list')
 			.append(newHeader(["ID", "Denumire", "Pret curent [Lei]", "U/M"]));
 
 		for(ing of ingredients.content) {
