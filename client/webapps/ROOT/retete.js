@@ -216,6 +216,7 @@ function newRecipeRow(recipe) {
 		editButton,
 		deleteButton
 	], [0, 1, 0, 1, 0, 0, 0])
+		.keypress(inputIntegers)
 		.on("input", function() {
 			enableSaveRecipe(this.id)});
 }
@@ -368,7 +369,7 @@ function newRecipeDetailsRow(det) {
 		.attr({"onclick": "recipeDetailsDelete("+det.recipe.id+", "+det.ingredient.id+")"});
 	var divQuantity = $("<div>")
 		.attr({"contenteditable":true})
-		.keypress(inputOnlyNumbers)
+		.keypress(inputFloats)
 		.attr({"oninput": "enableSaveDetails("+det.recipe.id+", "+det.ingredient.id+")"});
 	divQuantity.html(det.quantity);
 
@@ -436,4 +437,3 @@ function recipeBuildTableAll(args) {
 	args.getFunction = getRecipes;
 	recipeBuildTable(args);
 }
-
