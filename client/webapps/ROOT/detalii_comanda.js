@@ -197,8 +197,8 @@ function newOrderDetailRow(detail) {
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
-	var divServings = $("<div>").html(detail.servings);
 
+	var divServings = $("<div>").html(detail.servings);
 	makeContetEditable(divServings, inputIntegers, () => orderDetailsUpdate(detail.order.id, detail.recipe.id));
 
 	return newRow([

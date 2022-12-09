@@ -206,7 +206,7 @@ function newRecipeRow(recipe) {
 	makeContetEditable(divQuantity, inputIntegers, () => recipeUpdate(recipe.id));
 
 	var divRecipeName = $("<div>").html(recipe.name);
-	makeContetEditable(divRecipeName, null, () => recipeUpdate(recipe.id));
+	makeContetEditable(divRecipeName, ()=>{}, () => recipeUpdate(recipe.id));
 
 	return newRow([
 		recipe.id,
