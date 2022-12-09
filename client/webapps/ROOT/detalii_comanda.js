@@ -192,39 +192,14 @@ function newOrderDetailsTable(details) {
 	return table;
 }
 
-function selectContentOf(node) {
-	var range = document.createRange();
-	range.selectNodeContents(node);
-	var sel = window.getSelection();
-	sel.removeAllRanges();
-	sel.addRange(range);
-}
-
 function newOrderDetailRow(detail) {
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
-	var divServings = $("<div>")
-		.attr({"contenteditable":true})
-		.keypress(function(event) {
-			inputIntegers(event);
-			var keyCode = event.keyCode || event.which;
+	var divServings = $("<div>").html(detail.servings);
 
-			if (keyCode === 13) {
-				$(this).focusout(); // when pressing ENTER
-			}
-		})
-		.on("focusout", function() {
-			if ($(this).attr("mustsave") == "true") {
-				orderDetailsUpdate(detail.order.id, detail.recipe.id)
-				$(this).attr("mustsave", false);
-			}
-		})
-		.on("focus", function() {
-			selectContentOf($(this).get(0))
-		})
-		.html(detail.servings);
+	makeContetEditable(divServings, inputIntegers, () => orderDetailsUpdate(detail.order.id, detail.recipe.id));
 
 	return newRow([
 		detail.recipe.name,
@@ -234,11 +209,7 @@ function newOrderDetailRow(detail) {
 		deleteButton
 	], [0, 0, 0], [])
 		.addClass("font-size-120")
-		.attr({"id": "det_" + detail.recipe.id})
-		.on("input", function() {
-			divServings.attr("mustsave", "true");
-			orderId = $(".modal-title").text().split(" ")[0].substring(1);
-			recipeId = this.id.split("_")[1];});
+		.attr({"id": "det_" + detail.recipe.id});
 }
 
 
