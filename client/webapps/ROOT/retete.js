@@ -203,10 +203,10 @@ function newRecipeRow(recipe) {
 	var divCategory = newCategorySelector(recipe.id, recipe.category.name);
 
 	var divQuantity = $("<div>").html(recipe.quantity);
-	makeContetEditable(divQuantity, inputIntegers, () => recipeUpdate(recipe.id));
+	makeContentEditable(divQuantity, inputIntegers, () => recipeUpdate(recipe.id));
 
 	var divRecipeName = $("<div>").html(recipe.name);
-	makeContetEditable(divRecipeName, ()=>{}, () => recipeUpdate(recipe.id));
+	makeContentEditable(divRecipeName, ()=>{}, () => recipeUpdate(recipe.id));
 
 	return newRow([
 		recipe.id,
@@ -352,7 +352,7 @@ function newRecipeDetailsRow(det) {
 		.attr({"onclick": "recipeDetailsDelete("+det.recipe.id+", "+det.ingredient.id+")"});
 
 	var divQuantity = $("<div>").html(det.quantity);
-	makeContetEditable(divQuantity, inputFloats, () => recipeDetailsUpdate(det.recipe.id, det.ingredient.id));
+	makeContentEditable(divQuantity, inputFloats, () => recipeDetailsUpdate(det.recipe.id, det.ingredient.id));
 
 	return newRow([
 		det.ingredient.id,

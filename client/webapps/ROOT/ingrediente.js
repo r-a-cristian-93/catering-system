@@ -153,10 +153,10 @@ function newIngRow(ing) {
 	var divUnit = newUnitSelector(ing.id, ing.unit.name);
 
 	var divName = $("<div>").html(ing.name);
-	makeContetEditable(divName, ()=>{}, () => ingredientUpdate(ing.id));
+	makeContentEditable(divName, ()=>{}, () => ingredientUpdate(ing.id));
 
 	var divPrice = $("<div>").html(ing.price);
-	makeContetEditable(divPrice, inputFloats, () => ingredientUpdate(ing.id));
+	makeContentEditable(divPrice, inputFloats, () => ingredientUpdate(ing.id));
 
 	return newRow([
 		ing.id,
