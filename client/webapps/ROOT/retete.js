@@ -76,8 +76,8 @@ function recipeAdd(){
 function recipeUpdate(id) {
 	var recipe = {
 		'id': id,
-		'name': $("#" + id + " td:eq(1)").text(),
-		'quantity': $("#" + id + " td:eq(3)").text(),
+		'name': $("#" + id + " td:eq(1) div").text(),
+		'quantity': $("#" + id + " td:eq(3) div").text(),
 		'unit': {'name': $("#" + id + " td:eq(4) > div > div:eq(0)").text()}
 	};
 
@@ -191,9 +191,6 @@ function newCategorySelector(recipe_id, current_category) {
 }
 
 function newRecipeRow(recipe) {
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
 	var editButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
@@ -205,34 +202,23 @@ function newRecipeRow(recipe) {
 	var divUnit = newUnitSelector(recipe.id, recipe.unit.name);
 	var divCategory = newCategorySelector(recipe.id, recipe.category.name);
 
+	var divQuantity = $("<div>").html(recipe.quantity);
+	makeContetEditable(divQuantity, inputIntegers, () => recipeUpdate(recipe.id));
+
+	var divRecipeName = $("<div>").html(recipe.name);
+	makeContetEditable(divRecipeName, null, () => recipeUpdate(recipe.id));
+
 	return newRow([
 		recipe.id,
-		recipe.name,
+		divRecipeName,
 		divCategory,
-		recipe.quantity,
+		divQuantity,
 		divUnit,
 		recipe.ingCost.toFixed(2) + " Lei",
-		saveButton,
 		editButton,
 		deleteButton
-	], [0, 1, 0, 1, 0, 0, 0])
-		.keypress(inputIntegers)
-		.on("input", function() {
-			enableSaveRecipe(this.id)});
+	], []);
 }
-
-function enableSaveRecipe(id) {
-	$("#" + id + " td:eq(6) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": "recipeUpdate("+id+")"});
-}
-
-function disableSaveRecipe(id) {
-	$("#" + id + " td:eq(6) > img")
-		.attr({"onclick": ""})
-		.attr({"class":"inactive"});
-}
-
 
 /* ************* RECIPE DETAILS *************/
 
