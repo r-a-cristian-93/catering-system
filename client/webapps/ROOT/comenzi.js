@@ -57,7 +57,7 @@ function getOrdersByOrderDate(args) {
 	});
 }
 
-function getOrdersByDeliveryDate(args) {
+function getOrdersByDueDate(args) {
 	return $.ajax({
 		method: 'POST',
 		xhrFields: { withCredentials: true },
@@ -65,29 +65,6 @@ function getOrdersByDeliveryDate(args) {
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify(args.data)
-	});
-}
-
-
-function getOrdersByShoppingListId(shoppingListId) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		url: DEFAULTS.REST_URL + '/orders/byShoppingListId',
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(shoppingListId)
-	});
-}
-
-function updateOrder(id, info) {
-	return $.ajax({
-		method: 'PUT',
-		xhrFields: { withCredentials:true },
-		url: DEFAULTS.REST_URL + '/orders/'+id,
-		dataType: 'json',
-		contentType: 'application/json',
-		data: JSON.stringify(info)
 	});
 }
 
@@ -102,35 +79,7 @@ function addOrder(order){
 	});
 }
 
-function deleteOrder(id) {
-	return $.ajax({
-		method: 'DELETE',
-		xhrFields: { withCredentials:true },
-		url: DEFAULTS.REST_URL + '/orders/'+id
-	});
-}
-
-function getStatus() {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/status'
-	});
-}
-
-function getClients() {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/clients'
-	});
-}
-
 // ui operations
-
-function newFilterDiv() {}
 
 function newFilterContainer(name) {
 	return $("<div>").addClass("filter-container")
@@ -165,7 +114,7 @@ function newOrderDateFilter(days) {
 	});
 }
 
-function newDeliveryDateFilter(days) {
+function newDueDateFilter(days) {
 	return $("<a>").text("Urmatoarele "+days+" zile").on("click", function() {
 		var first = new Date(Date.now());
 		first.setHours(0);
@@ -179,7 +128,7 @@ function newDeliveryDateFilter(days) {
 			prop: localStorage.ORDERS_SORT_BY,
 			dir: localStorage.SORT_DIRECTION
 		};
-		orderBuildTableByDeliveryDate(args);
+		orderBuildTableByDueDate(args);
 	});
 }
 
@@ -209,10 +158,10 @@ function buildFilters() {
 		]));
 	var f6 = newFilterContainer("Data livrare").addClass("dropdown")
 		.append(newDivDDC([
-			newDeliveryDateFilter(1).text("Azi"),
-			newDeliveryDateFilter(7),
-			newDeliveryDateFilter(14),
-			newDeliveryDateFilter(30)
+			newDueDateFilter(1).text("Azi"),
+			newDueDateFilter(7),
+			newDueDateFilter(14),
+			newDueDateFilter(30)
 		]));
 	$("div .box").prepend(
 		$("<div>").addClass("filter-menu")
@@ -230,40 +179,6 @@ function orderAdd() {
 	});
 }
 
-function orderUpdateStatus(id, status) {
-	status = {"status": {"name": status}};
-	$.when(updateOrder(id, status)).then(function(order) {
-		$("#"+order.id).replaceWith(newOrderRow(order));
-		$("#edit-order-status-modal").remove();
-	});
-}
-
-function orderUpdateClient(id, client) {
-	info = {"client": {"name": client}};
-	$.when(updateOrder(id, info)).then(function(order) {
-		$("#"+order.id).replaceWith(newOrderRow(order));
-		$("#edit-order-client-modal").remove();
-	});
-}
-
-function orderUpdateDeliveryDate(id) {
-	var date = $("#"+id+">td:eq(4)>div>input")[0].value;
-	var time = $("#"+id+">td:eq(4)>div>input")[1].value;
-	var dateTime = new Date(date + " " +time);
-	var deliveryDate = dateTime.toISOString();
-
-	info = {"deliveryDate": deliveryDate};
-	$.when(updateOrder(id, info)).then(function(order) {
-		$("#"+order.id).replaceWith(newOrderRow(order));
-	});
-}
-
-function orderDelete(id) {
-	$.when(deleteOrder(id)).then(function(){
-		$("#"+id).remove();
-	});
-}
-
 function orderBuildTable(args) {
 	$.when(args.getFunction(args)).then(function(ordersList) {
 		args.currentPage = ordersList.pageable.pageNumber;
@@ -272,7 +187,7 @@ function orderBuildTable(args) {
 
 		var table = $("<table>")
 			.addClass("full")
-			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Data livrare", "Cost ingrediente"]));
+			.append(newHeader(["ID", "Stare", "Client", "Data preluare", "Termen limita", "Cost ingrediente"]));
 		for(order of ordersList.content) {
 			table.append(newOrderRow(order));
 		}
@@ -284,499 +199,34 @@ function orderBuildTable(args) {
 }
 
 function newOrderRow(order) {
+	console.log(order);
 	var clientName = $("<div>")
 		.append($("<div>").text(order.client.name))
 		.append($("<h5>").text(order.client.phone));
 	var statusImage = $("<div>").addClass(order.status.name.replace(/ /g, "-"));
-	var shoppingListButton = $("<img>")
-		.attr({"onclick": "buildShoppingListModal("+order.id+","+order.shoppingListId+")"});
-	if(order.shoppingListId == 0 || !order.shoppingListId) {
-		shoppingListButton.attr({"src": "/img/cart.png"});
-	}
-	else {
-		shoppingListButton.attr({"src": "/img/cart_shared.png"});
-	}
-	var editButton = $("<img>")
-		.addClass("active")
-		.attr({"src": "/img/edit.png"})
-		.attr({"onclick": "buildOrderDetailsEditModal("+order.id+")"});
-	var deleteButton = $("<img>")
-		.addClass("active")
-		.attr({"src": "/img/delete.png"})
-		.attr({"onclick": "orderDelete("+order.id+")"});
-	return newRow([
+
+	var order_row = newRow([
 		order.id,
 		statusImage,
 		clientName,
-		toLocalDateTime(order.orderDate).date,
-		newDeliveryDateDiv(order),
+		toLocalDateTime(order.placementDate).date,
+		toLocalDateTime(order.dueDate).date,
 		order.ingCost.toFixed(2) + ' Lei',
-		shoppingListButton,
-		editButton,
-		deleteButton
-		],[],[
-			null,
-			{"class": "clickable", "onclick": "buildOrderEditStatusModal("+order.id+")"},
-			{"class": "clickable", "onclick": "buildOrderEditClientModal("+order.id+")"},
-		]);
-}
+		],[],[]);
 
-function buildOrderEditStatusModal(id) {
-	var modal = new ModalBuilder("#" + id+ " Modifica starea comenzii", "edit-order-status-modal");
+		order_row.click(function() {
+			window.location = DEFAULTS.CLIENT_URL+"/detalii_comanda.html?id=" + order.id;
+		});
 
-	$.when(getStatus()).then(function(statusList) {
-		for(st of statusList) {
-			modal.content.append(newStatusOption(id, st.name));
-		}
-		$("body").append(modal.modal);
-	});
-}
-
-function buildOrderEditClientModal(id) {
-	var modal = new ModalBuilder("#" + id+ " Modifica client", "edit-order-client-modal");
-
-	$.when(getClients()).then(function(clientsList) {
-		for(client of clientsList) {
-			modal.content.append(newClientOption(id, client.name));
-		}
-		$("body").append(modal.modal);
-	});
-}
-
-function newStatusOption(orderId, status) {
-	return $("<div>").addClass("modal-option").text(status)
-		.attr({"onclick": 'orderUpdateStatus('+orderId+', "'+status+'");'});
-}
-
-function newClientOption(orderId, client) {
-	return $("<div>").addClass("modal-option").text(client)
-		.attr({"onclick": 'orderUpdateClient('+orderId+', "'+client+'");'});
-}
-
-/* ******************* ORDERS DETAILS ******************* */
-
-// http requests
-
-function getOrderDetails(orderId) {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/orders/'+orderId+'/details'
-	});
-}
-
-function updateOrderDetails(details) {
-	return $.ajax({
-		method: 'PUT',
-		xhrFields: { withCredentials: true },
-		contentType: 'application/json',
-		dataType: 'json',
-		data: JSON.stringify(details),
-		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
-	});
-}
-
-function addOrderDetails(details) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		contentType: 'application/json',
-		dataType: 'json',
-		data: JSON.stringify(details),
-		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
-	});
-}
-
-function deleteOrderDetails(details) {
-	return $.ajax({
-		method: 'DELETE',
-		xhrFields: { withCredentials: true },
-		contentType: 'application/json',
-		data: JSON.stringify(details),
-		url: DEFAULTS.REST_URL + '/orders/'+details.order.id+'/details'
-	});
-}
-
-function getRecipes() {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/recipes'
-	});
+		return order_row;
 }
 
 // ui operations
-
-function buildOrderDetailsEditModal(id) {
-	$.when(getOrderDetails(id), getRecipes()).then(function(details, recipes){
-		var recipesBox = new ExtraBox("Retete disponibile", 0);
-		recipesBox.content.append(newStaticRecipeTable(recipes[0]));
-
-		var modal = new ModalBuilder("#" + id+ " Modifica comanda", "edit-order-details-modal");
-		modal.content.append(newOrderDetailsTable(details[0]));
-		modal.modalContainer.append(recipesBox.box);
-		$("body").append(modal.modal);
-	});
-}
-
-function orderDetailsUpdate(orderId, recipeId) {
-	var details = {
-		"order": {"id": orderId},
-		"recipe": {"id": recipeId},
-		"servings": $("#det_" + recipeId + " td:eq(2)").text()};
-	$.when(updateOrderDetails(details)).then(function(data) {
-		$("#det_" + data.recipe.id).replaceWith(newOrderDetailRow(data));
-
-		$.when(getOrder(orderId)).then(function(data) {
-			$("#det_total th:eq(5)").html(data.ingCost.toFixed(2) + " Lei");
-			$("#"+data.id).replaceWith(newOrderRow(data));
-		});
-	});
-}
-
-function orderDetailsDelete(orderId, recipeId) {
-	var details = {
-		"order": {"id": orderId},
-		"recipe": {"id": recipeId}
-	};
-	$.when(deleteOrderDetails(details)).then(function() {
-		$("#det_" + details.recipe.id).remove();
-		$.when(getOrder(orderId)).then(function(data) {
-			$("#"+data.id).replaceWith(newOrderRow(data));
-		});
-	});
-}
-
-function orderDetailsAdd(orderId, recipeId) {
-	var details = {
-		"order": {"id": orderId},
-		"recipe": {"id": recipeId},
-		"servings": 0
-	};
-	$.when(addOrderDetails(details)).then(function(data) {
-		newOrderDetailRow(data).insertBefore("#order-details-table tr:last");
-	});
-}
-
-function newOrderDetailsTable(details) {
-	var table = $("<table>")
-		.attr({"id": "order-details-table"})
-		.append(newHeader(["ID", "Reteta", "Portii", "Gramaj", "Cost unitar", "Cost total"],[]));
-	for(detail of details) {
-		table.append(newOrderDetailRow(detail));
-	}
-
-	table.append(newHeader([,,,,"Total:",details[0].order.ingCost.toFixed(2) + " Lei"]).attr({"id":"det_total"}));
-
-	return table;
-}
-
-function newOrderDetailRow(detail) {
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
-	var deleteButton = $("<img>")
-		.addClass("active")
-		.attr({"src": "/img/delete.png"})
-		.attr({"onclick": "orderDetailsDelete("+detail.order.id+","+detail.recipe.id+");"});
-	var divServings = $("<div>")
-		.attr({"contenteditable":true})
-		.keypress(inputOnlyNumbers)
-		.attr({"oninput": "enableSaveOrderDetails("+detail.order.id+","+detail.recipe.id+");"});
-	divServings.html(detail.servings);
-	return newRow([
-		detail.recipe.id,
-		detail.recipe.name,
-		divServings,
-		detail.recipe.quantity + " " + detail.recipe.unit.name,
-		detail.recipe.ingCost.toFixed(2) + " Lei",
-		(detail.servings * detail.recipe.ingCost).toFixed(2) + " Lei",
-		saveButton,
-		deleteButton
-	], [0, 0, 0], [])
-		.attr({"id": "det_" + detail.recipe.id})
-		.on("input", function() {
-			orderId = $(".modal-title").text().split(" ")[0].substring(1);
-			recipeId = this.id.split("_")[1];});
-}
-
-function newStaticRecipeTable(recipes) {
-	var table = $("<table>")
-		.addClass("full")
-		.append(newHeader(["ID", "Reteta", "Gramaj", "Cost unitar"]));
-	for(recipe of recipes) {
-		table.append(newStaticRecipeRow(recipe));
-	}
-	return table;
-}
-
-function newStaticRecipeRow(recipe) {
-	return newRow([
-		recipe.id,
-		recipe.name,
-		recipe.quantity + " " + recipe.unit.name,
-		recipe.ingCost.toFixed(2) + " Lei"])
-		.on("dblclick", function() {
-			var orderId = $(".modal-title").text().split(" ")[0].substring(1);
-			orderDetailsAdd(orderId, recipe.id);
-		});
-}
-
-function enableSaveOrderDetails(orderId, recipeId) {
-	$("#det_" + recipeId + " td:eq(6) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": "orderDetailsUpdate("+orderId+ ","+recipeId+ ")"});
-}
-
-function disableSaveOrderDetails(id) {
-	$("#" + id + " td:eq(3) > img")
-		.attr({"class":"inactive"})
-		.attr({"onclick": ""});
-}
-
-function toLocalDateTime(dateTimeString) {
-	var dateObj = new Date(dateTimeString)
-	return {
-		date: dateObj.toLocaleDateString('ro-RO'),
-		time: dateObj.toLocaleTimeString('ro-RO')
-	}
-}
-
-function newDeliveryDateDiv(order) {
-	var date = order.deliveryDate.split('T')[0];
-	var time = toLocalDateTime(order.deliveryDate).time;
-	var div =  $("<div>")
-		.append($("<input>").attr({"type": "date", "class": "date", "value": date, "onchange": 'orderUpdateDeliveryDate(' + order.id + ')'}))
-		.append($("<input>").attr({"type": "time", "class": "date", "value": time, "onchange": 'orderUpdateDeliveryDate(' + order.id + ')'}));
-	dateDelivery = new Date(date).setHours(0,0,0,0);
-	dateNow = new Date(Date.now()).setHours(0,0,0,0);
-
-	if (order.status.name == 'preluata' || order.status.name == 'in lucru') {
-		if (dateDelivery == dateNow) {
-			div.addClass("due-today");
-		}
-		else if (dateDelivery < dateNow) {
-			div.addClass("overdue");
-		}
-	}
-	return div;
-}
 
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
-}
-
-
-
-/* ******************* SHOPPING LIST ******************* */
-
-function getShoppingListById(shoppingListId) {
-	return $.ajax({
-		method: 'GET',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/shoppingList/' + shoppingListId
-	});
-}
-
-function getShoppingListByOrderId(orderId) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/shoppingList/byOrderId',
-		contentType: 'application/json',
-		data: JSON.stringify(orderId)
-	});
-}
-
-function mergeShoppingList(orderIds) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/shoppingList/merge',
-		contentType: 'application/json',
-		data: JSON.stringify(orderIds)
-	});
-}
-
-function removeShoppingList(orderId) {
-	return $.ajax({
-		method: 'POST',
-		xhrFields: { withCredentials: true },
-		dataType: 'json',
-		url: DEFAULTS.REST_URL + '/shoppingList/remove',
-		contentType: 'application/json',
-		data: JSON.stringify(orderId)
-	});
-}
-
-function buildShoppingListModal(orderId) {
-	var dataSet = {};
-	$.when(getOrder(orderId), getShoppingListByOrderId(orderId)).then(function(order, shoppingList) {
-		dataSet["order"] = order[0];
-		dataSet["shoppingList"] = shoppingList[0];
-		$.when(getOrdersByShoppingListId(dataSet.order.shoppingListId), getOrdersByShoppingListId(0))
-			.then(function(sharingOrders, nonSharingOrders) {
-				dataSet["sharingOrders"] = sharingOrders[0];
-				dataSet["nonSharingOrders"] = nonSharingOrders[0];
-				var modal = newShoppingListModal(dataSet);
-
-				if ($("#edit-shopping-list-modal")[0]) {
-					$("#edit-shopping-list-modal").replaceWith(modal);
-				}
-				else {
-					$("body").append(modal);
-				}
-			});
-	});
-}
-
-function newShoppingListModal(dataSet) {
-	var modal = new ModalBuilder("#" + dataSet.order.id +" - Lista cumparaturi" , "edit-shopping-list-modal");
-	modal.content.append(newShoppingListTable(dataSet.shoppingList));
-
-	//manager div
-	var manager = $("<div>")
-		.attr({'id': 'shopping-list-manager'})
-		.append('Aceasta lista de cumparaturi este comuna pentru urmatoarele comenzi:');
-	if(dataSet.order.shoppingListId==0) {
-		manager.append(newOrdersDivBoxRemove(dataSet.order.id, [{id: dataSet.order.id}]));
-	}
-	else {
-		manager.append(newOrdersDivBoxRemove(dataSet.order.id, dataSet.sharingOrders));
-	}
-	manager
-		.append($("<p>").addClass("no-print").html('Adauga si alte comenzi:'))
-		.append(newOrdersDivBoxMerge(dataSet.order.id, ordersListDiff(dataSet.nonSharingOrders, [{id: dataSet.order.id}])));
-	// end manager div
-
-	var validOrders;
-	if (dataSet.order.shoppingListId == 0) {
-		validOrders = [dataSet.order];
-	}
-	else {
-		validOrders = dataSet.sharingOrders;
-	}
-
-	var costPerOrder = $("<div>")
-		.append(newCostPerOrderTable(validOrders));
-	var rightColumn = $('<div>').addClass('modal-fixed ibt')
-		.append(manager)
-		.append(costPerOrder);
-	modal.content
-		.append(rightColumn)
-		.append($("<img>").addClass("printer no-print").attr({"src": "/img/print.png", "onclick": "printShoppingList()"}));
-	modal.modal.find('.modal-top').addClass("no-print");
-	return modal.modal;
-}
-
-function ordersListDiff(arrayA, arrayB) {
-	var arrayC = [];
-	arrayA.forEach(function(orderA) {
-		var skip = false;
-		arrayB.forEach(function(orderB) {
-			if(orderA.id == orderB.id) {
-				skip = true;
-			}
-		});
-		if(!skip) {
-			arrayC.push(orderA);
-		}
-	});
-	return arrayC;
-}
-
-function newOrdersDivBox(orders, action) {
-	var ordersDiv = $("<div>").addClass('orders-list');
-	orders.forEach(function(order) {
-		ordersDiv.append(
-			newButton(+order.id, action)
-		)
-	});
-	return ordersDiv;
-}
-function newOrdersDivBoxMerge(orderIdA, orders) {
-	var ordersDiv = $("<div>").addClass('orders-list no-print');
-	orders.forEach(function(order) {
-		if(order.status.name!='anulata' && order.status.name!='livrata') {
-			ordersDiv.append(
-				newButton(+order.id).attr('ondblclick', 'shoppingListMerge('+orderIdA+','+order.id+')')
-			);
-		}
-	});
-	return ordersDiv;
-}
-
-function newOrdersDivBoxRemove(orderIdA, orders) {
-	var ordersDiv = $("<div>").addClass('orders-list');
-	orders.forEach(function(orderB) {
-		ordersDiv.append(
-			newButton(+orderB.id).attr('ondblclick', 'shoppingListRemove('+orderIdA+','+orderB.id+')')
-		);
-	});
-	return ordersDiv;
-}
-
-function newShoppingListTable(shoppingList) {
-	var table = $("<table>")
-		.attr({"id": "shopping-list-table"})
-		.addClass("ibt")
-		.append(newHeader(["Ingredient", "Cantitate"], [0, 2]));
-	for(el of shoppingList) {
-		table.append(newShoppingListRow(el));
-	}
-	return table;
-}
-
-function newShoppingListRow(el) {
-	if(el.ingredient) {
-		return newRow([el.ingredient.name, el.quantity.toFixed(2), el.ingredient.unit.name],[],[]);
-	}
-}
-
-function newCostPerOrderTable(orders){
-	var totalCost = 0;
-	var table = $('<table>')
-		.attr({'id': 'cost-per-order-table'})
-		.addClass('full')
-		.append(newHeader(['Comanda', 'Cost ingrediente'], [0, 2]));
-	for(o of orders) {
-		table.append(newRow([o.id, o.ingCost.toFixed(2), 'Lei']));
-		totalCost += o.ingCost;
-	}
-	table.append(newRow(['Total', totalCost.toFixed(2), ' Lei']));
-	return table;
-}
-
-function shoppingListMerge(orderIdA, orderIdB) {
-	var orderIds = [orderIdA, orderIdB];
-	$.when(mergeShoppingList(orderIds)).then(function(){
-		buildShoppingListModal(orderIdA);
-	});
-}
-
-function shoppingListRemove(orderIdA, orderIdB) {
-	$.when(removeShoppingList(orderIdB)).then(function(){
-		buildShoppingListModal(orderIdA);
-	});
-}
-
-function printShoppingList() {
-	var shoppingList = $("#edit-shopping-list-modal").clone();
-	shoppingList.find(".orders-list button").after('<span>, </span>');
-	shoppingList.find(".orders-list span:last-child").html('.');
-	var header = $("<div>").addClass("doc-header")
-		.append('Lista de cumparaturi')
-		.append($('<span>').addClass('fr').html('Tiparit la: ' + new Date(Date.now()).toLocaleString()))
-		.append("<hr/>");
-	shoppingList.prepend(header);
-	shoppingList.printThis({importCSS: false, loadCSS: "print.css", importStyle: true});
 }
 
 function orderBuildTableAll(args) {
@@ -797,10 +247,8 @@ function orderBuildTableByOrderDate(args) {
 	orderBuildTable(args);
 }
 
-function orderBuildTableByDeliveryDate(args) {
-	args.buildFunction = orderBuildTableByDeliveryDate;
-	args.getFunction = getOrdersByDeliveryDate;
+function orderBuildTableByDueDate(args) {
+	args.buildFunction = orderBuildTableByDueDate;
+	args.getFunction = getOrdersByDueDate;
 	orderBuildTable(args);
 }
-
-

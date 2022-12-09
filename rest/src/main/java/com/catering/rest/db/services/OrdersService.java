@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.catering.rest.db.models.AddressModel;
 import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
@@ -19,7 +20,6 @@ import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.OrdersDetailsRepository;
 import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
-import com.catering.rest.db.repositories.ShoppingListRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,8 +34,6 @@ public class OrdersService {
 	private final RecipesRepository recipesRepo;
     @Autowired
 	private final ClientsRepository clientsRepo;
-    @Autowired
-	private final ShoppingListRepository shoppingListRepo;
 
 	public Iterable<OrderModel> getOrders() {
 		return ordersRepo.findAll();
@@ -52,13 +50,13 @@ public class OrdersService {
 	public List<OrderModel> getOrdersAfterOrderDate(Map<String, Long> interval) {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
-		return ordersRepo.findByOrderDateBetween(first, last);
+		return ordersRepo.findByPlacementDateBetween(first, last);
 	}
 
 	public List<OrderModel> getOrdersBetweenDeliveryDates(Map<String, Long> interval) {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
-		return ordersRepo.findByDeliveryDateBetween(first, last);
+		return ordersRepo.findByPlacementDateBetween(first, last);
 	}
 
 	public OrderModel addOrder(OrderModel order) {
@@ -70,14 +68,20 @@ public class OrdersService {
 	}
 
 	public void deleteOrder(Integer id) {
-		shoppingListRepo.removeOrder(id);					//workaround for MySQL trigger restriction
 		ordersRepo.deleteById(id);
 	}
 
 	public OrderModel updateOrder(Integer id, OrderModel order) {
 		ClientModel client = order.getClient();
 		StatusModel status = order.getStatus();
-		Date deliveryDate = order.getDeliveryDate();
+		Date placementDate = order.getPlacementDate();
+		Date dueDate = order.getDueDate();
+		Date supplyDate = order.getSupplyDate();
+		Date productionDate = order.getProductionDate();
+		Date preparingDate = order.getPreparingDate();
+		Date shippingDate = order.getShippingDate();
+		Date cancelDate = order.getCancelDate();
+		AddressModel deliveryAddress = order.getDeliveryAddress();
 		order = ordersRepo.findById(id).get();
 
 		if(client!=null) {
@@ -87,10 +91,37 @@ public class OrdersService {
 		if(status!=null) {
 			order.setStatus(status);
 		}
-		if(deliveryDate!=null) {
-			order.setDeliveryDate(deliveryDate);
+		if(placementDate!=null) {
+			order.setPlacementDate(placementDate);
 		}
+		if (dueDate != null) {
+			order.setDueDate(dueDate);
+		}
+		if (supplyDate != null) {
+			order.setSupplyDate(supplyDate);
+		}
+		if (productionDate != null) {
+			order.setProductionDate(productionDate);
+		}
+		if (preparingDate != null) {
+			order.setPreparingDate(preparingDate);
+		}
+		if (shippingDate != null) {
+			order.setShippingDate(shippingDate);
+		}
+		if(cancelDate != null) {
+			order.setCancelDate(cancelDate);
+		}
+		if(deliveryAddress!=null) {
+			order.setDeliveryAddress(deliveryAddress);
+		}
+
+
 		return ordersRepo.save(order);
+	}
+
+	public OrderModel nextStep(Integer id) {
+		return ordersRepo.nextStep(id);
 	}
 
 
@@ -129,7 +160,7 @@ public class OrdersService {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
 		Sort sort = OrderModel.sortBy(prop, dir);
-		return ordersRepo.findByOrderDateBetween(first, last, PageRequest.of(page, size, sort));
+		return ordersRepo.findByPlacementDateBetween(first, last, PageRequest.of(page, size, sort));
 	}
 
 	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(
@@ -141,7 +172,7 @@ public class OrdersService {
 		Date first = new Date(interval.get("first"));
 		Date last = new Date(interval.get("last"));
 		Sort sort = OrderModel.sortBy(prop, dir);
-		return ordersRepo.findByDeliveryDateBetween(first, last, PageRequest.of(page, size, sort));
+		return ordersRepo.findByDueDateBetween(first, last, PageRequest.of(page, size, sort));
 	}
 
 

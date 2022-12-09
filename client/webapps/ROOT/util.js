@@ -6,7 +6,7 @@ var DEFAULTS = Object.freeze({
 var DEFAULT_PREFERENCES = {
 	PAGE_SIZE: 10,
 	SORT_DIRECTION: "ASC",
-	ORDERS_SORT_BY: "deliveryDate",
+	ORDERS_SORT_BY: "dueDate",
 	UNITS: [],
 	CATEGORIES: [],
 };
@@ -127,7 +127,8 @@ class ModalBuilder {
 					.append(
 						$("<div>").addClass("modal-top")
 							.append(
-								$("<span>").addClass("modal-close no-print").html("&times;").attr({"onclick": "deleteModal('"+divId+"')"}))
+								$("<span>").addClass("modal-close no-print").html("&times;")
+									.on({"click": () => this.close()}))
 							.append(this.title)
 					)
 					.append(
@@ -143,6 +144,10 @@ class ModalBuilder {
 		}
 		this.extraBox[index] = new ExtraBox(title, index);
 		this.modalContainer.append(this.extraBox[index].box);
+	}
+
+	close() {
+		$(this.modal).remove();
 	}
 }
 
@@ -163,11 +168,28 @@ class ExtraBox {
 
 /* ******************* INPUT FILTERING ****************** */
 
-function inputOnlyNumbers(e) {
-	if (String.fromCharCode(e.which) != ".") {
-		if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
+function inputFloats(e) {
+	var key = e.keyCode || e.which;
+	key = String.fromCharCode(key);
+
+	var regex = /[0-9]|\./;
+	if( !regex.test(key) ) {
+		e.returnValue = false;
+		if(e.preventDefault) e.preventDefault();
 	}
 }
+
+function inputIntegers(e) {
+	var key = e.keyCode || e.which;
+	key = String.fromCharCode(key);
+
+	var regex = /[0-9]/;
+	if( !regex.test(key) ) {
+		e.returnValue = false;
+		if(e.preventDefault) e.preventDefault();
+	}
+}
+
 
 /* ******************* API CALLS ****************** */
 
@@ -185,4 +207,91 @@ function getCategories() {
 		xhrFields: {withCredentials: true },
 		url: DEFAULTS.REST_URL + '/categories',
 	});
+}
+
+/* ******************* DATE UTILS ****************** */
+
+function toLocalDateTime(dateTimeString) {
+	var dateObj = new Date(dateTimeString)
+	return {
+		date: dateObj.toLocaleDateString('ro-RO'),
+		time: dateObj.toLocaleTimeString('ro-RO')
+	}
+}
+
+function cardDateTime(dateTime) {
+	localDateTime = toLocalDateTime(dateTime);
+	var strDate = localDateTime.date;
+	var strTime = localDateTime.time;
+	return new CardDateTime(strDate, strTime.substring(0 , strTime.length-3));
+}
+
+class CardDateTime {
+	constructor(date, time) {
+		this.date = date;
+		this.time = time;
+	}
+	getDate() {
+		return this.date;
+	}
+	getTime() {
+		return this.time;
+	}
+	getDateTime() {
+		return this.date + " " + this.time;
+	}
+}
+
+/* ************* ADD BUTTON ************* */
+
+function newAddButton(text, action) {
+	return $("<button>").addClass("add-button")
+		.append($("<div>").addClass("add-button-text").html(text))
+		.append($("<div>").addClass("add-button-dot").html("+"))
+		.attr({"onclick": action});
+}
+
+/* ************* SELECT ELEMENT CONTENT ************* */
+
+function selectContentsOf(el) {
+    var range = document.createRange();
+    range.selectNodeContents(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+}
+
+
+
+function makeContentEditable(element, inputFilter, updateAction) {
+	element
+		.attr({"contenteditable":true})
+		.keypress(function(event) {
+			inputFilter(event);
+			var keyCode = event.keyCode || event.which;
+
+			if (keyCode === 13) {
+				$(this).focusout(); // when pressing ENTER
+			}
+		})
+		.on("focusout", function() {
+			if ($(this).attr("mustsave") == "true") {
+				updateAction();
+				$(this).attr("mustsave", false);
+			}
+		})
+		.on("focus", function() {
+			selectContentOf($(this).get(0))
+		})
+		.on("input", function() {
+			$(this).attr("mustsave", "true");
+		});
+}
+
+function selectContentOf(node) {
+	var range = document.createRange();
+	range.selectNodeContents(node);
+	var sel = window.getSelection();
+	sel.removeAllRanges();
+	sel.addRange(range);
 }

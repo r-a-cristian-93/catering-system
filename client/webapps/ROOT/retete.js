@@ -76,8 +76,8 @@ function recipeAdd(){
 function recipeUpdate(id) {
 	var recipe = {
 		'id': id,
-		'name': $("#" + id + " td:eq(1)").text(),
-		'quantity': $("#" + id + " td:eq(3)").text(),
+		'name': $("#" + id + " td:eq(1) div").text(),
+		'quantity': $("#" + id + " td:eq(3) div").text(),
 		'unit': {'name': $("#" + id + " td:eq(4) > div > div:eq(0)").text()}
 	};
 
@@ -121,6 +121,7 @@ function recipeBuildTable(args) {
 
 		var table = $("<table>")
 			.addClass('full')
+			.addClass('table-list')
 			.append(newHeader(["ID", "Denumire", "Categorie", "Portie", "Cost ingrediente"], [0, 0, 0, 2, 0]));
 
 		for(recipe of recipes.content) {
@@ -191,9 +192,6 @@ function newCategorySelector(recipe_id, current_category) {
 }
 
 function newRecipeRow(recipe) {
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
 	var editButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/edit.png"})
@@ -205,33 +203,23 @@ function newRecipeRow(recipe) {
 	var divUnit = newUnitSelector(recipe.id, recipe.unit.name);
 	var divCategory = newCategorySelector(recipe.id, recipe.category.name);
 
+	var divQuantity = $("<div>").html(recipe.quantity);
+	makeContentEditable(divQuantity, inputIntegers, () => recipeUpdate(recipe.id));
+
+	var divRecipeName = $("<div>").html(recipe.name);
+	makeContentEditable(divRecipeName, ()=>{}, () => recipeUpdate(recipe.id));
+
 	return newRow([
 		recipe.id,
-		recipe.name,
+		divRecipeName,
 		divCategory,
-		recipe.quantity,
+		divQuantity,
 		divUnit,
 		recipe.ingCost.toFixed(2) + " Lei",
-		saveButton,
 		editButton,
 		deleteButton
-	], [0, 1, 0, 1, 0, 0, 0])
-		.on("input", function() {
-			enableSaveRecipe(this.id)});
+	], []);
 }
-
-function enableSaveRecipe(id) {
-	$("#" + id + " td:eq(6) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": "recipeUpdate("+id+")"});
-}
-
-function disableSaveRecipe(id) {
-	$("#" + id + " td:eq(6) > img")
-		.attr({"onclick": ""})
-		.attr({"class":"inactive"});
-}
-
 
 /* ************* RECIPE DETAILS *************/
 
@@ -305,7 +293,7 @@ function recipeDetailsUpdate(recipeId, ingId) {
 	var details = {
 		'recipe': { 'id': recipeId},
 		'ingredient': { 'id': ingId },
-		'quantity': $("#det_" + ingId + " td:eq(2)").text()
+		'quantity': $("#det_" + ingId + " td:eq(2) div").text()
 	};
 	$.when(updateRecipeDetails(details)).then(function(data){
 		$("#det_" + ingId).replaceWith(newRecipeDetailsRow(data));
@@ -346,6 +334,7 @@ function buildRecipeEditModal(id) {
 function recipeDetailsBuildTable(ingredients, recipeId) {
 	var table = $("<table>")
 		.addClass('full')
+		.addClass('table-list')
 		.attr({"id": "recipe-details-table"})
 		.append(newHeader(["ID", "Denumire", "Cantitate", "Cost/UM", "Cost total"], [0, 0, 2, 3]));
 
@@ -359,18 +348,13 @@ function recipeDetailsBuildTable(ingredients, recipeId) {
 }
 
 function newRecipeDetailsRow(det) {
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
 		.attr({"onclick": "recipeDetailsDelete("+det.recipe.id+", "+det.ingredient.id+")"});
-	var divQuantity = $("<div>")
-		.attr({"contenteditable":true})
-		.keypress(inputOnlyNumbers)
-		.attr({"oninput": "enableSaveDetails("+det.recipe.id+", "+det.ingredient.id+")"});
-	divQuantity.html(det.quantity);
+
+	var divQuantity = $("<div>").html(det.quantity);
+	makeContentEditable(divQuantity, inputFloats, () => recipeDetailsUpdate(det.recipe.id, det.ingredient.id));
 
 	return newRow([
 		det.ingredient.id,
@@ -381,26 +365,9 @@ function newRecipeDetailsRow(det) {
 		"/",
 		det.ingredient.unit.name,
 		(det.ingredient.price * det.quantity).toFixed(2) + " Lei",
-		saveButton,
 		deleteButton
 	], [0, 0, 0, 0, 0, 0],[],[,,,,["align-right", "space-right-0"],,["align-left", "space-left-0"],])
-		.attr({"id": "det_"+det.ingredient.id})
-		.on("input", function() {
-			recipeId = $(".modal-title").text().split(" ")[0].substring(1);
-			enableSaveDetails(recipeId, this.id.split("_")[1])
-		});
-}
-
-function enableSaveDetails(recipeId, ingId) {
-	$("#det_"+ingId + " td:eq(8) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": "recipeDetailsUpdate("+recipeId+", "+ingId+")"});
-}
-
-function disableSaveDetails(id) {
-	$("#det_" + id + " td:eq(4) > img")
-		.attr({"onclick": ""})
-		.attr({"class":"inactive"});
+		.attr({"id": "det_"+det.ingredient.id});
 }
 
 function newStaticIngTable(data) {
@@ -436,4 +403,3 @@ function recipeBuildTableAll(args) {
 	args.getFunction = getRecipes;
 	recipeBuildTable(args);
 }
-

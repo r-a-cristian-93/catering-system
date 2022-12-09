@@ -99,6 +99,7 @@ function ingredientBuildTable(args) {
 
 		var table = $("<table>")
 			.addClass('full')
+			.addClass('table-list')
 			.append(newHeader(["ID", "Denumire", "Pret curent [Lei]", "U/M"]));
 
 		for(ing of ingredients.content) {
@@ -145,9 +146,6 @@ function newUnitSelector(ing_id, current_unit) {
 
 
 function newIngRow(ing) {
-	var saveButton = $("<img>")
-		.addClass("inactive")
-		.attr({"src": "/img/save.png"});
 	var deleteButton = $("<img>")
 		.addClass("active")
 		.attr({"src": "/img/delete.png"})
@@ -155,28 +153,19 @@ function newIngRow(ing) {
 
 	var divUnit = newUnitSelector(ing.id, ing.unit.name);
 
+	var divName = $("<div>").html(ing.name);
+	makeContentEditable(divName, ()=>{}, () => ingredientUpdate(ing.id));
+
+	var divPrice = $("<div>").html(ing.price);
+	makeContentEditable(divPrice, inputFloats, () => ingredientUpdate(ing.id));
+
 	return newRow([
 		ing.id,
-		ing.name,
-		ing.price,
+		divName,
+		divPrice,
 		divUnit,
-		saveButton,
 		deleteButton
-	], [0, 1, 1, 0, 0, 0])
-		.on("input", function() {
-			enableSaveIngredient(this.id)});
-}
-
-function enableSaveIngredient(id) {
-		$("#" + id + " td:eq(4) > img")
-		.attr({"class":"active"})
-		.attr({"onclick": "ingredientUpdate("+id+")"});
-}
-
-function disableSaveIngredient(id) {
-	$("#" + id + " td:eq(4) > img")
-		.attr({"onclick": ""})
-		.attr({"class":"inactive"});
+	], []);
 }
 
 function ingredientBuildTableAll(args) {

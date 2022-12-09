@@ -29,31 +29,55 @@ public class OrderModel extends SortableModel{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name="ID_CLIENT")
 	private ClientModel client;
-	
+
 	@ManyToOne
 	@JoinColumn(name="status")
 	private StatusModel status;
-	
+
 	@Column(name="ing_cost")
 	private Double ingCost;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="order_date")
-	private Date orderDate;
-	
+	@Column(name="placement_date")
+	private Date placementDate;
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="delivery_date")
-	private Date deliveryDate;
-	
+	@Column(name="due_date")
+	private Date dueDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="supply_date")
+	private Date supplyDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="production_date")
+	private Date productionDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="preparing_date")
+	private Date preparingDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="shipping_date")
+	private Date shippingDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="cancel_date")
+	private Date cancelDate;
+
 	@Column(name="ID_shopping_list")
 	private Integer shoppingListId;
-	
-	protected OrderModel() {}	
-	
+
+	@ManyToOne
+	@JoinColumn(name="ID_delivery_address")
+	private AddressModel deliveryAddress;
+
+	protected OrderModel() {}
+
 	static {
 		clazz = OrderModel.class;
 	}

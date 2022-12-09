@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.30, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
 --
 -- Host: localhost    Database: catering
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -15,13 +15,37 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `clients`
---
-
 DROP DATABASE IF EXISTS `catering`;
 CREATE DATABASE `catering`;
 USE `catering`;
+
+--
+-- Table structure for table `addresses`
+--
+
+DROP TABLE IF EXISTS `addresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `addresses` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `value` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `addresses`
+--
+
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+INSERT INTO `addresses` VALUES (1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara'),(2,'Str. Valea Viilor, Nr.22, Lehliu-Gara');
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clients`
+--
 
 DROP TABLE IF EXISTS `clients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -29,7 +53,6 @@ DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `address` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
@@ -42,7 +65,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (0,'-',NULL,NULL),(1,'Vasile Ciupitu','Str. Valea Viilor, Nr.22, Lehliu-Gara',NULL),(2,'Gheorghe Lazar','Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara','0733165789');
+INSERT INTO `clients` VALUES (0,'-',NULL),(1,'Vasile Ciupitu',NULL),(2,'Gheorghe Lazar','0733165789');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,17 +214,25 @@ CREATE TABLE `orders` (
   `ID_client` int DEFAULT '0',
   `status` varchar(20) NOT NULL DEFAULT (_latin1'preluata'),
   `ing_cost` double DEFAULT '0',
-  `delivery_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `order_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `placement_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `due_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `supply_date` datetime DEFAULT NULL,
+  `production_date` datetime DEFAULT NULL,
+  `preparing_date` datetime DEFAULT NULL,
+  `shipping_date` datetime DEFAULT NULL,
+  `cancel_date` datetime DEFAULT NULL,
   `ID_shopping_list` int NOT NULL DEFAULT '0',
+  `ID_delivery_address` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `ID_client` (`ID_client`),
   KEY `status` (`status`),
   KEY `ID_shopping_list` (`ID_shopping_list`),
+  KEY `ID_delivery_address` (`ID_delivery_address`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`),
-  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`)
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`),
+  CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`ID_delivery_address`) REFERENCES `addresses` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -211,7 +242,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,2,'livrata',33.519999999999996,'2021-09-08 10:27:45','2021-01-04 11:27:45',33),(2,2,'livrata',193.56000000000003,'2021-01-23 11:27:45','2021-01-24 11:27:51',33),(4,2,'in lucru',394,'2021-02-03 11:27:45','2021-01-24 11:27:51',33),(59,2,'anulata',4.62,'2021-01-24 11:27:45','2021-01-24 11:27:51',0),(102,1,'preluata',80.65,'2021-02-14 10:55:37','2021-02-14 10:55:37',0),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',0);
+INSERT INTO `orders` VALUES (1,2,'preluata',33.519999999999996,'2021-01-04 11:27:45','2021-09-08 10:27:45',NULL,NULL,NULL,NULL,NULL,33,1),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'preparata',394,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21',NULL,NULL,NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,1,'preluata',80.65,'2021-02-14 10:55:37','2021-02-14 10:55:37',NULL,NULL,NULL,NULL,NULL,0,2),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',NULL,NULL,NULL,NULL,NULL,0,1);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -563,7 +594,7 @@ CREATE TABLE `status` (
 
 LOCK TABLES `status` WRITE;
 /*!40000 ALTER TABLE `status` DISABLE KEYS */;
-INSERT INTO `status` VALUES ('anulata'),('in lucru'),('livrata'),('preluata');
+INSERT INTO `status` VALUES ('anulata'),('aprovizionata'),('expediata'),('pregatita'),('preluata'),('preparata');
 /*!40000 ALTER TABLE `status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -600,4 +631,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-19 18:59:42
+-- Dump completed on 2022-12-03  9:07:48
