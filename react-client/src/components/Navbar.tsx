@@ -1,25 +1,76 @@
+import { useEffect, useState } from "react";
+const { VITE_API_URL } = import.meta.env;
+
+type User = {
+	username: string;
+	name: string;
+	role: {
+		name: string;
+	}
+}
+
+
+async function requestUserInfo(): Promise<Response>
+{
+	return await fetch(VITE_API_URL + "/employees/myinfo", {
+		method: 'GET',
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+}
+
 function Navbar(): JSX.Element
 {
 	const currentAddress = document.location.pathname;
-	console.log(currentAddress);
+
+	useEffect(() => 
+	{
+		const fetchInfo = async (): Promise<void> => 
+		{
+			await requestUserInfo().then(response => 
+			{
+				void response.json().then(json => 
+				{
+					console.log(json);
+
+					const user: User = {} as User;
+
+					Object.assign(user, json);
+
+					setFullname(user.name);
+					setIsAdmin(user.role.name === "admin");
+				})
+			})
+		}
+
+		void fetchInfo();
+
+	}, []);
+
+	const [fullname, setFullname] = useState<string>("Login");
+	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
 	const links = [
 		{ text: "Acasa", href: "/home" },
 		{ text: "Comenzi", href: "/comenzi" },
 		{ text: "Retete", href: "/retete" },
 		{ text: "Ingrediente", href: "/ingrediente" },
-		{ text: "-ADMIN-", href: "/admin" },
 	];
+
+	if (isAdmin)
+		links.push({ text: "-ADMIN-", href: "/admin" });
 
 	return (
 		<div className="nav">
 			<a href="user" className="profile">
 				<img src="/img/profile.png" />
-				USERNAME HERE
+				{fullname}
 			</a>
 
 			{links.map((link, index) => 
-{
+			{
 				return (
 					<a
 						key={index}
