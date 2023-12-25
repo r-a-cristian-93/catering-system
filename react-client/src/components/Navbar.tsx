@@ -10,15 +10,28 @@ type User = {
 }
 
 
-async function requestUserInfo(): Promise<Response>
+async function requestUserInfo(): Promise<User>
 {
-	return await fetch(VITE_API_URL + "/employees/myinfo", {
+	const response = await fetch(VITE_API_URL + "/employees/myinfo", {
 		method: 'GET',
 		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-	})
+	});
+	const json = response.json();
+	const user: Promise<User> = json.then(json => 
+	{
+		console.log(json);
+
+		const user: User = {} as User;
+
+		Object.assign(user, json);
+
+		return user;
+	});
+
+	return user;
 }
 
 function Navbar(): JSX.Element
@@ -27,25 +40,12 @@ function Navbar(): JSX.Element
 
 	useEffect(() => 
 	{
-		const fetchInfo = async (): Promise<void> => 
+		const user: Promise<User> = requestUserInfo();
+		void user.then(user => 
 		{
-			await requestUserInfo().then(response => 
-			{
-				void response.json().then(json => 
-				{
-					console.log(json);
-
-					const user: User = {} as User;
-
-					Object.assign(user, json);
-
-					setFullname(user.name);
-					setIsAdmin(user.role.name === "admin");
-				})
-			})
-		}
-
-		void fetchInfo();
+			setFullname(user.name);
+			setIsAdmin(user.role.name === "admin");
+		});
 
 	}, []);
 
