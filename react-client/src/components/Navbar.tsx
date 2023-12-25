@@ -40,8 +40,7 @@ function Navbar(): JSX.Element
 
 	useEffect(() => 
 	{
-		const user: Promise<User> = requestUserInfo();
-		void user.then(user => 
+		void requestUserInfo().then(user => 
 		{
 			setFullname(user.name);
 			setIsAdmin(user.role.name === "admin");
