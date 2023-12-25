@@ -1,10 +1,12 @@
 import { useState } from "react";
 
+const { VITE_API_URL } = import.meta.env;
+
 type Credentials = { username: string; password: string };
 
 async function requestloginUser(credentials: Credentials): Promise<void>
 {
-    await fetch("http://localhost:8888/login", {
+    await fetch(VITE_API_URL + "/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
