@@ -19,19 +19,16 @@ async function requestUserInfo(): Promise<User>
 			'Content-Type': 'application/json',
 		},
 	});
-	const json = response.json();
-	const user: Promise<User> = json.then(json => 
+
+	const userPromise: Promise<User> = response.json().then(json => 
 	{
-		console.log(json);
-
 		const user: User = {} as User;
-
 		Object.assign(user, json);
-
+		
 		return user;
 	});
 
-	return user;
+	return userPromise;
 }
 
 function Navbar(): JSX.Element
