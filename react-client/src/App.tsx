@@ -4,7 +4,8 @@ import Layout from "./Layout.tsx";
 import NoMatchPage from "./pages/NoMatchPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
- 
+import OrdersPage from "./pages/OrdersPage.tsx";
+
 function App(): JSX.Element
 {
     return (
@@ -13,6 +14,7 @@ function App(): JSX.Element
               <Route path="/" element={<Layout />}>
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/comenzi" element={<OrdersPage />} />
                 <Route path="*" element={<NoMatchPage />} />
               </Route>
             </Routes>

@@ -28,9 +28,9 @@ function LoginPage(): JSX.Element
 
         void requestUserLogin(credentials).then((response) =>
         {
-            if (response.ok) 
+            if (response.ok)
                 window.location.pathname= "/home";
-            else 
+            else
                 setLoginFailed(true);
         })
     }
