@@ -4,7 +4,7 @@ const { VITE_API_URL } = import.meta.env;
 
 type Credentials = { username: string; password: string };
 
-async function requestloginUser(credentials: Credentials): Promise<void>
+async function requestUserLogin(credentials: Credentials): Promise<void>
 {
     await fetch(VITE_API_URL + "/login", {
         method: "POST",
@@ -13,16 +13,12 @@ async function requestloginUser(credentials: Credentials): Promise<void>
         },
         body: new URLSearchParams(credentials),
         credentials: "include",
-    })
-        .then((data) => data.json());
+    });
 }
 
 function LoginPage(): JSX.Element
 {
-    const [credentials, setCredentials] = useState<Credentials>({
-        username: "",
-        password: "",
-    });
+    const [credentials, setCredentials] = useState<Credentials>({} as Credentials);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
     {
@@ -41,7 +37,10 @@ function LoginPage(): JSX.Element
     {
         event.preventDefault();
 
-        void requestloginUser(credentials);
+        void requestUserLogin(credentials).then(() =>
+        {
+            window.location.pathname= "/home";
+        })
 
         // setToken(token);
     }

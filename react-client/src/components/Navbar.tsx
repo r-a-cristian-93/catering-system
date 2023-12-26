@@ -1,53 +1,23 @@
 import { useEffect, useState } from "react";
-const { VITE_API_URL } = import.meta.env;
-
-type User = {
-	username: string;
-	name: string;
-	role: {
-		name: string;
-	}
-}
-
-
-async function requestUserInfo(): Promise<User>
-{
-	const response = await fetch(VITE_API_URL + "/employees/myinfo", {
-		method: 'GET',
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-
-	const userPromise: Promise<User> = response.json().then(json => 
-	{
-		const user: User = {} as User;
-		Object.assign(user, json);
-		
-		return user;
-	});
-
-	return userPromise;
-}
+import { User, UserRole } from "../models/User.tsx";
+import getUserInfo from "../controllers/UserController.tsx";
 
 function Navbar(): JSX.Element
 {
-	const currentAddress = document.location.pathname;
-
 	useEffect(() => 
 	{
-		void requestUserInfo().then(user => 
+		void getUserInfo().then(user => 
 		{
-			setFullname(user.name);
-			setIsAdmin(user.role.name === "admin");
+			setUser(user);
+			setIsAdmin(user.role.name === UserRole.ADMIN);
 		});
 
 	}, []);
 
-	const [fullname, setFullname] = useState<string>("Login");
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
+	const [user, setUser] = useState<User>({} as User)
 
+	const thisPageAddress = document.location.pathname;
 	const links = [
 		{ text: "Acasa", href: "/home" },
 		{ text: "Comenzi", href: "/comenzi" },
@@ -60,9 +30,12 @@ function Navbar(): JSX.Element
 
 	return (
 		<div className="nav">
-			<a href="user" className="profile">
+			<a
+				href={user.name ? "/user" : "/login"}
+				className="profile"
+			>
 				<img src="/img/profile.png" />
-				{fullname}
+				{user.name || "Login"}
 			</a>
 
 			{links.map((link, index) => 
@@ -71,10 +44,7 @@ function Navbar(): JSX.Element
 					<a
 						key={index}
 						href={link.href}
-						className={
-							"nav-el" +
-							(link.href === currentAddress ? " current-page" : "")
-						}
+						className={"nav-el" + (link.href === thisPageAddress ? " current-page" : "")}
 					>
 						{link.text}
 					</a>
