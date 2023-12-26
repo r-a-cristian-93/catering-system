@@ -1,28 +1,17 @@
 import { useState } from "react";
-
-const { VITE_API_URL } = import.meta.env;
-
-type Credentials = { username: string; password: string };
-
-async function requestUserLogin(credentials: Credentials): Promise<void>
-{
-    await fetch(VITE_API_URL + "/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(credentials),
-        credentials: "include",
-    });
-}
+import { Credentials } from "../models/Credentials";
+import requestUserLogin from "../controllers/LoginController";
 
 function LoginPage(): JSX.Element
 {
     const [credentials, setCredentials] = useState<Credentials>({} as Credentials);
+    const [loginFailed, setLoginFailed] = useState<boolean>(false);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
     {
         const { name, value } = event.target;
+
+        setLoginFailed(false)
 
         setCredentials((prev) =>
         {
@@ -37,12 +26,13 @@ function LoginPage(): JSX.Element
     {
         event.preventDefault();
 
-        void requestUserLogin(credentials).then(() =>
+        void requestUserLogin(credentials).then((response) =>
         {
-            window.location.pathname= "/home";
+            if (response.ok) 
+                window.location.pathname= "/home";
+            else 
+                setLoginFailed(true);
         })
-
-        // setToken(token);
     }
 
     return (
@@ -71,6 +61,7 @@ function LoginPage(): JSX.Element
                     >
                         Login
                     </button>
+                    {loginFailed && <span>Login failed. check your credentials.</span>}
                 </form>
             </div>
         </div>
