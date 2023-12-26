@@ -1,5 +1,5 @@
 
-function isValidJwt(): boolean
+function isUserAuthenticated(): boolean
 {
 	const jwt: string | null = getCookie('JWT');
 
@@ -27,4 +27,4 @@ function getCookie(cookieName: string): string | null
 	return null;
 }
 
-export default isValidJwt;
+export default isUserAuthenticated;

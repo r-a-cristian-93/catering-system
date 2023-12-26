@@ -1,7 +1,7 @@
 import Navbar from "./components/Navbar";
 import { Outlet } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import isValidJwt from "./components/Auth";
+import isUserAuthenticated from "./components/Auth";
 
 function Layout(): JSX.Element
 {
@@ -10,7 +10,7 @@ function Layout(): JSX.Element
 			<Navbar />
 			<div className="content">
 				{
-					isValidJwt() ? <Outlet /> : <LoginPage />
+					isUserAuthenticated() ? <Outlet /> : <LoginPage />
 				}
 			</div>
 		</>
