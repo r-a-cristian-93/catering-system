@@ -7,8 +7,6 @@ type OrdersListProps = {
 
 export default function OrdersList(props: OrdersListProps): JSX.Element
 {
-	console.log(props);
-
 	return (
 		<table className="full">
 			<tr>
