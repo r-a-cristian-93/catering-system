@@ -1,4 +1,4 @@
-import { Order } from "../controllers/OrdersController";
+import { Order } from "../models/Order";
 
 type OrderListItemProps = {
     order: Order;

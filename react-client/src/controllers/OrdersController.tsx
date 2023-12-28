@@ -1,3 +1,6 @@
+import { Order } from "../models/Order";
+import { Pageable } from "../models/Pageable";
+
 const { VITE_API_URL } = import.meta.env;
 
 export type OrderRequestParameters =
@@ -6,55 +9,6 @@ export type OrderRequestParameters =
 	size: string;
 	prop: string;
 	dir: string;
-}
-
-export type Client =
-{
-	id: number;
-	name: string;
-	phone: string | null;
-}
-
-export type DeliveryAddress =
-{
-	id: number;
-	value: string;
-}
-
-export type Status =
-{
-	name: string;
-}
-
-export type Order =
-{
-	id: number;
-	client: Client;
-	status: Status;
-	ingCost: number;
-	placementDate: string;
-	dueDate: string;
-	supplyDate: string | null;
-	productionDate: string | null;
-	preparingDate: string | null;
-	shippingDate: string | null;
-	cancelDate: string | null;
-	shoppingListId: number;
-	deliveryAddress: DeliveryAddress;
-}
-
-export type Pageable =
-{
-	sort: {
-		sorted: boolean;
-		unsorted: boolean;
-		empty: boolean;
-	};
-	offset: number;
-	pageNumber: number;
-	pageSize: number;
-	unpaged: boolean;
-	paged: boolean;
 }
 
 export type OrdersResponseData =
