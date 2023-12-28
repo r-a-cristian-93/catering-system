@@ -1,11 +1,11 @@
 import Order from "../models/Order";
 import * as Formatter from "../utils/Formatting";
 
-type OrderListItemProps = {
+type OrderComponentProps = {
     order: Order;
 };
 
-export default function OrderListItem(props: OrderListItemProps): JSX.Element
+export default function OrderComponent(props: OrderComponentProps): JSX.Element
 {
     return (
         <tr

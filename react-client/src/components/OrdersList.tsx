@@ -1,5 +1,5 @@
 import Order from "../models/Order";
-import OrderListItem from "./OrderListItem";
+import OrderComponent from "./OrderComponent";
 
 type OrdersListProps = {
 	orders: Order[];
@@ -19,7 +19,7 @@ export default function OrdersList(props: OrdersListProps): JSX.Element
 			</tr>
 
 			{props.orders.map((order, index) => (
-				<OrderListItem key={index} order={order} />
+				<OrderComponent key={index} order={order} />
 			))}
 
 		</table>
