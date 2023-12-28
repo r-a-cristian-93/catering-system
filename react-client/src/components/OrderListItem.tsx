@@ -23,7 +23,13 @@ function formatCurrency(value: number): string
 export default function OrderListItem(props: OrderListItemProps): JSX.Element
 {
     return (
-        <tr id={props.order.id.toString()}>
+        <tr
+            id={props.order.id.toString()}
+            onClick={() =>
+                {
+                    window.location.href = document.location.pathname + "/detalii_comanda?id=" + props.order.id
+                }
+            }>
             <td>{props.order.id}</td>
             <td>
                 <div className={props.order.status.name}></div>
