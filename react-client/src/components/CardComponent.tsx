@@ -1,5 +1,4 @@
 export type CardData = {
-    id: string;
     iconClass: string;
     title: string;
     contentList: CardContent[];
@@ -19,7 +18,7 @@ function CardComponent(props: CardProps): JSX.Element
     const { cardData } = props;
 
     return (
-        <div className="card" id={cardData.id}>
+        <div className="card">
             <div className="card-icon">
                 <div className={"card-bg " + cardData.iconClass}></div>
             </div>

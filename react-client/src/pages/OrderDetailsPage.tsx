@@ -6,14 +6,14 @@ import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import QueryStatus from "../utils/QueryStatus";
-import CardComponent, { CardData } from "../components/CardComponent";
+import CardsListComponent from "../components/CardsListComponent";
 
 
 export default function OrderDetailsPage(): JSX.Element
 {
-	const { orderId } = useParams();
+	const {orderId} = useParams();
 
-	const { status, data: orderDetails } = useQuery<OrderDetails>({
+	const {status, data: orderDetails} = useQuery<OrderDetails>({
 		queryKey: ["orderDetails", Number(orderId)],
 		queryFn: () => getOrderDetails(Number(orderId)),
 	});
@@ -21,94 +21,52 @@ export default function OrderDetailsPage(): JSX.Element
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
 
-	const cardsStructure: CardData[] = [
-		{
-			id: "card-status",
-			title: "Stare",
-			iconClass: "expediata",
-			contentList: [
-				{ class: "card-text-big first-big", text: orderDetails.status.name },
-				{ class: "card-text-medium", text: "24.01.2021 / 13:27" }
-			]
-		},
-		{
-			id: "card-deadline",
-			title: "Termen livrare",
-			iconClass: "img-hourglass",
-			contentList: [
-				{ class: "card-text-medium", text: Formatter.formatDate(orderDetails.dueDate) },
-				{ class: "card-text-big", text: Formatter.formatTime(orderDetails.dueDate) }
-			]
-		},
-		{
-			id: "card-client",
-			title: "Client",
-			iconClass: "profil",
-			contentList: [
-				{ class: "card-text-big first-big", text: orderDetails.client.name },
-				{ class: "card-text-medium", text: orderDetails.client.phone }
-			]
-		},
-		{
-			id: "card-address",
-			title: "Adresa livrare",
-			iconClass: "img-pinlocation",
-			contentList: [
-				{ class: "card-text-medium", text: orderDetails.deliveryAddress.value }
-			]
-		}
-	];
-
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
-				<div className="order-details-title">Detalii comanda #{orderDetails.id}</div>
-				<div id="cards">
-					{cardsStructure.map((cardData, index) =>
-					{
-						return <CardComponent key={index} cardData={cardData} />
-					})}
+				<div className="order-details-title">Detalii comanda #{orderDetails?.id}</div>
 
-				</div>
+				<CardsListComponent orderDetails={orderDetails || {} as OrderDetails} />
+
 				<div className="stepper-wrapper">
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Preluare</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails.placementDate)}
-							{" " + Formatter.formatTime(orderDetails.placementDate)}
+							{Formatter.formatDate(orderDetails?.placementDate || "")}
+							{" " + Formatter.formatTime(orderDetails?.placementDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Aprovizionare</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails.supplyDate)}
-							{" " + Formatter.formatTime(orderDetails.supplyDate)}
+							{Formatter.formatDate(orderDetails?.supplyDate  || "")}
+							{" " + Formatter.formatTime(orderDetails?.supplyDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Preparare</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails.productionDate)}
-							{" " + Formatter.formatTime(orderDetails.productionDate)}
+							{Formatter.formatDate(orderDetails?.productionDate  || "")}
+							{" " + Formatter.formatTime(orderDetails?.productionDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Pregatire</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails.preparingDate)}
-							{" " + Formatter.formatTime(orderDetails.preparingDate)}
+							{Formatter.formatDate(orderDetails?.preparingDate  || "")}
+							{" " + Formatter.formatTime(orderDetails?.preparingDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Expediere</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails.shippingDate)}
-							{" " + Formatter.formatTime(orderDetails.shippingDate)}
+							{Formatter.formatDate(orderDetails?.shippingDate  || "")}
+							{" " + Formatter.formatTime(orderDetails?.shippingDate  || "")}
 						</div>
 					</div>
 				</div>
