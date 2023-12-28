@@ -1,4 +1,4 @@
-import { Order } from "../models/Order";
+import Order from "../models/Order";
 import OrderListItem from "./OrderListItem";
 
 type OrdersListProps = {

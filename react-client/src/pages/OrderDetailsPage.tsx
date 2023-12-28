@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import getOrderDetails, { OrderDetails } from "../controllers/OrderDetailsController";
+import getOrderDetails from "../controllers/OrderDetailsController";
+import OrderDetails from "../models/OrderDetails";
 
 export default function OrderDetailsPage(): JSX.Element
 {

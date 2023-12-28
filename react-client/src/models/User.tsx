@@ -1,10 +1,6 @@
-export enum UserRole
-{
-    ADMIN = "admin",
-    USER = "user",
-}
+import UserRole from "./UserRole";
 
-export type User = {
+type User = {
     username: string;
     name: string;
     emial: string;
@@ -12,3 +8,5 @@ export type User = {
         name: UserRole;
     }
 }
+
+export default User;

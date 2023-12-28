@@ -1,4 +1,4 @@
-import { User } from "../models/User.js";
+import User from "../models/User.js";
 const { VITE_API_URL } = import.meta.env;
 
 export default async function getUserInfo(): Promise<User>

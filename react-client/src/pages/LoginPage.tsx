@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Credentials } from "../models/Credentials";
+import Credentials from "../models/Credentials";
 import requestUserLogin from "../controllers/LoginController";
 
 function LoginPage(): JSX.Element

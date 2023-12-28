@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { User, UserRole } from "../models/User.tsx";
+import User from "../models/User.tsx";
+import UserRole from "../models/UserRole.tsx";
 import getUserInfo from "../controllers/UserController.tsx";
 
 function Navbar(): JSX.Element
 {
-	useEffect(() => 
+	useEffect(() =>
 	{
-		void getUserInfo().then(user => 
+		void getUserInfo().then(user =>
 		{
 			setUser(user);
 			setIsAdmin(user.role.name === UserRole.ADMIN);
@@ -38,7 +39,7 @@ function Navbar(): JSX.Element
 				{user.name || "Login"}
 			</a>
 
-			{links.map((link, index) => 
+			{links.map((link, index) =>
 			{
 				return (
 					<a

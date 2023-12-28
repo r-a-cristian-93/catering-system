@@ -1,4 +1,5 @@
-
-export type Status = {
+type Status = {
 	name: string;
 };
+
+export default Status;

@@ -1,5 +1,4 @@
-
-export type Pageable = {
+type Pageable = {
 	sort: {
 		sorted: boolean;
 		unsorted: boolean;
@@ -11,3 +10,5 @@ export type Pageable = {
 	unpaged: boolean;
 	paged: boolean;
 };
+
+export default Pageable;
