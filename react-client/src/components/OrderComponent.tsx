@@ -12,7 +12,7 @@ export default function OrderComponent(props: OrderComponentProps): JSX.Element
             id={props.order.id.toString()}
             onClick={() =>
                 {
-                    window.location.href = document.location.pathname + "/detalii_comanda?id=" + props.order.id
+                    window.location.href = document.location.pathname + "/detalii_comanda/" + props.order.id
                 }
             }>
             <td>{props.order.id}</td>

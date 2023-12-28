@@ -41,11 +41,13 @@ export default function Pager(props: PagerProps): JSX.Element
 {
     const buttons: JSX.Element[] = [];
     let pageIndex: number = 0;
+    let keyIndex: number = 0;
 
     pageIndex = props.pagerArgs.activePage > 0 ? props.pagerArgs.activePage - 1 : 0;
 
     buttons.push(
         <PagerButton
+            key={keyIndex++}
             page={pageIndex}
             text="&laquo;"
             setActivePageCallback={props.pagerArgs.setActivePageCallback}
@@ -77,6 +79,7 @@ export default function Pager(props: PagerProps): JSX.Element
 
             buttons.push(
                 <PagerButton
+                    key={keyIndex++}
                     page={pageIndex}
                     text={(pageIndex + 1).toString()}
                     setActivePageCallback={props.pagerArgs.setActivePageCallback}
@@ -90,6 +93,7 @@ export default function Pager(props: PagerProps): JSX.Element
 
     buttons.push(
         <PagerButton
+            key={keyIndex++}
             page={pageIndex}
             text="&raquo;"
             setActivePageCallback={props.pagerArgs.setActivePageCallback}

@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
+
 import getOrderDetails from "../controllers/OrderDetailsController";
 import OrderDetails from "../models/OrderDetails";
 import * as Formatter from "../utils/Formatting";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 export default function OrderDetailsPage(): JSX.Element
 {
-	const queryParameters = new URLSearchParams(window.location.search);
-	const orderId: number = Number(queryParameters.get("id"));
+	const {orderId} = useParams();
 
-	const [orderDetails, setOrderDetails] = useState<OrderDetails>({} as OrderDetails);
+	const {status, data: orderDetails} = useQuery<OrderDetails>({
+		queryKey: ["orderDetails", Number(orderId)],
+		queryFn: () => getOrderDetails(Number(orderId)),
+	});
 
-	useEffect(() =>
-	{
-		void getOrderDetails(orderId).then((newOrderDetails) =>
-		{
-			setOrderDetails(newOrderDetails);
-		});
-	}, []);
+	if (status === "loading")
+		return <h1>Loading...</h1>
 
 	return (
 		<div className="box">

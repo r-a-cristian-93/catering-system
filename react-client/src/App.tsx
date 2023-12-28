@@ -16,7 +16,7 @@ function App(): JSX.Element
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/comenzi" element={<OrdersPage />} />
-                <Route path="/comenzi/detalii_comanda" element={<OrderDetailsPage />} />
+                <Route path="/comenzi/detalii_comanda/:orderId" element={<OrderDetailsPage />} />
                 <Route path="*" element={<NoMatchPage />} />
               </Route>
             </Routes>

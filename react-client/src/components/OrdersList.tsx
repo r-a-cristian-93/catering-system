@@ -9,19 +9,22 @@ export default function OrdersList(props: OrdersListProps): JSX.Element
 {
 	return (
 		<table className="full">
-			<tr>
-				<th>ID</th>
-				<th>Stare</th>
-				<th>Client</th>
-				<th>Data preluare</th>
-				<th>Termen limita</th>
-				<th>Cost ingrediente</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Stare</th>
+					<th>Client</th>
+					<th>Data preluare</th>
+					<th>Termen limita</th>
+					<th>Cost ingrediente</th>
+				</tr>
+			</thead>
 
-			{props.orders.map((order, index) => (
-				<OrderComponent key={index} order={order} />
-			))}
-
+			<tbody>
+				{props.orders.map((order, index) => (
+					<OrderComponent key={index} order={order} />
+				))}
+			</tbody>
 		</table>
 	);
 }
