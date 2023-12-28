@@ -5,6 +5,7 @@ import OrderDetails from "../models/OrderDetails";
 import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+import QueryStatus from "../utils/QueryStatus";
 
 export default function OrderDetailsPage(): JSX.Element
 {
@@ -15,7 +16,7 @@ export default function OrderDetailsPage(): JSX.Element
 		queryFn: () => getOrderDetails(Number(orderId)),
 	});
 
-	if (status === "loading")
+	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
 
 	return (
