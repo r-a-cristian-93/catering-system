@@ -1,24 +1,9 @@
 import Order from "../models/Order";
+import * as Formatter from "../utils/Formatting";
 
 type OrderListItemProps = {
     order: Order;
 };
-
-function formatDate(fullDate: string): string
-{
-    const date: Date = new Date(fullDate);
-
-    return date.toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-    }).replace(new RegExp("/", 'g'), ".");
-}
-
-function formatCurrency(value: number): string
-{
-    return value.toFixed(2) + " Lei";
-}
 
 export default function OrderListItem(props: OrderListItemProps): JSX.Element
 {
@@ -40,9 +25,9 @@ export default function OrderListItem(props: OrderListItemProps): JSX.Element
                     <h5>{props.order.client.phone}</h5>
                 </div>
             </td>
-            <td>{formatDate(props.order.placementDate)}</td>
-            <td>{formatDate(props.order.dueDate)}</td>
-            <td>{formatCurrency(props.order.ingCost)}</td>
+            <td>{Formatter.formatDate(props.order.placementDate)}</td>
+            <td>{Formatter.formatDate(props.order.dueDate)}</td>
+            <td>{Formatter.formatCurrency(props.order.ingCost)}</td>
         </tr>
     );
 }
