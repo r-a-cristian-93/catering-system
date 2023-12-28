@@ -6,12 +6,14 @@ import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import QueryStatus from "../utils/QueryStatus";
+import CardComponent, { CardData } from "../components/CardComponent";
+
 
 export default function OrderDetailsPage(): JSX.Element
 {
-	const {orderId} = useParams();
+	const { orderId } = useParams();
 
-	const {status, data: orderDetails} = useQuery<OrderDetails>({
+	const { status, data: orderDetails } = useQuery<OrderDetails>({
 		queryKey: ["orderDetails", Number(orderId)],
 		queryFn: () => getOrderDetails(Number(orderId)),
 	});
@@ -19,50 +21,54 @@ export default function OrderDetailsPage(): JSX.Element
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
 
+	const cardsStructure: CardData[] = [
+		{
+			id: "card-status",
+			title: "Stare",
+			iconClass: "expediata",
+			contentList: [
+				{ class: "card-text-big first-big", text: orderDetails.status.name },
+				{ class: "card-text-medium", text: "24.01.2021 / 13:27" }
+			]
+		},
+		{
+			id: "card-deadline",
+			title: "Termen livrare",
+			iconClass: "img-hourglass",
+			contentList: [
+				{ class: "card-text-medium", text: Formatter.formatDate(orderDetails.dueDate) },
+				{ class: "card-text-big", text: Formatter.formatTime(orderDetails.dueDate) }
+			]
+		},
+		{
+			id: "card-client",
+			title: "Client",
+			iconClass: "profil",
+			contentList: [
+				{ class: "card-text-big first-big", text: orderDetails.client.name },
+				{ class: "card-text-medium", text: orderDetails.client.phone }
+			]
+		},
+		{
+			id: "card-address",
+			title: "Adresa livrare",
+			iconClass: "img-pinlocation",
+			contentList: [
+				{ class: "card-text-medium", text: orderDetails.deliveryAddress.value }
+			]
+		}
+	];
+
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">Detalii comanda #{orderDetails.id}</div>
 				<div id="cards">
-					<div className="card" id="card-status">
-						<div className="card-icon">
-							<div className="card-bg expediata"></div>
-						</div>
-						<div className="card-details">
-							<div className="card-title">Stare</div>
-							<div className="card-text-big first-big">{orderDetails.status.name}</div>
-							<div className="card-text-medium">24.01.2021 / 13:27</div>
-						</div>
-					</div>
-					<div className="card" id="card-deadline">
-						<div className="card-icon">
-							<div className="card-bg img-hourglass"></div>
-						</div>
-						<div className="card-details">
-							<div className="card-title">Termen livrare</div>
-							<div className="card-text-medium">{Formatter.formatDate(orderDetails.dueDate)}</div>
-							<div className="card-text-big">{Formatter.formatTime(orderDetails.dueDate)}</div>
-						</div>
-					</div>
-					<div className="card" id="card-client">
-						<div className="card-icon">
-							<div className="card-bg profil"></div>
-						</div>
-						<div className="card-details">
-							<div className="card-title">Client</div>
-							<div className="card-text-big first-big">{orderDetails.client.name}</div>
-							<div className="card-text-medium">{orderDetails.client.phone}</div>
-						</div>
-					</div>
-					<div className="card" id="card-address">
-						<div className="card-icon">
-							<div className="card-bg img-pinlocation"></div>
-						</div>
-						<div className="card-details">
-							<div className="card-title">Adresa livrare</div>
-							<div className="card-text-medium">{orderDetails.deliveryAddress.value}</div>
-						</div>
-					</div>
+					{cardsStructure.map((cardData, index) =>
+					{
+						return <CardComponent key={index} cardData={cardData} />
+					})}
+
 				</div>
 				<div className="stepper-wrapper">
 					<div className="stepper-item completed">

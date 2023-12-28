@@ -2,7 +2,7 @@
 type Client = {
 	id: number;
 	name: string;
-	phone: string | null;
+	phone: string;
 };
 
 export default Client;
