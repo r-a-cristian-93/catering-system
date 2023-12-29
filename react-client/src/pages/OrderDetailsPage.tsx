@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import QueryStatus from "../utils/QueryStatus";
 import CardsListComponent from "../components/CardsListComponent";
 import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
+import OrderItems from "../components/OrderItems";
 
 
 export default function OrderDetailsPage(): JSX.Element
@@ -19,13 +20,10 @@ export default function OrderDetailsPage(): JSX.Element
 		queryFn: () => getOrder(Number(orderId)),
 	});
 
-	const {status: itemsStatus, data: items} = useQuery<OrderItem[] | OrderItem[][]>({
+	const { data: orderItems } = useQuery<OrderItem[]>({
 		queryKey: ["orderItems", Number(orderId)],
 		queryFn: () => getOrderItems(Number(orderId)),
 	})
-
-	if (itemsStatus === QueryStatus.SUCCESS)
-		console.log(items);
 
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
@@ -79,42 +77,9 @@ export default function OrderDetailsPage(): JSX.Element
 						</div>
 					</div>
 				</div>
-				<table id="order-details-table" className="full table-list">
-					<tr className="font-size-120">
-						<th>Articol</th>
-						<th>Portii</th>
-						<th>Cost unitar</th>
-						<th>Cost total</th>
-					</tr>
-					<tr id="det_5" className="font-size-120">
-						<td>Cartofi prajiti</td>
-						<td>
-							<div contentEditable="true">24</div>
-						</td>
-						<td>1.02 Lei</td>
-						<td>24.60 Lei</td>
-						<td>
-							<img className="active" src="/img/delete.png" />
-						</td>
-					</tr>
-					<tr id="det_8" className="font-size-120">
-						<td>Mititei</td>
-						<td>
-							<div contentEditable="true">24</div>
-						</td>
-						<td>7.04 Lei</td>
-						<td>168.96 Lei</td>
-						<td>
-							<img className="active" src="/img/delete.png" />
-						</td>
-					</tr>
-					<tr id="det_total" className="font-size-140">
-						<th></th>
-						<th></th>
-						<th>Total:</th>
-						<th>193.56 Lei</th>
-					</tr>
-				</table>
+
+				<OrderItems orderItems={orderItems || []} />
+
 				<button className="add-button">
 					<div className="add-button-text">Adauga articol</div>
 					<div className="add-button-dot">+</div>
