@@ -2,7 +2,7 @@ import { Order } from "../models/Order";
 
 const { VITE_API_URL } = import.meta.env;
 
-export async function getOrderItems(orderId: number): Promise<string>
+export async function getOrderItems(orderId: number): Promise<OrderItem[] | OrderItem[][]>
 {
     const url = VITE_API_URL + "/orders/" + orderId + "/details"
 
@@ -14,9 +14,13 @@ export async function getOrderItems(orderId: number): Promise<string>
 		}
 	});
 
-    const orderItemsPromise: Promise<string> = response.json().then((json) =>
+    const orderItemsPromise: Promise<OrderItem[] | OrderItem[][]> = response.json().then((json) =>
     {
-        return JSON.stringify(json);
+        const orderItems: OrderItems = {} as OrderItems;
+
+        Object.assign(orderItems, json);
+
+        return Object.values(orderItems);
     })
 
     return orderItemsPromise;
@@ -45,3 +49,7 @@ export type OrderItem = {
     recipe: Recipe;
     servings: number;
 };
+
+type OrderItems = {
+    items: OrderItem[];
+}
