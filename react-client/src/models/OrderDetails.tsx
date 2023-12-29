@@ -1,5 +1,5 @@
 import Client from "../models/Client";
-import Address from "./Address";
+import Address from "../models/Address";
 import Status from "../models/Status";
 
 type OrderDetails = {
