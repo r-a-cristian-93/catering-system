@@ -1,4 +1,5 @@
 import { OrderItem } from "../controllers/OrderItemsController";
+import * as Formatter from "../utils/Formatting";
 
 type OrderItemProps = {
     orderItem: OrderItem;
@@ -6,16 +7,18 @@ type OrderItemProps = {
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
-    const { orderItem } = props;
+    const { name, ingCost: costPerServing } = props.orderItem.recipe;
+    const { servings } = props.orderItem;
+    const costTotal = costPerServing * servings;
 
     return (
         <tr id="det_8" className="font-size-120">
-            <td>{orderItem.recipe.name}</td>
+            <td>{name}</td>
             <td>
-                <div contentEditable="true">{orderItem.servings}</div>
+                <div contentEditable="true">{servings}</div>
             </td>
-            <td>{orderItem.recipe.ingCost}</td>
-            <td>{orderItem.recipe.ingCost * orderItem.servings}</td>
+            <td>{Formatter.formatCurrency(costPerServing)}</td>
+            <td>{Formatter.formatCurrency(costTotal)}</td>
             <td>
                 <img className="active" src="/img/delete.png" />
             </td>

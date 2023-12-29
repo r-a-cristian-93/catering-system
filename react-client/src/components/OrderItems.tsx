@@ -1,13 +1,23 @@
 import { OrderItem } from "../controllers/OrderItemsController";
 import OrderItemComponent from "./OrderItemComponent";
+import * as Formatter from "../utils/Formatting.tsx";
 
 type OrderItemsProps = {
     orderItems: OrderItem[];
 }
 
+function getTotalCost(orderItems: OrderItem[]): number
+{
+    return orderItems.reduce((total, orderItem) =>
+        total + orderItem.servings * orderItem.recipe.ingCost, 0
+    );
+}
+
 export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
     const { orderItems } = props;
+
+    const totalCost: number = getTotalCost(orderItems);
 
     return (
         <table id="order-details-table" className="full table-list">
@@ -30,7 +40,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                     <th></th>
                     <th></th>
                     <th>Total:</th>
-                    <th>193.56 Lei</th>
+                    <th>{Formatter.formatCurrency(totalCost)}</th>
                 </tr>
             </tbody>
         </table>
