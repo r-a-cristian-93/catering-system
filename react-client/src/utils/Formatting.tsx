@@ -1,6 +1,9 @@
-export function formatDate(fullDate: string): string
+export function formatDate(dateString: string | null): string
 {
-    const date: Date = new Date(fullDate);
+    if (dateString === null || dateString === "")
+        return "";
+
+    const date: Date = new Date(dateString);
 
     return date
         .toLocaleDateString('en-GB', {
@@ -11,9 +14,12 @@ export function formatDate(fullDate: string): string
         .replace(new RegExp('/', 'g'), '.');
 }
 
-export function formatTime(fullDate: string): string
+export function formatTime(dateString: string | null): string
 {
-    const date: Date = new Date(fullDate);
+    if (dateString === null || dateString === "")
+        return "";
+
+    const date: Date = new Date(dateString);
 
     return date
         .toLocaleTimeString('en-GB', {
