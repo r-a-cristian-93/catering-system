@@ -2,8 +2,8 @@ import UserRole from "./UserRole";
 
 type User = {
     username: string;
-    name: string;
-    emial: string;
+    name: string | null;
+    emial: string | null;
     role: {
         name: UserRole;
     }

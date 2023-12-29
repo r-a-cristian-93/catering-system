@@ -1,12 +1,12 @@
 import Client from "../models/Client";
-import DeliveryAddress from "../models/DeliveryAddress";
+import Address from "./Address";
 import Status from "../models/Status";
 
 type Order = {
 	id: number;
-	client: Client;
+	client: Client | null;
 	status: Status;
-	ingCost: number;
+	ingCost: number | null;
 	placementDate: string;
 	dueDate: string;
 	supplyDate: string | null;
@@ -15,7 +15,7 @@ type Order = {
 	shippingDate: string | null;
 	cancelDate: string | null;
 	shoppingListId: number;
-	deliveryAddress: DeliveryAddress;
+	deliveryAddress: Address | null;
 };
 
 export default Order;

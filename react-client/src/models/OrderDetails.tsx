@@ -1,5 +1,5 @@
 import Client from "../models/Client";
-import DeliveryAddress from "../models/DeliveryAddress";
+import Address from "./Address";
 import Status from "../models/Status";
 
 type OrderDetails = {
@@ -15,7 +15,7 @@ type OrderDetails = {
 	shippingDate: string;
 	cancelDate: string | null;
 	shoppingListId: number;
-	deliveryAddress: DeliveryAddress;
+	deliveryAddress: Address;
 };
 
 export default OrderDetails;
