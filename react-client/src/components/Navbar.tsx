@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import User from "../models/User.tsx";
-import UserRole from "../models/UserRole.tsx";
+import { User } from "../models/User.tsx";
+import { RoleEnum } from "../models/User.tsx";
 import getUserInfo from "../controllers/UserController.tsx";
 
 function Navbar(): JSX.Element
@@ -10,7 +10,7 @@ function Navbar(): JSX.Element
 		void getUserInfo().then(user =>
 		{
 			setUser(user);
-			setIsAdmin(user.role.name === UserRole.ADMIN);
+			setIsAdmin(user.role.name === RoleEnum.ADMIN);
 		});
 
 	}, []);
