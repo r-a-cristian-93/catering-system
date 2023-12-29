@@ -28,7 +28,10 @@ export function formatTime(dateString: string | null): string
         });
 }
 
-export function formatCurrency(value: number): string
+export function formatCurrency(value: number | null): string
 {
+    if (value === null)
+        return "";
+
     return value.toFixed(2) + ' Lei';
 }

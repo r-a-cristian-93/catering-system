@@ -33,13 +33,13 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 			iconClass: "profil",
 			contentList: [
 				{ class: "card-text-big first-big", text: orderDetails.client.name },
-				{ class: "card-text-medium", text: orderDetails.client.phone },
+				{ class: "card-text-medium", text: orderDetails.client.phone || ""},
 			],
 		},
 		{
 			title: "Adresa livrare",
 			iconClass: "img-pinlocation",
-			contentList: [{ class: "card-text-medium", text: orderDetails.deliveryAddress.value }],
+			contentList: [{ class: "card-text-medium", text: orderDetails.deliveryAddress.value || "" }],
 		},
 	];
 

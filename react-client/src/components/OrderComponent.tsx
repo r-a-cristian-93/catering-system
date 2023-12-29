@@ -21,8 +21,8 @@ export default function OrderComponent(props: OrderComponentProps): JSX.Element
             </td>
             <td>
                 <div>
-                    <div>{props.order.client.name}</div>
-                    <h5>{props.order.client.phone}</h5>
+                    <div>{props.order.client?.name}</div>
+                    <h5>{props.order.client?.phone}</h5>
                 </div>
             </td>
             <td>{Formatter.formatDate(props.order.placementDate)}</td>
