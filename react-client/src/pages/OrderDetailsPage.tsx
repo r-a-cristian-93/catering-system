@@ -1,7 +1,7 @@
 //import { useEffect, useState } from "react";
 
-import getOrderDetails from "../controllers/OrderDetailsController";
-import OrderDetails from "../models/OrderDetails";
+import getOrder from "../controllers/OrderController";
+import { Order } from "../models/Order";
 import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -14,9 +14,9 @@ export default function OrderDetailsPage(): JSX.Element
 {
 	const {orderId} = useParams();
 
-	const {status, data: orderDetails} = useQuery<OrderDetails>({
-		queryKey: ["orderDetails", Number(orderId)],
-		queryFn: () => getOrderDetails(Number(orderId)),
+	const {status, data: order} = useQuery<Order>({
+		queryKey: ["order", Number(orderId)],
+		queryFn: () => getOrder(Number(orderId)),
 	});
 
 	const {status: itemsStatus, data: items} = useQuery<string>({
@@ -33,49 +33,49 @@ export default function OrderDetailsPage(): JSX.Element
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
-				<div className="order-details-title">Detalii comanda #{orderDetails?.id}</div>
+				<div className="order-details-title">Detalii comanda #{order?.id}</div>
 
-				<CardsListComponent orderDetails={orderDetails || {} as OrderDetails} />
+				<CardsListComponent order={order || {} as Order} />
 
 				<div className="stepper-wrapper">
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Preluare</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails?.placementDate || "")}
-							{" " + Formatter.formatTime(orderDetails?.placementDate  || "")}
+							{Formatter.formatDate(order?.placementDate || "")}
+							{" " + Formatter.formatTime(order?.placementDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Aprovizionare</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails?.supplyDate  || "")}
-							{" " + Formatter.formatTime(orderDetails?.supplyDate  || "")}
+							{Formatter.formatDate(order?.supplyDate  || "")}
+							{" " + Formatter.formatTime(order?.supplyDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Preparare</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails?.productionDate  || "")}
-							{" " + Formatter.formatTime(orderDetails?.productionDate  || "")}
+							{Formatter.formatDate(order?.productionDate  || "")}
+							{" " + Formatter.formatTime(order?.productionDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Pregatire</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails?.preparingDate  || "")}
-							{" " + Formatter.formatTime(orderDetails?.preparingDate  || "")}
+							{Formatter.formatDate(order?.preparingDate  || "")}
+							{" " + Formatter.formatTime(order?.preparingDate  || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Expediere</div>
 						<div className="step-date">
-							{Formatter.formatDate(orderDetails?.shippingDate  || "")}
-							{" " + Formatter.formatTime(orderDetails?.shippingDate  || "")}
+							{Formatter.formatDate(order?.shippingDate  || "")}
+							{" " + Formatter.formatTime(order?.shippingDate  || "")}
 						</div>
 					</div>
 				</div>

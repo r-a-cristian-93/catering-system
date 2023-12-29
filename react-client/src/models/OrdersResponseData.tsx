@@ -1,4 +1,4 @@
-import Order from "../models/Order";
+import { Order } from "../models/Order";
 import Pageable from "../models/Pageable";
 
 type OrdersResponseData = {

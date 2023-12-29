@@ -1,4 +1,4 @@
-import Order from "../models/Order";
+import { Order } from "../models/Order";
 import * as Formatter from "../utils/Formatting";
 
 type OrderComponentProps = {

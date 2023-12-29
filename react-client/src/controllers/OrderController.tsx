@@ -1,8 +1,8 @@
-import OrderDetails from "../models/OrderDetails";
+import { Order } from "../models/Order";
 
 const { VITE_API_URL } = import.meta.env;
 
-export default async function getOrderDetails(orderId: number): Promise<OrderDetails>
+export default async function getOrder(orderId: number): Promise<Order>
 {
 	const url = VITE_API_URL + "/orders/" + orderId.toString();
 
@@ -14,9 +14,9 @@ export default async function getOrderDetails(orderId: number): Promise<OrderDet
 		}
 	});
 
-	const orderDetailsPromise: Promise<OrderDetails> = response.json().then((json) =>
+	const orderDetailsPromise: Promise<Order> = response.json().then((json) =>
 	{
-		const orderDetails: OrderDetails = {} as OrderDetails;
+		const orderDetails: Order = {} as Order;
 		Object.assign(orderDetails, json);
 
 		return orderDetails;

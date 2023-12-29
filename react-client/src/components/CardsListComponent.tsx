@@ -1,13 +1,13 @@
-import OrderDetails from "../models/OrderDetails";
+import { Order } from "../models/Order";
 import CardComponent, { CardData } from "./CardComponent";
 import * as Formatter from "../utils/Formatting";
 import { StatusEnum } from "../models/Status";
 
 type CardListComponentProps = {
-	orderDetails: OrderDetails;
+	order: Order;
 };
 
-function getCurrentStatusDate(orderDetails: OrderDetails): string | null
+function getCurrentStatusDate(order: Order): string | null
 {
 	const {
 		status,
@@ -17,7 +17,7 @@ function getCurrentStatusDate(orderDetails: OrderDetails): string | null
 		preparingDate,
 		shippingDate,
 		cancelDate,
-	} = orderDetails;
+	} = order;
 
 	switch(status.name)
 	{
@@ -45,9 +45,9 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 		dueDate,
 		client,
 		deliveryAddress
-	} = props.orderDetails;
+	} = props.order;
 
-	const statusDate: string | null = getCurrentStatusDate(props.orderDetails);
+	const statusDate: string | null = getCurrentStatusDate(props.order);
 
 	// Store data first in order to easily five keys to each element of the list
 	const cardsStructure: CardData[] = [
@@ -71,14 +71,14 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 			title: "Client",
 			iconClass: "profil",
 			contentList: [
-				{ class: "card-text-big first-big", text: client.name },
-				{ class: "card-text-medium", text: client.phone || ""},
+				{ class: "card-text-big first-big", text: client?.name || "" },
+				{ class: "card-text-medium", text: client?.phone || ""},
 			],
 		},
 		{
 			title: "Adresa livrare",
 			iconClass: "img-pinlocation",
-			contentList: [{ class: "card-text-medium", text: deliveryAddress.value || "" }],
+			contentList: [{ class: "card-text-medium", text: deliveryAddress?.value || "" }],
 		},
 	];
 

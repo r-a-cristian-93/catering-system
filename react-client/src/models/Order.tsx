@@ -2,7 +2,7 @@ import Client from "../models/Client";
 import Address from "../models/Address";
 import {Status} from "../models/Status";
 
-type Order = {
+export type Order = {
 	id: number;
 	client: Client | null;
 	status: Status;
@@ -17,5 +17,3 @@ type Order = {
 	shoppingListId: number;
 	deliveryAddress: Address | null;
 };
-
-export default Order;
