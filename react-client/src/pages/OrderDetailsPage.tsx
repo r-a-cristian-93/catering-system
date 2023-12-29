@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import QueryStatus from "../utils/QueryStatus";
 import CardsListComponent from "../components/CardsListComponent";
+import { getOrderItems } from "../controllers/OrderItemsController";
 
 
 export default function OrderDetailsPage(): JSX.Element
@@ -17,6 +18,14 @@ export default function OrderDetailsPage(): JSX.Element
 		queryKey: ["orderDetails", Number(orderId)],
 		queryFn: () => getOrderDetails(Number(orderId)),
 	});
+
+	const {status: itemsStatus, data: items} = useQuery<string>({
+		queryKey: ["orderItems", Number(orderId)],
+		queryFn: () => getOrderItems(Number(orderId)),
+	})
+
+	if (itemsStatus === QueryStatus.SUCCESS)
+		console.log(JSON.parse(items));
 
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
