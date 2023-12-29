@@ -1,6 +1,6 @@
 import Client from "../models/Client";
 import Address from "../models/Address";
-import Status from "../models/Status";
+import {Status} from "../models/Status";
 
 type Order = {
 	id: number;

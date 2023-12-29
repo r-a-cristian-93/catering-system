@@ -1,4 +1,4 @@
-type Status = {
+export type Status = {
 	name: StatusEnum;
 };
 
@@ -10,5 +10,3 @@ export enum StatusEnum {
 	PRELUATA = "preluata",
 	PREPARATA = "preparata",
 }
-
-export default Status;
