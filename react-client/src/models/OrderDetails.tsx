@@ -9,10 +9,10 @@ type OrderDetails = {
 	ingCost: number;
 	placementDate: string;
 	dueDate: string;
-	supplyDate: string;
-	productionDate: string;
-	preparingDate: string;
-	shippingDate: string;
+	supplyDate: string | null;
+	productionDate: string | null;
+	preparingDate: string | null;
+	shippingDate: string | null;
 	cancelDate: string | null;
 	shoppingListId: number;
 	deliveryAddress: Address;

@@ -1,45 +1,84 @@
 import OrderDetails from "../models/OrderDetails";
 import CardComponent, { CardData } from "./CardComponent";
 import * as Formatter from "../utils/Formatting";
+import { StatusEnum } from "../models/Status";
 
 type CardListComponentProps = {
 	orderDetails: OrderDetails;
 };
 
+function getCurrentStatusDate(orderDetails: OrderDetails): string | null
+{
+	const {
+		status,
+		placementDate,
+		supplyDate,
+		productionDate,
+		preparingDate,
+		shippingDate,
+		cancelDate,
+	} = orderDetails;
+
+	switch(status.name)
+	{
+		case StatusEnum.PRELUATA:
+			return placementDate;
+		case StatusEnum.APROVIZIONATA:
+			return supplyDate;
+		case StatusEnum.PREPARATA:
+			return productionDate;
+		case StatusEnum.PREGATITA:
+			return preparingDate;
+		case StatusEnum.EXPEDIATA:
+			return shippingDate;
+		case StatusEnum.ANULATA:
+			return cancelDate;
+		default:
+			return ""
+	}
+}
+
 function CardsListComponent(props: CardListComponentProps): JSX.Element
 {
-	const { orderDetails } = props;
+	const {
+		status,
+		dueDate,
+		client,
+		deliveryAddress
+	} = props.orderDetails;
+
+	const statusDate: string | null = getCurrentStatusDate(props.orderDetails);
 
 	// Store data first in order to easily five keys to each element of the list
 	const cardsStructure: CardData[] = [
 		{
 			title: "Stare",
-			iconClass: "expediata",
+			iconClass: status.name,
 			contentList: [
-				{ class: "card-text-big first-big", text: orderDetails.status.name },
-				{ class: "card-text-medium", text: "24.01.2021 / 13:27" },
+				{ class: "card-text-big first-big", text: status.name },
+				{ class: "card-text-medium", text: Formatter.formatDate(statusDate) },
 			],
 		},
 		{
 			title: "Termen livrare",
 			iconClass: "img-hourglass",
 			contentList: [
-				{ class: "card-text-medium", text: Formatter.formatDate(orderDetails.dueDate) },
-				{ class: "card-text-big", text: Formatter.formatTime(orderDetails.dueDate) },
+				{ class: "card-text-medium", text: Formatter.formatDate(dueDate) },
+				{ class: "card-text-big", text: Formatter.formatTime(dueDate) },
 			],
 		},
 		{
 			title: "Client",
 			iconClass: "profil",
 			contentList: [
-				{ class: "card-text-big first-big", text: orderDetails.client.name },
-				{ class: "card-text-medium", text: orderDetails.client.phone || ""},
+				{ class: "card-text-big first-big", text: client.name },
+				{ class: "card-text-medium", text: client.phone || ""},
 			],
 		},
 		{
 			title: "Adresa livrare",
 			iconClass: "img-pinlocation",
-			contentList: [{ class: "card-text-medium", text: orderDetails.deliveryAddress.value || "" }],
+			contentList: [{ class: "card-text-medium", text: deliveryAddress.value || "" }],
 		},
 	];
 
