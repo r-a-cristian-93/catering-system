@@ -1,4 +1,3 @@
-import { useMutation } from "react-query";
 import { OrderItem, updateOrderItem } from "../controllers/OrderItemsController";
 import * as Formatter from "../utils/Formatting";
 import { ChangeEvent } from "react";
@@ -14,10 +13,6 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
     const parentChangeCallback = props.parentChangeCallback;
 
     const costTotal = orderItem.recipe.ingCost * orderItem.servings;
-
-    const postItem = useMutation({
-        mutationFn: updateOrderItem,
-    });
 
     function handleChange(event: ChangeEvent<HTMLInputElement>): void
     {
@@ -36,9 +31,8 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 
     function handleOnBlur(): void
     {
-        postItem.mutate(orderItem);
+        void updateOrderItem(orderItem);
     }
-
 
     return (
         <tr id="det_8" className="font-size-120">

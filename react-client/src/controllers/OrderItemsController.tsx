@@ -31,7 +31,7 @@ export async function updateOrderItem(orderItem: OrderItem): Promise<OrderItem>
     const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
 
     const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
