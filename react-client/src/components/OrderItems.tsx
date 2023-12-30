@@ -1,10 +1,10 @@
-import { OrderItem } from "../controllers/OrderItemsController";
+import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
 import OrderItemComponent from "./OrderItemComponent";
 import * as Formatter from "../utils/Formatting.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type OrderItemsProps = {
-    orderItems: OrderItem[];
+    orderId: number;
 }
 
 function getTotalCost(orderItems: OrderItem[]): number
@@ -16,7 +16,16 @@ function getTotalCost(orderItems: OrderItem[]): number
 
 export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
-    const [ orderItems, setItems ] = useState<OrderItem[]>(props.orderItems);
+    const orderId: number = props.orderId;
+    const [ orderItems, setItems ] = useState<OrderItem[]>([]);
+
+    useEffect(() =>
+    {
+        void getOrderItems(orderId).then((items) =>
+        {
+            setItems(items);
+        })
+    }, []);
 
     function handleChildChange(orderItem: OrderItem): void
     {
@@ -43,9 +52,8 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
             <tbody>
                 {
                     orderItems.map((orderItem) =>
-                    {
-                        return <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentChangeCallback={handleChildChange}/>
-                    })
+                        <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentChangeCallback={handleChildChange}/>
+                    )
                 }
                 <tr id="det_total" className="font-size-140">
                     <th></th>

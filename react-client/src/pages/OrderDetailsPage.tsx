@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import QueryStatus from "../utils/QueryStatus";
 import CardsListComponent from "../components/CardsListComponent";
-import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
 import OrderItems from "../components/OrderItems";
 
 
@@ -19,11 +18,6 @@ export default function OrderDetailsPage(): JSX.Element
 		queryKey: ["order", Number(orderId)],
 		queryFn: () => getOrder(Number(orderId)),
 	});
-
-	const { data: orderItems } = useQuery<OrderItem[]>({
-		queryKey: ["orderItems", Number(orderId)],
-		queryFn: () => getOrderItems(Number(orderId)),
-	})
 
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
@@ -78,7 +72,7 @@ export default function OrderDetailsPage(): JSX.Element
 					</div>
 				</div>
 
-				<OrderItems orderItems={orderItems || []} />
+				<OrderItems orderId={Number(orderId)} />
 
 				<button className="add-button">
 					<div className="add-button-text">Adauga articol</div>
