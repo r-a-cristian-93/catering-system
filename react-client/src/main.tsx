@@ -5,7 +5,7 @@ import App from './App.tsx'
 import './style.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

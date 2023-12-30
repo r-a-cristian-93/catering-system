@@ -26,6 +26,31 @@ export async function getOrderItems(orderId: number): Promise<OrderItem[]>
     return orderItemsPromise;
 }
 
+export async function updateOrderItem(orderItem: OrderItem): Promise<OrderItem>
+{
+    const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
+
+    const response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderItem),
+    });
+
+    const orderItemPromise: Promise<OrderItem> = response.json().then((json) =>
+    {
+        const orderItem: OrderItem = {} as OrderItem;
+
+        Object.assign(orderItem, json);
+
+        return orderItem;
+    });
+
+    return orderItemPromise;
+}
+
 type Unit = {
     name: string;
 };

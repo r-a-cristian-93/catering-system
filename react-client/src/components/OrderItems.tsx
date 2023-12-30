@@ -31,9 +31,9 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
             </thead>
             <tbody>
                 {
-                    orderItems.map((orderItem, index) =>
+                    orderItems.map((orderItem) =>
                     {
-                        return <OrderItemComponent key={index} orderItem={orderItem}/>
+                        return <OrderItemComponent key={orderItem.id} orderItem={orderItem}/>
                     })
                 }
                 <tr id="det_total" className="font-size-140">

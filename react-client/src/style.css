@@ -968,7 +968,11 @@ td.clickable:hover {
 	margin: 0px;
 }
 
-.table-list td div {
+.table-list td div, td input {
 	padding: 5px;
 	margin: 0;
+	text-align: right;
+	border: 0;
+	font-size: inherit;
+	background-color: inherit;
 }
