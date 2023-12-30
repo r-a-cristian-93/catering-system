@@ -25,9 +25,9 @@ function CardComponent(props: CardProps): JSX.Element
             <div className="card-details">
                 <div className="card-title">{cardData.title}</div>
 
-                {cardData.contentList.map((content) =>
+                {cardData.contentList.map((content, index) =>
                 {
-                    return <div className={content.class}>{content.text}</div>;
+                    return <div key={index} className={content.class}>{content.text}</div>;
                 })}
             </div>
         </div>
