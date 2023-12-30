@@ -1,6 +1,7 @@
 import { OrderItem } from "../controllers/OrderItemsController";
 import OrderItemComponent from "./OrderItemComponent";
 import * as Formatter from "../utils/Formatting.tsx";
+import { useState } from "react";
 
 type OrderItemsProps = {
     orderItems: OrderItem[];
@@ -15,9 +16,19 @@ function getTotalCost(orderItems: OrderItem[]): number
 
 export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
-    const { orderItems } = props;
+    const [ orderItems, setItems ] = useState<OrderItem[]>(props.orderItems);
 
-    const totalCost: number = getTotalCost(orderItems);
+    function handleChildUpdate(orderItem: OrderItem): void
+    {
+        const newItems: OrderItem[] = [...orderItems];
+        const index: number = orderItems.findIndex((item) => item.id === orderItem.id);
+
+        if (index !== -1)
+        {
+            newItems[index] = orderItem;
+            setItems(newItems);
+        }
+    }
 
     return (
         <table id="order-details-table" className="full table-list">
@@ -33,14 +44,14 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                 {
                     orderItems.map((orderItem) =>
                     {
-                        return <OrderItemComponent key={orderItem.id} orderItem={orderItem}/>
+                        return <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentUpdateCallback={handleChildUpdate}/>
                     })
                 }
                 <tr id="det_total" className="font-size-140">
                     <th></th>
                     <th></th>
                     <th>Total:</th>
-                    <th>{Formatter.formatCurrency(totalCost)}</th>
+                    <th>{Formatter.formatCurrency(getTotalCost(orderItems))}</th>
                 </tr>
             </tbody>
         </table>

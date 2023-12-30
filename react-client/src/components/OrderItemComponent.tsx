@@ -5,18 +5,21 @@ import { ChangeEvent, useState } from "react";
 
 type OrderItemProps = {
     orderItem: OrderItem;
+    parentUpdateCallback: (orderItem: OrderItem) => void;
 }
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
     const [ orderItem, setItem ] = useState<OrderItem>(props.orderItem);
+    const parentUpdateCallback = props.parentUpdateCallback;
+
     const costTotal = orderItem.recipe.ingCost * orderItem.servings;
 
     const postItem = useMutation({
         mutationFn: updateOrderItem,
     });
 
-    function handleOnChange(event: ChangeEvent<HTMLInputElement>): void
+    function handleChange(event: ChangeEvent<HTMLInputElement>): void
     {
         const { name, value } = event.target;
 
@@ -24,10 +27,14 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
         {
             setItem((prevItem) =>
             {
-                return {
+                const newItem: OrderItem = {
                     ...prevItem,
                     [name]: Number(value),
                 }
+
+                parentUpdateCallback(newItem);
+
+                return newItem;
             });
         }
     }
@@ -42,7 +49,7 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
         <tr id="det_8" className="font-size-120">
             <td>{orderItem.recipe.name}</td>
             <td>
-                <input name="servings" value={orderItem.servings} onChange={handleOnChange} onBlur={handleOnBlur}/>
+                <input name="servings" value={orderItem.servings} onChange={handleChange} onBlur={handleOnBlur}/>
             </td>
             <td>{Formatter.formatCurrency(orderItem.recipe.ingCost)}</td>
             <td>{Formatter.formatCurrency(costTotal)}</td>
