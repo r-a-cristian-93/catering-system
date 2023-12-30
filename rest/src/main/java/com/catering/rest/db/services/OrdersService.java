@@ -191,13 +191,15 @@ public class OrdersService {
 		return detailsRepo.save(details);
 	}
 
-	public void deleteDetails(Integer id, OrdersDetailsModel details) {
+	public boolean deleteDetails(Integer id, OrdersDetailsModel details) {
 		OrderModel order = ordersRepo.findById(id).get();
 		Integer recipeId = details.getRecipe().getId();
 		RecipeModel recipe = recipesRepo.findById(recipeId).get();
 
 		details = detailsRepo.findByOrderAndRecipe(order, recipe);
 		detailsRepo.delete(details);
+
+		return true;
 	}
 
 	public OrdersDetailsModel updateDetailsServings(Integer id, OrdersDetailsModel details) {

@@ -53,13 +53,13 @@ export async function updateOrderItem(orderItem: OrderItem): Promise<OrderItem>
 
 export async function deleteOrderItem(orderItem: OrderItem): Promise<boolean>
 {
-    const url: string = VITE_API_URL + "/orders/" + orderItem.id + "/details";
+    const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
 
     const response = await fetch(url, {
         method: "DELETE",
         credentials: "include",
         headers: {
-            "Content-Type": "applocation.json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(orderItem),
     });

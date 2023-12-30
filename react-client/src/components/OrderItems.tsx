@@ -39,6 +39,14 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
         }
     }
 
+    function handleChildDelete(orderItem: OrderItem): void
+    {
+        setItems((prevItems) =>
+        {
+            return prevItems.filter((item) => item.id !== orderItem.id);
+        });
+    }
+
     return (
         <table id="order-details-table" className="full table-list">
             <thead>
@@ -52,7 +60,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
             <tbody>
                 {
                     orderItems.map((orderItem) =>
-                        <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentChangeCallback={handleChildChange}/>
+                        <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentChangeCallback={handleChildChange} parentDeleteCallback={handleChildDelete}/>
                     )
                 }
                 <tr id="det_total" className="font-size-140">
