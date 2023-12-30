@@ -18,7 +18,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
     const [ orderItems, setItems ] = useState<OrderItem[]>(props.orderItems);
 
-    function handleChildUpdate(orderItem: OrderItem): void
+    function handleChildChange(orderItem: OrderItem): void
     {
         const newItems: OrderItem[] = [...orderItems];
         const index: number = orderItems.findIndex((item) => item.id === orderItem.id);
@@ -44,7 +44,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                 {
                     orderItems.map((orderItem) =>
                     {
-                        return <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentUpdateCallback={handleChildUpdate}/>
+                        return <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentChangeCallback={handleChildChange}/>
                     })
                 }
                 <tr id="det_total" className="font-size-140">

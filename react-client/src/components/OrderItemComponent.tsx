@@ -1,17 +1,17 @@
 import { useMutation } from "react-query";
 import { OrderItem, updateOrderItem } from "../controllers/OrderItemsController";
 import * as Formatter from "../utils/Formatting";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 type OrderItemProps = {
     orderItem: OrderItem;
-    parentUpdateCallback: (orderItem: OrderItem) => void;
+    parentChangeCallback: (orderItem: OrderItem) => void;
 }
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
-    const [ orderItem, setItem ] = useState<OrderItem>(props.orderItem);
-    const parentUpdateCallback = props.parentUpdateCallback;
+    const orderItem: OrderItem = props.orderItem;
+    const parentChangeCallback = props.parentChangeCallback;
 
     const costTotal = orderItem.recipe.ingCost * orderItem.servings;
 
@@ -24,18 +24,13 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
         const { name, value } = event.target;
 
         if (name === "servings")
-        {
-            setItem((prevItem) =>
-            {
-                const newItem: OrderItem = {
-                    ...prevItem,
-                    [name]: Number(value),
-                }
+    {
+            const newItem: OrderItem = {
+                ...orderItem,
+                [name]: Number(value),
+            }
 
-                parentUpdateCallback(newItem);
-
-                return newItem;
-            });
+            parentChangeCallback(newItem);
         }
     }
 
