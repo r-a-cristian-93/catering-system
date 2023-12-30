@@ -1,17 +1,17 @@
 import { OrderItem, deleteOrderItem, updateOrderItem } from "../controllers/OrderItemsController";
 import * as Formatter from "../utils/Formatting";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 type OrderItemProps = {
     orderItem: OrderItem;
-    parentChangeCallback: (orderItem: OrderItem) => void;
-    parentDeleteCallback: (orderItem: OrderItem) => void;
-}
+    changeCallback: (orderItem: OrderItem) => void;
+    deleteCallback: (orderItem: OrderItem) => void;
+};
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
-    const orderItem: OrderItem = props.orderItem;
-    const {parentChangeCallback, parentDeleteCallback} = props;
+    const [orderItem, setOrderItem] = useState<OrderItem>(props.orderItem);
+    const { changeCallback, deleteCallback} = props;
 
     const costTotal = orderItem.recipe.ingCost * orderItem.servings;
 
@@ -21,12 +21,17 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 
         if (name === "servings")
         {
-            const newItem: OrderItem = {
-                ...orderItem,
-                [name]: Number(value),
-            }
+            setOrderItem((prevItem) =>
+            {
+                const newItem =  {
+                    ...prevItem,
+                    [name]: Number(value),
+                };
 
-            parentChangeCallback(newItem);
+                changeCallback(newItem);
+
+                return newItem;
+            });
         }
     }
 
@@ -39,21 +44,20 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
     {
         void deleteOrderItem(orderItem).then((isItemDeleted) =>
         {
-            if (isItemDeleted)
-                parentDeleteCallback(orderItem);
-        })
+            if (isItemDeleted) deleteCallback(orderItem);
+        });
     }
 
     return (
         <tr id="det_8" className="font-size-120">
             <td>{orderItem.recipe.name}</td>
             <td>
-                <input name="servings" value={orderItem.servings} onChange={handleChange} onBlur={handleOnBlur}/>
+                <input name="servings" value={orderItem.servings} onChange={handleChange} onBlur={handleOnBlur} />
             </td>
             <td>{Formatter.formatCurrency(orderItem.recipe.ingCost)}</td>
             <td>{Formatter.formatCurrency(costTotal)}</td>
             <td>
-                <img className="active" src="/img/delete.png" onClick={handleDelete}/>
+                <img className="active" src="/img/delete.png" onClick={handleDelete} />
             </td>
         </tr>
     );

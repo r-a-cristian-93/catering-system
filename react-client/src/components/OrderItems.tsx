@@ -17,14 +17,14 @@ function getTotalCost(orderItems: OrderItem[]): number
 export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
     const orderId: number = props.orderId;
-    const [ orderItems, setItems ] = useState<OrderItem[]>([]);
+    const [ orderItems, setOrderItems ] = useState<OrderItem[]>([]);
 
     useEffect(() =>
     {
         void getOrderItems(orderId).then((items) =>
         {
-            setItems(items);
-        })
+            setOrderItems(items)
+        });
     }, []);
 
     function handleChildChange(orderItem: OrderItem): void
@@ -35,13 +35,13 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
         if (index !== -1)
         {
             newItems[index] = orderItem;
-            setItems(newItems);
+            setOrderItems(newItems);
         }
     }
 
     function handleChildDelete(orderItem: OrderItem): void
     {
-        setItems((prevItems) =>
+        setOrderItems((prevItems) =>
         {
             return prevItems.filter((item) => item.id !== orderItem.id);
         });
@@ -60,14 +60,20 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
             <tbody>
                 {
                     orderItems.map((orderItem) =>
-                        <OrderItemComponent key={orderItem.id} orderItem={orderItem} parentChangeCallback={handleChildChange} parentDeleteCallback={handleChildDelete}/>
+                        <OrderItemComponent key={orderItem.id} orderItem={orderItem}
+                            changeCallback={handleChildChange}
+                            deleteCallback={handleChildDelete}/>
                     )
                 }
                 <tr id="det_total" className="font-size-140">
                     <th></th>
                     <th></th>
                     <th>Total:</th>
-                    <th>{Formatter.formatCurrency(getTotalCost(orderItems))}</th>
+                    <th>
+                    {
+                        Formatter.formatCurrency(getTotalCost(orderItems))
+                    }
+                    </th>
                 </tr>
             </tbody>
         </table>
