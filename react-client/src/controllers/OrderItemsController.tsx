@@ -1,4 +1,5 @@
 import { Order } from "../models/Order";
+import { Recipe } from "../models/Recipe/Recipe";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -66,23 +67,6 @@ export async function deleteOrderItem(orderItem: OrderItem): Promise<boolean>
 
     return response.json().then(() => response.ok);
 }
-
-type Unit = {
-    name: string;
-};
-
-type Category = {
-    name: string;
-};
-
-type Recipe = {
-    id: number;
-    name: string;
-    quantity: number;
-    unit: Unit;
-    category: Category;
-    ingCost: number;
-};
 
 export type OrderItem = {
     id: number;

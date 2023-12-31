@@ -1,3 +1,8 @@
+import { useQuery } from "react-query";
+import { Recipe } from "../models/Recipe/Recipe";
+import { getRecipes } from "../controllers/RecipeController";
+import QueryStatus from "../utils/QueryStatus";
+
 type AddItemModalProps =
 {
     toogleModalCallback: () => void;
@@ -6,6 +11,14 @@ type AddItemModalProps =
 
 export function AddItemModal(props: AddItemModalProps): JSX.Element
 {
+    const {status, data: recipes} = useQuery<Recipe[]>({
+        queryKey: ["recipes", props.orderId],
+        queryFn: () => getRecipes()
+    });
+
+    if (status !== QueryStatus.SUCCESS)
+        return <h1>Loading ...</h1>
+
     return (
 		<div className="modal" id="edit-order-details-modal">
 			<div className="modal-container">
@@ -15,6 +28,7 @@ export function AddItemModal(props: AddItemModalProps): JSX.Element
 						<span className="modal-close no-print" onClick={props.toogleModalCallback}>×</span>
 					</div>
 					<div className="modal-content">
+                        {recipes.map((recipe) => <div>{recipe.name}</div>)}
 						<table className="full">
                             <thead>
 							<tr>
