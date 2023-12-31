@@ -9,7 +9,7 @@ import QueryStatus from "../utils/QueryStatus";
 import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
 import { useState } from "react";
-import { AddItemModal } from "../components/AddItemModal";
+import AddItemModal from "../components/AddItemModal";
 
 
 export default function OrderDetailsPage(): JSX.Element
