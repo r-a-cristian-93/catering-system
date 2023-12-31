@@ -8,6 +8,8 @@ import { useQuery } from "react-query";
 import QueryStatus from "../utils/QueryStatus";
 import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
+import { useState } from "react";
+import { AddItemModal } from "../components/AddItemModal";
 
 
 export default function OrderDetailsPage(): JSX.Element
@@ -18,6 +20,13 @@ export default function OrderDetailsPage(): JSX.Element
 		queryKey: ["order", Number(orderId)],
 		queryFn: () => getOrder(Number(orderId)),
 	});
+
+	const [isModalActive, setModalActive] = useState<boolean>(false);
+
+	function handleToogleModal(): void
+	{
+		setModalActive(prev => !prev);
+	}
 
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
@@ -75,7 +84,7 @@ export default function OrderDetailsPage(): JSX.Element
 				<OrderItems orderId={Number(orderId)} />
 
 				<button className="add-button">
-					<div className="add-button-text">Adauga articol</div>
+					<div className="add-button-text" onClick={handleToogleModal}>Adauga articol</div>
 					<div className="add-button-dot">+</div>
 				</button>
 				<div className="action-bar">
@@ -102,6 +111,8 @@ export default function OrderDetailsPage(): JSX.Element
 					</div>
 				</div>
 			</div>
+
+			{isModalActive && <AddItemModal toogleModalCallback={handleToogleModal} orderId={Number(orderId)} />}
 		</div>
 	);
 }
