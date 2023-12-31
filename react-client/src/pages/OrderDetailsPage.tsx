@@ -1,5 +1,3 @@
-//import { useEffect, useState } from "react";
-
 import { getOrder } from "../controllers/OrderController";
 import { Order } from "../models/Order/Order";
 import * as Formatter from "../utils/Formatting";
@@ -10,17 +8,24 @@ import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
 import { useState } from "react";
 import AddItemModal from "../components/AddItemModal";
-
+import { queryClient } from "../main";
 
 export default function OrderDetailsPage(): JSX.Element
 {
 	const { orderId } = useParams();
 
-	const { status, data: order } = useQuery<Order>({
+	// fetch order
+	const { status } = useQuery<Order>({
 		queryKey: [ "order", Number(orderId) ],
 		queryFn: () => getOrder(Number(orderId)),
+		onSuccess: () =>
+		{
+			// set order
+			setOrder(queryClient.getQueryData([ "order", Number(orderId) ]) as Order);
+		}
 	});
 
+	const [ order, setOrder ] = useState<Order>({} as Order);
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
 	function handleToogleModal(): void
@@ -31,6 +36,19 @@ export default function OrderDetailsPage(): JSX.Element
 	function handleAddItemSuccessful(): void
 	{
 		// do something to update <OrderItems>
+		//void queryClient.invalidateQueries({ queryKey: [ "order" ] });
+
+		// queryClient.setQueryData([ "order", Number(orderId) ], () =>
+		// {
+		// 	const newOrder: Order = { ...order, id: 99 } as Order;
+
+		// 	console.log(newOrder);
+
+		// 	return newOrder;
+		// });
+
+		setOrder((prev) => ({ ...prev, id: 99 }));
+		console.log("atempt invalidate");
 	}
 
 	if (status === QueryStatus.LOADING)
@@ -41,7 +59,7 @@ export default function OrderDetailsPage(): JSX.Element
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">Detalii comanda #{order?.id}</div>
 
-				<CardsListComponent order={order || {} as Order} />
+				<CardsListComponent order={order} />
 
 				<div className="stepper-wrapper">
 					<div className="stepper-item completed">
@@ -120,7 +138,7 @@ export default function OrderDetailsPage(): JSX.Element
 			{isModalActive && <AddItemModal
 				toogleModalCallback={handleToogleModal}
 				orderId={Number(orderId)}
-				addCallback={handleAddItemSuccessful} />}
+				addSuccessfulCallback={handleAddItemSuccessful} />}
 		</div>
 	);
 }
