@@ -22,7 +22,5 @@ export async function getOrder(orderId: number): Promise<Order>
 		return orderDetails;
 	});
 
-	console.log("getOrder");
-
 	return orderDetailsPromise;
 }

@@ -6,7 +6,7 @@ import * as Formatter from "../utils/Formatting";
 type AddItemProps = {
     orderId: number;
     recipe: Recipe;
-    addSuccessfulCallback: () => void
+    addSuccessfulCallback: (orderItem: OrderItem) => void
 };
 
 export default function AddItem(props: AddItemProps): JSX.Element
@@ -22,7 +22,7 @@ export default function AddItem(props: AddItemProps): JSX.Element
         void addOrderItem(orderItem).then((success) =>
         {
             if (success)
-                props.addSuccessfulCallback();
+                props.addSuccessfulCallback(orderItem);
         });
     }
 

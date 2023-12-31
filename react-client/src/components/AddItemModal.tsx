@@ -3,10 +3,11 @@ import { Recipe } from "../models/Recipe/Recipe";
 import { getRecipes } from "../controllers/RecipeController";
 import QueryStatus from "../utils/QueryStatus";
 import AddItem from "./AddItem";
+import { OrderItem } from "../controllers/OrderItemsController";
 
 type AddItemModalProps = {
     toogleModalCallback: () => void;
-    addSuccessfulCallback: () => void;
+    addSuccessfulCallback: (orderItem: OrderItem) => void;
     orderId: number;
 }
 

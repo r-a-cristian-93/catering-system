@@ -3,29 +3,48 @@ import { Order } from "../models/Order/Order";
 import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import QueryStatus from "../utils/QueryStatus";
 import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
 import { useState } from "react";
 import AddItemModal from "../components/AddItemModal";
 import { queryClient } from "../main";
+import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
 
 export default function OrderDetailsPage(): JSX.Element
 {
 	const { orderId } = useParams();
 
 	// fetch order
-	const { status } = useQuery<Order>({
+	const { isSuccess: orderQuerySuccess } = useQuery<Order>({
 		queryKey: [ "order", Number(orderId) ],
 		queryFn: () => getOrder(Number(orderId)),
-		onSuccess: () =>
+		onSuccess: (order) =>
 		{
 			// set order
-			setOrder(queryClient.getQueryData([ "order", Number(orderId) ]) as Order);
+			setOrder(order);
 		}
 	});
 
-	const [ order, setOrder ] = useState<Order>({} as Order);
+	// fetch order items
+	const { isSuccess: orderItemsQuerySucess } = useQuery<OrderItem[]>({
+		queryKey: [ "orderItems", Number(orderId) ],
+		queryFn: () => getOrderItems(Number(orderId)),
+		onSuccess: (orderItems) =>
+		{
+			// set orderItems
+			setOrderItems(orderItems);
+		}
+	});
+
+	const [ order, setOrder ] = useState<Order | null>(
+		queryClient.getQueryData([ "order", Number(orderId) ]) as Order | null
+	);
+
+	const [ orderItems, setOrderItems ] = useState<OrderItem[] | null>(
+		queryClient.getQueryData([ "orderItems", Number(orderId) ]) as OrderItem[]
+	);
+
+
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
 	function handleToogleModal(): void
@@ -33,33 +52,24 @@ export default function OrderDetailsPage(): JSX.Element
 		setModalActive(prev => !prev);
 	}
 
-	function handleAddItemSuccessful(): void
+	function handleAddItemSuccessful(orderItem: OrderItem): void
 	{
-		// do something to update <OrderItems>
-		//void queryClient.invalidateQueries({ queryKey: [ "order" ] });
+		setOrderItems((prev) => prev && [
+			...prev,
+			orderItem
+		]);
 
-		// queryClient.setQueryData([ "order", Number(orderId) ], () =>
-		// {
-		// 	const newOrder: Order = { ...order, id: 99 } as Order;
-
-		// 	console.log(newOrder);
-
-		// 	return newOrder;
-		// });
-
-		setOrder((prev) => ({ ...prev, id: 99 }));
 		console.log("atempt invalidate");
 	}
-
-	if (status === QueryStatus.LOADING)
-		return <h1>Loading...</h1>
 
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">Detalii comanda #{order?.id}</div>
 
-				<CardsListComponent order={order} />
+				{
+					(orderQuerySuccess && order) && <CardsListComponent order={order} />
+				}
 
 				<div className="stepper-wrapper">
 					<div className="stepper-item completed">
@@ -104,7 +114,9 @@ export default function OrderDetailsPage(): JSX.Element
 					</div>
 				</div>
 
-				<OrderItems orderId={Number(orderId)} />
+				{
+					(orderItemsQuerySucess && orderItems) && <OrderItems key={Math.round(Math.random() * 100)} orderItems={orderItems} />
+				}
 
 				<button className="add-button">
 					<div className="add-button-text" onClick={handleToogleModal}>Adauga articol</div>
