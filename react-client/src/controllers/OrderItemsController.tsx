@@ -68,6 +68,22 @@ export async function deleteOrderItem(orderItem: OrderItem): Promise<boolean>
     return response.json().then(() => response.ok);
 }
 
+export async function addOrderItem(orderItem: OrderItem): Promise<boolean>
+{
+    const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
+
+    const response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderItem),
+    });
+
+    return response.json().then(() => response.ok);
+}
+
 export type OrderItem = {
     id: number;
     order: Order;

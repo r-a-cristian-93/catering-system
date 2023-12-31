@@ -6,6 +6,7 @@ import AddItem from "./AddItem";
 
 type AddItemModalProps = {
     toogleModalCallback: () => void;
+    addCallback: () => void;
     orderId: number;
 }
 
@@ -39,7 +40,14 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
                             </thead>
                             <tbody>
                                 {
-                                    recipes.map((recipe) => <AddItem key={recipe.id} recipe={recipe} />)
+                                    recipes.map((recipe) =>
+                                    {
+                                        return <AddItem
+                                            key={recipe.id}
+                                            orderId={props.orderId}
+                                            recipe={recipe}
+                                            addCallback={props.addCallback} />
+                                    })
                                 }
                             </tbody>
                         </table>

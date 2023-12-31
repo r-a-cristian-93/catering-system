@@ -28,6 +28,11 @@ export default function OrderDetailsPage(): JSX.Element
 		setModalActive(prev => !prev);
 	}
 
+	function handleAddItemSuccessful(): void
+	{
+		// do something to update <OrderItems>
+	}
+
 	if (status === QueryStatus.LOADING)
 		return <h1>Loading...</h1>
 
@@ -112,7 +117,10 @@ export default function OrderDetailsPage(): JSX.Element
 				</div>
 			</div>
 
-			{isModalActive && <AddItemModal toogleModalCallback={handleToogleModal} orderId={Number(orderId)} />}
+			{isModalActive && <AddItemModal
+				toogleModalCallback={handleToogleModal}
+				orderId={Number(orderId)}
+				addCallback={handleAddItemSuccessful} />}
 		</div>
 	);
 }
