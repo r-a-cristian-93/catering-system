@@ -1,7 +1,7 @@
 import { User } from "../models/User.js";
 const { VITE_API_URL } = import.meta.env;
 
-export default async function getUserInfo(): Promise<User>
+export async function getUserInfo(): Promise<User>
 {
 	const response = await fetch(VITE_API_URL + "/employees/myinfo", {
 		method: "GET",

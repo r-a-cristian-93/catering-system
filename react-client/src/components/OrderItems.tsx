@@ -29,12 +29,12 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
     function handleChildChange(orderItem: OrderItem): void
     {
-        const newItems: OrderItem[] = [...orderItems];
+        const newItems: OrderItem[] = [ ...orderItems ];
         const index: number = orderItems.findIndex((item) => item.id === orderItem.id);
 
         if (index !== -1)
         {
-            newItems[index] = orderItem;
+            newItems[ index ] = orderItem;
             setOrderItems(newItems);
         }
     }
@@ -62,7 +62,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                     orderItems.map((orderItem) =>
                         <OrderItemComponent key={orderItem.id} orderItem={orderItem}
                             changeCallback={handleChildChange}
-                            deleteCallback={handleChildDelete}/>
+                            deleteCallback={handleChildDelete} />
                     )
                 }
                 <tr id="det_total" className="font-size-140">
@@ -70,9 +70,9 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                     <th></th>
                     <th>Total:</th>
                     <th>
-                    {
-                        Formatter.formatCurrency(getTotalCost(orderItems))
-                    }
+                        {
+                            Formatter.formatCurrency(getTotalCost(orderItems))
+                        }
                     </th>
                 </tr>
             </tbody>

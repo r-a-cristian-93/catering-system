@@ -10,8 +10,8 @@ type OrderItemProps = {
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
-    const [orderItem, setOrderItem] = useState<OrderItem>(props.orderItem);
-    const { changeCallback, deleteCallback} = props;
+    const [ orderItem, setOrderItem ] = useState<OrderItem>(props.orderItem);
+    const { changeCallback, deleteCallback } = props;
 
     const costTotal = orderItem.recipe.ingCost * orderItem.servings;
 
@@ -23,9 +23,9 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
         {
             setOrderItem((prevItem) =>
             {
-                const newItem =  {
+                const newItem = {
                     ...prevItem,
-                    [name]: Number(value),
+                    [ name ]: Number(value),
                 };
 
                 changeCallback(newItem);

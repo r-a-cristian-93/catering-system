@@ -1,7 +1,7 @@
 //import { useEffect, useState } from "react";
 
-import getOrder from "../controllers/OrderController";
-import { Order } from "../models/Order";
+import { getOrder } from "../controllers/OrderController";
+import { Order } from "../models/Order/Order";
 import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -14,14 +14,14 @@ import AddItemModal from "../components/AddItemModal";
 
 export default function OrderDetailsPage(): JSX.Element
 {
-	const {orderId} = useParams();
+	const { orderId } = useParams();
 
-	const {status, data: order} = useQuery<Order>({
-		queryKey: ["order", Number(orderId)],
+	const { status, data: order } = useQuery<Order>({
+		queryKey: [ "order", Number(orderId) ],
 		queryFn: () => getOrder(Number(orderId)),
 	});
 
-	const [isModalActive, setModalActive] = useState<boolean>(false);
+	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
 	function handleToogleModal(): void
 	{
@@ -44,39 +44,39 @@ export default function OrderDetailsPage(): JSX.Element
 						<div className="step-name">Preluare</div>
 						<div className="step-date">
 							{Formatter.formatDate(order?.placementDate || "")}
-							{" " + Formatter.formatTime(order?.placementDate  || "")}
+							{" " + Formatter.formatTime(order?.placementDate || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Aprovizionare</div>
 						<div className="step-date">
-							{Formatter.formatDate(order?.supplyDate  || "")}
-							{" " + Formatter.formatTime(order?.supplyDate  || "")}
+							{Formatter.formatDate(order?.supplyDate || "")}
+							{" " + Formatter.formatTime(order?.supplyDate || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Preparare</div>
 						<div className="step-date">
-							{Formatter.formatDate(order?.productionDate  || "")}
-							{" " + Formatter.formatTime(order?.productionDate  || "")}
+							{Formatter.formatDate(order?.productionDate || "")}
+							{" " + Formatter.formatTime(order?.productionDate || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Pregatire</div>
 						<div className="step-date">
-							{Formatter.formatDate(order?.preparingDate  || "")}
-							{" " + Formatter.formatTime(order?.preparingDate  || "")}
+							{Formatter.formatDate(order?.preparingDate || "")}
+							{" " + Formatter.formatTime(order?.preparingDate || "")}
 						</div>
 					</div>
 					<div className="stepper-item completed">
 						<div className="step-counter"></div>
 						<div className="step-name">Expediere</div>
 						<div className="step-date">
-							{Formatter.formatDate(order?.shippingDate  || "")}
-							{" " + Formatter.formatTime(order?.shippingDate  || "")}
+							{Formatter.formatDate(order?.shippingDate || "")}
+							{" " + Formatter.formatTime(order?.shippingDate || "")}
 						</div>
 					</div>
 				</div>

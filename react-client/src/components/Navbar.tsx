@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { User } from "../models/User.tsx";
 import { RoleEnum } from "../models/User.tsx";
-import getUserInfo from "../controllers/UserController.tsx";
+import { getUserInfo } from "../controllers/UserController.tsx";
 
 function Navbar(): JSX.Element
 {
@@ -15,8 +15,8 @@ function Navbar(): JSX.Element
 
 	}, []);
 
-	const [isAdmin, setIsAdmin] = useState<boolean>(false);
-	const [user, setUser] = useState<User>({} as User)
+	const [ isAdmin, setIsAdmin ] = useState<boolean>(false);
+	const [ user, setUser ] = useState<User>({} as User)
 
 	const thisPageAddress = document.location.pathname;
 	const links = [

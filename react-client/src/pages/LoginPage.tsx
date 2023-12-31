@@ -1,23 +1,23 @@
 import { useState } from "react";
-import Credentials from "../models/Credentials";
-import requestUserLogin from "../controllers/LoginController";
+import { Credentials } from "../models/Credentials";
+import { requestUserLogin } from "../controllers/LoginController";
 
-function LoginPage(): JSX.Element
+export default function LoginPage(): JSX.Element
 {
-    const [credentials, setCredentials] = useState<Credentials>({} as Credentials);
-    const [loginFailed, setLoginFailed] = useState<boolean>(false);
+    const [ credentials, setCredentials ] = useState<Credentials>({} as Credentials);
+    const [ loginFailed, setLoginFailed ] = useState<boolean>(false);
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
     {
         const { name, value } = event.target;
 
-        setLoginFailed(false)
+        setLoginFailed(false);
 
         setCredentials((prev) =>
         {
             return {
                 ...prev,
-                [name]: value,
+                [ name ]: value,
             };
         });
     }
@@ -28,11 +28,9 @@ function LoginPage(): JSX.Element
 
         void requestUserLogin(credentials).then((response) =>
         {
-            if (response.ok)
-                window.location.pathname= "/home";
-            else
-                setLoginFailed(true);
-        })
+            if (response.ok) window.location.pathname = "/home";
+            else setLoginFailed(true);
+        });
     }
 
     return (
@@ -41,24 +39,10 @@ function LoginPage(): JSX.Element
             <div className="box-content">
                 <form name="login" className="form-big">
                     <label>Username:</label>
-                    <input
-                        name="username"
-                        type="text"
-                        required
-                        onChange={handleChange}
-                    />
+                    <input name="username" type="text" required onChange={handleChange} />
                     <label>Password:</label>
-                    <input
-                        name="password"
-                        type="password"
-                        required
-                        onChange={handleChange}
-                    />
-                    <button
-                        type="submit"
-                        className="button"
-                        onClick={handleSubmit}
-                    >
+                    <input name="password" type="password" required onChange={handleChange} />
+                    <button type="submit" className="button" onClick={handleSubmit}>
                         Login
                     </button>
                     {loginFailed && <span>Login failed. check your credentials.</span>}
@@ -67,5 +51,3 @@ function LoginPage(): JSX.Element
         </div>
     );
 }
-
-export default LoginPage;

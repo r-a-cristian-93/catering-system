@@ -1,7 +1,7 @@
-import { Order } from "../models/Order";
+import { Order } from "../models/Order/Order";
 import CardComponent, { CardData } from "./CardComponent";
 import * as Formatter from "../utils/Formatting";
-import { StatusEnum } from "../models/Status";
+import { StatusEnum } from "../models/Order/Order";
 
 type CardListComponentProps = {
 	order: Order;
@@ -19,7 +19,7 @@ function getCurrentStatusDate(order: Order): string | null
 		cancelDate,
 	} = order;
 
-	switch(status.name)
+	switch (status.name)
 	{
 		case StatusEnum.PRELUATA:
 			return placementDate;
@@ -72,13 +72,13 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 			iconClass: "profil",
 			contentList: [
 				{ class: "card-text-big first-big", text: client?.name || "" },
-				{ class: "card-text-medium", text: client?.phone || ""},
+				{ class: "card-text-medium", text: client?.phone || "" },
 			],
 		},
 		{
 			title: "Adresa livrare",
 			iconClass: "img-pinlocation",
-			contentList: [{ class: "card-text-medium", text: deliveryAddress?.value || "" }],
+			contentList: [ { class: "card-text-medium", text: deliveryAddress?.value || "" } ],
 		},
 	];
 

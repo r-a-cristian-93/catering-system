@@ -27,7 +27,6 @@ export async function getRecipes(): Promise<Recipe[]>
     return recipesPromise;
 }
 
-type RecipesList =
-{
+type RecipesList = {
     recipes: Recipe[];
 }

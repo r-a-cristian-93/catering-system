@@ -1,8 +1,8 @@
-import { Order } from "../models/Order";
+import { Order } from "../models/Order/Order";
 
 const { VITE_API_URL } = import.meta.env;
 
-export default async function getOrder(orderId: number): Promise<Order>
+export async function getOrder(orderId: number): Promise<Order>
 {
 	const url = VITE_API_URL + "/orders/" + orderId.toString();
 

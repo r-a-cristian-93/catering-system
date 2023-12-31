@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import isUserAuthenticated from "./components/Auth";
 
-function Layout(): JSX.Element
+export default function Layout(): JSX.Element
 {
 	return (
 		<>
@@ -16,5 +16,3 @@ function Layout(): JSX.Element
 		</>
 	);
 }
-
-export default Layout;

@@ -1,9 +1,11 @@
-type Unit = {
+export type Unit = {
     name: string;
-};
-type Category = {
+}
+
+export type Category = {
     name: string;
-};
+}
+
 export type Recipe = {
     id: number;
     name: string;
@@ -11,4 +13,4 @@ export type Recipe = {
     unit: Unit;
     category: Category;
     ingCost: number;
-};
+}

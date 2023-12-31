@@ -1,4 +1,4 @@
-function HomePage(): JSX.Element
+export default function HomePage(): JSX.Element
 {
 	return (
 		<div className="box-content" id="order-table">
@@ -6,5 +6,3 @@ function HomePage(): JSX.Element
 		</div>
 	);
 }
-
-export default HomePage;

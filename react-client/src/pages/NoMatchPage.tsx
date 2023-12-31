@@ -1,4 +1,4 @@
-function NoMatchPage(): JSX.Element
+export default function NoMatchPage(): JSX.Element
 {
 	return (
 		<div>
@@ -7,5 +7,3 @@ function NoMatchPage(): JSX.Element
 		</div>
 	);
 }
-
-export default NoMatchPage;

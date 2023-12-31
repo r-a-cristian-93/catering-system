@@ -7,7 +7,6 @@ export type PagerButtonProps = {
 
 export function PagerButton(props: PagerButtonProps): JSX.Element
 {
-
     function handleClick(): void
     {
         props.setActivePageCallback(props.page);

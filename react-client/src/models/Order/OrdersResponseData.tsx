@@ -1,7 +1,7 @@
-import { Order } from "../models/Order";
-import Pageable from "../models/Pageable";
+import { Order } from "./Order";
+import { Pageable } from "../../models/Pageable";
 
-type OrdersResponseData = {
+export type OrdersResponseData = {
 	content: Order[];
 	pageable: Pageable;
 	totalPages: number;
@@ -18,5 +18,3 @@ type OrdersResponseData = {
 	first: boolean;
 	empty: boolean;
 };
-
-export default OrdersResponseData;

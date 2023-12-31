@@ -1,4 +1,4 @@
-import { Order } from "../models/Order";
+import { Order } from "../models/Order/Order";
 import * as Formatter from "../utils/Formatting";
 
 type OrderComponentProps = {
@@ -11,9 +11,9 @@ export default function OrderComponent(props: OrderComponentProps): JSX.Element
         <tr
             id={props.order.id.toString()}
             onClick={() =>
-                {
-                    window.location.href = document.location.pathname + "/detalii_comanda/" + props.order.id
-                }
+            {
+                window.location.href = document.location.pathname + "/detalii_comanda/" + props.order.id
+            }
             }>
             <td>{props.order.id}</td>
             <td>
