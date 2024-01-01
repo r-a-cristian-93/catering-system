@@ -19,10 +19,9 @@ export default function AddItem(props: AddItemProps): JSX.Element
             servings: 0,
         } as OrderItem;
 
-        void addOrderItem(orderItem).then((success) =>
+        void addOrderItem(orderItem).then((item) =>
         {
-            if (success)
-                props.addSuccessfulCallback(orderItem);
+            props.addSuccessfulCallback(item);
         });
     }
 

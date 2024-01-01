@@ -68,7 +68,7 @@ export async function deleteOrderItem(orderItem: OrderItem): Promise<boolean>
     return response.json().then(() => response.ok);
 }
 
-export async function addOrderItem(orderItem: OrderItem): Promise<boolean>
+export async function addOrderItem(orderItem: OrderItem): Promise<OrderItem>
 {
     const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
 
@@ -81,7 +81,14 @@ export async function addOrderItem(orderItem: OrderItem): Promise<boolean>
         body: JSON.stringify(orderItem),
     });
 
-    return response.json().then(() => response.ok);
+    return response.json().then((json) =>
+    {
+        const item: OrderItem = {} as OrderItem;
+
+        Object.assign(item, json);
+
+        return item;
+    });
 }
 
 export type OrderItem = {
