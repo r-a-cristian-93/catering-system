@@ -72,8 +72,6 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
         setOrderItems((prevItems) => prevItems &&
             [ ...prevItems, orderItem ]
         );
-
-        console.log("atempt invalidate" + orderItem.id);
     }
 
     return (

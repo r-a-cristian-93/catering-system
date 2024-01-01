@@ -3,6 +3,8 @@ import { Recipe } from "../models/Recipe/Recipe";
 import { getRecipes } from "../controllers/RecipeController";
 import AddItem from "./AddItem";
 import { OrderItem } from "../controllers/OrderItemsController";
+import { useState } from "react";
+import { queryClient } from "../main";
 
 type AddItemModalProps = {
     toogleModalCallback: () => void;
@@ -12,10 +14,18 @@ type AddItemModalProps = {
 
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
-    const { isSuccess, data: recipes } = useQuery<Recipe[]>({
+    useQuery<Recipe[]>({
         queryKey: [ "recipes", props.orderId ],
-        queryFn: () => getRecipes()
+        queryFn: () => getRecipes(),
+        onSuccess: (recipes) =>
+        {
+            setRecipes(recipes);
+        }
     });
+
+    const [ recipes, setRecipes ] = useState<Recipe[] | null>(
+        queryClient.getQueryData([ "recipes", props.orderId ]) as Recipe[]
+    )
 
     return (
         <div className="modal" id="edit-order-details-modal">
@@ -37,7 +47,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
                             </thead>
                             <tbody>
                                 {
-                                    isSuccess && recipes.map((recipe) =>
+                                    recipes?.map((recipe) =>
                                     {
                                         return <AddItem
                                             key={recipe.id}
