@@ -43,6 +43,8 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 									<th>Reteta</th>
 									<th>Gramaj</th>
 									<th>Cost unitar</th>
+									<th>Portii</th>
+									<th>Total</th>
 								</tr>
 							</thead>
 							<tbody>
