@@ -69,6 +69,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
     function handleAddItemSuccessful(orderItem: OrderItem): void
     {
+        // optimistic update
         setOrderItems((prevItems) => prevItems &&
             [ ...prevItems, orderItem ]
         );

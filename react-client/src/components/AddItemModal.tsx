@@ -15,17 +15,35 @@ type AddItemModalProps = {
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
 	useQuery<Recipe[]>({
-		queryKey: [ "recipes", props.orderId ],
+		queryKey: [ "recipes", Number(props.orderId) ],
 		queryFn: () => getRecipes(),
+		staleTime: 60 * 1000,
 		onSuccess: (recipes) =>
 		{
-			setRecipes(recipes);
+			const excludeRecipesIds = (queryClient.getQueryData([ "orderItems", Number(props.orderId) ]) as OrderItem[])
+				.map((item) => item.recipe.id);
+
+			setRecipes(recipes.filter((recipe) => !excludeRecipesIds.includes(recipe.id)));
 		}
 	});
 
-	const [ recipes, setRecipes ] = useState<Recipe[] | null>(
-		queryClient.getQueryData([ "recipes", props.orderId ]) as Recipe[]
-	)
+	const [ recipes, setRecipes ] = useState<Recipe[] | null>(() =>
+	{
+		const availableQuery: Recipe[] = queryClient.getQueryData([ "recipes", props.orderId ]) as Recipe[];
+
+		return availableQuery;
+	})
+
+	function handleAddItemSuccessful(orderItem: OrderItem): void
+	{
+		void queryClient.invalidateQueries([ "orderItems", Number(props.orderId) ]);
+
+		// we know that the item was added so we can safely do only optimistic update
+		setRecipes((prev) => prev && prev.filter((recipe) => recipe.id != orderItem.recipe.id));
+
+		// optimistic update
+		props.addSuccessfulCallback(orderItem);
+	}
 
 	return (
 		<div className="modal" id="edit-order-details-modal">
@@ -54,7 +72,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 											key={recipe.id}
 											orderId={props.orderId}
 											recipe={recipe}
-											addSuccessfulCallback={props.addSuccessfulCallback} />
+											addSuccessfulCallback={handleAddItemSuccessful} />
 									)
 								}
 							</tbody>
