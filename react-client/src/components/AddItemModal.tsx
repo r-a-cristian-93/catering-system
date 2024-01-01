@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { Recipe } from "../models/Recipe/Recipe";
 import { getRecipes } from "../controllers/RecipeController";
-import QueryStatus from "../utils/QueryStatus";
 import AddItem from "./AddItem";
 import { OrderItem } from "../controllers/OrderItemsController";
 
@@ -13,13 +12,10 @@ type AddItemModalProps = {
 
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
-    const { status, data: recipes } = useQuery<Recipe[]>({
+    const { isSuccess, data: recipes } = useQuery<Recipe[]>({
         queryKey: [ "recipes", props.orderId ],
         queryFn: () => getRecipes()
     });
-
-    if (status !== QueryStatus.SUCCESS)
-        return <h1>Loading ...</h1>
 
     return (
         <div className="modal" id="edit-order-details-modal">
@@ -41,7 +37,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
                             </thead>
                             <tbody>
                                 {
-                                    recipes.map((recipe) =>
+                                    isSuccess && recipes.map((recipe) =>
                                     {
                                         return <AddItem
                                             key={recipe.id}

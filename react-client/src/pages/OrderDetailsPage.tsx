@@ -6,9 +6,7 @@ import { useQuery } from "react-query";
 import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
 import { useState } from "react";
-import AddItemModal from "../components/AddItemModal";
 import { queryClient } from "../main";
-import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
 
 export default function OrderDetailsPage(): JSX.Element
 {
@@ -25,42 +23,9 @@ export default function OrderDetailsPage(): JSX.Element
 		}
 	});
 
-	// fetch order items
-	const { isSuccess: orderItemsQuerySucess } = useQuery<OrderItem[]>({
-		queryKey: [ "orderItems", Number(orderId) ],
-		queryFn: () => getOrderItems(Number(orderId)),
-		onSuccess: (orderItems) =>
-		{
-			// set orderItems
-			setOrderItems(orderItems);
-		}
-	});
-
 	const [ order, setOrder ] = useState<Order | null>(
 		queryClient.getQueryData([ "order", Number(orderId) ]) as Order | null
 	);
-
-	const [ orderItems, setOrderItems ] = useState<OrderItem[] | null>(
-		queryClient.getQueryData([ "orderItems", Number(orderId) ]) as OrderItem[]
-	);
-
-
-	const [ isModalActive, setModalActive ] = useState<boolean>(false);
-
-	function handleToogleModal(): void
-	{
-		setModalActive(prev => !prev);
-	}
-
-	function handleAddItemSuccessful(orderItem: OrderItem): void
-	{
-		setOrderItems((prev) => prev && [
-			...prev,
-			orderItem
-		]);
-
-		console.log("atempt invalidate");
-	}
 
 	return (
 		<div className="box">
@@ -115,13 +80,9 @@ export default function OrderDetailsPage(): JSX.Element
 				</div>
 
 				{
-					(orderItemsQuerySucess && orderItems) && <OrderItems key={Math.round(Math.random() * 100)} orderItems={orderItems} />
+					<OrderItems key={Math.round(Math.random() * 100)} orderId={Number(orderId)} />
 				}
 
-				<button className="add-button">
-					<div className="add-button-text" onClick={handleToogleModal}>Adauga articol</div>
-					<div className="add-button-dot">+</div>
-				</button>
 				<div className="action-bar">
 					<div className="action-button">
 						<div className="action-icon anulata"></div>
@@ -146,11 +107,6 @@ export default function OrderDetailsPage(): JSX.Element
 					</div>
 				</div>
 			</div>
-
-			{isModalActive && <AddItemModal
-				toogleModalCallback={handleToogleModal}
-				orderId={Number(orderId)}
-				addSuccessfulCallback={handleAddItemSuccessful} />}
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 import { OrderItem, deleteOrderItem, updateOrderItem } from "../controllers/OrderItemsController";
 import * as Formatter from "../utils/Formatting";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 
 type OrderItemProps = {
     orderItem: OrderItem;
@@ -10,7 +10,7 @@ type OrderItemProps = {
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
-    const [ orderItem, setOrderItem ] = useState<OrderItem>(props.orderItem);
+    const orderItem = props.orderItem;
     const { changeCallback, deleteCallback } = props;
 
     const costTotal = orderItem.recipe.ingCost * orderItem.servings;
@@ -21,17 +21,12 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 
         if (name === "servings")
         {
-            setOrderItem((prevItem) =>
-            {
-                const newItem = {
-                    ...prevItem,
-                    [ name ]: Number(value),
-                };
+            const newItem = {
+                ...orderItem,
+                [ name ]: Number(value),
+            };
 
-                changeCallback(newItem);
-
-                return newItem;
-            });
+            changeCallback(newItem);
         }
     }
 
