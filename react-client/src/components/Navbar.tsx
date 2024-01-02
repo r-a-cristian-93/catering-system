@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { User } from "../models/User.tsx";
 import { RoleEnum } from "../models/User.tsx";
 import { getUserInfo } from "../controllers/UserController.tsx";
+import { useQuery } from "react-query";
 
 function Navbar(): JSX.Element
 {
-	useEffect(() =>
-	{
-		void getUserInfo().then(user =>
+	useQuery<User>({
+		queryKey: [ "user" ],
+		queryFn: () => getUserInfo(),
+		onSuccess: (user) =>
 		{
 			setUser(user);
 			setIsAdmin(user.role.name === RoleEnum.ADMIN);
-		});
-
-	}, []);
+		}
+	})
 
 	const [ isAdmin, setIsAdmin ] = useState<boolean>(false);
-	const [ user, setUser ] = useState<User>({} as User)
+	const [ user, setUser ] = useState<User | null>(null);
 
 	const thisPageAddress = document.location.pathname;
 	const links = [
@@ -32,11 +33,11 @@ function Navbar(): JSX.Element
 	return (
 		<div className="nav">
 			<a
-				href={user.name ? "/user" : "/login"}
+				href={user?.name ? "/user" : "/login"}
 				className="profile"
 			>
 				<img src="/img/profile.png" />
-				{user.name || "Login"}
+				{user?.name || "Login"}
 			</a>
 
 			{links.map((link, index) =>

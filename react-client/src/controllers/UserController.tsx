@@ -3,6 +3,7 @@ const { VITE_API_URL } = import.meta.env;
 
 export async function getUserInfo(): Promise<User>
 {
+
 	const response = await fetch(VITE_API_URL + "/employees/myinfo", {
 		method: "GET",
 		credentials: "include",
@@ -10,6 +11,9 @@ export async function getUserInfo(): Promise<User>
 			"Content-Type": "application/json",
 		},
 	});
+
+	if (response.redirected)
+		return Promise.reject("redirected");
 
 	const userPromise: Promise<User> = response.json().then((json) =>
 	{
@@ -20,4 +24,5 @@ export async function getUserInfo(): Promise<User>
 	});
 
 	return userPromise;
+
 }
