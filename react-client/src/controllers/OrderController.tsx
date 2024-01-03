@@ -14,13 +14,36 @@ export async function getOrder(orderId: number): Promise<Order>
 		}
 	});
 
-	const orderDetailsPromise: Promise<Order> = response.json().then((json) =>
+	const orderPromise: Promise<Order> = response.json().then((json) =>
 	{
-		const orderDetails: Order = {} as Order;
-		Object.assign(orderDetails, json);
+		const order: Order = {} as Order;
+		Object.assign(order, json);
 
-		return orderDetails;
+		return order;
 	});
 
-	return orderDetailsPromise;
+	return orderPromise;
+}
+
+export async function setNextOrderState(orderId: number): Promise<Order>
+{
+	const url = VITE_API_URL + "/orders/" + orderId + "/nextstep";
+
+	const response = await fetch(url, {
+		method: "PUT",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+	const orderPromise: Promise<Order> = response.json().then((json) =>
+	{
+		const order: Order = {} as Order;
+		Object.assign(order, json);
+
+		return order;
+	});
+
+	return orderPromise;
 }

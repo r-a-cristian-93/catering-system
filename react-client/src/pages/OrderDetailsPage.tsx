@@ -28,6 +28,14 @@ export default function OrderDetailsPage(): JSX.Element
 		queryClient.getQueryData([ "order", Number(orderId) ]) as Order | null
 	);
 
+	function handleSetStateSucessfull(order: Order): void
+	{
+        // optimistic update
+		setOrder(order);
+
+		void queryClient.invalidateQueries([ "order", Number(orderId) ]);
+	}
+
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
@@ -38,7 +46,7 @@ export default function OrderDetailsPage(): JSX.Element
 				}
 
 				{
-					orderQuerySuccess && order && <OrderProgress order={order}/>
+					orderQuerySuccess && order && <OrderProgress order={order} setStateSuccessfullCallback={handleSetStateSucessfull}/>
 				}
 
 				{

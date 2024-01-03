@@ -1,18 +1,31 @@
+import { setNextOrderState } from "../controllers/OrderController";
+import { Order } from "../models/Order/Order";
 import * as Formatter from "../utils/Formatting"
+import { OrderStep } from "./OrderProgress";
 
 export type OrderProgressStepProps = {
-	name: string;
-	date: string | null;
+	orderId: number;
+	step: OrderStep;
+	setStateSuccessfullCallback: (order: Order) => void;
 }
 
 export default function OrderProgressStep(props: OrderProgressStepProps): JSX.Element
 {
-	return (<div className={"stepper-item" + (props.date ? " completed" : "")}>
+	function handleClick(): void
+	{
+		void setNextOrderState(props.orderId).then((order) =>
+		{
+			props.setStateSuccessfullCallback(order)
+		});
+	}
+
+	return (
+	<div className={"stepper-item" + (props.step.date ? " completed" : "")} onClick={handleClick}>
 		<div className="step-counter"></div>
-		<div className="step-name">{props.name}</div>
+		<div className="step-name">{props.step.name}</div>
 		<div className="step-date">
-			{Formatter.formatDate(props.date)}
-			{" " + Formatter.formatTime(props.date)}
+			{Formatter.formatDate(props.step.date)}
+			{" " + Formatter.formatTime(props.step.date)}
 		</div>
 	</div>)
 }
