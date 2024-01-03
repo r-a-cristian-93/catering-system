@@ -2,14 +2,15 @@ import { getOrder } from "../controllers/OrderController";
 import { Order } from "../models/Order/Order";
 import * as Formatter from "../utils/Formatting";
 import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
 import { useState } from "react";
-import { queryClient } from "../main";
 
 export default function OrderDetailsPage(): JSX.Element
 {
+	const queryClient: QueryClient = useQueryClient();
+
 	const { orderId } = useParams();
 
 	// fetch order

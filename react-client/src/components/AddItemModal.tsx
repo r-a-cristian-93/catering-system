@@ -1,10 +1,9 @@
-import { useQuery } from "react-query";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { Recipe } from "../models/Recipe/Recipe";
 import { getRecipes } from "../controllers/RecipeController";
 import AddItem from "./AddItem";
 import { OrderItem } from "../controllers/OrderItemsController";
 import { useState } from "react";
-import { queryClient } from "../main";
 
 type AddItemModalProps = {
 	toogleModalCallback: () => void;
@@ -14,6 +13,8 @@ type AddItemModalProps = {
 
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
+	const queryClient: QueryClient = useQueryClient();
+
 	useQuery<Recipe[]>({
 		queryKey: [ "recipes", Number(props.orderId) ],
 		queryFn: () => getRecipes(),
@@ -24,6 +25,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 				.map((item) => item.recipe.id);
 
 			setRecipes(recipes.filter((recipe) => !excludeRecipesIds.includes(recipe.id)));
+			setRecipes(recipes);
 		}
 	});
 

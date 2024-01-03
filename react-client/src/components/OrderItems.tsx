@@ -2,8 +2,7 @@ import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
 import OrderItemComponent from "./OrderItemComponent";
 import * as Formatter from "../utils/Formatting.tsx";
 import { useState } from "react";
-import { useQuery } from "react-query";
-import { queryClient } from "../main.tsx";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import AddItemModal from "./AddItemModal.tsx";
 
 type OrderItemsProps = {
@@ -19,6 +18,7 @@ function getTotalCost(orderItems: OrderItem[]): number
 
 export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
+	const queryClient: QueryClient = useQueryClient();
     const orderId = props.orderId;
 
     // fetch order items
