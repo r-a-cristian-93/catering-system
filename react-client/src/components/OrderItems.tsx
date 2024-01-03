@@ -106,8 +106,8 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                     </tr>
                 </tbody>
             </table>
-            <button className="add-button">
-                <div className="add-button-text" onClick={handleToogleModal}>Adauga articol</div>
+            <button className="add-button" onClick={handleToogleModal}>
+                <div className="add-button-text">Adauga articol</div>
                 <div className="add-button-dot">+</div>
             </button>
 
