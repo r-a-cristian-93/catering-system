@@ -49,18 +49,17 @@ export default function AddItem(props: AddItemProps): JSX.Element
 			<td>{orderItem.recipe.quantity + " " + orderItem.recipe.unit.name}</td>
 			<td>{Formatter.formatCurrency(orderItem.recipe.ingCost)}</td>
 			<td>
-				<label className="editable">
-					<input
-						type="number" size={4}
-						name="servings"
-						value={orderItem.servings || ""}
-						onChange={handleChange}
-						placeholder="0"
-						min="0"
-					/>
-				</label>
+				<input
+					type="number" size={4}
+					name="servings"
+					value={orderItem.servings || ""}
+					onChange={handleChange}
+					placeholder="0"
+					min="0"
+				/>
+				<span className="img-edit"></span>
 			</td>
-			<td width={100}>
+			<td width={130}>
 				{
 					orderItem.servings &&
 					Formatter.formatCurrency(orderItem.recipe.ingCost * orderItem.servings) || ""

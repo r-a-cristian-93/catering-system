@@ -442,6 +442,19 @@ td.clickable:hover {
 	background-size: contain;
 }
 
+.img-edit {
+	display: inline-block;
+	content: "";
+	width: 18px;
+	height: 18px;
+	margin-left: 5px;
+	content: "";
+	position: relative;
+	background-image: url(/img/edit.svg);
+	background-size: contain;
+	opacity: 0.4;
+}
+
 .due-today {
 	color: red;
 }
@@ -1023,27 +1036,4 @@ td input {
 #add-item-table td:nth-child(n+3),
 th:nth-child(n+3) {
 	text-align: right;
-}
-
-
-/* ******************* EDITABLE LABEL INPUT ******************* */
-
-
-.editable {
-	position: relative;
-	display: block;
-	/* or use 'block' depending on your layout */
-}
-
-.editable::after {
-	content: "";
-	position: absolute;
-	width: 18px;
-	height: 18px;
-	background-image: url(/img/edit.svg);
-	background-size: contain;
-	opacity: 0.4;
-	top: 40%;
-	right: -20px;
-	translate: 0 -50%;
 }

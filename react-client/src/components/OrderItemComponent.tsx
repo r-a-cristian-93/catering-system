@@ -48,17 +48,16 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 		<tr id="det_8" className="font-size-120">
 			<td>{orderItem.recipe.name}</td>
 			<td>
-				<label className="editable">
-					<InputScrollBlocking
-						name="servings"
-						type="number"
-						value={orderItem.servings}
-						onChange={handleChange}
-						onBlur={handleOnBlur}
-						placeholder="0"
-						min="0"
-					/>
-				</label>
+				<InputScrollBlocking
+					name="servings"
+					type="number"
+					value={orderItem.servings}
+					onChange={handleChange}
+					onBlur={handleOnBlur}
+					placeholder="0"
+					min="0"
+				/>
+				<span className="img-edit"></span>
 			</td>
 			<td>{Formatter.formatCurrency(orderItem.recipe.ingCost)}</td>
 			<td>{Formatter.formatCurrency(costTotal)}</td>
