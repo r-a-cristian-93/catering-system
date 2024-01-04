@@ -470,7 +470,7 @@ td.clickable:hover {
 }
 
 .modal-box {
-	min-width: 350px;
+	min-width: 800px;
 	background-color: white;
 	margin: 10px;
 	border: 1px solid #888;
@@ -1007,3 +1007,19 @@ td input {
 	font-size: inherit;
 	background-color: inherit;
 }
+
+.table-list td input[type=number] {
+	border: 1px solid #e3e3e3;
+	width: 100px;
+}
+
+
+/* ******************* ADD ITEM TABLE ******************* */
+
+#add-item-table td:nth-child(n+3), th:nth-child(n+3)
+{
+	text-align: right;
+}
+
+
+

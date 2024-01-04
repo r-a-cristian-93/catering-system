@@ -47,7 +47,7 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
         <tr id="det_8" className="font-size-120">
             <td>{orderItem.recipe.name}</td>
             <td>
-                <input name="servings" value={orderItem.servings} onChange={handleChange} onBlur={handleOnBlur} />
+                <input name="servings" type="number" value={orderItem.servings} onChange={handleChange} onBlur={handleOnBlur} />
             </td>
             <td>{Formatter.formatCurrency(orderItem.recipe.ingCost)}</td>
             <td>{Formatter.formatCurrency(costTotal)}</td>

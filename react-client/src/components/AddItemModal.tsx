@@ -14,27 +14,30 @@ type AddItemModalProps = {
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
+	const [ recipes, setRecipes ] = useState<Recipe[] | null>(getUnusedRecipes());
 
 	useQuery<Recipe[]>({
 		queryKey: [ "recipes", Number(props.orderId) ],
 		queryFn: () => getRecipes(),
 		staleTime: 60 * 1000,
-		onSuccess: (recipes) =>
+		onSuccess: () =>
 		{
-			const excludeRecipesIds = (queryClient.getQueryData([ "orderItems", Number(props.orderId) ]) as OrderItem[])
-				.map((item) => item.recipe.id);
-
-			setRecipes(recipes.filter((recipe) => !excludeRecipesIds.includes(recipe.id)));
-			setRecipes(recipes);
+			setRecipes(getUnusedRecipes());
 		}
 	});
 
-	const [ recipes, setRecipes ] = useState<Recipe[] | null>(() =>
+	function getUnusedRecipes(): Recipe[] | null
 	{
-		const availableQuery: Recipe[] = queryClient.getQueryData([ "recipes", props.orderId ]) as Recipe[];
+		const excludeRecipesIds: number[] = (queryClient.getQueryData([ "orderItems", props.orderId ]) as OrderItem[])
+			.map((item) => item.recipe.id);
 
-		return availableQuery;
-	})
+		const availableRecipes: Recipe[] | null | undefined = queryClient.getQueryData([ "recipes", props.orderId ]);
+
+		if (availableRecipes)
+			return availableRecipes.filter((recipe) => !excludeRecipesIds.includes(recipe.id));
+
+		return null;
+	}
 
 	function handleAddItemSuccessful(orderItem: OrderItem): void
 	{
@@ -56,7 +59,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 						<span className="modal-close no-print" onClick={props.toogleModalCallback}>×</span>
 					</div>
 					<div className="modal-content">
-						<table className="full">
+						<table id="add-item-table" className="full table-list">
 							<thead>
 								<tr>
 									<th>ID</th>
