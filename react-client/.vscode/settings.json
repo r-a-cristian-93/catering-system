@@ -1,0 +1,36 @@
+{
+    "files.exclude":
+    {
+    // VSCode will auto-populate some other excludes here - keep them in!
+    "**/*.js": {"when": "$(basename).ts"},
+    "**/*.js.map": {"when": "$(basename)"}
+    },
+
+    "files.trimTrailingWhitespace": true,
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingEmptyBraces": false,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+    "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
+    "typescript.format.indentSwitchCase": true,
+    "[typescriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "multiFormatter.formatterList": [
+            "esbenp.prettier-vscode",
+            "vscode.typescript-language-features"
+        ],
+    },
+    "editor.tabSize": 4,
+    "editor.useTabStops": true,
+    "html.format.wrapAttributes": "auto",
+    "html.format.wrapLineLength": 50,
+    "prettier.tabWidth": 4,
+    "prettier.useTabs": true,
+    "prettier.printWidth": 120,
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+    }
+}
