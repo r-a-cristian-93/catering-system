@@ -1009,17 +1009,36 @@ td input {
 }
 
 .table-list td input[type=number] {
-	border: 1px solid #e3e3e3;
 	width: 100px;
 }
 
 
 /* ******************* ADD ITEM TABLE ******************* */
 
-#add-item-table td:nth-child(n+3), th:nth-child(n+3)
-{
+#add-item-table td:nth-child(n+3),
+th:nth-child(n+3) {
 	text-align: right;
 }
 
 
+/* ******************* EDITABLE LABEL INPUT ******************* */
 
+
+.editable {
+	position: relative;
+	display: block;
+	/* or use 'block' depending on your layout */
+}
+
+.editable::after {
+	content: "";
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	background-image: url(/img/edit.svg);
+	background-size: contain;
+	opacity: 0.4;
+	top: 40%;
+	right: -20px;
+	translate: 0 -50%;
+}
