@@ -1,6 +1,7 @@
 import { OrderItem, deleteOrderItem, updateOrderItem } from "../controllers/OrderItemsController";
 import * as Formatter from "../utils/Formatting";
 import { ChangeEvent } from "react";
+import InputScrollBlocking from "./InputScrollBlocking";
 
 type OrderItemProps = {
 	orderItem: OrderItem;
@@ -48,7 +49,7 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 			<td>{orderItem.recipe.name}</td>
 			<td>
 				<label className="editable">
-					<input
+					<InputScrollBlocking
 						name="servings"
 						type="number"
 						value={orderItem.servings}

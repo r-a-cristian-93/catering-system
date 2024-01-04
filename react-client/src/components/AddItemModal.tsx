@@ -4,6 +4,7 @@ import { getRecipes } from "../controllers/RecipeController";
 import AddItem from "./AddItem";
 import { OrderItem } from "../controllers/OrderItemsController";
 import { useState } from "react";
+import useScrollBlocking from "../hooks/UseScrollBlocking";
 
 type AddItemModalProps = {
 	toogleModalCallback: () => void;
@@ -25,6 +26,8 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 			setRecipes(getUnusedRecipes());
 		}
 	});
+
+	useScrollBlocking();
 
 	function getUnusedRecipes(): Recipe[] | null
 	{
