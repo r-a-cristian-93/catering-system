@@ -20,12 +20,13 @@ export default function OrderProgressStep(props: OrderProgressStepProps): JSX.El
 	}
 
 	return (
-	<div className={"stepper-item" + (props.step.date ? " completed" : "")} onClick={handleClick}>
-		<div className="step-counter"></div>
-		<div className="step-name">{props.step.name}</div>
-		<div className="step-date">
-			{Formatter.formatDate(props.step.date)}
-			{" " + Formatter.formatTime(props.step.date)}
+		<div className={"stepper-item" + (props.step.date ? " completed" : "")} onClick={handleClick}>
+			<div className="step-counter"></div>
+			<div className="step-name">{props.step.name}</div>
+			<div className="step-date">
+				{Formatter.formatDate(props.step.date)}
+				{" " + Formatter.formatTime(props.step.date)}
+			</div>
 		</div>
-	</div>)
+	);
 }
