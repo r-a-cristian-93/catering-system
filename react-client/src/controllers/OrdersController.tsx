@@ -1,3 +1,4 @@
+import { Order } from "../models/Order/Order";
 import { OrderRequestParameters } from "../models/Order/OrderRequestParameters";
 import { OrdersResponseData } from "../models/Order/OrdersResponseData";
 
@@ -26,4 +27,29 @@ export async function getOrders(orderRequestParameters: OrderRequestParameters):
 	});
 
 	return ordersList;
+}
+
+export async function addOrder(order: Order): Promise<Order>
+{
+	const url = VITE_API_URL + "/orders/";
+
+	const response = await fetch(url, {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(order)
+	});
+
+	const orderPromise: Promise<Order> = response.json().then((json) =>
+	{
+		const order: Order = {} as Order;
+
+		Object.assign(order, json);
+
+		return order;
+	})
+
+	return orderPromise;
 }
