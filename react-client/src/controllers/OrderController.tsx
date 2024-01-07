@@ -50,7 +50,7 @@ export async function setNextOrderState(orderId: number): Promise<Order>
 
 export async function updateOrder(order: Order): Promise<Order>
 {
-	const url = VITE_API_URL + "/orders" + order.id;
+	const url = VITE_API_URL + "/orders/" + order.id;
 
 	const response = await fetch(url, {
 		method: "PUT",
