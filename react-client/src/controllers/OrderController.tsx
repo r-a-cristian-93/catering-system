@@ -47,3 +47,28 @@ export async function setNextOrderState(orderId: number): Promise<Order>
 
 	return orderPromise;
 }
+
+export async function updateOrder(order: Order): Promise<Order>
+{
+	const url = VITE_API_URL + "/orders" + order.id;
+
+	const response = await fetch(url, {
+		method: "PUT",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(order),
+	});
+
+	const orderPromise: Promise<Order> = response.json().then((json) =>
+	{
+		const order: Order = {} as Order;
+
+		Object.assign(order, json);
+
+		return order;
+	})
+
+	return orderPromise;
+}

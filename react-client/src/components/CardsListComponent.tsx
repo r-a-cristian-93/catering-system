@@ -2,6 +2,7 @@ import { Order } from "../models/Order/Order";
 import CardComponent, { CardData } from "./CardComponent";
 import * as Formatter from "../utils/Formatting";
 import { StatusEnum } from "../models/Order/Order";
+import CardDateComponent from "./CardDateComponent";
 
 type CardListComponentProps = {
 	order: Order;
@@ -89,6 +90,7 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 				return <CardComponent key={index} cardData={cardData} />
 			})
 		}
+		<CardDateComponent date={dueDate} />
 	</div>;
 }
 

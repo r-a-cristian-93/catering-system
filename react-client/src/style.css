@@ -1037,3 +1037,10 @@ td input {
 th:nth-child(n+3) {
 	text-align: right;
 }
+
+
+input[type=date],
+input[type=time] {
+	border: none;
+	font-size: inherit;
+}
