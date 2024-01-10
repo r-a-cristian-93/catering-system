@@ -5,6 +5,7 @@ import AddItem from "./AddItem";
 import { OrderItem } from "../controllers/OrderItemsController";
 import { useState } from "react";
 import useScrollBlocking from "../hooks/UseScrollBlocking";
+import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
 
 type AddItemModalProps = {
 	toogleModalCallback: () => void;
@@ -18,7 +19,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 	const [ recipes, setRecipes ] = useState<Recipe[] | null>(getUnusedRecipes());
 
 	useQuery<Recipe[]>({
-		queryKey: [ "recipes", Number(props.orderId) ],
+		queryKey: QueryKeysRecipe.all,
 		queryFn: () => getRecipes(),
 		staleTime: 60 * 1000,
 		onSuccess: () =>
@@ -34,7 +35,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 		const excludeRecipesIds: number[] = (queryClient.getQueryData([ "orderItems", props.orderId ]) as OrderItem[])
 			.map((item) => item.recipe.id);
 
-		const availableRecipes: Recipe[] | null | undefined = queryClient.getQueryData([ "recipes", props.orderId ]);
+		const availableRecipes: Recipe[] | null | undefined = queryClient.getQueryData(QueryKeysRecipe.all);
 
 		if (availableRecipes)
 			return availableRecipes.filter((recipe) => !excludeRecipesIds.includes(recipe.id));
