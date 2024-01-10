@@ -3,11 +3,12 @@ import { User } from "../models/User.tsx";
 import { RoleEnum } from "../models/User.tsx";
 import { getUserInfo } from "../controllers/UserController.tsx";
 import { useQuery } from "react-query";
+import { QueryKeysUser } from "../QueryKeys/QueryKeysUser.tsx";
 
 function Navbar(): JSX.Element
 {
 	useQuery<User>({
-		queryKey: [ "user" ],
+		queryKey: QueryKeysUser.logedInUser,
 		queryFn: () => getUserInfo(),
 		onSuccess: (user) =>
 		{
