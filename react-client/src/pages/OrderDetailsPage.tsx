@@ -6,17 +6,18 @@ import CardsListComponent from "../components/CardsListComponent";
 import OrderItems from "../components/OrderItems";
 import { useState } from "react";
 import OrderProgress from "../components/OrderProgress";
+import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 
 export default function OrderDetailsPage(): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const { orderId } = useParams();
+	const orderId: number = Number(useParams().orderId);
 
 	// fetch order
 	const { isSuccess: orderQuerySuccess } = useQuery<Order>({
-		queryKey: [ "order", Number(orderId) ],
-		queryFn: () => getOrder(Number(orderId)),
+		queryKey: QueryKeysOrder.byId(orderId),
+		queryFn: () => getOrder(orderId),
 		onSuccess: (order) =>
 		{
 			// set order
@@ -25,7 +26,7 @@ export default function OrderDetailsPage(): JSX.Element
 	});
 
 	const [ order, setOrder ] = useState<Order | null>(
-		queryClient.getQueryData([ "order", Number(orderId) ]) as Order | null
+		queryClient.getQueryData(QueryKeysOrder.byId(orderId)) as Order | null
 	);
 
 	function handleSetStateSucessfull(order: Order): void
@@ -33,7 +34,7 @@ export default function OrderDetailsPage(): JSX.Element
         // optimistic update
 		setOrder(order);
 
-		void queryClient.invalidateQueries([ "order", Number(orderId) ]);
+		void queryClient.invalidateQueries(QueryKeysOrder.byId(orderId));
 	}
 
 	return (
@@ -50,7 +51,7 @@ export default function OrderDetailsPage(): JSX.Element
 				}
 
 				{
-					<OrderItems key={Math.round(Math.random() * 100)} orderId={Number(orderId)} />
+					<OrderItems key={Math.round(Math.random() * 100)} orderId={orderId} />
 				}
 
 				<div className="action-bar">
