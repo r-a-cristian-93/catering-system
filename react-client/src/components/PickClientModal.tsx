@@ -36,7 +36,6 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 			setPagerArgs({
 				activePage: responseData.pageable.pageNumber,
 				totalPages: responseData.totalPages,
-				buildFunction: { name: "NONE" },
 				setActivePageCallback: setActivePage,
 			});
 		},
@@ -48,7 +47,6 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 
 		void queryClient.invalidateQueries(QueryKeysClient.all);
 	}
-
 
 	return (
 		<div className="modal pick-client-modal">

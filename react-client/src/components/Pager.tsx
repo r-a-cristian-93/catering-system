@@ -27,9 +27,6 @@ export type PagerArgs = {
     activePage: number;
     totalPages: number;
     setActivePageCallback: (newActivePage: number) => void;
-    buildFunction: {
-        name: string;
-    };
 };
 
 export type PagerProps = {

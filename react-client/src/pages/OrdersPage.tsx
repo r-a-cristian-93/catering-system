@@ -32,7 +32,6 @@ export default function OrdersPage(): JSX.Element
 			setPagerArgs({
 				activePage: ordersResponseData.pageable.pageNumber,
 				totalPages: ordersResponseData.totalPages,
-				buildFunction: { name: "NONE" },
 				setActivePageCallback: setActivePage,
 			});
 		});
