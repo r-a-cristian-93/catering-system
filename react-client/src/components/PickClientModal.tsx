@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Client } from "../models/Order/Order";
 import { getClients } from "../controllers/ClientController";
 import PickClient from "./PickClient";
 import PickClientCreateNew from "./PickClientCreateNew";
+import { useQuery } from "react-query";
 
 type PickClientModalProps = {
 	orderId: number;
@@ -14,18 +15,14 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 	const [ clients, setClients ] = useState<Client[] | null>(null);
 	const { orderId, toogleModalCallback } = props;
 
-	useEffect(() =>
-	{
-		handleClick();
-	});
-
-	function handleClick(): void
-	{
-		void getClients().then((clients) =>
+	useQuery<Client[]>({
+		queryKey: [ "clients" ],
+		queryFn: () => getClients(),
+		onSuccess: (clients) =>
 		{
 			setClients(clients);
-		})
-	}
+		},
+	});
 
 	return (
 		<div className="modal pick-client-modal">
