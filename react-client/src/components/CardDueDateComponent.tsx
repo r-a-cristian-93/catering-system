@@ -27,8 +27,6 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 
 	function handleUpdate(): void
 	{
-		console.log("update ", Formatter.dateFromDateTimeString(dateString, timeString));
-
 		const order: Order = {
 			id: orderId,
 			dueDate: Formatter.dateFromDateTimeString(dateString, timeString).toISOString()

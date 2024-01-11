@@ -48,7 +48,14 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 							</thead>
 							<tbody>
 								{
-									clients?.map(client => client.id > 0 && <PickClient key={client.id} orderId={orderId} client={client} />)
+									clients?.map(client => client.id > 0 &&
+										<PickClient
+											key={client.id}
+											orderId={orderId}
+											client={client}
+											toogleModalCallback={toogleModalCallback}
+										/>
+									)
 								}
 							</tbody>
 						</table>

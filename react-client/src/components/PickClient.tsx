@@ -1,14 +1,19 @@
+import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../controllers/OrderController";
 import { Client, Order } from "../models/Order/Order";
+import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 
 type PickClientProps = {
 	orderId: number;
 	client: Client;
+	toogleModalCallback: () => void;
 }
 
 export default function PickClient(props: PickClientProps): JSX.Element
 {
-	const { orderId, client } = props;
+	const queryClient: QueryClient = useQueryClient();
+
+	const { orderId, client, toogleModalCallback } = props;
 
 	function handleDoubleClick(): void
 	{
@@ -17,7 +22,12 @@ export default function PickClient(props: PickClientProps): JSX.Element
 			client: client,
 		} as Order;
 
-		void updateOrder(order);
+		void updateOrder(order).then((order) =>
+		{
+			void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
+
+			toogleModalCallback();
+		});
 	}
 
 	return (
