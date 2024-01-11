@@ -3,12 +3,13 @@ import { Client } from "../models/Order/Order";
 import PickClientModal from "./PickClientModal";
 
 type CardClientProps = {
+	orderId: number;
 	client: Client | null;
 }
 
 export default function CardClient(props: CardClientProps): JSX.Element
 {
-	const { client } = props;
+	const { orderId, client } = props;
 
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
@@ -32,7 +33,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 				</div>
 			</div>
 			{
-				isModalActive && <PickClientModal toogleModalCallback={handleToogleModal}/>
+				isModalActive && <PickClientModal orderId={orderId} toogleModalCallback={handleToogleModal}/>
 			}
 		</div>
 	);

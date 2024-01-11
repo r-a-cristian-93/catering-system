@@ -1,6 +1,7 @@
 import { Client } from "../models/Order/Order";
 
 type PickClientProps = {
+    orderId: number;
     client: Client;
 }
 

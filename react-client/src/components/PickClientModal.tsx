@@ -5,12 +5,14 @@ import PickClient from "./PickClient";
 import PickClientCreateNew from "./PickClientCreateNew";
 
 type PickClientModalProps = {
+	orderId: number;
 	toogleModalCallback: () => void;
 }
 
 export default function PickClientModal(props: PickClientModalProps): JSX.Element
 {
 	const [ clients, setClients ] = useState<Client[] | null>(null);
+	const { orderId, toogleModalCallback } = props;
 
 	useEffect(() =>
 	{
@@ -31,7 +33,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 				<div className="modal-box">
 					<div className="modal-top">
 						<h2 className="modal-title">Alege client</h2>
-						<span className="modal-close no-print" onClick={props.toogleModalCallback}>×</span>
+						<span className="modal-close no-print" onClick={toogleModalCallback}>×</span>
 					</div>
 					<div className="modal-content">
 						<div className="search-bar">
@@ -49,7 +51,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 							</thead>
 							<tbody>
 								{
-									clients?.map(client => client.id > 0 && <PickClient key={client.id} client={client} />)
+									clients?.map(client => client.id > 0 && <PickClient key={client.id} orderId={orderId} client={client} />)
 								}
 							</tbody>
 						</table>

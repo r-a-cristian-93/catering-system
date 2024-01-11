@@ -93,7 +93,7 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 			})
 		}
 		<CardDueDateComponent date={dueDate} orderId={orderId} />
-		<CardClientComponent client={client} />
+		<CardClientComponent client={client} orderId={orderId}/>
 	</div>;
 }
 
