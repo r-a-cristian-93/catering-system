@@ -19,6 +19,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 	}
 
 	return (
+		<>
 		<div className="card">
 			<div className="card-icon">
 				<div className="card-bg profil"></div>
@@ -32,9 +33,10 @@ export default function CardClient(props: CardClientProps): JSX.Element
 					{client?.phone}
 				</div>
 			</div>
-			{
-				isModalActive && <PickClientModal orderId={orderId} toogleModalCallback={handleToogleModal}/>
-			}
 		</div>
+		{
+			isModalActive && <PickClientModal orderId={orderId} toogleModalCallback={handleToogleModal}/>
+		}
+		</>
 	);
 }

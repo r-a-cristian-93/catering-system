@@ -111,7 +111,6 @@ body {
 	background-color: var(--button-bg);
 	border-style: none;
 	color: var(--bg);
-	font-weight: bold;
 	font-size: 100%;
 	text-align: center;
 }
@@ -1076,6 +1075,10 @@ input[type=time] {
 		font-weight: 700;
 		opacity: 0.9;
 	}
+}
+
+.pick-client-modal {
+	text-align: left;
 }
 
 .pick-client-create-box {

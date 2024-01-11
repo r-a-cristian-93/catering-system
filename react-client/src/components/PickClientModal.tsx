@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { Client, ClientResponseData } from "../models/Order/Order";
 import { getClients } from "../controllers/ClientController";
 import PickClient from "./PickClient";
-import PickClientCreateNew from "./PickClientCreateNew";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysClient } from "../QueryKeys/QueryKeysClient";
 import Pager, { PagerArgs } from "./Pager";
@@ -11,7 +10,7 @@ import { PageableRequestParameters } from "../models/Pageable";
 type PickClientModalProps = {
 	orderId: number;
 	toogleModalCallback: () => void;
-}
+};
 
 export default function PickClientModal(props: PickClientModalProps): JSX.Element
 {
@@ -54,7 +53,9 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 				<div className="modal-box">
 					<div className="modal-top">
 						<h2 className="modal-title">Alege client</h2>
-						<span className="modal-close no-print" onClick={toogleModalCallback}>×</span>
+						<span className="modal-close no-print" onClick={toogleModalCallback}>
+							×
+						</span>
 					</div>
 					<div className="modal-content">
 						<div className="search-bar">
@@ -63,7 +64,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 								<img width="20px" height="20px" src="/img/search.svg" />
 							</button>
 						</div>
-						<table id="add-item-table" className="full table-list">
+						<table id="pick-client-table" className="full table-list">
 							<thead>
 								<tr>
 									<th>Nume</th>
@@ -71,21 +72,27 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 								</tr>
 							</thead>
 							<tbody>
-								{
-									clients?.map(client => client.id > 0 &&
-										<PickClient
-											key={client.id}
-											orderId={orderId}
-											client={client}
-											toogleModalCallback={toogleModalCallback}
-										/>
-									)
-								}
+								{clients?.map(
+									(client) =>
+										client.id > 0 && (
+											<PickClient
+												key={client.id}
+												orderId={orderId}
+												client={client}
+												toogleModalCallback={toogleModalCallback}
+											/>
+										)
+								)}
 							</tbody>
 						</table>
 						<Pager pagerArgs={pagerArgs} />
-						<PickClientCreateNew />
-
+						<br/>
+						<div>
+						<button className="button" type="button">
+							<img src="/img/register-client.svg" style={{filter: "invert(1)", marginRight: "12px"}}/>
+							<span>Inregistreaza un nou client</span>
+						</button>
+						</div>
 					</div>
 				</div>
 			</div>

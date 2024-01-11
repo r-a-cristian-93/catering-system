@@ -19,10 +19,11 @@ export default function OrdersListControls(props: PagerProps): JSX.Element
 
 	return (
 		<>
+			<Pager pagerArgs={props.pagerArgs} />
+			<br />
 			<button className="button" type="button" onClick={handleAddNewOrder}>
 				+ Adauga comanda noua
 			</button>
-			<Pager pagerArgs={props.pagerArgs} />
 		</>
 	);
 }
