@@ -4,6 +4,7 @@ import { getClients } from "../controllers/ClientController";
 import PickClient from "./PickClient";
 import PickClientCreateNew from "./PickClientCreateNew";
 import { useQuery } from "react-query";
+import { QueryKeysClient } from "../QueryKeys/QueryKeysClient";
 
 type PickClientModalProps = {
 	orderId: number;
@@ -16,7 +17,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 	const { orderId, toogleModalCallback } = props;
 
 	useQuery<Client[]>({
-		queryKey: [ "clients" ],
+		queryKey: QueryKeysClient.all,
 		queryFn: () => getClients(),
 		onSuccess: (clients) =>
 		{
