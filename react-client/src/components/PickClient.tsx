@@ -9,7 +9,7 @@ export default function PickClient(props: PickClientProps): JSX.Element
     return (
         <tr>
             <td>{props.client.name}</td>
-            <td>{props.client.phone}</td>
+            <td>{props.client.phone || "-"}</td>
         </tr>
     )
 }
