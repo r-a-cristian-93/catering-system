@@ -1,4 +1,4 @@
-export type OrderRequestParameters = {
+export type PageableRequestParameters = {
 	page: string;
 	size: string;
 	prop: string;

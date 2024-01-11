@@ -1,10 +1,10 @@
 import { Order } from "../models/Order/Order";
-import { OrderRequestParameters } from "../models/Order/OrderRequestParameters";
+import { PageableRequestParameters } from "../models/PageableRequestParameters";
 import { OrdersResponseData } from "../models/Order/OrdersResponseData";
 
 const { VITE_API_URL } = import.meta.env;
 
-export async function getOrders(orderRequestParameters: OrderRequestParameters): Promise<OrdersResponseData>
+export async function getOrders(orderRequestParameters: PageableRequestParameters): Promise<OrdersResponseData>
 {
 	const queryParameters = new URLSearchParams(orderRequestParameters);
 

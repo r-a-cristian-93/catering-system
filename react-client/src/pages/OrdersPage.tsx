@@ -2,14 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import OrdersFilterMenu from "../components/OrdersFilterMenu";
 import OrdersList from "../components/OrdersList";
 import { getOrders } from "../controllers/OrdersController";
-import { OrderRequestParameters } from "../models/Order/OrderRequestParameters.tsx";
+import { PageableRequestParameters } from "../models/PageableRequestParameters.tsx";
 import { Order } from "../models/Order/Order.tsx";
 import OrdersListControls from "../components/OrdersListControls.tsx";
 import { PagerArgs } from "../components/Pager.tsx";
 
 export default function OrdersPage(): JSX.Element
 {
-	const ordersRequestParameters = useRef<OrderRequestParameters>({
+	const ordersRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
 		size: "4",
 		prop: "dueDate",

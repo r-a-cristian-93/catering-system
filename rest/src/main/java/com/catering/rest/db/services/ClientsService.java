@@ -2,6 +2,9 @@ package com.catering.rest.db.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.catering.rest.db.models.ClientModel;
@@ -12,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ClientsService {
-    private final ClientsRepository clientsRepo;
+	private final ClientsRepository clientsRepo;
 
 	public List<ClientModel> getClients() {
 		return clientsRepo.findAll();
@@ -42,5 +45,17 @@ public class ClientsService {
 			client.setPhone(phone);
 		}
 		return clientsRepo.save(client);
+	}
+
+		//PAGEABLE
+
+	public Page<ClientModel> getClientsPageable(
+			Integer page,
+			Integer size,
+			String prop,
+			String dir) {
+		//Sort sort = sortBy(OrderModel.class, prop, dir);
+		Sort sort = ClientModel.sortBy(prop, dir);
+		return clientsRepo.findAll(PageRequest.of(page, size, sort));
 	}
 }

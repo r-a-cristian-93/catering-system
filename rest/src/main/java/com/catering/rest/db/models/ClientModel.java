@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Table(name="clients")
 @Getter @Setter
-public class ClientModel {
+public class ClientModel extends SortableModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
