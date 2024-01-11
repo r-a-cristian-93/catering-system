@@ -1,6 +1,6 @@
 import { Order } from "../models/Order/Order";
 import { PageableRequestParameters } from "../models/PageableRequestParameters";
-import { OrdersResponseData } from "../models/Order/OrdersResponseData";
+import { OrdersResponseData } from "../models/Order/Order";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -21,6 +21,7 @@ export async function getOrders(orderRequestParameters: PageableRequestParameter
 	const ordersList: Promise<OrdersResponseData> = response.json().then((json) =>
 	{
 		const responseData: OrdersResponseData = {} as OrdersResponseData;
+
 		Object.assign(responseData, json);
 
 		return responseData;

@@ -21,6 +21,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 		queryFn: () => getClients(),
 		onSuccess: (clients) =>
 		{
+			console.log(clients);
 			setClients(clients);
 		},
 	});

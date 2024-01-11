@@ -1,3 +1,4 @@
+import { PageableResponse } from "../PageableResponse";
 
 export type Client = {
 	id: number;
@@ -38,4 +39,8 @@ export type Order = {
 	cancelDate: string | null;
 	shoppingListId: number;
 	deliveryAddress: Address | null;
+};
+
+export type OrdersResponseData = PageableResponse & {
+	content: Order[];
 };

@@ -1,7 +1,7 @@
-import { Order } from "./Order";
-import { Pageable } from "../../models/Pageable";
+import { Order } from "./Order/Order";
+import { Pageable } from "./Pageable";
 
-export type OrdersResponseData = {
+export type PageableResponse = {
 	content: Order[];
 	pageable: Pageable;
 	totalPages: number;
