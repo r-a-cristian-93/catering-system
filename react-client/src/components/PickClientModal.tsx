@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { Client } from "../models/Order/Order";
+import { useRef, useState } from "react";
+import { Client, ClientResponseData } from "../models/Order/Order";
 import { getClients } from "../controllers/ClientController";
 import PickClient from "./PickClient";
 import PickClientCreateNew from "./PickClientCreateNew";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysClient } from "../QueryKeys/QueryKeysClient";
+import Pager, { PagerArgs } from "./Pager";
+import { PageableRequestParameters } from "../models/Pageable";
 
 type PickClientModalProps = {
 	orderId: number;
@@ -13,18 +15,40 @@ type PickClientModalProps = {
 
 export default function PickClientModal(props: PickClientModalProps): JSX.Element
 {
+	const queryClient: QueryClient = useQueryClient();
 	const [ clients, setClients ] = useState<Client[] | null>(null);
 	const { orderId, toogleModalCallback } = props;
+	const [ pagerArgs, setPagerArgs ] = useState<PagerArgs>({} as PagerArgs);
 
-	useQuery<Client[]>({
+	const clientsRequestParameters = useRef<PageableRequestParameters>({
+		page: "0",
+		size: "4",
+		prop: "id",
+		dir: "DESC",
+	});
+
+	useQuery<ClientResponseData>({
 		queryKey: QueryKeysClient.all,
-		queryFn: () => getClients(),
-		onSuccess: (clients) =>
+		queryFn: () => getClients(clientsRequestParameters.current),
+		onSuccess: (responseData) =>
 		{
-			console.log(clients);
-			setClients(clients);
+			setClients(responseData.content);
+			setPagerArgs({
+				activePage: responseData.pageable.pageNumber,
+				totalPages: responseData.totalPages,
+				buildFunction: { name: "NONE" },
+				setActivePageCallback: setActivePage,
+			});
 		},
 	});
+
+	function setActivePage(pageNumber: number): void
+	{
+		clientsRequestParameters.current.page = pageNumber.toString();
+
+		void queryClient.invalidateQueries(QueryKeysClient.all);
+	}
+
 
 	return (
 		<div className="modal pick-client-modal">
@@ -61,6 +85,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 								}
 							</tbody>
 						</table>
+						<Pager pagerArgs={pagerArgs} />
 						<PickClientCreateNew />
 
 					</div>

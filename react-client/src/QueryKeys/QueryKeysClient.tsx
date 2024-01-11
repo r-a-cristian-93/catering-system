@@ -1,3 +1,4 @@
 export const QueryKeysClient = {
-    all: [ "clients" ],
+    all: [ "clients" ] as const,
+    page: (pageNumber: number) => ["clients", pageNumber] as const,
 }

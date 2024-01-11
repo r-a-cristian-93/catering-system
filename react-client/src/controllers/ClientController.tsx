@@ -1,15 +1,11 @@
-import { Client } from "../models/Order/Order";
+import { ClientResponseData } from "../models/Order/Order";
+import { PageableRequestParameters } from "../models/Pageable";
 const { VITE_API_URL } = import.meta.env;
 
 
-export async function getClients(): Promise<Client[]>
+export async function getClients(pageableRequestParameters: PageableRequestParameters): Promise<ClientResponseData>
 {
-	const queryParameters = new URLSearchParams({
-		page: "0",
-		size: "4",
-		prop: "id",
-		dir: "DESC",
-	});
+	const queryParameters = new URLSearchParams(pageableRequestParameters);
 
     const url = VITE_API_URL + "/clients/allPageable?" + queryParameters.toString();
 
@@ -21,20 +17,14 @@ export async function getClients(): Promise<Client[]>
         credentials: "include",
     });
 
-    const clientsPromise: Promise<Client[]> = response.json().then((json) =>
+    const clientsPromise: Promise<ClientResponseData> = response.json().then((json) =>
     {
-        const clients: ClientsList = {} as ClientsList;
+        const responseData: ClientResponseData = {} as ClientResponseData;
 
-        Object.assign(clients, json);
+        Object.assign(responseData, json);
 
-        console.log(clients);
-
-        return Object.values(clients).flatMap((client) => client);
-    })
+        return responseData;
+    });
 
     return clientsPromise;
-}
-
-type ClientsList = {
-    clients: Client[];
 }
