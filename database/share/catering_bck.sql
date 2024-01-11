@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.31, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.2.0, for Linux (x86_64)
 --
 -- Host: localhost    Database: catering
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.2.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,7 +56,7 @@ CREATE TABLE `clients` (
   `phone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (0,'-',NULL),(1,'Vasile Ciupitu',NULL),(2,'Gheorghe Lazar','0733165789');
+INSERT INTO `clients` VALUES (0,'-',NULL),(1,'Vasile Ciupitu',NULL),(2,'Gheorghe Lazar','0733165789'),(24,'Gabriela Radulescu','0750123456'),(25,'Catalin Gheorghiu','0742345678'),(26,'Diana Neacsu',NULL),(27,'Lucian Stanescu','0766789012'),(28,'Carmen Nistor','0751234567'),(29,'Adrian Munteanu','0743456789'),(30,'Monica Dragomir','0752345678'),(31,'Valentin Radu',NULL),(32,'Alina Stoica','0767890123'),(33,'Sorin Vasile','0753234567'),(34,'Elena Iliescu','0740123456'),(35,'Alexandru Popa','0758345678'),(36,'Ioana Draghici',NULL),(37,'Gabriel Radu','0761123456'),(38,'Mihaela Tudor','0745567890'),(39,'Victor Iancu','0754123456'),(40,'Roxana Stan','0746234567'),(41,'Cristian Balan',NULL),(42,'Andreea Dumitru','0767789012'),(43,'Marius Enache','0759345678'),(44,'Andrei Popescu','0740123456'),(45,'Ana Marinescu','0758345678'),(46,'Mihai Stefanescu',NULL),(47,'Elena Vasilescu','0761123456'),(48,'Gabriela Ionescu','0745567890'),(49,'Catalin Dumitru','0754123456'),(50,'Simona Stanescu','0746234567'),(51,'Alexandru Balan',NULL),(52,'Mihaela Cojocaru','0767789012'),(53,'Dragos Neacsu','0759345678');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`),
   CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`),
   CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`ID_delivery_address`) REFERENCES `addresses` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,9 +242,28 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,2,'preluata',33.519999999999996,'2021-01-04 11:27:45','2021-09-08 10:27:45',NULL,NULL,NULL,NULL,NULL,33,1),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'preparata',394,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21',NULL,NULL,NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,1,'preluata',80.65,'2021-02-14 10:55:37','2021-02-14 10:55:37',NULL,NULL,NULL,NULL,NULL,0,2),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',NULL,NULL,NULL,NULL,NULL,0,1);
+INSERT INTO `orders` VALUES (1,2,'preluata',90.4,'2021-01-04 11:27:45','2021-09-08 10:27:45',NULL,NULL,NULL,NULL,NULL,33,1),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'expediata',453.94,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,1,'preparata',88.35000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:37','2024-01-04 14:07:15','2024-01-11 07:47:16',NULL,NULL,NULL,0,2),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',NULL,NULL,NULL,NULL,NULL,0,1),(110,0,'preluata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,NULL,NULL,NULL,NULL,0,NULL);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = latin1 */ ;
+/*!50003 SET character_set_results = latin1 */ ;
+/*!50003 SET collation_connection  = latin1_swedish_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `order_cancel` BEFORE UPDATE ON `orders` FOR EACH ROW BEGIN
+	IF (NEW.status = "anulata" AND OLD.status <> "anulata") THEN
+		SET NEW.cancel_date = CURRENT_TIMESTAMP;
+	END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -305,7 +324,7 @@ CREATE TABLE `orders_details` (
   KEY `ID_recipe` (`ID_recipe`),
   CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `orders_details_ibfk_3` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +333,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,10),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(44,4,10,100),(46,1,10,2),(101,1,15,12),(103,102,8,10),(104,102,5,10),(106,103,8,5);
+INSERT INTO `orders_details` VALUES (5,1,2,20),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(103,102,8,10),(104,102,5,10),(106,103,8,5),(111,1,15,20),(112,1,27,20),(113,1,29,3),(115,4,5,100),(116,4,8,11),(117,4,29,10),(118,102,2,5),(119,110,2,10),(120,110,10,10);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -631,4 +650,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-03  9:07:48
+-- Dump completed on 2024-01-11  8:20:14
