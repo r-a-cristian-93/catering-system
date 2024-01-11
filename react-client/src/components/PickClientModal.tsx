@@ -35,8 +35,10 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 					</div>
 					<div className="modal-content">
 						<div className="search-bar">
-							<input type="search" placeholder="Cauta..." />
-							<button className="search-magnifier">0</button>
+							<input type="search" name="search" placeholder="Cauta..." />
+							<button className="search-magnifier">
+								<img width="20px" height="20px" src="/img/search.svg" />
+							</button>
 						</div>
 						<table id="add-item-table" className="full table-list">
 							<thead>

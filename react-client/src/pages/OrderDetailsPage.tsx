@@ -16,7 +16,7 @@ export default function OrderDetailsPage(): JSX.Element
 
 	// fetch order
 	const { isSuccess: orderQuerySuccess } = useQuery<Order>({
-		queryKey: QueryKeysOrder.byId(orderId),
+		queryKey: QueryKeysOrder.orderById(orderId),
 		queryFn: () => getOrder(orderId),
 		onSuccess: (order) =>
 		{
@@ -26,7 +26,7 @@ export default function OrderDetailsPage(): JSX.Element
 	});
 
 	const [ order, setOrder ] = useState<Order | null>(
-		queryClient.getQueryData(QueryKeysOrder.byId(orderId)) as Order | null
+		queryClient.getQueryData(QueryKeysOrder.orderById(orderId)) as Order | null
 	);
 
 	function handleSetStateSucessfull(order: Order): void
@@ -34,7 +34,7 @@ export default function OrderDetailsPage(): JSX.Element
         // optimistic update
 		setOrder(order);
 
-		void queryClient.invalidateQueries(QueryKeysOrder.byId(orderId));
+		void queryClient.invalidateQueries(QueryKeysOrder.orderById(orderId));
 	}
 
 	return (

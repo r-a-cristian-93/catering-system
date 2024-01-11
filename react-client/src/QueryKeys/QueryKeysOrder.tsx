@@ -1,3 +1,4 @@
 export const QueryKeysOrder = {
-    byId: (orderId: number) => [ "order", orderId ] as const,
+    orderById: (orderId: number) => [ "order", orderId ] as const,
+    itemsByOrderId: (orderId: number) => [ "orderItems", orderId ] as const
 }

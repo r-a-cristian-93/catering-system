@@ -4,6 +4,7 @@ import * as Formatter from "../utils/Formatting.tsx";
 import { useState } from "react";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import AddItemModal from "./AddItemModal.tsx";
+import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder.tsx";
 
 type OrderItemsProps = {
     orderId: number;
@@ -23,8 +24,8 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
     // fetch order items
     const { isSuccess: orderItemsQuerySucess } = useQuery<OrderItem[]>({
-        queryKey: [ "orderItems", Number(orderId) ],
-        queryFn: () => getOrderItems(Number(orderId)),
+        queryKey: QueryKeysOrder.itemsByOrderId(orderId),
+        queryFn: () => getOrderItems(orderId),
         onSuccess: (orderItems) =>
         {
             // set orderItems
@@ -33,7 +34,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
     });
 
     const [ orderItems, setOrderItems ] = useState<OrderItem[] | null>(
-        queryClient.getQueryData([ "orderItems", Number(orderId) ]) as OrderItem[]
+        queryClient.getQueryData(QueryKeysOrder.itemsByOrderId(orderId)) as OrderItem[]
     );
 
     const [ isModalActive, setModalActive ] = useState<boolean>(false);
@@ -114,7 +115,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
             {isModalActive && <AddItemModal
                 key={Math.round(Math.random() * 100)}
                 toogleModalCallback={handleToogleModal}
-                orderId={Number(orderId)}
+                orderId={orderId}
                 addSuccessfulCallback={handleAddItemSuccessful} />}
         </>
     );

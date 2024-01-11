@@ -6,6 +6,7 @@ import { OrderItem } from "../controllers/OrderItemsController";
 import { useState } from "react";
 import useScrollBlocking from "../hooks/UseScrollBlocking";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
+import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 
 type AddItemModalProps = {
 	toogleModalCallback: () => void;
@@ -32,7 +33,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 
 	function getUnusedRecipes(): Recipe[] | null
 	{
-		const excludeRecipesIds: number[] = (queryClient.getQueryData([ "orderItems", props.orderId ]) as OrderItem[])
+		const excludeRecipesIds: number[] = (queryClient.getQueryData(QueryKeysOrder.itemsByOrderId(props.orderId)) as OrderItem[])
 			.map((item) => item.recipe.id);
 
 		const availableRecipes: Recipe[] | null | undefined = queryClient.getQueryData(QueryKeysRecipe.all);
@@ -45,7 +46,7 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 
 	function handleAddItemSuccessful(orderItem: OrderItem): void
 	{
-		void queryClient.invalidateQueries([ "orderItems", Number(props.orderId) ]);
+		void queryClient.invalidateQueries(QueryKeysOrder.itemsByOrderId(props.orderId));
 
 		// we know that the item was added so we can safely do only optimistic update
 		setRecipes((prev) => prev && prev.filter((recipe) => recipe.id != orderItem.recipe.id));
