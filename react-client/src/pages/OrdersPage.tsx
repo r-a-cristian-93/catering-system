@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import OrdersFilterMenu from "../components/OrdersFilterMenu";
 import OrdersList from "../components/OrdersList";
 import { getOrders } from "../controllers/OrdersController";
-import { PageableRequestParameters } from "../models/PageableRequestParameters.tsx";
+import { PageableRequestParameters } from "../models/Pageable.tsx";
 import { Order } from "../models/Order/Order.tsx";
 import OrdersListControls from "../components/OrdersListControls.tsx";
 import { PagerArgs } from "../components/Pager.tsx";

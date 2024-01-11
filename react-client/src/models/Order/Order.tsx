@@ -1,4 +1,4 @@
-import { PageableResponse } from "../PageableResponse";
+import { PageableResponse } from "../Pageable";
 
 export type Client = {
 	id: number;
