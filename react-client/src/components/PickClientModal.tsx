@@ -1,10 +1,10 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { Client, ClientResponseData } from "../models/Order/Order";
+import { ClientResponseData } from "../models/Order/Order";
 import { getClients, getClientsByNameContaining } from "../controllers/ClientController";
 import PickClient from "./PickClient";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysClient } from "../QueryKeys/QueryKeysClient";
-import Pager, { PagerArgs } from "./Pager";
+import Pager from "./Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 
 type PickClientModalProps = {
@@ -25,35 +25,28 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 		dir: "DESC",
 	});
 
-	const [ clients, setClients ] = useState<Client[] | null>(null);
-	const [ pagerArgs, setPagerArgs ] = useState<PagerArgs>({} as PagerArgs);
-	const [ searchName, setSearchName ] = useState<string | null>(null);
-	const [ isSearchActive, setSearchActive ] = useState<boolean>(false);
+	const [ clientResponseData, setClientResponseData] = useState<ClientResponseData | null>(
+		queryClient.getQueryData<ClientResponseData>(QueryKeysClient.all) || null
+	)
 
+	const [ searchName, setSearchName ] = useState<string | null>("");
 
 	useQuery<ClientResponseData>({
 		queryKey: QueryKeysClient.all,
 		queryFn: () => getClients(clientsRequestParameters.current),
 		onSuccess: (responseData) =>
 		{
-			if (!isSearchActive)
-			{
-				setClients(responseData.content);
-				setPagerArgs({
-					activePage: responseData.pageable.pageNumber,
-					totalPages: responseData.totalPages,
-					setActivePageCallback: setActivePage,
-				});
-			}
+			setClientResponseData(responseData);
 		},
+		staleTime: Infinity
 	});
 
 	function setActivePage(pageNumber: number): void
 	{
 		clientsRequestParameters.current.page = pageNumber.toString();
 
-		void queryClient.invalidateQueries(!isSearchActive ? QueryKeysClient.all : QueryKeysClient.search);
-	}
+		getSearchData();
+		}
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
@@ -61,8 +54,9 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 
 		if (!event.target.value)
 		{
-			setSearchActive(false);
-			setActivePage(0);
+			console.log("invalidate");
+
+			void queryClient.invalidateQueries(QueryKeysClient.all);
 		}
 	}
 
@@ -70,17 +64,16 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 	{
 		if (searchName)
 		{
-			setSearchActive(true);
-			void getClientsByNameContaining(searchName || "", clientsRequestParameters.current).then((responseData) =>
-			{
-				setClients(responseData.content);
-				setPagerArgs({
-					activePage: responseData.pageable.pageNumber,
-					totalPages: responseData.totalPages,
-					setActivePageCallback: setActivePage,
-				});
-			});
+			getSearchData();
 		}
+	}
+
+	function getSearchData(): void
+	{
+		void getClientsByNameContaining(searchName || "", clientsRequestParameters.current).then((responseData) =>
+		{
+			setClientResponseData(responseData);
+		});
 	}
 
 	return (
@@ -114,7 +107,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 								</tr>
 							</thead>
 							<tbody>
-								{clients?.map(
+								{clientResponseData?.content.map(
 									(client) =>
 										client.id > 0 && (
 											<PickClient
@@ -127,7 +120,15 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 								)}
 							</tbody>
 						</table>
-						<Pager pagerArgs={pagerArgs} />
+						{
+							clientResponseData && <Pager pagerArgs={
+								{
+									activePage: clientResponseData.pageable.pageNumber,
+									totalPages: clientResponseData.totalPages,
+									setActivePageCallback: setActivePage
+								}
+							} />
+						}
 						<br />
 						<div>
 							<button className="button" type="button">
