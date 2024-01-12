@@ -28,3 +28,32 @@ export async function getClients(pageableRequestParameters: PageableRequestParam
 
     return clientsPromise;
 }
+
+export async function getClientsByNameContaining(name: string, pageableRequestParameters: PageableRequestParameters): Promise<ClientResponseData>
+{
+	const queryParameters = new URLSearchParams({
+        ...pageableRequestParameters,
+        name: name
+    });
+
+    const url = VITE_API_URL + "/clients/byNameContainginPageable?" + queryParameters.toString();
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+    });
+
+    const clientsPromise: Promise<ClientResponseData> = response.json().then((json) =>
+    {
+        const responseData: ClientResponseData = {} as ClientResponseData;
+
+        Object.assign(responseData, json);
+
+        return responseData;
+    });
+
+    return clientsPromise;
+}

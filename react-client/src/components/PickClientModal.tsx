@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Client, ClientResponseData } from "../models/Order/Order";
-import { getClients } from "../controllers/ClientController";
+import { getClients, getClientsByNameContaining } from "../controllers/ClientController";
 import PickClient from "./PickClient";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysClient } from "../QueryKeys/QueryKeysClient";
@@ -15,9 +15,8 @@ type PickClientModalProps = {
 export default function PickClientModal(props: PickClientModalProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
-	const [ clients, setClients ] = useState<Client[] | null>(null);
+
 	const { orderId, toogleModalCallback } = props;
-	const [ pagerArgs, setPagerArgs ] = useState<PagerArgs>({} as PagerArgs);
 
 	const clientsRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
@@ -26,17 +25,26 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 		dir: "DESC",
 	});
 
+	const [ clients, setClients ] = useState<Client[] | null>(null);
+	const [ pagerArgs, setPagerArgs ] = useState<PagerArgs>({} as PagerArgs);
+	const [ searchName, setSearchName ] = useState<string | null>(null);
+	const [ isSearchActive, setSearchActive ] = useState<boolean>(false);
+
+
 	useQuery<ClientResponseData>({
 		queryKey: QueryKeysClient.all,
 		queryFn: () => getClients(clientsRequestParameters.current),
 		onSuccess: (responseData) =>
 		{
-			setClients(responseData.content);
-			setPagerArgs({
-				activePage: responseData.pageable.pageNumber,
-				totalPages: responseData.totalPages,
-				setActivePageCallback: setActivePage,
-			});
+			if (!isSearchActive)
+			{
+				setClients(responseData.content);
+				setPagerArgs({
+					activePage: responseData.pageable.pageNumber,
+					totalPages: responseData.totalPages,
+					setActivePageCallback: setActivePage,
+				});
+			}
 		},
 	});
 
@@ -44,7 +52,35 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 	{
 		clientsRequestParameters.current.page = pageNumber.toString();
 
-		void queryClient.invalidateQueries(QueryKeysClient.all);
+		void queryClient.invalidateQueries(!isSearchActive ? QueryKeysClient.all : QueryKeysClient.search);
+	}
+
+	function handleChange(event: ChangeEvent<HTMLInputElement>): void
+	{
+		setSearchName(event.target.value);
+
+		if (!event.target.value)
+		{
+			setSearchActive(false);
+			setActivePage(0);
+		}
+	}
+
+	function handleSearch(): void
+	{
+		if (searchName)
+		{
+			setSearchActive(true);
+			void getClientsByNameContaining(searchName || "", clientsRequestParameters.current).then((responseData) =>
+			{
+				setClients(responseData.content);
+				setPagerArgs({
+					activePage: responseData.pageable.pageNumber,
+					totalPages: responseData.totalPages,
+					setActivePageCallback: setActivePage,
+				});
+			});
+		}
 	}
 
 	return (
@@ -59,8 +95,14 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 					</div>
 					<div className="modal-content">
 						<div className="search-bar">
-							<input type="search" name="search" placeholder="Cauta..." />
-							<button className="search-magnifier">
+							<input
+								type="search"
+								name="search"
+								placeholder="Cauta..."
+								value={searchName || ""}
+								onChange={handleChange}
+							/>
+							<button className="search-magnifier" onClick={handleSearch}>
 								<img width="20px" height="20px" src="/img/search.svg" />
 							</button>
 						</div>
@@ -86,12 +128,15 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 							</tbody>
 						</table>
 						<Pager pagerArgs={pagerArgs} />
-						<br/>
+						<br />
 						<div>
-						<button className="button" type="button">
-							<img src="/img/register-client.svg" style={{filter: "invert(1)", marginRight: "12px"}}/>
-							<span>Inregistreaza un nou client</span>
-						</button>
+							<button className="button" type="button">
+								<img
+									src="/img/register-client.svg"
+									style={{ filter: "invert(1)", marginRight: "12px" }}
+								/>
+								<span>Inregistreaza un nou client</span>
+							</button>
 						</div>
 					</div>
 				</div>
