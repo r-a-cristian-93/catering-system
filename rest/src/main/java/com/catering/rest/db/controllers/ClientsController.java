@@ -59,11 +59,22 @@ public class ClientsController {
 
 	@ResponseBody
 	@GetMapping("/allPageable")
-	public Page<ClientModel> getOrdersPageable(
+	public Page<ClientModel> getClientsPageable(
 			@RequestParam Integer page,
 			@RequestParam Integer size,
 			@RequestParam String prop,
 			@RequestParam String dir) {
 		return clientsService.getClientsPageable(page, size, prop, dir);
+	}
+
+	@ResponseBody
+	@GetMapping("/byNameContainginPageable")
+	public Page<ClientModel> getClientsByNameContainingPageable(
+			@RequestParam String name,
+			@RequestParam Integer page,
+			@RequestParam Integer size,
+			@RequestParam String prop,
+			@RequestParam String dir) {
+		return clientsService.getClientsByNameContainingPageable(name, page, size, prop, dir);
 	}
 }

@@ -54,8 +54,17 @@ public class ClientsService {
 			Integer size,
 			String prop,
 			String dir) {
-		//Sort sort = sortBy(OrderModel.class, prop, dir);
 		Sort sort = ClientModel.sortBy(prop, dir);
 		return clientsRepo.findAll(PageRequest.of(page, size, sort));
+	}
+
+	public Page<ClientModel> getClientsByNameContainingPageable(
+			String name,
+			Integer page,
+			Integer size,
+			String prop,
+			String dir) 	{
+		Sort sort = ClientModel.sortBy(prop, dir);
+		return clientsRepo.findByNameContaining(name, PageRequest.of(page, size, sort));
 	}
 }
