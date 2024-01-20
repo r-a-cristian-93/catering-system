@@ -20,7 +20,7 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	return (
 		<>
-		<div className="card">
+		<div className="card hover-pointer">
 			<div className="card-icon">
 				<div className="card-bg img-pinlocation"></div>
 			</div>

@@ -15,6 +15,10 @@
 	--progress-hover: #cfff49;
 }
 
+.hover-pointer:hover {
+	cursor: pointer;
+}
+
 .disabled {
 	pointer-events: none;
 	opacity: 60%;
@@ -675,26 +679,27 @@ td.clickable:hover {
 
 /* ******************* CARDS ******************* */
 
-#cards {
+.cards {
+	display: flex;
+	justify-content: center;
 	text-align: center;
 	margin-bottom: 80px;
 }
 
 .card {
-	display: inline-block;
+	display: flex;
+	gap: 20px;
 	padding: 0 30px 0 30px;
+	user-select: none;
+}
+
+.card-icon {
+	margin: auto 0;
 }
 
 .card:not(:last-child) {
 	border-right: solid var(--grey4);
 	border-width: 3px;
-}
-
-.card-icon {
-	display: inline-block;
-	margin-right: 20px;
-	transform: translateY(20px);
-	vertical-align: top;
 }
 
 .card-bg {
@@ -705,14 +710,9 @@ td.clickable:hover {
 }
 
 .card-details {
-	display: inline-block;
 	text-align: left;
 	vertical-align: top;
 	max-width: 250px;
-}
-
-#card-deadline .card-details {
-	text-align: center;
 }
 
 .card-title {
@@ -737,6 +737,19 @@ td.clickable:hover {
 
 .first-big:first-letter {
 	text-transform: uppercase;
+}
+
+
+@media (max-width: 1300px) {
+	.card {
+		flex-direction: column;
+	}
+	.card-icon {
+		margin: 0 auto;
+	}
+	.card-details {
+		text-align: center;
+	}
 }
 
 @media print {

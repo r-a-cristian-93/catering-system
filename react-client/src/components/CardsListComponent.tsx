@@ -65,7 +65,7 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 		},
 	];
 
-	return <div id="cards">
+	return <div className="cards">
 		{
 			cardsStructure.map((cardData, index) =>
 			{
