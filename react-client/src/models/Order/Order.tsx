@@ -48,3 +48,7 @@ export type OrdersResponseData = PageableResponse & {
 export type ClientResponseData = PageableResponse & {
 	content: Client[];
 };
+
+export type AddressResponseData = PageableResponse & {
+	content: Address[];
+}

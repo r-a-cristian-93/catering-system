@@ -4,6 +4,7 @@ import * as Formatter from "../utils/Formatting";
 import { StatusEnum } from "../models/Order/Order";
 import CardDueDateComponent from "./CardDueDateComponent";
 import CardClientComponent from "./CardClientComponent";
+import CardAddressComponent from "./CardAddressComponent";
 
 type CardListComponentProps = {
 	order: Order;
@@ -47,7 +48,7 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 		status,
 		dueDate,
 		client,
-		deliveryAddress
+		deliveryAddress,
 	} = props.order;
 
 	const statusDate: string | null = getCurrentStatusDate(props.order);
@@ -62,27 +63,6 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 				{ class: "card-text-medium", text: Formatter.formatDate(statusDate) },
 			],
 		},
-		{
-			title: "Termen livrare",
-			iconClass: "img-hourglass",
-			contentList: [
-				{ class: "card-text-medium", text: Formatter.formatDate(dueDate) },
-				{ class: "card-text-big", text: Formatter.formatTime(dueDate) },
-			],
-		},
-		{
-			title: "Client",
-			iconClass: "profil",
-			contentList: [
-				{ class: "card-text-big first-big", text: client?.name || "" },
-				{ class: "card-text-medium", text: client?.phone || "" },
-			],
-		},
-		{
-			title: "Adresa livrare",
-			iconClass: "img-pinlocation",
-			contentList: [ { class: "card-text-medium", text: deliveryAddress?.value || "" } ],
-		},
 	];
 
 	return <div id="cards">
@@ -94,6 +74,7 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 		}
 		<CardDueDateComponent date={dueDate} orderId={orderId} />
 		<CardClientComponent client={client} orderId={orderId}/>
+		<CardAddressComponent address={deliveryAddress} orderId={orderId}/>
 	</div>;
 }
 
