@@ -41,19 +41,21 @@ export default function PickStatusModal(props: PickStatusModalProps): JSX.Elemen
 							×
 						</span>
 					</div>
-					<div className="modal-content" style={{display: "flex"}}>
-						{
-							statusList && statusList.map((status, index) =>
+					<div className="modal-content">
+						<div className="cards-small">
 							{
-								return <PickStatus
-									key={index}
-									orderId={orderId}
-									status={status}
-									toogleModalCallback={toogleModalCallback}
-								/>
-							})
-						}
-						<br />
+								statusList && statusList.map((status, index) =>
+								{
+									return <PickStatus
+										key={index}
+										orderId={orderId}
+										status={status}
+										toogleModalCallback={toogleModalCallback}
+									/>
+								})
+							}
+							<br />
+						</div>
 					</div>
 				</div>
 			</div>

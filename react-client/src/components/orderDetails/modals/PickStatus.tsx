@@ -38,11 +38,11 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 	}
 
 	return (
-		<div className="card hover-pointer" onDoubleClick={handleDoubleClick}>
-			<div className="card-icon" style={{ scale: "0.8" }}>
+		<div className="card-small hover-pointer" onDoubleClick={handleDoubleClick}>
+			<div className="card-icon-small">
 				<div className={"card-bg " + status.name}></div>
 			</div>
-			<div className="card-details">
+			<div className="card-details-small">
 				<div className="card-text-medium first-big">{status.name}</div>
 			</div>
 		</div>
