@@ -53,10 +53,10 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 	const statusDate: string | null = getCurrentStatusDate(props.order);
 
 	return <div className="cards">
-		<CardStatusComponent status={status} statusDate={statusDate}/>
+		<CardStatusComponent status={status} statusDate={statusDate} orderId={orderId} />
 		<CardDueDateComponent date={dueDate} orderId={orderId} />
-		<CardClientComponent client={client} orderId={orderId}/>
-		<CardAddressComponent address={deliveryAddress} orderId={orderId}/>
+		<CardClientComponent client={client} orderId={orderId} />
+		<CardAddressComponent address={deliveryAddress} orderId={orderId} />
 	</div>;
 }
 
