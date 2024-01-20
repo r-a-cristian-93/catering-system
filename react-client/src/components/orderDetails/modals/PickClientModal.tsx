@@ -1,68 +1,68 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { AddressResponseData } from "../models/Order/Order";
+import { ClientResponseData } from "../../../models/Order";
+import { getClients, getClientsByNameContaining } from "../../../controllers/ClientController";
+import PickClient from "./PickClient";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import Pager from "./Pager";
-import { PageableRequestParameters } from "../models/Pageable";
-import PickAddress from "./PickAddress";
-import { QueryKeysAddress } from "../QueryKeys/QueryKeysAddress";
-import { getAddresesByValueContaining } from "../controllers/AddressControllere";
+import { QueryKeysClient } from "../../../QueryKeys/QueryKeysClient";
+import Pager from "../../Pager";
+import { PageableRequestParameters } from "../../../models/Pageable";
 
-type PickAddressModalProps = {
+type PickClientModalProps = {
 	orderId: number;
 	toogleModalCallback: () => void;
 };
 
-export default function PickAddressModal(props: PickAddressModalProps): JSX.Element
+export default function PickClientModal(props: PickClientModalProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 
 	const { orderId, toogleModalCallback } = props;
 
-	const pageAbleRequestParameters = useRef<PageableRequestParameters>({
+	const clientsRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
 		size: "4",
 		prop: "id",
 		dir: "DESC",
 	});
 
-	const [ addressResponseData, setAddressResponseData] = useState<AddressResponseData | null>(
-		queryClient.getQueryData<AddressResponseData>(QueryKeysAddress.all) || null
+	const [ clientResponseData, setClientResponseData] = useState<ClientResponseData | null>(
+		queryClient.getQueryData<ClientResponseData>(QueryKeysClient.all) || null
 	)
 
-	const [ searchAddress, setSearchAddress ] = useState<string | null>("");
+	const [ searchName, setSearchName ] = useState<string | null>("");
 
-	useQuery<AddressResponseData>({
-		queryKey: QueryKeysAddress.all,
-		queryFn: () => getAddresesByValueContaining("", pageAbleRequestParameters.current),
+	useQuery<ClientResponseData>({
+		queryKey: QueryKeysClient.all,
+		queryFn: () => getClients(clientsRequestParameters.current),
 		onSuccess: (responseData) =>
 		{
-			setAddressResponseData(responseData);
+			setClientResponseData(responseData);
 		},
 		staleTime: Infinity
 	});
 
 	function setActivePage(pageNumber: number): void
 	{
-		pageAbleRequestParameters.current.page = pageNumber.toString();
+		clientsRequestParameters.current.page = pageNumber.toString();
 
 		getSearchData();
-	}
+		}
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
-		setSearchAddress(event.target.value);
+		setSearchName(event.target.value);
 
 		if (!event.target.value)
 		{
 			console.log("invalidate");
 
-			void queryClient.invalidateQueries(QueryKeysAddress.all);
+			void queryClient.invalidateQueries(QueryKeysClient.all);
 		}
 	}
 
 	function handleSearch(): void
 	{
-		if (searchAddress)
+		if (searchName)
 		{
 			getSearchData();
 		}
@@ -70,9 +70,9 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 
 	function getSearchData(): void
 	{
-		void getAddresesByValueContaining(searchAddress || "", pageAbleRequestParameters.current).then((responseData) =>
+		void getClientsByNameContaining(searchName || "", clientsRequestParameters.current).then((responseData) =>
 		{
-			setAddressResponseData(responseData);
+			setClientResponseData(responseData);
 		});
 	}
 
@@ -81,7 +81,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 			<div className="modal-container">
 				<div className="modal-box">
 					<div className="modal-top">
-						<h2 className="modal-title">Alege adresa de livrare</h2>
+						<h2 className="modal-title">Alege client</h2>
 						<span className="modal-close no-print" onClick={toogleModalCallback}>
 							×
 						</span>
@@ -92,7 +92,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 								type="search"
 								name="search"
 								placeholder="Cauta..."
-								value={searchAddress || ""}
+								value={searchName || ""}
 								onChange={handleChange}
 							/>
 							<button className="search-magnifier" onClick={handleSearch}>
@@ -102,17 +102,18 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 						<table id="pick-table" className="full table-list">
 							<thead>
 								<tr>
-									<th>Adresa</th>
+									<th>Nume</th>
+									<th>Telefon</th>
 								</tr>
 							</thead>
 							<tbody>
-								{addressResponseData?.content.map(
-									(address) =>
-										address.id > 0 && (
-											<PickAddress
-												key={address.id}
+								{clientResponseData?.content.map(
+									(client) =>
+										client.id > 0 && (
+											<PickClient
+												key={client.id}
 												orderId={orderId}
-												address={address}
+												client={client}
 												toogleModalCallback={toogleModalCallback}
 											/>
 										)
@@ -120,10 +121,10 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 							</tbody>
 						</table>
 						{
-							addressResponseData && <Pager pagerArgs={
+							clientResponseData && <Pager pagerArgs={
 								{
-									activePage: addressResponseData.pageable.pageNumber,
-									totalPages: addressResponseData.totalPages,
+									activePage: clientResponseData.pageable.pageNumber,
+									totalPages: clientResponseData.totalPages,
 									setActivePageCallback: setActivePage
 								}
 							} />
@@ -135,7 +136,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 									src="/img/register-client.svg"
 									style={{ filter: "invert(1)", marginRight: "12px" }}
 								/>
-								<span>Inregistreaza o noua adresa</span>
+								<span>Inregistreaza un nou client</span>
 							</button>
 						</div>
 					</div>

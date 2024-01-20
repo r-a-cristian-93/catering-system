@@ -1,4 +1,4 @@
-import { Order } from "../models/Order/Order";
+import { Order } from "../../models/Order";
 import OrderComponent from "./OrderComponent";
 
 type OrdersListProps = {

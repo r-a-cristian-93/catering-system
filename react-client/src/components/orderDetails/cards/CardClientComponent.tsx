@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Client } from "../models/Order/Order";
-import PickClientModal from "./PickClientModal";
+import { Client } from "../../../models/Order";
+import PickClientModal from "../modals/PickClientModal";
 
 type CardClientProps = {
 	orderId: number;

@@ -1,7 +1,7 @@
 import { QueryClient, useQueryClient } from "react-query";
-import { updateOrder } from "../controllers/OrderController";
-import { Address, Order } from "../models/Order/Order";
-import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
+import { updateOrder } from "../../../controllers/OrderController";
+import { Address, Order } from "../../../models/Order";
+import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 
 type PickAddressProps = {
 	orderId: number;

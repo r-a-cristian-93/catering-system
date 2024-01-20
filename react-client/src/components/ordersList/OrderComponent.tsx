@@ -1,5 +1,5 @@
-import { Order } from "../models/Order/Order";
-import * as Formatter from "../utils/Formatting";
+import { Order } from "../../models/Order";
+import * as Formatter from "../../utils/Formatting";
 
 type OrderComponentProps = {
     order: Order;

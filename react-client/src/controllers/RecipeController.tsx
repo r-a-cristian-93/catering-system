@@ -1,4 +1,4 @@
-import { Recipe } from "../models/Recipe/Recipe";
+import { Recipe } from "../models/Recipe";
 
 const { VITE_API_URL } = import.meta.env;
 

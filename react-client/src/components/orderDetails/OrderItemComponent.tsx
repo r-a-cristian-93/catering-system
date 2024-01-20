@@ -1,7 +1,8 @@
-import { OrderItem, deleteOrderItem, updateOrderItem } from "../controllers/OrderItemsController";
-import * as Formatter from "../utils/Formatting";
+import { deleteOrderItem, updateOrderItem } from "../../controllers/OrderItemsController";
+import { OrderItem } from "../../models/Order";
+import * as Formatter from "../../utils/Formatting";
 import { ChangeEvent } from "react";
-import InputScrollBlocking from "./InputScrollBlocking";
+import InputScrollBlocking from "../InputScrollBlocking";
 
 type OrderItemProps = {
 	orderItem: OrderItem;

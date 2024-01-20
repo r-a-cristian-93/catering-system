@@ -1,7 +1,7 @@
 import { useState } from "react";
-import * as Formatter from "../utils/Formatting"
-import { Order } from "../models/Order/Order";
-import { updateOrder } from "../controllers/OrderController";
+import * as Formatter from "../../../utils/Formatting"
+import { Order } from "../../../models/Order";
+import { updateOrder } from "../../../controllers/OrderController";
 
 type CardProps = {
 	date: string;

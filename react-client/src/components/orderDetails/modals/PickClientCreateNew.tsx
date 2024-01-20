@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Client } from "../models/Order/Order";
+import { Client } from "../../../models/Order";
 
 export default function PickClientCreateNew(): JSX.Element
 {

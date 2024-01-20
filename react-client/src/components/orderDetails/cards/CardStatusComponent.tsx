@@ -1,5 +1,5 @@
-import { Status } from "../models/Order/Order";
-import * as Formatter from "../utils/Formatting"
+import { Status } from "../../../models/Order";
+import * as Formatter from "../../../utils/Formatting"
 
 type CardStatusProps = {
     status: Status;

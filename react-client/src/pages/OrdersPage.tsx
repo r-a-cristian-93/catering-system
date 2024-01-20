@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import OrdersFilterMenu from "../components/OrdersFilterMenu";
-import OrdersList from "../components/OrdersList";
+import OrdersFilterMenu from "../components/ordersList/OrdersFilterMenu.tsx";
+import OrdersList from "../components/ordersList/OrdersList.tsx";
 import { getOrders } from "../controllers/OrdersController";
 import { PageableRequestParameters } from "../models/Pageable.tsx";
-import { Order } from "../models/Order/Order.tsx";
-import OrdersListControls from "../components/OrdersListControls.tsx";
+import { Order } from "../models/Order.tsx";
+import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
 import { PagerArgs } from "../components/Pager.tsx";
 
 export default function OrdersPage(): JSX.Element

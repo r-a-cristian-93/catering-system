@@ -1,11 +1,11 @@
 import { getOrder } from "../controllers/OrderController";
-import { Order } from "../models/Order/Order";
+import { Order } from "../models/Order";
 import { useParams } from "react-router-dom";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import CardsListComponent from "../components/CardsListComponent";
-import OrderItems from "../components/OrderItems";
+import CardsListComponent from "../components/orderDetails/cards/CardsListComponent";
+import OrderItems from "../components/orderDetails/OrderItems";
 import { useState } from "react";
-import OrderProgress from "../components/OrderProgress";
+import OrderProgress from "../components/orderDetails/OrderProgress";
 import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 
 export default function OrderDetailsPage(): JSX.Element

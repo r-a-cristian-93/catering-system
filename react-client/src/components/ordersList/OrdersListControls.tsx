@@ -1,7 +1,7 @@
-import { addOrder } from "../controllers/OrdersController";
-import { Order } from "../models/Order/Order";
-import Pager from "./Pager";
-import { PagerProps } from "./Pager";
+import { addOrder } from "../../controllers/OrdersController";
+import { Order } from "../../models/Order";
+import Pager from "../Pager";
+import { PagerProps } from "../Pager";
 
 export default function OrdersListControls(props: PagerProps): JSX.Element
 {

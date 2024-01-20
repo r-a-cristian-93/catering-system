@@ -1,12 +1,12 @@
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import { Recipe } from "../models/Recipe/Recipe";
-import { getRecipes } from "../controllers/RecipeController";
+import { Recipe } from "../../../models/Recipe";
+import { getRecipes } from "../../../controllers/RecipeController";
 import AddItem from "./AddItem";
-import { OrderItem } from "../controllers/OrderItemsController";
+import { OrderItem } from "../../../models/Order";
 import { useState } from "react";
-import useScrollBlocking from "../hooks/UseScrollBlocking";
-import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
-import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
+import useScrollBlocking from "../../../hooks/UseScrollBlocking";
+import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
+import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 
 type AddItemModalProps = {
 	toogleModalCallback: () => void;

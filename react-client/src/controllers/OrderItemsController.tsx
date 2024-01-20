@@ -1,5 +1,4 @@
-import { Order } from "../models/Order/Order";
-import { Recipe } from "../models/Recipe/Recipe";
+import { OrderItem } from "../models/Order";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -90,13 +89,6 @@ export async function addOrderItem(orderItem: OrderItem): Promise<OrderItem>
         return item;
     });
 }
-
-export type OrderItem = {
-    id: number;
-    order: Order;
-    recipe: Recipe;
-    servings: number;
-};
 
 type OrderItems = {
     items: OrderItem[];

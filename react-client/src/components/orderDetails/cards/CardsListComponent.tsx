@@ -1,5 +1,5 @@
-import { Order } from "../models/Order/Order";
-import { StatusEnum } from "../models/Order/Order";
+import { Order } from "../../../models/Order";
+import { StatusEnum } from "../../../models/Order";
 import CardDueDateComponent from "./CardDueDateComponent";
 import CardClientComponent from "./CardClientComponent";
 import CardAddressComponent from "./CardAddressComponent";

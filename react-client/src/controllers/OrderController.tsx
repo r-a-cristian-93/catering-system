@@ -1,4 +1,4 @@
-import { Order } from "../models/Order/Order";
+import { Order } from "../models/Order";
 
 const { VITE_API_URL } = import.meta.env;
 

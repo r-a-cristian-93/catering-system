@@ -1,10 +1,11 @@
-import { OrderItem, getOrderItems } from "../controllers/OrderItemsController";
+import { getOrderItems } from "../../controllers/OrderItemsController.tsx";
+import { OrderItem } from "../../models/Order.tsx";
 import OrderItemComponent from "./OrderItemComponent";
-import * as Formatter from "../utils/Formatting.tsx";
+import * as Formatter from "../../utils/Formatting.tsx";
 import { useState } from "react";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import AddItemModal from "./AddItemModal.tsx";
-import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder.tsx";
+import AddItemModal from "./modals/AddItemModal.tsx";
+import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 
 type OrderItemsProps = {
     orderId: number;

@@ -1,8 +1,9 @@
 import { ChangeEvent, useState } from "react";
-import { OrderItem, addOrderItem } from "../controllers/OrderItemsController";
-import { Order } from "../models/Order/Order";
-import { Recipe } from "../models/Recipe/Recipe";
-import * as Formatter from "../utils/Formatting";
+import { addOrderItem } from "../../../controllers/OrderItemsController";
+import { OrderItem } from "../../../models/Order";
+import { Order } from "../../../models/Order";
+import { Recipe } from "../../../models/Recipe";
+import * as Formatter from "../../../utils/Formatting";
 
 type AddItemProps = {
 	orderId: number;

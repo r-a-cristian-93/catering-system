@@ -1,4 +1,4 @@
-import { ClientResponseData } from "../models/Order/Order";
+import { ClientResponseData } from "../models/Order";
 import { PageableRequestParameters } from "../models/Pageable";
 const { VITE_API_URL } = import.meta.env;
 

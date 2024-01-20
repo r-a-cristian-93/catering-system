@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Address } from "../models/Order/Order";
-import PickAddressModal from "./PickAddressModal";
+import { Address } from "../../../models/Order";
+import PickAddressModal from "../modals/PickAddressModal";
 
 type CardAddressProps = {
 	orderId: number;

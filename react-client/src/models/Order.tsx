@@ -1,4 +1,5 @@
-import { PageableResponse } from "../Pageable";
+import { PageableResponse } from "./Pageable";
+import { Recipe } from "./Recipe";
 
 export type Client = {
 	id: number;
@@ -52,3 +53,10 @@ export type ClientResponseData = PageableResponse & {
 export type AddressResponseData = PageableResponse & {
 	content: Address[];
 }
+
+export type OrderItem = {
+	id: number;
+	order: Order;
+	recipe: Recipe;
+	servings: number;
+};
