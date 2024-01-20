@@ -1,10 +1,9 @@
 import { Order } from "../models/Order/Order";
-import CardComponent, { CardData } from "./CardComponent";
-import * as Formatter from "../utils/Formatting";
 import { StatusEnum } from "../models/Order/Order";
 import CardDueDateComponent from "./CardDueDateComponent";
 import CardClientComponent from "./CardClientComponent";
 import CardAddressComponent from "./CardAddressComponent";
+import CardStatusComponent from "./CardStatusComponent";
 
 type CardListComponentProps = {
 	order: Order;
@@ -53,25 +52,8 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 
 	const statusDate: string | null = getCurrentStatusDate(props.order);
 
-	// Store data first in order to easily five keys to each element of the list
-	const cardsStructure: CardData[] = [
-		{
-			title: "Stare",
-			iconClass: status.name,
-			contentList: [
-				{ class: "card-text-big first-big", text: status.name },
-				{ class: "card-text-medium", text: Formatter.formatDate(statusDate) },
-			],
-		},
-	];
-
 	return <div className="cards">
-		{
-			cardsStructure.map((cardData, index) =>
-			{
-				return <CardComponent key={index} cardData={cardData} />
-			})
-		}
+		<CardStatusComponent status={status} statusDate={statusDate}/>
 		<CardDueDateComponent date={dueDate} orderId={orderId} />
 		<CardClientComponent client={client} orderId={orderId}/>
 		<CardAddressComponent address={deliveryAddress} orderId={orderId}/>
