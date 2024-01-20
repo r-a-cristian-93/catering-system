@@ -31,7 +31,7 @@ export default function OrderDetailsPage(): JSX.Element
 
 	function handleSetStateSucessfull(order: Order): void
 	{
-        // optimistic update
+		// optimistic update
 		setOrder(order);
 
 		void queryClient.invalidateQueries(QueryKeysOrder.orderById(orderId));
@@ -47,7 +47,7 @@ export default function OrderDetailsPage(): JSX.Element
 				}
 
 				{
-					orderQuerySuccess && order && <OrderProgress order={order} setStateSuccessfullCallback={handleSetStateSucessfull}/>
+					orderQuerySuccess && order && <OrderProgress order={order} setStateSuccessfullCallback={handleSetStateSucessfull} />
 				}
 
 				{
