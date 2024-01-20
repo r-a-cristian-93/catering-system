@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ClientResponseData } from "../../../models/Order";
 import { getClients, getClientsByNameContaining } from "../../../controllers/ClientController";
 import PickClient from "./PickClient";
@@ -6,6 +6,7 @@ import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysClient } from "../../../QueryKeys/QueryKeysClient";
 import Pager from "../../Pager";
 import { PageableRequestParameters } from "../../../models/Pageable";
+import SearchBar from "../../SearchBar";
 
 type PickClientModalProps = {
 	orderId: number;
@@ -29,7 +30,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 		queryClient.getQueryData<ClientResponseData>(QueryKeysClient.all) || null
 	)
 
-	const [ searchName, setSearchName ] = useState<string | null>("");
+	const searchName = useRef<string | null>("");
 
 	useQuery<ClientResponseData>({
 		queryKey: QueryKeysClient.all,
@@ -46,31 +47,28 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 		clientsRequestParameters.current.page = pageNumber.toString();
 
 		getSearchData();
-		}
-
-	function handleChange(event: ChangeEvent<HTMLInputElement>): void
-	{
-		setSearchName(event.target.value);
-
-		if (!event.target.value)
-		{
-			console.log("invalidate");
-
-			void queryClient.invalidateQueries(QueryKeysClient.all);
-		}
 	}
 
-	function handleSearch(): void
+	function handleSearch(searchValue: string | null): void
 	{
-		if (searchName)
+		searchName.current = searchValue;
+
+		if (searchName.current)
 		{
+			clientsRequestParameters.current.page = "0";
 			getSearchData();
 		}
 	}
 
+	function handleSearchReset(): void
+	{
+		searchName.current = "";
+		void queryClient.invalidateQueries(QueryKeysClient.all);
+	}
+
 	function getSearchData(): void
 	{
-		void getClientsByNameContaining(searchName || "", clientsRequestParameters.current).then((responseData) =>
+		void getClientsByNameContaining(searchName.current || "", clientsRequestParameters.current).then((responseData) =>
 		{
 			setClientResponseData(responseData);
 		});
@@ -87,18 +85,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 						</span>
 					</div>
 					<div className="modal-content">
-						<div className="search-bar">
-							<input
-								type="search"
-								name="search"
-								placeholder="Cauta..."
-								value={searchName || ""}
-								onChange={handleChange}
-							/>
-							<button className="search-magnifier" onClick={handleSearch}>
-								<img width="20px" height="20px" src="/img/search.svg" />
-							</button>
-						</div>
+						<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
 						<table id="pick-table" className="full table-list">
 							<thead>
 								<tr>
