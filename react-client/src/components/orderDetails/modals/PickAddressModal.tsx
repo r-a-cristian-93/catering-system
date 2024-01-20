@@ -64,6 +64,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 
 	function handleSearchReset(): void
 	{
+		searchAddress.current = "";
 		void queryClient.invalidateQueries(QueryKeysAddress.all);
 	}
 
