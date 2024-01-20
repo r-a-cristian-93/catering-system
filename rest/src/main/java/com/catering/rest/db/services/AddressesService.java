@@ -2,9 +2,13 @@ package com.catering.rest.db.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.catering.rest.db.models.AddressModel;
+import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.repositories.AddressesRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -40,4 +44,16 @@ public class AddressesService {
 
         return addressesRepo.save(address);
     }
+
+    //PAGEABLE
+
+	public Page<AddressModel> getAddressesByValueContainingPageable(
+			String value,
+			Integer page,
+			Integer size,
+			String prop,
+			String dir) 	{
+		Sort sort = AddressModel.sortBy(prop, dir);
+		return addressesRepo.findByValueContaining(value, PageRequest.of(page, size, sort));
+	}
 }

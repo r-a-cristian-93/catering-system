@@ -30,7 +30,7 @@ CREATE TABLE `addresses` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `value` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `addresses` (
 
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
-INSERT INTO `addresses` VALUES (1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara'),(2,'Str. Valea Viilor, Nr.22, Lehliu-Gara');
+INSERT INTO `addresses` VALUES (1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara'),(2,'Str. Valea Viilor, Nr.22, Lehliu-Gara'),(4,'Strada Ion Creang 808, Sibiu, Sibiu, Romania'),(5,'Bulevardul Tudor Arghezi 909, Bacu, Bacu, Romania'),(6,'Aleea George Cobuc 1010, Craiova, Dolj, Romania'),(7,'Strada Vasile Alecsandri 1111, Trgu-Mure, Mure, Romania'),(8,'Bulevardul Nicolae Iorga 1212, Baia-Mare, Maramure, Romania'),(9,'Aleea Ion Luca Caragiale 1313, Buzu, Buzu, Romania'),(10,'Strada Andrei Mureanu 1414, Satu-Mare, Satu Mare, Romania'),(11,'Bulevardul Lucian Blaga 1515, Focani, Vrancea, Romania'),(12,'Aleea Liviu Rebreanu 1616, Piteti, Arge, Romania'),(13,'Strada Alexandru Macedonski 1717, Trgovite, Dmbovia, Romania'),(14,'Strada Mihai Eminescu 123, Bucureti, Bucureti, Romania'),(15,'Bulevardul George Cobuc 456, Cluj-Napoca, Cluj, Romania'),(16,'Drumul Ion Creang 789, Timioara, Timi, Romania'),(18,'Strada Mircea Eliade 202, Constana, Constana, Romania'),(19,'Bulevardul Mircea Crtrescu 303, Braov, Braov, Romania'),(20,'Curtea Sadoveanu 404, Galai, Galai, Romania'),(21,'Aleea Urmuz 505, Oradea, Bihor, Romania'),(22,'Bulevardul Liviu Rebreanu 606, Ploieti, Prahova, Romania'),(23,'Strada Marin Preda 707, Arad, Arad, Romania');
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -650,4 +650,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-11  8:20:14
+-- Dump completed on 2024-01-15 11:04:42
