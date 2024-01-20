@@ -77,7 +77,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 	}
 
 	return (
-		<div className="modal pick-client-modal">
+		<div className="modal pick-modal">
 			<div className="modal-container">
 				<div className="modal-box">
 					<div className="modal-top">
@@ -99,7 +99,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 								<img width="20px" height="20px" src="/img/search.svg" />
 							</button>
 						</div>
-						<table id="pick-client-table" className="full table-list">
+						<table id="pick-table" className="full table-list">
 							<thead>
 								<tr>
 									<th>Nume</th>

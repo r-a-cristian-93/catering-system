@@ -1,7 +1,6 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { AddressResponseData } from "../models/Order/Order";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import { QueryKeysClient } from "../QueryKeys/QueryKeysClient";
 import Pager from "./Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 import PickAddress from "./PickAddress";
@@ -57,7 +56,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 		{
 			console.log("invalidate");
 
-			void queryClient.invalidateQueries(QueryKeysClient.all);
+			void queryClient.invalidateQueries(QueryKeysAddress.all);
 		}
 	}
 
@@ -71,18 +70,18 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 
 	function getSearchData(): void
 	{
-		// void getClientsByNameContaining(searchName || "", pageAbleRequestParameters.current).then((responseData) =>
-		// {
-		// 	setAddressResponseData(responseData);
-		// });
+		void getAddresesByValueContaining(searchAddress || "", pageAbleRequestParameters.current).then((responseData) =>
+		{
+			setAddressResponseData(responseData);
+		});
 	}
 
 	return (
-		<div className="modal pick-client-modal">
+		<div className="modal pick-modal">
 			<div className="modal-container">
 				<div className="modal-box">
 					<div className="modal-top">
-						<h2 className="modal-title">Alege client</h2>
+						<h2 className="modal-title">Alege adresa de livrare</h2>
 						<span className="modal-close no-print" onClick={toogleModalCallback}>
 							×
 						</span>
@@ -100,7 +99,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 								<img width="20px" height="20px" src="/img/search.svg" />
 							</button>
 						</div>
-						<table id="pick-client-table" className="full table-list">
+						<table id="pick-table" className="full table-list">
 							<thead>
 								<tr>
 									<th>Adresa</th>
