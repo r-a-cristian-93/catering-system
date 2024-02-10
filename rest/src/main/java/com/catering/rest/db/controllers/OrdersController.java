@@ -176,26 +176,26 @@ public class OrdersController {
 	// REPORTS
 
 	@ResponseBody
-	@PutMapping("/reportOfPlacemetDate")
-	public List<ReportByDateModel> getReportOfPlacementDate(@RequestParam Date startDate, @RequestParam Date endDate) {
-		return ordersService.getReportOfPlacementDate(startDate, endDate);
+	@GetMapping("/reportOfPlacementDate")
+	public List<ReportByDateModel> getReportOfPlacementDate(@RequestParam long startDate, @RequestParam long endDate) {
+		return ordersService.getReportOfPlacementDate(new Date(startDate), new Date(endDate));
 	}
 
 	@ResponseBody
-	@PutMapping("/reportOfDueDate")
-	public List<ReportByDateModel> getReportOfDueDate(@RequestParam Date startDate, @RequestParam Date endDate) {
-		return ordersService.getReportOfDueDate(startDate, endDate);
+	@GetMapping("/reportOfDueDate")
+	public List<ReportByDateModel> getReportOfDueDate(@RequestParam long startDate, @RequestParam long endDate) {
+		return ordersService.getReportOfDueDate(new Date(startDate), new Date(endDate));
 	}
 
 	@ResponseBody
-	@PutMapping("/reportOfCancelDate")
-	public List<ReportByDateModel> getReportOfCancelDate(@RequestParam Date startDate, @RequestParam Date endDate) {
-		return ordersService.getReportOfCancelDate(startDate, endDate);
+	@GetMapping("/reportOfCancelDate")
+	public List<ReportByDateModel> getReportOfCancelDate(@RequestParam long startDate, @RequestParam long endDate) {
+		return ordersService.getReportOfCancelDate(new Date(startDate), new Date(endDate));
 	}
 
 	@ResponseBody
-	@PutMapping("/reportOfShippingDate")
-	public List<ReportByDateModel> getReportOfShippingDate(@RequestParam Date startDate, @RequestParam Date endDate) {
-		return ordersService.getReportOfShippingDate(startDate, endDate);
+	@GetMapping("/reportOfShippingDate")
+	public List<ReportByDateModel> getReportOfShippingDate(@RequestParam long startDate, @RequestParam long endDate) {
+		return ordersService.getReportOfShippingDate(new Date(startDate), new Date(endDate));
 	}
 }
