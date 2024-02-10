@@ -7,25 +7,25 @@ export async function getRecipes(pageableRequestParameters: PageableRequestParam
 {
 	const queryParameters = new URLSearchParams(pageableRequestParameters);
 
-    const url = VITE_API_URL + "/recipes/allPageable?" + queryParameters.toString();
+	const url = VITE_API_URL + "/recipes/allPageable?" + queryParameters.toString();
 
-    const response = await fetch(url, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    });
+	const response = await fetch(url, {
+		method: "GET",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		}
+	});
 
-    const recipesPromise: Promise<RecipesResponseData> = response.json().then((json) =>
-    {
-        const recipesResponseDate: RecipesResponseData = {} as RecipesResponseData;
+	const recipesPromise: Promise<RecipesResponseData> = response.json().then((json) =>
+	{
+		const recipesResponseDate: RecipesResponseData = {} as RecipesResponseData;
 
-        Object.assign(recipesResponseDate, json);
+		Object.assign(recipesResponseDate, json);
 
-        return recipesResponseDate;
+		return recipesResponseDate;
 
-    })
+	})
 
-    return recipesPromise;
+	return recipesPromise;
 }

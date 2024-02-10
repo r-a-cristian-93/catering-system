@@ -21,8 +21,8 @@ export default function OrdersList(props: OrdersListProps): JSX.Element
 			</thead>
 
 			<tbody>
-				{props.orders.map((order, index) => (
-					<OrderComponent key={index} order={order} />
+				{props.orders.map((order) => (
+					<OrderComponent key={order.id} order={order} />
 				))}
 			</tbody>
 		</table>

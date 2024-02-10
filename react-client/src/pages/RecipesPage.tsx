@@ -3,10 +3,11 @@ import { PagerArgs } from "../components/Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipeController";
+import RecipesList from "../components/recipesList/RecipesList";
 
 export default function RecipesPage(): JSX.Element
 {
-    const pageableRequestParameters = useRef<PageableRequestParameters>({
+	const pageableRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
 		size: "4",
 		prop: "null",
@@ -25,8 +26,6 @@ export default function RecipesPage(): JSX.Element
 	{
 		void getRecipes(pageableRequestParameters.current).then((recipesResponseData) =>
 		{
-            console.log(recipesResponseData);
-
 			setRecipes(recipesResponseData.content);
 			setPagerArgs({
 				activePage: recipesResponseData.pageable.pageNumber,
@@ -36,18 +35,18 @@ export default function RecipesPage(): JSX.Element
 		});
 	}
 
-    function setActivePage(activePage: number): void
+	function setActivePage(activePage: number): void
 	{
 		pageableRequestParameters.current.page = activePage.toString();
 
 		requestRecipes();
 	}
 
-    return (
-        <div className="box">
-            <div className="box-content" id="order-table">
-
-            </div>
-        </div>
-    );
+	return (
+		<div className="box">
+			<div className="box-content" id="order-table">
+				<RecipesList recipes={recipes} />
+			</div>
+		</div>
+	);
 }
