@@ -14,7 +14,7 @@ export default function RecipesPage(): JSX.Element
 		dir: "null",
 	});
 
-	const [ recipes, setRecipes ] = useState<Recipe[]>([]);
+	const [ recipes, setRecipes ] = useState<Recipe[] | null>(null);
 	const [ pagerArgs, setPagerArgs ] = useState<PagerArgs>({} as PagerArgs);
 
 	useEffect(() =>
@@ -45,7 +45,9 @@ export default function RecipesPage(): JSX.Element
 	return (
 		<div className="box">
 			<div className="box-content" id="order-table">
-				<RecipesList recipes={recipes} />
+				{
+					recipes && <RecipesList recipes={recipes} />
+				}
 			</div>
 		</div>
 	);

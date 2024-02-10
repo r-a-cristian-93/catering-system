@@ -1,6 +1,6 @@
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { Recipe } from "../../../models/Recipe";
-import { getRecipes } from "../../../controllers/RecipeController";
+import { getRecipesAll } from "../../../controllers/RecipeController";
 import AddItem from "./AddItem";
 import { OrderItem } from "../../../models/Order";
 import { useState } from "react";
@@ -17,11 +17,11 @@ type AddItemModalProps = {
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
-	const [ recipes, setRecipes ] = useState<Recipe[] | null>(getUnusedRecipes());
+	const [ recipes, setRecipes ] = useState<Recipe[] | null>(null);
 
 	useQuery<Recipe[]>({
 		queryKey: QueryKeysRecipe.all,
-		queryFn: () => getRecipes(),
+		queryFn: () => getRecipesAll(),
 		staleTime: 60 * 1000,
 		onSuccess: () =>
 		{

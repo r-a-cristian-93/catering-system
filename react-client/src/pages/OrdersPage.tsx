@@ -7,7 +7,8 @@ import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
 import { PagerArgs } from "../components/Pager.tsx";
 
-export enum OrdersFilter {
+export enum OrdersFilter
+{
 	NONE,
 	STATUS_PLACED,
 	STATUS_SUPPLIED,
@@ -26,7 +27,7 @@ export enum OrdersFilter {
 
 export default function OrdersPage(): JSX.Element
 {
-	const ordersRequestBody = useRef<RequestBody>({name: "anulata"});
+	const ordersRequestBody = useRef<RequestBody>({ name: "anulata" });
 	const ordersRequestFunction = useRef<(params: PageableRequestParameters, body?: RequestBody) => Promise<OrdersResponseData>>(getOrders);
 	const ordersRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
@@ -35,7 +36,7 @@ export default function OrdersPage(): JSX.Element
 		dir: "DESC",
 	});
 
-	const [ orders, setOrders ] = useState<Order[]>([]);
+	const [ orders, setOrders ] = useState<Order[] | null>(null);
 	const [ pagerArgs, setPagerArgs ] = useState<PagerArgs>({} as PagerArgs);
 
 	useEffect(() =>
@@ -69,42 +70,42 @@ export default function OrdersPage(): JSX.Element
 		{
 			case OrdersFilter.STATUS_PLACED:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "preluata"};
-			break;
+				ordersRequestBody.current = { name: "preluata" };
+				break;
 			case OrdersFilter.STATUS_SUPPLIED:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "aprovizionata"};
-			break;
+				ordersRequestBody.current = { name: "aprovizionata" };
+				break;
 			case OrdersFilter.STATUS_COOKING:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "preparata"};
-			break;
+				ordersRequestBody.current = { name: "preparata" };
+				break;
 			case OrdersFilter.STATUS_READY:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "pregatita"};
-			break;
+				ordersRequestBody.current = { name: "pregatita" };
+				break;
 			case OrdersFilter.STATUS_SHIPPED:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "expediata"};
-			break;
+				ordersRequestBody.current = { name: "expediata" };
+				break;
 			case OrdersFilter.STATUS_CANCELED:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "anulata"};
-			break;
+				ordersRequestBody.current = { name: "anulata" };
+				break;
 			case OrdersFilter.DUE_DATE_1:
 			case OrdersFilter.DUE_DATE_7:
 			case OrdersFilter.DUE_DATE_14:
 			case OrdersFilter.DUE_DATE_30:
 				ordersRequestFunction.current = getOrdersByDueDate;
-				ordersRequestBody.current = {first: new Date("2024-02-01").getTime(), last: new Date("2030-01-01").getTime()};
-			break;
+				ordersRequestBody.current = { first: new Date("2024-02-01").getTime(), last: new Date("2030-01-01").getTime() };
+				break;
 			case OrdersFilter.ORDER_DATE_7:
 				ordersRequestFunction.current = getOrders;
-			break;
+				break;
 			case OrdersFilter.NONE:
 			default:
 				ordersRequestFunction.current = getOrders;
-			break;
+				break;
 		}
 
 		requestOrders();
@@ -113,8 +114,10 @@ export default function OrdersPage(): JSX.Element
 	return (
 		<div className="box">
 			<div className="box-content" id="order-table">
-				<OrdersFilterMenu setActiveFilterCallback={setActiveFilter}/>
-				<OrdersList orders={orders} />
+				<OrdersFilterMenu setActiveFilterCallback={setActiveFilter} />
+				{
+					orders && <OrdersList orders={orders} />
+				}
 				<OrdersListControls pagerArgs={pagerArgs} />
 			</div>
 		</div>
