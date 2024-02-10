@@ -1251,9 +1251,9 @@ input[type=time] {
 		width: 100%;
 	}
 
-	.chartGeneral:first-child,
-	.chartGeneral:first-child:first-child
+	.css-1gakkqb-MuiResponsiveChart-container,
+	.css-13aj3tc-MuiChartsSurface-root
 	{
-		overflow: visible;
+		overflow: visible !important;
 	}
 }
