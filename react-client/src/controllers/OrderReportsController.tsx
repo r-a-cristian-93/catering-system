@@ -1,16 +1,16 @@
 const { VITE_API_URL } = import.meta.env;
 
-type ReportByDate = {
+export type ReportByDate = {
     date: Date;
     count: number;
 }
 
-export async function getReport(): Promise<ReportByDate>
+export async function getReport(startDateMilis: number, endDateMilis: number): Promise<ReportByDate[]>
 {
     const queryParameters = new URLSearchParams(
 		{
-			startDate: Date.parse("2020-01-01").toString(),
-			endDate: Date.parse("2023-01-01").toString()
+			startDate: startDateMilis.toString(),
+			endDate: endDateMilis.toString()
 		}
 	);
 
