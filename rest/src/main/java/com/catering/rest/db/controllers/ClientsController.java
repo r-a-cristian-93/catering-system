@@ -83,7 +83,7 @@ public class ClientsController {
 	// CLIENTS ADDRESSES
 
 	@ResponseBody
-	@GetMapping("/{id}/addresses")
+	@GetMapping("/{clientId}/addresses")
 	public List<ClientAddressesModel> getAddresses(@PathVariable Integer clientId) {
 		return clientsService.getAddresses(clientId);
 	}
