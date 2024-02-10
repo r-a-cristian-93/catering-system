@@ -19,7 +19,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 
 	const screenConfigCreate: ScreenConfig = {
 		selectorParams: { text: "Client nou", iconPath: "/img/register-client.svg"},
-		screenElement: <PickClientCreateNew />
+		screenElement: <PickClientCreateNew toogleModalCallback={toogleModalCallback}/>
 	}
 
 	const screens = new Map<ScreenOption, ScreenConfig>(

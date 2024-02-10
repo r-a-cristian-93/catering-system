@@ -1,15 +1,29 @@
 import { useState } from "react";
-import { Client} from "../../../models/Order";
+import { Client, ClientAddress} from "../../../models/Order";
 import { addClient } from "../../../controllers/ClientController";
+import { addAddress } from "../../../controllers/AddressControllere";
 
-export default function PickClientCreateNew(): JSX.Element
+type PickClientCreateNewProps = {
+	toogleModalCallback: () => void;
+}
+
+export default function PickClientCreateNew(props: PickClientCreateNewProps): JSX.Element
 {
 	const [ client, setClient ] = useState<Client>({} as Client);
-	const [ clientAddress, setClientAddress ] = useState<string>("");
+	const [ clientAddress, setClientAddress ] = useState<ClientAddress>({} as ClientAddress);
 
 	function handleAddClient(): void
 	{
-		void addClient(client);
+		void addClient(client).then((newClient: Client) =>
+		{
+			clientAddress.clientId = newClient.id;
+
+			void addAddress(clientAddress).then(() =>
+			{
+				props.toogleModalCallback();
+			}
+		)
+		});
 	}
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
@@ -17,7 +31,13 @@ export default function PickClientCreateNew(): JSX.Element
         const { name, value } = event.target;
 
 		if (name === "address")
-			setClientAddress(value);
+			setClientAddress((prev) =>
+			{
+				return {
+					...prev,
+					value: value
+				}
+			});
 
         setClient((prev) =>
         {
@@ -57,7 +77,7 @@ export default function PickClientCreateNew(): JSX.Element
 					className="item-6"
 					name="address"
 					type="text"
-					value={clientAddress}
+					value={clientAddress.value}
 					placeholder="Strada ..."
 					onChange={handleChange}
 					autoComplete="false"
