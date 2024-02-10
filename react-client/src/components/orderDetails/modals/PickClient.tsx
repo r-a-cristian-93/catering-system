@@ -26,6 +26,8 @@ export default function PickClient(props: PickClientProps): JSX.Element
 		{
 			void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
 
+			// get first client address
+
 			toogleModalCallback();
 		});
 	}
