@@ -940,10 +940,6 @@ td.clickable:hover {
 	margin-bottom: 6px;
 }
 
-.step-counter:hover+.step-name {
-	color: #ccc;
-}
-
 .stepper-item.active {
 	font-weight: bold;
 }
@@ -956,8 +952,13 @@ td.clickable:hover {
 	background-color: var(--progress-complete);
 }
 
-.step-counter:hover {
-	background-color: var(--progress-hover);
+.stepper-item:hover {
+	.step-counter {
+		background-color: var(--progress-hover);
+	}
+	.step-name {
+		color: var(--text);
+	}
 }
 
 .stepper-item.completed::after {
@@ -1079,7 +1080,7 @@ td input {
 /* ******************* ADD ITEM TABLE ******************* */
 
 #add-item-table td:nth-child(n+3),
-th:nth-child(n+3) {
+#add-item-table th:nth-child(n+3) {
 	text-align: right;
 }
 

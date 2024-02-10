@@ -13,14 +13,17 @@ export default function OrderProgressStep(props: OrderProgressStepProps): JSX.El
 {
 	function handleClick(): void
 	{
-		void setNextOrderState(props.orderId).then((order) =>
-		{
-			props.setStateSuccessfullCallback(order)
-		});
+		if (!props.step.date)
+			{
+			void setNextOrderState(props.orderId).then((order) =>
+			{
+				props.setStateSuccessfullCallback(order)
+			});
+		}
 	}
 
 	return (
-		<div className={"stepper-item" + (props.step.date ? " completed" : "")} onClick={handleClick}>
+		<div className={"stepper-item hover-pointer" + (props.step.date ? " completed" : "")} onClick={handleClick}>
 			<div className="step-counter"></div>
 			<div className="step-name">{props.step.name}</div>
 			<div className="step-date">
