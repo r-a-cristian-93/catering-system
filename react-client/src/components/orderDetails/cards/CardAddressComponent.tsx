@@ -4,12 +4,13 @@ import PickAddressModal from "../modals/PickAddressModal";
 
 type CardAddressProps = {
 	orderId: number;
-    address: Address | null;
+	clientId: number | null;
+	address: Address | null;
 }
 
 export default function CardAddressComponent(props: CardAddressProps): JSX.Element
 {
-	const { orderId, address } = props;
+	const { orderId, clientId, address } = props;
 
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
@@ -20,20 +21,20 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	return (
 		<>
-		<div className="card hover-pointer">
-			<div className="card-icon">
-				<div className="card-bg img-pinlocation"></div>
-			</div>
-			<div className="card-details" onClick={handleToogleModal}>
-				<div className="card-title">Adresa livrare</div>
-				<div className="card-text-medium">
-					{address?.value}
+			<div className="card hover-pointer">
+				<div className="card-icon">
+					<div className="card-bg img-pinlocation"></div>
+				</div>
+				<div className="card-details" onClick={handleToogleModal}>
+					<div className="card-title">Adresa livrare</div>
+					<div className="card-text-medium">
+						{address?.value}
+					</div>
 				</div>
 			</div>
-		</div>
-		{
-			isModalActive && <PickAddressModal orderId={orderId} toogleModalCallback={handleToogleModal}/>
-		}
+			{
+				isModalActive && clientId && <PickAddressModal orderId={orderId} clientId={clientId} toogleModalCallback={handleToogleModal} />
+			}
 		</>
 	);
 }

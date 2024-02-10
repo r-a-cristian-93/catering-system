@@ -1,15 +1,13 @@
-import { useRef, useState } from "react";
-import { AddressResponseData } from "../../../models/Order";
+import { useState } from "react";
+import { ClientAddress } from "../../../models/Order";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import Pager from "../../Pager";
-import { PageableRequestParameters } from "../../../models/Pageable";
 import PickAddress from "./PickAddress";
 import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
-import { getAddresesByValueContaining } from "../../../controllers/AddressControllere";
-import SearchBar from "../../SearchBar";
+import { getAddresses } from "../../../controllers/AddressControllere";
 
 type PickAddressModalProps = {
 	orderId: number;
+	clientId: number;
 	toogleModalCallback: () => void;
 };
 
@@ -17,65 +15,21 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const searchAddress = useRef<string | null>("");
+	const { orderId, clientId, toogleModalCallback } = props;
 
-	const { orderId, toogleModalCallback } = props;
+	const [ clientAddresses, setClientAddresses ] = useState<ClientAddress[] | null>(
+		queryClient.getQueryData<ClientAddress[]>(QueryKeysAddress.byClientId(clientId)) || null
+	);
 
-	const pageAbleRequestParameters = useRef<PageableRequestParameters>({
-		page: "0",
-		size: "4",
-		prop: "id",
-		dir: "DESC",
-	});
-
-	const [ addressResponseData, setAddressResponseData] = useState<AddressResponseData | null>(
-		queryClient.getQueryData<AddressResponseData>(QueryKeysAddress.all) || null
-	)
-
-	// const [ searchAddress, setSearchAddress ] = useState<string | null>("");
-
-	useQuery<AddressResponseData>({
-		queryKey: QueryKeysAddress.all,
-		queryFn: () => getAddresesByValueContaining("", pageAbleRequestParameters.current),
+	useQuery<ClientAddress[]>({
+		queryKey: QueryKeysAddress.byClientId(clientId),
+		queryFn: () => getAddresses(clientId),
 		onSuccess: (responseData) =>
 		{
-			setAddressResponseData(responseData);
+			setClientAddresses(responseData);
 		},
-		staleTime: Infinity
+		staleTime: Infinity,
 	});
-
-	function setActivePage(pageNumber: number): void
-	{
-		pageAbleRequestParameters.current.page = pageNumber.toString();
-
-		getSearchData();
-	}
-
-	function handleSearch(searchValue: string | null): void
-	{
-		searchAddress.current = searchValue;
-
-		if (searchAddress.current)
-		{
-			pageAbleRequestParameters.current.page = "0";
-			getSearchData();
-		}
-	}
-
-	function handleSearchReset(): void
-	{
-		searchAddress.current = "";
-		void queryClient.invalidateQueries(QueryKeysAddress.all);
-	}
-
-	function getSearchData(): void
-	{
-		void getAddresesByValueContaining(searchAddress.current || "", pageAbleRequestParameters.current).then((responseData) =>
-		{
-			console.log(responseData);
-			setAddressResponseData(responseData);
-		});
-	}
 
 	return (
 		<div className="modal pick-modal">
@@ -89,8 +43,6 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 					</div>
 					<div className="modal-content">
 
-						<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-
 						<table id="pick-table" className="full table-list">
 							<thead>
 								<tr>
@@ -98,28 +50,19 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 								</tr>
 							</thead>
 							<tbody>
-								{addressResponseData?.content.map(
-									(address) =>
-										address.id > 0 && (
+								{clientAddresses?.map(
+									(clientAddress) =>
+										clientAddress.address.id > 0 && (
 											<PickAddress
-												key={address.id}
+												key={clientAddress.address.id}
 												orderId={orderId}
-												address={address}
+												address={clientAddress.address}
 												toogleModalCallback={toogleModalCallback}
 											/>
 										)
 								)}
 							</tbody>
 						</table>
-						{
-							addressResponseData && <Pager pagerArgs={
-								{
-									activePage: addressResponseData.pageable.pageNumber,
-									totalPages: addressResponseData.totalPages,
-									setActivePageCallback: setActivePage
-								}
-							} />
-						}
 						<br />
 						<div>
 							<button className="button" type="button">

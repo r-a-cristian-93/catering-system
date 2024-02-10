@@ -12,6 +12,12 @@ export type Address = {
 	value: string | null;
 };
 
+export type ClientAddress = {
+	id: number;
+	clientId: number;
+	address: Address;
+}
+
 export type Status = {
 	name: StatusEnum;
 };

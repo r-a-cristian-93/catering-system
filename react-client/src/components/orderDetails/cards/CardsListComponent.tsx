@@ -56,7 +56,7 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 		<CardStatusComponent status={status} statusDate={statusDate} orderId={orderId} />
 		<CardDueDateComponent date={dueDate} orderId={orderId} />
 		<CardClientComponent client={client} orderId={orderId} />
-		<CardAddressComponent address={deliveryAddress} orderId={orderId} />
+		<CardAddressComponent address={deliveryAddress} orderId={orderId} clientId={client?.id || null} />
 	</div>;
 }
 
