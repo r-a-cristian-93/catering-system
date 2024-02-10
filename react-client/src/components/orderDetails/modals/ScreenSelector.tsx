@@ -1,4 +1,5 @@
 export enum ScreenOption {
+    NONE,
     CLIENT_CREATE,
     CLIENT_SEARCH,
 }
@@ -11,6 +12,10 @@ type ScreenSelectorProps = {
     setScreenCallback: (screen: ScreenOption) => void;
 }
 
+export type ScreenSelectorParams = {
+    text: string;
+    iconPath: string;
+}
 
 export default function ScreenSelector(props: ScreenSelectorProps): JSX.Element
 {

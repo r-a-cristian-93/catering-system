@@ -14,6 +14,41 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 
 	const [ currentScreen, setCurrentScreen ] = useState<ScreenOption>(ScreenOption.CLIENT_SEARCH);
 
+	function renderScreen(): JSX.Element
+	{
+		switch (currentScreen)
+		{
+			case ScreenOption.CLIENT_SEARCH:
+				return <PickClientSearch orderId={orderId} toogleModalCallback={toogleModalCallback}/>
+			break;
+			case ScreenOption.CLIENT_CREATE:
+				return <PickClientCreateNew />
+			break;
+			default:
+				return <></>
+		}
+	}
+
+	function renderSelector(): JSX.Element
+	{
+		return <>
+			<ScreenSelector
+				screen={ScreenOption.CLIENT_SEARCH}
+				text="Alege un client existent"
+				iconPath="/img/register-client.svg"
+				isActive={currentScreen === ScreenOption.CLIENT_SEARCH}
+				setScreenCallback={setCurrentScreen}
+			/>
+			<ScreenSelector
+				screen={ScreenOption.CLIENT_CREATE}
+				text="Inregistreaza un nou client"
+				iconPath="/img/register-client.svg"
+				isActive={currentScreen === ScreenOption.CLIENT_CREATE}
+				setScreenCallback={setCurrentScreen}
+			/>
+		</>
+	}
+
 	return (
 		<div className="modal pick-modal">
 			<div className="modal-container">
@@ -26,32 +61,14 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 					</div>
 					<div className="modal-content">
 						<div className="screen-picker">
-							<ScreenSelector
-								screen={ScreenOption.CLIENT_SEARCH}
-								text="Alege un client existent"
-								iconPath="/img/register-client.svg"
-								isActive={currentScreen === ScreenOption.CLIENT_SEARCH}
-								setScreenCallback={setCurrentScreen}
-							/>
-							<ScreenSelector
-								screen={ScreenOption.CLIENT_CREATE}
-								text="Inregistreaza un nou client"
-								iconPath="/img/register-client.svg"
-								isActive={currentScreen === ScreenOption.CLIENT_CREATE}
-								setScreenCallback={setCurrentScreen}
-							/>
+							{
+								renderSelector()
+							}
 						</div>
 						<br/>
 						<br/>
-
 						{
-							(currentScreen === ScreenOption.CLIENT_SEARCH) &&
-								<PickClientSearch orderId={orderId} toogleModalCallback={toogleModalCallback}/>
-						}
-
-						{
-							(currentScreen === ScreenOption.CLIENT_CREATE) &&
-								<PickClientCreateNew />
+							renderScreen()
 						}
 					</div>
 				</div>
