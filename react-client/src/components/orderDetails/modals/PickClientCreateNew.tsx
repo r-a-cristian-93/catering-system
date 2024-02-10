@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { Client, ClientAddress} from "../../../models/Order";
+import { Client, ClientAddress, Order} from "../../../models/Order";
 import { addClient } from "../../../controllers/ClientController";
 import { addAddress } from "../../../controllers/AddressControllere";
+import { updateOrder } from "../../../controllers/OrderController";
+import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import { QueryClient, useQueryClient } from "react-query";
 
 type PickClientCreateNewProps = {
+	orderId: number;
 	toogleModalCallback: () => void;
 }
 
@@ -11,6 +15,8 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 {
 	const [ client, setClient ] = useState<Client>({} as Client);
 	const [ clientAddress, setClientAddress ] = useState<ClientAddress>({} as ClientAddress);
+
+	const queryClient: QueryClient = useQueryClient();
 
 	function handleAddClient(): void
 	{
@@ -20,7 +26,17 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 
 			void addAddress(clientAddress).then(() =>
 			{
-				props.toogleModalCallback();
+				const order: Order = {
+					id: props.orderId,
+					client: client,
+				} as Order;
+
+				void updateOrder(order).then((order) =>
+				{
+					void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
+
+					props.toogleModalCallback();
+				});
 			}
 		)
 		});
