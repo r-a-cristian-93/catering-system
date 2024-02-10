@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import OrdersFilterMenu from "../components/ordersList/OrdersFilterMenu.tsx";
 import OrdersList from "../components/ordersList/OrdersList.tsx";
-import { RequestBody, getOrders, getOrdersByStatus } from "../controllers/OrdersController";
+import { RequestBody, getOrders, getOrdersByDueDate, getOrdersByStatus } from "../controllers/OrdersController";
 import { PageableRequestParameters } from "../models/Pageable.tsx";
 import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
@@ -18,6 +18,7 @@ export enum OrdersFilter {
 	ORDER_DATE_7,
 	ORDER_DATE_14,
 	ORDER_DATE_30,
+	DUE_DATE_1,
 	DUE_DATE_7,
 	DUE_DATE_14,
 	DUE_DATE_30,
@@ -90,8 +91,12 @@ export default function OrdersPage(): JSX.Element
 				ordersRequestFunction.current = getOrdersByStatus;
 				ordersRequestBody.current = {name: "anulata"};
 			break;
+			case OrdersFilter.DUE_DATE_1:
 			case OrdersFilter.DUE_DATE_7:
-				ordersRequestFunction.current = getOrders;
+			case OrdersFilter.DUE_DATE_14:
+			case OrdersFilter.DUE_DATE_30:
+				ordersRequestFunction.current = getOrdersByDueDate;
+				ordersRequestBody.current = {first: new Date("2024-02-01").getTime(), last: new Date("2030-01-01").getTime()};
 			break;
 			case OrdersFilter.ORDER_DATE_7:
 				ordersRequestFunction.current = getOrders;

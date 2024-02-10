@@ -31,6 +31,15 @@ export async function getOrdersByStatus(parameters?: PageableRequestParameters, 
 		body);
 }
 
+export async function getOrdersByDueDate(parameters?: PageableRequestParameters, body?: RequestBody): Promise<OrdersResponseData>
+{
+	return genericRequest<OrdersResponseData>(
+		"POST",
+		"/orders/betweenDueDatesPageable",
+		new URLSearchParams(parameters),
+		body);
+}
+
 export async function genericRequest<D extends object>(method: string, path: string, params?: URLSearchParams, body?: RequestBody): Promise<D>
 {
 	const queryParameters = new URLSearchParams(params);

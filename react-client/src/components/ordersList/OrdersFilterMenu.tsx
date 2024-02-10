@@ -65,7 +65,11 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 			<div className="filter-container dropdown">
 				<div className="filter-name">Data livrare</div>
 				<div className="dropdown-content">
-					<a>Azi</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_1)
+					}
+					}>Azi</a>
 					<a onClick={() =>
 					{
 						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_7)
