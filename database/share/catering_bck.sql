@@ -75,13 +75,9 @@ DROP TABLE IF EXISTS `clients_addresses`;
 CREATE TABLE `clients_addresses` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `ID_client` int NOT NULL,
-  `ID_address` int NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `ID_client` (`ID_client`,`ID_address`),
-  UNIQUE KEY `clients_addresses_ibfk_3` (`ID_address`),
-  CONSTRAINT `clients_addresses_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
-  CONSTRAINT `clients_addresses_ibfk_2` FOREIGN KEY (`ID_address`) REFERENCES `addresses` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +86,7 @@ CREATE TABLE `clients_addresses` (
 
 LOCK TABLES `clients_addresses` WRITE;
 /*!40000 ALTER TABLE `clients_addresses` DISABLE KEYS */;
-INSERT INTO `clients_addresses` VALUES (1,1,1),(2,1,2),(4,2,4),(5,2,5),(7,2,6);
+INSERT INTO `clients_addresses` VALUES (1,1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara'),(2,1,'Str. Valea Viilor, Nr.22, Lehliu-Gara'),(4,2,'Strada Ion Creang 808, Sibiu, Sibiu, Romania'),(5,2,'Bulevardul Tudor Arghezi 909, Bacu, Bacu, Romania'),(7,2,'Aleea George Cobuc 1010, Craiova, Dolj, Romania'),(10,2,'Strada Pacanelelor, Nr 33A');
 /*!40000 ALTER TABLE `clients_addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -675,4 +671,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-25 13:57:12
+-- Dump completed on 2024-01-30 14:20:54
