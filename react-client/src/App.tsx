@@ -17,8 +17,8 @@ export default function App(): JSX.Element
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/comenzi" element={<OrdersPage />} />
-          <Route path="/retete" element={<RecipesPage />} />
           <Route path="/comenzi/detalii_comanda/:orderId" element={<OrderDetailsPage />} />
+          <Route path="/retete" element={<RecipesPage />} />
           <Route path="*" element={<NoMatchPage />} />
         </Route>
       </Routes>
