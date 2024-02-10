@@ -721,7 +721,7 @@ td.clickable:hover {
 .card-icon-small {
 	margin: auto 0;
 	scale: 0.8;
-	transition: 0.1s ease-in-out;
+	transition: 0.2s ease-in-out;
 }
 
 .card-icon {
