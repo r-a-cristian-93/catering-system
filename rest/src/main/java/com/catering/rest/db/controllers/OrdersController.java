@@ -1,5 +1,6 @@
 package com.catering.rest.db.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
+import com.catering.rest.db.models.ReportByDateModel;
 import com.catering.rest.db.models.StatusModel;
 import com.catering.rest.db.services.OrdersService;
 
@@ -169,5 +171,31 @@ public class OrdersController {
 	@PutMapping("/{id}/details")
 	public OrdersDetailsModel updateDetailsServings(@PathVariable Integer id, @RequestBody OrdersDetailsModel details) {
 		return ordersService.updateDetailsServings(id, details);
+	}
+
+	// REPORTS
+
+	@ResponseBody
+	@PutMapping("/reportOfPlacemetDate")
+	public List<ReportByDateModel> getReportOfPlacementDate(@RequestParam Date startDate, @RequestParam Date endDate) {
+		return ordersService.getReportOfPlacementDate(startDate, endDate);
+	}
+
+	@ResponseBody
+	@PutMapping("/reportOfDueDate")
+	public List<ReportByDateModel> getReportOfDueDate(@RequestParam Date startDate, @RequestParam Date endDate) {
+		return ordersService.getReportOfDueDate(startDate, endDate);
+	}
+
+	@ResponseBody
+	@PutMapping("/reportOfCancelDate")
+	public List<ReportByDateModel> getReportOfCancelDate(@RequestParam Date startDate, @RequestParam Date endDate) {
+		return ordersService.getReportOfCancelDate(startDate, endDate);
+	}
+
+	@ResponseBody
+	@PutMapping("/reportOfShippingDate")
+	public List<ReportByDateModel> getReportOfShippingDate(@RequestParam Date startDate, @RequestParam Date endDate) {
+		return ordersService.getReportOfShippingDate(startDate, endDate);
 	}
 }

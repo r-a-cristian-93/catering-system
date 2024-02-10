@@ -34,7 +34,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager auth;
-	
+
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException {
@@ -45,7 +45,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 								req.getParameter(LOGIN_PARAM_PASSWORD),
 								new ArrayList<>()));
 	}
-	
+
 	@Override
 	protected void successfulAuthentication(
 			HttpServletRequest req,
@@ -69,11 +69,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			cookie.setSecure(true);
 			cookie.setPath("/");
 			cookie.setMaxAge(3600 * JWT_AGE);
-			res.addCookie(cookie);						
+			res.addCookie(cookie);
 		}
 		catch (Exception e) {}
 	}
-	
+
 	@Override
 	protected void unsuccessfulAuthentication (
 			HttpServletRequest req,
@@ -81,5 +81,5 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			AuthenticationException failed)
 					throws IOException, ServletException {
 		res.setStatus(401);
-	}			
+	}
 }

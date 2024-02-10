@@ -15,10 +15,12 @@ import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
 import com.catering.rest.db.models.RecipeModel;
+import com.catering.rest.db.models.ReportByDateModel;
 import com.catering.rest.db.models.StatusModel;
+import com.catering.rest.db.reports.OrdersReportDate;
+import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.OrdersDetailsRepository;
-import com.catering.rest.db.repositories.OrdersRepository;
 import com.catering.rest.db.repositories.RecipesRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,8 @@ public class OrdersService {
 	private final RecipesRepository recipesRepo;
     @Autowired
 	private final ClientsRepository clientsRepo;
+	@Autowired
+	private final OrdersReportDate ordersReportDate;
 
 	public Iterable<OrderModel> getOrders() {
 		return ordersRepo.findAll();
@@ -115,7 +119,6 @@ public class OrdersService {
 		if(deliveryAddress!=null) {
 			order.setDeliveryAddress(deliveryAddress);
 		}
-
 
 		return ordersRepo.save(order);
 	}
@@ -209,4 +212,19 @@ public class OrdersService {
 		return detailsRepo.save(details);
 	}
 
+	public List<ReportByDateModel> getReportOfPlacementDate(Date startDate, Date endDate) {
+		return ordersReportDate.placementDate(startDate, endDate);
+	}
+
+	public List<ReportByDateModel> getReportOfDueDate(Date startDate, Date endDate) {
+		return ordersReportDate.dueDate(startDate, endDate);
+	}
+
+	public List<ReportByDateModel> getReportOfCancelDate(Date startDate, Date endDate) {
+		return ordersReportDate.cancelDate(startDate, endDate);
+	}
+
+	public List<ReportByDateModel> getReportOfShippingDate(Date startDate, Date endDate) {
+		return ordersReportDate.shippingDate(startDate, endDate);
+	}
 }
