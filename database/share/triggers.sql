@@ -308,7 +308,7 @@ DROP PROCEDURE IF EXISTS generate_shopping_list_for_order;
 DELIMITER $$
 CREATE PROCEDURE generate_shopping_list_for_order(IN ORDER_ID int)
 BEGIN
-	SELECT ROW_NUMBER() OVER() AS 'ID', rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
+	SELECT ROW_NUMBER() OVER() AS "ID", rd.ID_ingredient, SUM(od.servings*rd.quantity) AS quantity
 		FROM orders o
 		LEFT JOIN orders_details od ON od.ID_Order = o.ID
 		LEFT JOIN recipes_details rd ON rd.ID_recipe = od.ID_recipe
@@ -316,6 +316,69 @@ BEGIN
 		GROUP BY rd.ID_ingredient;
 END $$
 DELIMITER ;
+
+
+/* =============================*/
+/* orders_report_date */
+DROP PROCEDURE IF EXISTS orders_report_placement_date;
+DELIMITER $$
+CREATE PROCEDURE orders_report_placement_date(IN START_DATE date, IN END_DATE date)
+BEGIN
+	SELECT DATE(placement_date) as "date", COUNT(*) as "count"
+		FROM orders
+		WHERE placement_date IS NOT NULL
+			AND placement_date >= START_DATE
+			AND placement_date <= END_DATE
+		GROUP BY DATE(placement_date)
+		ORDER BY DATE(placement_date) ASC;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS orders_report_due_date;
+DELIMITER $$
+CREATE PROCEDURE orders_report_due_date(IN START_DATE date, IN END_DATE date)
+BEGIN
+	SELECT DATE(due_date) as "date", COUNT(*) as "count"
+		FROM orders
+		WHERE due_date IS NOT NULL
+			AND due_date >= START_DATE
+			AND due_date <= END_DATE
+		GROUP BY DATE(due_date)
+		ORDER BY DATE(due_date) ASC;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS orders_report_cancel_date;
+DELIMITER $$
+CREATE PROCEDURE orders_report_cancel_date(IN START_DATE date, IN END_DATE date)
+BEGIN
+	SELECT DATE(cancel_date) as "date", COUNT(*) as "count"
+		FROM orders
+		WHERE cancel_date IS NOT NULL
+			AND cancel_date >= START_DATE
+			AND cancel_date <= END_DATE
+		GROUP BY DATE(cancel_date)
+		ORDER BY DATE(cancel_date) ASC;
+END $$
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS orders_report_shipping_date;
+DELIMITER $$
+CREATE PROCEDURE orders_report_shipping_date(IN START_DATE date, IN END_DATE date)
+BEGIN
+	SELECT DATE(shipping_date) as "date", COUNT(*) as "count"
+		FROM orders
+		WHERE shipping_date IS NOT NULL
+			AND shipping_date >= START_DATE
+			AND shipping_date <= END_DATE
+		GROUP BY DATE(shipping_date)
+		ORDER BY DATE(shipping_date) ASC;
+END $$
+DELIMITER ;
+
+
+
 
 /* ============================= */
 /* DEBUG UTILS */

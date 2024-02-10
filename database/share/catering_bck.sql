@@ -386,58 +386,6 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Temporary view structure for view `orders_report_cancel_date`
---
-
-DROP TABLE IF EXISTS `orders_report_cancel_date`;
-/*!50001 DROP VIEW IF EXISTS `orders_report_cancel_date`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `orders_report_cancel_date` AS SELECT 
- 1 AS `date`,
- 1 AS `count`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `orders_report_due_date`
---
-
-DROP TABLE IF EXISTS `orders_report_due_date`;
-/*!50001 DROP VIEW IF EXISTS `orders_report_due_date`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `orders_report_due_date` AS SELECT 
- 1 AS `date`,
- 1 AS `count`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `orders_report_placement_date`
---
-
-DROP TABLE IF EXISTS `orders_report_placement_date`;
-/*!50001 DROP VIEW IF EXISTS `orders_report_placement_date`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `orders_report_placement_date` AS SELECT 
- 1 AS `date`,
- 1 AS `count`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary view structure for view `orders_report_shipping_date`
---
-
-DROP TABLE IF EXISTS `orders_report_shipping_date`;
-/*!50001 DROP VIEW IF EXISTS `orders_report_shipping_date`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `orders_report_shipping_date` AS SELECT 
- 1 AS `date`,
- 1 AS `count`*/;
-SET character_set_client = @saved_cs_client;
-
---
 -- Table structure for table `recipes`
 --
 
@@ -689,78 +637,6 @@ LOCK TABLES `units` WRITE;
 INSERT INTO `units` VALUES ('buc'),('g'),('kg'),('l'),('legatura'),('ml');
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Final view structure for view `orders_report_cancel_date`
---
-
-/*!50001 DROP VIEW IF EXISTS `orders_report_cancel_date`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `orders_report_cancel_date` AS select cast(`orders`.`cancel_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`cancel_date` is not null) group by cast(`orders`.`cancel_date` as date) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `orders_report_due_date`
---
-
-/*!50001 DROP VIEW IF EXISTS `orders_report_due_date`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `orders_report_due_date` AS select cast(`orders`.`due_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`due_date` is not null) group by cast(`orders`.`due_date` as date) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `orders_report_placement_date`
---
-
-/*!50001 DROP VIEW IF EXISTS `orders_report_placement_date`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `orders_report_placement_date` AS select cast(`orders`.`placement_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`placement_date` is not null) group by cast(`orders`.`placement_date` as date) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `orders_report_shipping_date`
---
-
-/*!50001 DROP VIEW IF EXISTS `orders_report_shipping_date`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = latin1 */;
-/*!50001 SET character_set_results     = latin1 */;
-/*!50001 SET collation_connection      = latin1_swedish_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `orders_report_shipping_date` AS select cast(`orders`.`shipping_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`shipping_date` is not null) group by cast(`orders`.`shipping_date` as date) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -771,4 +647,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-02 12:39:19
+-- Dump completed on 2024-02-02 14:13:13
