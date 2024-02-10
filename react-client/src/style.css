@@ -1226,3 +1226,7 @@ input[type=time] {
 	border-color: var(--text);
 	background-color: var(--grey3);
 }
+
+.MuiChartsAxis-directionX .MuiChartsAxis-tickLabel {
+	transform: rotate(15deg);
+}

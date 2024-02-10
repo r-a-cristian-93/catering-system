@@ -1,74 +1,130 @@
-import { LineChart } from "@mui/x-charts";
+import { BarChart } from "@mui/x-charts";
 import { ReportByDate, getReportOfCancelDate, getReportOfDueDate, getReportOfPlacementDate, getReportOfShippingDate } from "../controllers/OrderReportsController";
 import { useEffect, useState } from "react";
 import * as Formatter from "../utils/Formatting";
 
-function setReportData(
+async function getReports(
 	startDateMillis: number,
 	endDateMillis: number,
-	fetchFunction: (start: number, end: number) => Promise<ReportByDate[]>,
-	setFunction: (value: React.SetStateAction<Map<string, number>>) => void
-): void
-	{
-		void fetchFunction(startDateMillis, endDateMillis).then((report) =>
-		{
-			const reportMap: Map<string, number> = new Map(report.map((entry) =>
-			{
-				return [
-					Formatter.formatDate(entry.date.toString()),
-					entry.count
-				]
-			}));
+): Promise<ReportByDate[][]>
+{
+	const [ placement, due, cancel, shipping ] = await Promise.all([
+		getReportOfPlacementDate(startDateMillis, endDateMillis),
+		getReportOfDueDate(startDateMillis, endDateMillis),
+		getReportOfCancelDate(startDateMillis, endDateMillis),
+		getReportOfShippingDate(startDateMillis, endDateMillis)
+	]);
 
-			setFunction(reportMap);
-		});
-	}
+	return [ placement, due, cancel, shipping ];
+}
+
+type LineChartDate = {
+	datesAxis: string[],
+	placementLine: number[],
+	dueLine: number[],
+	cancelLine: number[],
+	shippingLine: number[],
+}
+
+function findValueByKey(key: Date, keyValueArray: ReportByDate[]): number
+{
+	const foundItem = keyValueArray.find(item => item.date === key);
+
+	if (foundItem)
+		return foundItem.count;
+	else
+		return 0;
+}
 
 export default function HomePage(): JSX.Element
 {
-	const startDateMilis: number =  Date.parse("2020-01-01");
-	const endDateMilis: number = Date.parse("2050-02-01");
+	const startDateMillis: number = Date.parse("2020-01-01");
+	const endDateMillis: number = Date.parse("2050-02-01");
 
-	useEffect(()=>
+	useEffect(() =>
 	{
-		setReportData(startDateMilis, endDateMilis, getReportOfPlacementDate, setReportPlacementDate);
-		setReportData(startDateMilis, endDateMilis, getReportOfDueDate, setReportDueDate);
-		setReportData(startDateMilis, endDateMilis, getReportOfCancelDate, setReportCancelDate);
-		setReportData(startDateMilis, endDateMilis, getReportOfShippingDate, setReportShippingDate);
-	}, [] );
+		void getReports(startDateMillis, endDateMillis).then((reports) =>
+		{
+			const [ placement, due, cancel, shipping ] = reports;
 
-	const [reportPlacementDate, setReportPlacementDate] = useState<Map<string, number>>(new Map<string, number>([]));
-	const [reportDueDate, setReportDueDate] = useState<Map<string, number>>(new Map<string, number>([]));
-	const [reportCancelDate, setReportCancelDate] = useState<Map<string, number>>(new Map<string, number>([]));
-	const [reportShippingDate, setReportShippingDate] = useState<Map<string, number>>(new Map<string, number>([]));
+			const datesSet: Set<Date> = new Set<Date>([
+				...Array.from(placement.map((each) => each.date)),
+				...Array.from(due.map((each) => each.date)),
+				...Array.from(cancel.map((each) => each.date)),
+				...Array.from(shipping.map((each) => each.date)),
+			]);
 
-	return (<>
-		<div className="box-content" id="order-table">
-			Welcome!
+			const datesSorted: Date[] = Array
+				.from(datesSet)
+				.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+
+			const datesAxis: string[] = datesSorted.map((date) => Formatter.formatDate(date.toString()));
+
+			const placementLine: number[] = datesSorted.map((date) => findValueByKey(date, placement));
+			const dueLine: number[] = datesSorted.map((date) => findValueByKey(date, due));
+			const cancelLine: number[] = datesSorted.map((date) => findValueByKey(date, cancel));
+			const shippingLine: number[] = datesSorted.map((date) => findValueByKey(date, shipping));
+
+			setLineChartDate({
+				datesAxis: datesAxis,
+				placementLine: placementLine,
+				dueLine: dueLine,
+				cancelLine: cancelLine,
+				shippingLine: shippingLine
+			});
+		});
+
+
+	}, []);
+
+	const [ lineChartData, setLineChartDate ] = useState<LineChartDate | null>(null);
+
+	return (
+		<div className="box-content">
+		{
+			lineChartData &&
+			<BarChart
+				xAxis={[
+					{
+						id: 'barCategories',
+						data: lineChartData.datesAxis,
+						scaleType: 'band',
+					}
+				]}
+				yAxis={[
+					{
+						min: 0,
+					}
+				]}
+				series={[
+					{
+						id: "placement",
+						data: lineChartData.placementLine,
+						label: "Comenzi plasate",
+						color: "#22dd33"
+					},
+					{
+						id: "due",
+						data: lineChartData.dueLine,
+						label: "Termene limita",
+						color: "#dd22aa"
+					},
+					{
+						id: "cancel",
+						data: lineChartData.cancelLine,
+						label: "Comenzi anulate",
+						color: "#ff4400"
+					},
+					{
+						id: "shipped",
+						data: lineChartData.shippingLine,
+						label: "Comenzi livrate",
+						color: "#5555ff"
+					}
+				]}
+				height={400}
+			/>
+		}
 		</div>
-		<LineChart
-			xAxis={[
-				{
-					id: 'barCategories',
-					data: Array.from(reportPlacementDate.keys()).slice(),
-					scaleType: 'point',
-				}
-			]}
-			yAxis={[
-				{
-					min: 0,
-				}
-			]}
-			series={[
-				{
-					id: "placement",
-					data: Array.from(reportPlacementDate.values()),
-					label: "Order Placement",
-				}
-			]}
-			width={500}
-			height={300}
-		/>
-		</>
 	);
 }
