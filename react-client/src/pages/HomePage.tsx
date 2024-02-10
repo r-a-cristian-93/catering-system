@@ -1,6 +1,10 @@
 import { BarChart } from "@mui/x-charts";
 import { ReportByDate, getReportOfCancelDate, getReportOfDueDate, getReportOfPlacementDate, getReportOfShippingDate } from "../controllers/OrderReportsController";
 import { useEffect, useState } from "react";
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Button from '@mui/material/Button';
 import * as Formatter from "../utils/Formatting";
 
 async function getReports(
@@ -81,50 +85,62 @@ export default function HomePage(): JSX.Element
 
 	return (
 		<div className="box-content">
-		{
-			lineChartData &&
-			<BarChart
-				xAxis={[
-					{
-						id: 'barCategories',
-						data: lineChartData.datesAxis,
-						scaleType: 'band',
-					}
-				]}
-				yAxis={[
-					{
-						min: 0,
-					}
-				]}
-				series={[
-					{
-						id: "placement",
-						data: lineChartData.placementLine,
-						label: "Comenzi plasate",
-						color: "#22dd33"
-					},
-					{
-						id: "due",
-						data: lineChartData.dueLine,
-						label: "Termene limita",
-						color: "#dd22aa"
-					},
-					{
-						id: "cancel",
-						data: lineChartData.cancelLine,
-						label: "Comenzi anulate",
-						color: "#ff4400"
-					},
-					{
-						id: "shipped",
-						data: lineChartData.shippingLine,
-						label: "Comenzi livrate",
-						color: "#5555ff"
-					}
-				]}
-				height={400}
-			/>
-		}
+			<div className="chartGeneralContainer">
+				<div className="datePicker">
+					<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<DateRangePicker localeText={{ start: 'De la', end: 'Pana la' }} />
+					</LocalizationProvider>
+					<Button variant="contained" size="large">
+						Actualizeaza
+					</Button>
+				</div>
+				{
+					lineChartData &&
+					<div className="chartGeneral" >
+						<BarChart
+							xAxis={[
+								{
+									id: 'barCategories',
+									data: lineChartData.datesAxis,
+									scaleType: 'band',
+								}
+							]}
+							yAxis={[
+								{
+									min: 0,
+								}
+							]}
+							series={[
+								{
+									id: "placement",
+									data: lineChartData.placementLine,
+									label: "Comenzi plasate",
+									color: "#22dd33"
+								},
+								{
+									id: "due",
+									data: lineChartData.dueLine,
+									label: "Termene limita",
+									color: "#dd22aa"
+								},
+								{
+									id: "cancel",
+									data: lineChartData.cancelLine,
+									label: "Comenzi anulate",
+									color: "#ff4400"
+								},
+								{
+									id: "shipped",
+									data: lineChartData.shippingLine,
+									label: "Comenzi livrate",
+									color: "#5555ff"
+								}
+							]}
+							height={400}
+						/>
+					</div>
+				}
+			</div>
 		</div>
 	);
 }

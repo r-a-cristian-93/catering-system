@@ -1230,3 +1230,22 @@ input[type=time] {
 .MuiChartsAxis-directionX .MuiChartsAxis-tickLabel {
 	transform: rotate(15deg);
 }
+
+.chartGeneralContainer {
+	display: flex;
+	flex-flow: column;
+	width:100%;
+	align-items: center;
+	justify-content: center;
+
+	.datePicker {
+		width: max-content;
+		margin-bottom: 60px;
+		display: flex;
+		gap: 3rem;
+	}
+
+	.chartGeneral {
+		width: 100%
+	}
+}
