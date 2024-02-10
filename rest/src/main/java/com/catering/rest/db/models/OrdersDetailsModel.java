@@ -20,16 +20,15 @@ public class OrdersDetailsModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	
-	@ManyToOne
-	@JoinColumn(name="ID_order")
-	private OrderModel order;
-	
+
+	@Column(name="ID_order")
+	private Integer orderId;
+
 	@ManyToOne
 	@JoinColumn(name="ID_recipe")
 	private RecipeModel recipe;
 
 	private Integer servings;
-	
+
 	protected OrdersDetailsModel() {}
 }

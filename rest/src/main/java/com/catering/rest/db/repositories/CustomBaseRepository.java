@@ -25,6 +25,6 @@ public class CustomBaseRepository<T, ID> extends SimpleJpaRepository<T, ID> {
 			return entity;
 		} else {
 			return entityManager.merge(entity);
-		}		
+		}
 	}
 }

@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.catering.rest.db.models.StatusModel;
 
-public interface StatusRepository extends JpaRepository<StatusModel, Integer> {
+public interface StatusRepository extends JpaRepository<StatusModel, String> {
 	StatusModel findByName(String name);
 }

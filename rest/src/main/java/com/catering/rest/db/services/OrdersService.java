@@ -178,37 +178,33 @@ public class OrdersService {
 
 	//ORDER DETAILS
 
-	public List<OrdersDetailsModel> getDetails(Integer id) {
-		OrderModel order = ordersRepo.findById(id).get();
-		return detailsRepo.findByOrder(order);
+	public List<OrdersDetailsModel> getDetails(Integer orderId) {
+		return detailsRepo.findByOrderId(orderId);
 	}
 
-	public OrdersDetailsModel addDetails(Integer id, OrdersDetailsModel details) {
-		OrderModel order = ordersRepo.findById(id).get();
+	public OrdersDetailsModel addDetails(Integer orderId, OrdersDetailsModel details) {
 		RecipeModel recipe = recipesRepo.findById(details.getRecipe().getId()).get();
-		details.setOrder(order);
+		details.setOrderId(orderId);
 		details.setRecipe(recipe);
 		return detailsRepo.save(details);
 	}
 
-	public boolean deleteDetails(Integer id, OrdersDetailsModel details) {
-		OrderModel order = ordersRepo.findById(id).get();
+	public boolean deleteDetails(Integer orderId, OrdersDetailsModel details) {
 		Integer recipeId = details.getRecipe().getId();
 		RecipeModel recipe = recipesRepo.findById(recipeId).get();
 
-		details = detailsRepo.findByOrderAndRecipe(order, recipe);
+		details = detailsRepo.findByOrderIdAndRecipe(orderId, recipe);
 		detailsRepo.delete(details);
 
 		return true;
 	}
 
-	public OrdersDetailsModel updateDetailsServings(Integer id, OrdersDetailsModel details) {
-		OrderModel order = ordersRepo.findById(id).get();
+	public OrdersDetailsModel updateDetailsServings(Integer orderId, OrdersDetailsModel details) {
 		Integer recipeId = details.getRecipe().getId();
 		RecipeModel recipe = recipesRepo.findById(recipeId).get();
 		Integer servings = details.getServings();
 
-		details = detailsRepo.findByOrderAndRecipe(order, recipe);
+		details = detailsRepo.findByOrderIdAndRecipe(orderId, recipe);
 		details.setServings(servings);
 		return detailsRepo.save(details);
 	}
