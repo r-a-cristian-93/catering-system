@@ -361,6 +361,10 @@ td.clickable:hover {
 	padding: 25px 0 15px 0;
 }
 
+.filter-active {
+	border-color: var(--text);
+}
+
 
 /* ******************* IMAGES ******************* */
 

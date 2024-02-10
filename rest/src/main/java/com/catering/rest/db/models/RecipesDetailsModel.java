@@ -24,17 +24,17 @@ public class RecipesDetailsModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
-	
+
 	@ManyToOne
 	@JoinColumn(name="ID_recipe")
 	private RecipeModel recipe;
-		
+
 	@ManyToOne
 	@JoinColumn(name="ID_ingredient")
 	private IngredientModel ingredient;
-	
+
 	@Column(name="quantity")
 	private Double quantity;
-	
+
 	protected RecipesDetailsModel() {}
 }

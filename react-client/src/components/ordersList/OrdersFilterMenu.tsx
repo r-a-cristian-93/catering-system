@@ -1,9 +1,22 @@
-export default function OrdersFilterMenu(): JSX.Element
+import { OrdersFilter } from "../../pages/OrdersPage";
+
+type OrdersFilterMenuProps = {
+	setActiveFilterCallback: (filter: OrdersFilter) => void
+}
+
+export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Element
 {
 	return (
 		<div className="filter-menu">
 			<div className="filter-container">
-				<div className="filter-name">Toate</div>
+				<div className="filter-name" onClick={
+					() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.NONE)
+					}
+				}>
+					Toate
+				</div>
 			</div>
 			<div className="filter-container dropdown">
 				<div className="filter-name">Stare</div>
