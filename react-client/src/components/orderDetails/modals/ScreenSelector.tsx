@@ -23,7 +23,7 @@ export default function ScreenSelector(props: ScreenSelectorProps): JSX.Element
 
     return(
         <div
-            className={ "screen-picker-selector" +  (isActive ? " screen-picker-selector-active" : "")}
+            className={ "screen-picker-selector hover-pointer" +  (isActive ? " screen-picker-selector-active" : "")}
             onClick={() =>
                 {
                     setScreen(screen);

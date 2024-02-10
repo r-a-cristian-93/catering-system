@@ -24,11 +24,12 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 		{
 			clientAddress.clientId = newClient.id;
 
-			void addAddress(clientAddress).then(() =>
+			void addAddress(clientAddress).then((newAddress: ClientAddress) =>
 			{
 				const order: Order = {
 					id: props.orderId,
 					client: client,
+					deliveryAddress: newAddress,
 				} as Order;
 
 				void updateOrder(order).then((order) =>
@@ -98,7 +99,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					onChange={handleChange}
 					autoComplete="false"
 				/>
-				<div className="item-7 button" onClick={handleAddClient}>Adauga</div>
+				<div className="item-7 button hover-pointer" onClick={handleAddClient}>Adauga</div>
 			</form>
 		</div>
 	)
