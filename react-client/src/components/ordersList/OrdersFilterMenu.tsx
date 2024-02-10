@@ -9,8 +9,7 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 	return (
 		<div className="filter-menu">
 			<div className="filter-container">
-				<div className="filter-name" onClick={
-					() =>
+				<div className="filter-name" onClick={() =>
 					{
 						props.setActiveFilterCallback(OrdersFilter.NONE)
 					}
@@ -21,27 +20,67 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 			<div className="filter-container dropdown">
 				<div className="filter-name">Stare</div>
 				<div className="dropdown-content">
-					<a>Preluate</a>
-					<a>In lucru</a>
-					<a>Livrate</a>
-					<a>Anulate</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.STATUS_PLACED)
+					}
+					}>Preluate</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.STATUS_COOKING)
+					}
+					}>In lucru</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.STATUS_SHIPPED)
+					}
+					}>Livrate</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.STATUS_CANCELED)
+					}
+					}>Anulate</a>
 				</div>
 			</div>
 			<div className="filter-container dropdown">
 				<div className="filter-name">Data primire</div>
 				<div className="dropdown-content">
-					<a>Ultimele 7 zile</a>
-					<a>Ultimele 14 zile</a>
-					<a>Ultimele 30 zile</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.ORDER_DATE_7)
+					}
+					}>Ultimele 7 zile</a>
+					<a  onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.ORDER_DATE_14)
+					}
+					}>Ultimele 14 zile</a>
+					<a  onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.ORDER_DATE_30)
+					}
+					}>Ultimele 30 zile</a>
 				</div>
 			</div>
 			<div className="filter-container dropdown">
 				<div className="filter-name">Data livrare</div>
 				<div className="dropdown-content">
 					<a>Azi</a>
-					<a>Urmatoarele 7 zile</a>
-					<a>Urmatoarele 14 zile</a>
-					<a>Urmatoarele 30 zile</a>
+					<a onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_7)
+					}
+					}>Urmatoarele 7 zile</a>
+					<a  onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_14)
+					}
+					}>Urmatoarele 14 zile</a>
+					<a  onClick={() =>
+					{
+						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_30)
+					}
+					}>Urmatoarele 30 zile</a>
 				</div>
 			</div>
 		</div>

@@ -26,7 +26,7 @@ export enum OrdersFilter {
 export default function OrdersPage(): JSX.Element
 {
 	const ordersRequestBody = useRef<RequestBody>({name: "anulata"});
-	const ordersRequestFunction = useRef<(params: PageableRequestParameters, body?: RequestBody) => Promise<OrdersResponseData>>(getOrdersByStatus);
+	const ordersRequestFunction = useRef<(params: PageableRequestParameters, body?: RequestBody) => Promise<OrdersResponseData>>(getOrders);
 	const ordersRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
 		size: "4",
@@ -84,7 +84,7 @@ export default function OrdersPage(): JSX.Element
 			break;
 			case OrdersFilter.STATUS_SHIPPED:
 				ordersRequestFunction.current = getOrdersByStatus;
-				ordersRequestBody.current = {name: "livrata"};
+				ordersRequestBody.current = {name: "expediata"};
 			break;
 			case OrdersFilter.STATUS_CANCELED:
 				ordersRequestFunction.current = getOrdersByStatus;
