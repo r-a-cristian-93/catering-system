@@ -1,5 +1,5 @@
-import { getOrder } from "../controllers/OrderController";
-import { Order } from "../models/Order";
+import { getOrder, updateOrder } from "../controllers/OrderController";
+import { Order, StatusEnum } from "../models/Order";
 import { useParams } from "react-router-dom";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import CardsListComponent from "../components/orderDetails/cards/CardsListComponent";
@@ -37,6 +37,21 @@ export default function OrderDetailsPage(): JSX.Element
 		void queryClient.invalidateQueries(QueryKeysOrder.orderById(orderId));
 	}
 
+	function handleCancelOrder(): void
+	{
+		if (order)
+		{
+			const canceledOrder: Order = order;
+
+			canceledOrder.status.name = StatusEnum.ANULATA;
+
+			void updateOrder(canceledOrder).then((order) =>
+			{
+				setOrder(order)
+			});
+		}
+	}
+
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
@@ -55,7 +70,7 @@ export default function OrderDetailsPage(): JSX.Element
 				}
 
 				<div className="action-bar">
-					<div className="action-button">
+					<div className="action-button hover-pointer" onClick={handleCancelOrder}>
 						<div className="action-icon anulata"></div>
 						<div className="action-details">
 							<div>Anuleaza</div>
