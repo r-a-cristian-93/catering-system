@@ -52,11 +52,11 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 							<tbody>
 								{clientAddresses?.map(
 									(clientAddress) =>
-										clientAddress.address.id > 0 && (
+										clientAddress.id > 0 && (
 											<PickAddress
-												key={clientAddress.address.id}
+												key={clientAddress.id}
 												orderId={orderId}
-												address={clientAddress.address}
+												address={clientAddress}
 												toogleModalCallback={toogleModalCallback}
 											/>
 										)

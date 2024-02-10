@@ -7,15 +7,10 @@ export type Client = {
 	phone: string | null;
 };
 
-export type Address = {
-	id: number;
-	value: string | null;
-};
-
 export type ClientAddress = {
 	id: number;
 	clientId: number;
-	address: Address;
+	value: string;
 }
 
 export type Status = {
@@ -45,7 +40,7 @@ export type Order = {
 	shippingDate: string | null;
 	cancelDate: string | null;
 	shoppingListId: number;
-	deliveryAddress: Address | null;
+	deliveryAddress: ClientAddress | null;
 };
 
 export type OrdersResponseData = PageableResponse & {
@@ -55,10 +50,6 @@ export type OrdersResponseData = PageableResponse & {
 export type ClientResponseData = PageableResponse & {
 	content: Client[];
 };
-
-export type AddressResponseData = PageableResponse & {
-	content: Address[];
-}
 
 export type OrderItem = {
 	id: number;

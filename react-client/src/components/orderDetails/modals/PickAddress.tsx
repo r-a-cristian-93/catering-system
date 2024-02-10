@@ -1,11 +1,11 @@
 import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
-import { Address, Order } from "../../../models/Order";
+import { ClientAddress, Order } from "../../../models/Order";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 
 type PickAddressProps = {
 	orderId: number;
-	address: Address;
+	address: ClientAddress;
 	toogleModalCallback: () => void;
 }
 
