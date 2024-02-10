@@ -6,12 +6,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Button from '@mui/material/Button';
 import * as Formatter from "../utils/Formatting";
+import { DateRange } from "@mui/x-date-pickers-pro";
+import dayjs, { Dayjs } from "dayjs";
 
-async function getReports(
-	startDateMillis: number,
-	endDateMillis: number,
-): Promise<ReportByDate[][]>
+async function getReports(startDateMillis: number | null, endDateMillis: number | null): Promise<ReportByDate[][]>
 {
+	// Display data from last 30 days as fallback
+	if (!endDateMillis) endDateMillis = new Date().getTime();
+	if (!startDateMillis) startDateMillis = endDateMillis - 1000*60*60*24*30;
+
 	const [ placement, due, cancel, shipping ] = await Promise.all([
 		getReportOfPlacementDate(startDateMillis, endDateMillis),
 		getReportOfDueDate(startDateMillis, endDateMillis),
@@ -42,8 +45,14 @@ function findValueByKey(key: Date, keyValueArray: ReportByDate[]): number
 
 export default function HomePage(): JSX.Element
 {
-	const startDateMillis: number = Date.parse("2020-01-01");
-	const endDateMillis: number = Date.parse("2050-02-01");
+	// Display data from last 30 days initially
+	const endDateMillis: number = new Date().getTime();
+	const startDateMillis: number = endDateMillis - 1000*60*60*24*30;
+
+	const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([
+		dayjs(startDateMillis),
+		dayjs(endDateMillis),
+	]);
 
 	useEffect(() =>
 	{
@@ -88,7 +97,14 @@ export default function HomePage(): JSX.Element
 			<div className="chartGeneralContainer">
 				<div className="datePicker">
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DateRangePicker localeText={{ start: 'De la', end: 'Pana la' }} />
+						<DateRangePicker
+							localeText={{ start: 'De la', end: 'Pana la' }}
+							value={dateRange}
+							onChange={(newRange) =>
+							{
+								setDateRange(newRange)
+							}}
+						/>
 					</LocalizationProvider>
 					<Button variant="contained" size="large">
 						Actualizeaza

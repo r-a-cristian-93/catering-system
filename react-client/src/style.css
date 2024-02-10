@@ -1229,6 +1229,8 @@ input[type=time] {
 
 .MuiChartsAxis-directionX .MuiChartsAxis-tickLabel {
 	transform: rotate(15deg);
+	overflow: visible;
+	z-index: 10000;
 }
 
 .chartGeneralContainer {
@@ -1246,6 +1248,12 @@ input[type=time] {
 	}
 
 	.chartGeneral {
-		width: 100%
+		width: 100%;
+	}
+
+	.chartGeneral:first-child,
+	.chartGeneral:first-child:first-child
+	{
+		overflow: visible;
 	}
 }
