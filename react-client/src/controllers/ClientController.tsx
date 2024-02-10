@@ -1,4 +1,4 @@
-import { ClientResponseData } from "../models/Order";
+import { Client, ClientResponseData } from "../models/Order";
 import { PageableRequestParameters } from "../models/Pageable";
 const { VITE_API_URL } = import.meta.env;
 
@@ -56,4 +56,29 @@ export async function getClientsByNameContaining(name: string, pageableRequestPa
     });
 
     return clientsPromise;
+}
+
+export async function addClient(client: Client): Promise<Client>
+{
+    const url = VITE_API_URL + "/clients";
+
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(client),
+    });
+
+    const clientPromise: Promise<Client> = response.json().then((json) =>
+    {
+        const createdClient: Client = {} as Client;
+
+        Object.assign(createdClient, json);
+
+        return createdClient;
+    })
+
+    return clientPromise;
 }

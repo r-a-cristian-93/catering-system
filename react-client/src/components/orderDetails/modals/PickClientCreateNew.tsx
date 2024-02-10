@@ -1,12 +1,32 @@
 import { useState } from "react";
-import { Client } from "../../../models/Order";
+import { Client} from "../../../models/Order";
+import { addClient } from "../../../controllers/ClientController";
 
 export default function PickClientCreateNew(): JSX.Element
 {
-	const [ client ] = useState<Client>({} as Client);
+	const [ client, setClient ] = useState<Client>({} as Client);
+	const [ clientAddress, setClientAddress ] = useState<string>("");
 
-	function handleOnChange(): void
-	{}
+	function handleAddClient(): void
+	{
+		void addClient(client);
+	}
+
+	function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
+    {
+        const { name, value } = event.target;
+
+		if (name === "address")
+			setClientAddress(value);
+
+        setClient((prev) =>
+        {
+            return {
+                ...prev,
+                [ name ]: value,
+            };
+        });
+    }
 
 	return (
 		<div className="pick-client-create-box">
@@ -19,7 +39,7 @@ export default function PickClientCreateNew(): JSX.Element
 					type="text"
 					value={client.name}
 					placeholder="name"
-					onChange={handleOnChange}
+					onChange={handleChange}
 					autoComplete="false"
 				/>
 				<span className="item-3">Telefon: </span>
@@ -29,7 +49,7 @@ export default function PickClientCreateNew(): JSX.Element
 					type="text"
 					value={client.phone || ""}
 					placeholder="+40"
-					onChange={handleOnChange}
+					onChange={handleChange}
 					autoComplete="false"
 				/>
 				<span className="item-5">Adresa: </span>
@@ -37,12 +57,12 @@ export default function PickClientCreateNew(): JSX.Element
 					className="item-6"
 					name="address"
 					type="text"
-					value={client.name || ""}
+					value={clientAddress}
 					placeholder="Strada ..."
-					onChange={handleOnChange}
+					onChange={handleChange}
 					autoComplete="false"
 				/>
-				<button className="item-7 button" type="submit">Adauga</button>
+				<div className="item-7 button" onClick={handleAddClient}>Adauga</div>
 			</form>
 		</div>
 	)

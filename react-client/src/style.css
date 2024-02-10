@@ -952,9 +952,10 @@ td.clickable:hover {
 	background-color: var(--progress-complete);
 }
 
-.stepper-item:hover {
+.stepper-item:hover:not(.completed) {
 	.step-counter {
-		background-color: var(--progress-hover);
+		/* background-color: var(--progress-hover); */
+		background-color: var(--grey);
 	}
 	.step-name {
 		color: var(--text);
