@@ -1,10 +1,13 @@
-import { Recipe } from "../models/Recipe";
+import { PageableRequestParameters } from "../models/Pageable";
+import { RecipesResponseData } from "../models/Recipe";
 
 const { VITE_API_URL } = import.meta.env;
 
-export async function getRecipes(): Promise<Recipe[]>
+export async function getRecipes(pageableRequestParameters: PageableRequestParameters): Promise<RecipesResponseData>
 {
-    const url = VITE_API_URL + "/recipes";
+	const queryParameters = new URLSearchParams(pageableRequestParameters);
+
+    const url = VITE_API_URL + "/recipes/allPageable?" + queryParameters.toString();
 
     const response = await fetch(url, {
         method: "GET",
@@ -14,19 +17,15 @@ export async function getRecipes(): Promise<Recipe[]>
         }
     });
 
-    const recipesPromise: Promise<Recipe[]> = response.json().then((json) =>
+    const recipesPromise: Promise<RecipesResponseData> = response.json().then((json) =>
     {
-        const recipes: RecipesList = {} as RecipesList;
+        const recipesResponseDate: RecipesResponseData = {} as RecipesResponseData;
 
-        Object.assign(recipes, json);
+        Object.assign(recipesResponseDate, json);
 
-        return Object.values(recipes).flatMap((each) => each);
+        return recipesResponseDate;
 
     })
 
     return recipesPromise;
-}
-
-type RecipesList = {
-    recipes: Recipe[];
 }

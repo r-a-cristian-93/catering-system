@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import OrdersPage from "./pages/OrdersPage.tsx";
 import OrderDetailsPage from "./pages/OrderDetailsPage.tsx";
+import RecipesPage from "./pages/RecipesPage.tsx";
 
 export default function App(): JSX.Element
 {
@@ -16,6 +17,7 @@ export default function App(): JSX.Element
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/comenzi" element={<OrdersPage />} />
+          <Route path="/retete" element={<RecipesPage />} />
           <Route path="/comenzi/detalii_comanda/:orderId" element={<OrderDetailsPage />} />
           <Route path="*" element={<NoMatchPage />} />
         </Route>

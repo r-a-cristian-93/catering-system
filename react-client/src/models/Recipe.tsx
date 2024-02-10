@@ -1,3 +1,5 @@
+import { PageableResponse } from "./Pageable";
+
 export type Unit = {
     name: string;
 }
@@ -14,3 +16,7 @@ export type Recipe = {
     category: Category;
     ingCost: number;
 }
+
+export type RecipesResponseData = PageableResponse & {
+	content: Recipe[];
+};
