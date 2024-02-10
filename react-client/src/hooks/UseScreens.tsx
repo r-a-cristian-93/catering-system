@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScreenSelector, { ScreenOption, ScreenSelectorParams } from "../components/orderDetails/modals/ScreenSelector";
 
 type useScreensReturn = {
@@ -6,7 +6,7 @@ type useScreensReturn = {
     renderScreen: () => JSX.Element;
 }
 
-type ScreenConfig = {
+export type ScreenConfig = {
     selectorParams: ScreenSelectorParams;
     screenElement: JSX.Element;
 }
@@ -15,7 +15,15 @@ export default function useScreens(screens: Map<ScreenOption, ScreenConfig>): us
 {
     const [ currentScreen, setCurrentScreen ] = useState<ScreenOption>(ScreenOption.NONE);
 
-    return	{
+    useEffect(() =>
+        {
+            const screenOptions: ScreenOption[] = [... screens.keys()];
+            if (screenOptions.length)
+                setCurrentScreen(screenOptions[0]);
+        },
+    []);
+
+    const useScreensReturn: useScreensReturn = {
         renderScreen: (): JSX.Element =>
         {
             const screenElement: JSX.Element | undefined = screens.get(currentScreen)?.screenElement;
@@ -25,8 +33,9 @@ export default function useScreens(screens: Map<ScreenOption, ScreenConfig>): us
 
         renderSelectors: (): JSX.Element[] =>
         {
-            const selectors: JSX.Element[] = Array.from(screens, ([key, value]) =>
+            const selectors: JSX.Element[] = Array.from(screens, ([key, value], index) =>
                 <ScreenSelector
+                    key={index}
                     screen={key}
                     text={value.selectorParams.text}
                     iconPath={value.selectorParams.iconPath}
@@ -38,4 +47,6 @@ export default function useScreens(screens: Map<ScreenOption, ScreenConfig>): us
             return selectors;
         }
     }
+
+    return useScreensReturn
 }

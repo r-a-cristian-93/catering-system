@@ -1,7 +1,7 @@
-import { useState } from "react";
 import PickClientCreateNew from "./PickClientCreateNew";
 import PickClientSearch from "./PickClientSearch";
-import ScreenSelector, {ScreenOption} from "./ScreenSelector";
+import {ScreenOption} from "./ScreenSelector";
+import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";
 
 type PickClientModalProps = {
 	orderId: number;
@@ -12,42 +12,23 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 {
 	const { orderId, toogleModalCallback } = props;
 
-	const [ currentScreen, setCurrentScreen ] = useState<ScreenOption>(ScreenOption.CLIENT_SEARCH);
-
-	function renderScreen(): JSX.Element
-	{
-		switch (currentScreen)
-		{
-			case ScreenOption.CLIENT_SEARCH:
-				return <PickClientSearch orderId={orderId} toogleModalCallback={toogleModalCallback}/>
-			break;
-			case ScreenOption.CLIENT_CREATE:
-				return <PickClientCreateNew />
-			break;
-			default:
-				return <></>
-		}
+	const screenConfigSearch: ScreenConfig = {
+		selectorParams: { text: "Clienti existenti", iconPath: "/img/register-client.svg"},
+		screenElement: <PickClientSearch orderId={orderId} toogleModalCallback={toogleModalCallback}/>
 	}
 
-	function renderSelector(): JSX.Element
-	{
-		return <>
-			<ScreenSelector
-				screen={ScreenOption.CLIENT_SEARCH}
-				text="Alege un client existent"
-				iconPath="/img/register-client.svg"
-				isActive={currentScreen === ScreenOption.CLIENT_SEARCH}
-				setScreenCallback={setCurrentScreen}
-			/>
-			<ScreenSelector
-				screen={ScreenOption.CLIENT_CREATE}
-				text="Inregistreaza un nou client"
-				iconPath="/img/register-client.svg"
-				isActive={currentScreen === ScreenOption.CLIENT_CREATE}
-				setScreenCallback={setCurrentScreen}
-			/>
-		</>
+	const screenConfigCreate: ScreenConfig = {
+		selectorParams: { text: "Client nou", iconPath: "/img/register-client.svg"},
+		screenElement: <PickClientCreateNew />
 	}
+
+	const screens = new Map<ScreenOption, ScreenConfig>(
+	[
+		[ScreenOption.CLIENT_SEARCH , screenConfigSearch],
+		[ScreenOption.CLIENT_CREATE , screenConfigCreate],
+	]);
+
+	const { renderSelectors, renderScreen } = useScreens(screens);
 
 	return (
 		<div className="modal pick-modal">
@@ -62,7 +43,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 					<div className="modal-content">
 						<div className="screen-picker">
 							{
-								renderSelector()
+								renderSelectors()
 							}
 						</div>
 						<br/>
