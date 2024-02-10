@@ -15,10 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP DATABASE IF EXISTS `catering`;
-CREATE DATABASE `catering`;
-USE `catering`;
-
 --
 -- Table structure for table `addresses`
 --
@@ -67,6 +63,35 @@ LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
 INSERT INTO `clients` VALUES (0,'-',NULL),(1,'Vasile Ciupitu',NULL),(2,'Gheorghe Lazar','0733165789'),(24,'Gabriela Radulescu','0750123456'),(25,'Catalin Gheorghiu','0742345678'),(26,'Diana Neacsu',NULL),(27,'Lucian Stanescu','0766789012'),(28,'Carmen Nistor','0751234567'),(29,'Adrian Munteanu','0743456789'),(30,'Monica Dragomir','0752345678'),(31,'Valentin Radu',NULL),(32,'Alina Stoica','0767890123'),(33,'Sorin Vasile','0753234567'),(34,'Elena Iliescu','0740123456'),(35,'Alexandru Popa','0758345678'),(36,'Ioana Draghici',NULL),(37,'Gabriel Radu','0761123456'),(38,'Mihaela Tudor','0745567890'),(39,'Victor Iancu','0754123456'),(40,'Roxana Stan','0746234567'),(41,'Cristian Balan',NULL),(42,'Andreea Dumitru','0767789012'),(43,'Marius Enache','0759345678'),(44,'Andrei Popescu','0740123456'),(45,'Ana Marinescu','0758345678'),(46,'Mihai Stefanescu',NULL),(47,'Elena Vasilescu','0761123456'),(48,'Gabriela Ionescu','0745567890'),(49,'Catalin Dumitru','0754123456'),(50,'Simona Stanescu','0746234567'),(51,'Alexandru Balan',NULL),(52,'Mihaela Cojocaru','0767789012'),(53,'Dragos Neacsu','0759345678');
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clients_addresses`
+--
+
+DROP TABLE IF EXISTS `clients_addresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `clients_addresses` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `ID_client` int NOT NULL,
+  `ID_address` int NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_client` (`ID_client`,`ID_address`),
+  UNIQUE KEY `clients_addresses_ibfk_3` (`ID_address`),
+  CONSTRAINT `clients_addresses_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
+  CONSTRAINT `clients_addresses_ibfk_2` FOREIGN KEY (`ID_address`) REFERENCES `addresses` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clients_addresses`
+--
+
+LOCK TABLES `clients_addresses` WRITE;
+/*!40000 ALTER TABLE `clients_addresses` DISABLE KEYS */;
+INSERT INTO `clients_addresses` VALUES (1,1,1),(2,1,2),(4,2,4),(5,2,5),(7,2,6);
+/*!40000 ALTER TABLE `clients_addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -233,7 +258,7 @@ CREATE TABLE `orders` (
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`),
   CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`),
   CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`ID_delivery_address`) REFERENCES `addresses` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +267,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,2,'preluata',90.4,'2021-01-04 11:27:45','2021-09-08 10:27:45',NULL,NULL,NULL,NULL,NULL,33,1),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'expediata',453.94,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,1,'preparata',88.35000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:37','2024-01-04 14:07:15','2024-01-11 07:47:16',NULL,NULL,NULL,0,2),(103,2,'preluata',35.2,'2021-02-14 10:56:39','2021-02-14 10:56:39',NULL,NULL,NULL,NULL,NULL,0,1),(110,0,'preluata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,NULL,NULL,NULL,NULL,0,NULL);
+INSERT INTO `orders` VALUES (1,2,'expediata',90.4,'2021-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33,14),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'expediata',453.94,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,50,'expediata',88.35000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0,2),(103,40,'expediata',41.35,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0,4),(110,53,'preparata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-01-19 12:00:28',NULL,'2024-01-18 12:02:50',0,21),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:04',NULL,NULL,NULL,NULL,NULL,0,20);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -324,7 +349,7 @@ CREATE TABLE `orders_details` (
   KEY `ID_recipe` (`ID_recipe`),
   CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `orders_details_ibfk_3` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,7 +358,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,20),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(103,102,8,10),(104,102,5,10),(106,103,8,5),(111,1,15,20),(112,1,27,20),(113,1,29,3),(115,4,5,100),(116,4,8,11),(117,4,29,10),(118,102,2,5),(119,110,2,10),(120,110,10,10);
+INSERT INTO `orders_details` VALUES (5,1,2,20),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(103,102,8,10),(104,102,5,10),(106,103,8,5),(111,1,15,20),(112,1,27,20),(113,1,29,3),(115,4,5,100),(116,4,8,11),(117,4,29,10),(118,102,2,5),(119,110,2,10),(120,110,10,10),(121,111,16,7),(122,111,15,7),(123,111,2,7),(124,103,5,6);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -650,4 +675,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-15 11:04:42
+-- Dump completed on 2024-01-25 13:57:12
