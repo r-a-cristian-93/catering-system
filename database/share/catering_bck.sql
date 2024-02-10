@@ -239,7 +239,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,52,'expediata',90.4,'2021-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33,67),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'expediata',453.94,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,50,'expediata',88.35000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0,1),(103,40,'expediata',41.35,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0,1),(110,53,'preparata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-01-19 12:00:28',NULL,'2024-01-18 12:02:50',0,1),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:04',NULL,NULL,NULL,NULL,NULL,0,1);
+INSERT INTO `orders` VALUES (1,43,'expediata',90.4,'2021-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33,50),(2,2,'expediata',193.56000000000003,'2021-01-24 11:27:51','2021-01-23 11:27:45','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51','2021-01-24 11:27:51',NULL,33,1),(4,2,'expediata',453.94,'2021-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,2,'anulata',4.62,'2021-01-24 11:27:51','2021-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,50,'expediata',88.35000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0,1),(103,40,'expediata',41.35,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0,1),(110,53,'expediata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-02-01 12:08:37','2024-02-01 12:08:49','2024-01-18 12:02:50',0,1),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:00',NULL,NULL,NULL,NULL,NULL,0,1);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -384,6 +384,58 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Temporary view structure for view `orders_report_cancel_date`
+--
+
+DROP TABLE IF EXISTS `orders_report_cancel_date`;
+/*!50001 DROP VIEW IF EXISTS `orders_report_cancel_date`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `orders_report_cancel_date` AS SELECT 
+ 1 AS `date`,
+ 1 AS `count`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `orders_report_due_date`
+--
+
+DROP TABLE IF EXISTS `orders_report_due_date`;
+/*!50001 DROP VIEW IF EXISTS `orders_report_due_date`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `orders_report_due_date` AS SELECT 
+ 1 AS `date`,
+ 1 AS `count`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `orders_report_placement_date`
+--
+
+DROP TABLE IF EXISTS `orders_report_placement_date`;
+/*!50001 DROP VIEW IF EXISTS `orders_report_placement_date`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `orders_report_placement_date` AS SELECT 
+ 1 AS `date`,
+ 1 AS `count`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `orders_report_shipping_date`
+--
+
+DROP TABLE IF EXISTS `orders_report_shipping_date`;
+/*!50001 DROP VIEW IF EXISTS `orders_report_shipping_date`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `orders_report_shipping_date` AS SELECT 
+ 1 AS `date`,
+ 1 AS `count`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `recipes`
@@ -637,6 +689,78 @@ LOCK TABLES `units` WRITE;
 INSERT INTO `units` VALUES ('buc'),('g'),('kg'),('l'),('legatura'),('ml');
 /*!40000 ALTER TABLE `units` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Final view structure for view `orders_report_cancel_date`
+--
+
+/*!50001 DROP VIEW IF EXISTS `orders_report_cancel_date`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `orders_report_cancel_date` AS select cast(`orders`.`cancel_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`cancel_date` is not null) group by cast(`orders`.`cancel_date` as date) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `orders_report_due_date`
+--
+
+/*!50001 DROP VIEW IF EXISTS `orders_report_due_date`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `orders_report_due_date` AS select cast(`orders`.`due_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`due_date` is not null) group by cast(`orders`.`due_date` as date) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `orders_report_placement_date`
+--
+
+/*!50001 DROP VIEW IF EXISTS `orders_report_placement_date`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `orders_report_placement_date` AS select cast(`orders`.`placement_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`placement_date` is not null) group by cast(`orders`.`placement_date` as date) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `orders_report_shipping_date`
+--
+
+/*!50001 DROP VIEW IF EXISTS `orders_report_shipping_date`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `orders_report_shipping_date` AS select cast(`orders`.`shipping_date` as date) AS `date`,count(0) AS `count` from `orders` where (`orders`.`shipping_date` is not null) group by cast(`orders`.`shipping_date` as date) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -647,4 +771,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-31 12:28:09
+-- Dump completed on 2024-02-02 12:39:19
