@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.ClientModel;
+import com.catering.rest.db.models.ClientAddressesModel;
 import com.catering.rest.db.services.ClientsService;
 
 import lombok.AllArgsConstructor;
@@ -76,5 +77,14 @@ public class ClientsController {
 			@RequestParam String prop,
 			@RequestParam String dir) {
 		return clientsService.getClientsByNameContainingPageable(name, page, size, prop, dir);
+	}
+
+
+	// CLIENTS ADDRESSES
+
+	@ResponseBody
+	@GetMapping("/{id}/addresses")
+	public List<ClientAddressesModel> getAddresses(@PathVariable Integer clientId) {
+		return clientsService.getAddresses(clientId);
 	}
 }

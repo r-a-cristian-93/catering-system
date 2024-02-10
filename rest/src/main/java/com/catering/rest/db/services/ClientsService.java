@@ -8,7 +8,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.catering.rest.db.models.ClientModel;
+import com.catering.rest.db.models.ClientAddressesModel;
 import com.catering.rest.db.repositories.ClientsRepository;
+import com.catering.rest.db.repositories.ClientsAddressesRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClientsService {
 	private final ClientsRepository clientsRepo;
+	private final ClientsAddressesRepository clientsAddressesRepo;
 
 	public List<ClientModel> getClients() {
 		return clientsRepo.findAll();
@@ -66,5 +69,11 @@ public class ClientsService {
 			String dir) 	{
 		Sort sort = ClientModel.sortBy(prop, dir);
 		return clientsRepo.findByNameContaining(name, PageRequest.of(page, size, sort));
+	}
+
+	// CLIENTS ADDRESSES
+
+	public List<ClientAddressesModel> getAddresses(Integer clientId) {
+		return clientsAddressesRepo.findByClientId(clientId);
 	}
 }
