@@ -1,4 +1,4 @@
-import { OrdersFilter } from "../../pages/OrdersPage";
+import { OrdersFilter, OrdersFilters } from "./ordersFilter/OrdersFilter";
 
 type OrdersFilterMenuProps = {
 	setActiveFilterCallback: (filter: OrdersFilter) => void
@@ -10,9 +10,9 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 		<div className="filter-menu">
 			<div className="filter-container">
 				<div className="filter-name" onClick={() =>
-					{
-						props.setActiveFilterCallback(OrdersFilter.NONE)
-					}
+				{
+					props.setActiveFilterCallback(OrdersFilters.ALL)
+				}
 				}>
 					Toate
 				</div>
@@ -22,22 +22,22 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 				<div className="dropdown-content">
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.STATUS_PLACED)
+						props.setActiveFilterCallback(OrdersFilters.BY_STATUS_RECEIVED)
 					}
 					}>Preluate</a>
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.STATUS_COOKING)
+						props.setActiveFilterCallback(OrdersFilters.BY_STATUS_COOKING)
 					}
 					}>In lucru</a>
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.STATUS_SHIPPED)
+						props.setActiveFilterCallback(OrdersFilters.BY_STATUS_DELIVERED)
 					}
 					}>Livrate</a>
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.STATUS_CANCELED)
+						props.setActiveFilterCallback(OrdersFilters.BY_STATUS_CANCELED)
 					}
 					}>Anulate</a>
 				</div>
@@ -47,17 +47,17 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 				<div className="dropdown-content">
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.ORDER_DATE_7)
+						props.setActiveFilterCallback(OrdersFilters.BY_RECEIVED_DATE_LAST_WEEK)
 					}
 					}>Ultimele 7 zile</a>
-					<a  onClick={() =>
+					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.ORDER_DATE_14)
+						props.setActiveFilterCallback(OrdersFilters.BY_RECEIVED_DATE_LAST_TWO_WEEKS)
 					}
 					}>Ultimele 14 zile</a>
-					<a  onClick={() =>
+					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.ORDER_DATE_30)
+						props.setActiveFilterCallback(OrdersFilters.BY_RECEIVED_DATE_LAST_MONTH)
 					}
 					}>Ultimele 30 zile</a>
 				</div>
@@ -67,22 +67,22 @@ export default function OrdersFilterMenu(props: OrdersFilterMenuProps): JSX.Elem
 				<div className="dropdown-content">
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_1)
+						props.setActiveFilterCallback(OrdersFilters.BY_DUE_DATE_TODAY)
 					}
 					}>Azi</a>
 					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_7)
+						props.setActiveFilterCallback(OrdersFilters.BY_DUE_DATE_NEXT_WEEK)
 					}
 					}>Urmatoarele 7 zile</a>
-					<a  onClick={() =>
+					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_14)
+						props.setActiveFilterCallback(OrdersFilters.BY_DUE_DATE_NEXT_TWO_WEEKS)
 					}
 					}>Urmatoarele 14 zile</a>
-					<a  onClick={() =>
+					<a onClick={() =>
 					{
-						props.setActiveFilterCallback(OrdersFilter.DUE_DATE_30)
+						props.setActiveFilterCallback(OrdersFilters.BY_DUE_DATE_NEXT_MONTH)
 					}
 					}>Urmatoarele 30 zile</a>
 				</div>
