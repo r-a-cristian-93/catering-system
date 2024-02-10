@@ -10,8 +10,8 @@ export default function PickClientCreateNew(): JSX.Element
 
 	return (
 		<div className="pick-client-create-box">
-			<div className="card-bg profil"></div>
 			<form className="pick-client-create-details">
+				<div className="item-0 card-bg profil"></div>
 				<span className="item-1">Nume: </span>
 				<input
 					className="item-2"

@@ -9,13 +9,13 @@ import SearchBar from "../../SearchBar";
 import PickClient from "./PickClient";
 
 type PickClientSearchProps = {
-    orderId: number;
-    toogleModalCallback: () => void;
+	orderId: number;
+	toogleModalCallback: () => void;
 }
 
 export default function PickClientSearch(props: PickClientSearchProps): JSX.Element
 {
-    const queryClient: QueryClient = useQueryClient();
+	const queryClient: QueryClient = useQueryClient();
 
 	const { orderId, toogleModalCallback } = props;
 
@@ -26,7 +26,7 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 		dir: "DESC",
 	});
 
-	const [ clientResponseData, setClientResponseData] = useState<ClientResponseData | null>(
+	const [ clientResponseData, setClientResponseData ] = useState<ClientResponseData | null>(
 		queryClient.getQueryData<ClientResponseData>(QueryKeysClient.all) || null
 	)
 
@@ -74,40 +74,41 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 		});
 	}
 
-    return (
-        <>
-            <SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-            <table id="pick-table" className="full table-list">
-                <thead>
-                    <tr>
-                        <th>Nume</th>
-                        <th>Telefon</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {clientResponseData?.content.map(
-                        (client) =>
-                            client.id > 0 && (
-                                <PickClient
-                                    key={client.id}
-                                    orderId={orderId}
-                                    client={client}
-                                    toogleModalCallback={toogleModalCallback}
-                                />
-                            )
-                    )}
-                </tbody>
-            </table>
-            {
-                clientResponseData && <Pager pagerArgs={
-                    {
-                        activePage: clientResponseData.pageable.pageNumber,
-                        totalPages: clientResponseData.totalPages,
-                        setActivePageCallback: setActivePage
-                    }
-                } />
-            }
-            <br />
-        </>
-    );
+	return (
+		<>
+			<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
+			<table id="pick-table" className="full table-list">
+				<thead>
+					<tr>
+						<th>Nume</th>
+						<th>Telefon</th>
+					</tr>
+				</thead>
+				<tbody>
+					{clientResponseData?.content.map(
+						(client) =>
+							client.id > 0 && (
+								<PickClient
+									key={client.id}
+									orderId={orderId}
+									client={client}
+									toogleModalCallback={toogleModalCallback}
+								/>
+							)
+					)}
+				</tbody>
+			</table>
+			<br />
+			{
+				clientResponseData && <Pager pagerArgs={
+					{
+						activePage: clientResponseData.pageable.pageNumber,
+						totalPages: clientResponseData.totalPages,
+						setActivePageCallback: setActivePage
+					}
+				} />
+			}
+			<br />
+		</>
+	);
 }
