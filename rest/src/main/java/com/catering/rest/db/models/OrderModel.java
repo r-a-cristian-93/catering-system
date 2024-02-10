@@ -74,7 +74,7 @@ public class OrderModel extends SortableModel{
 
 	@ManyToOne
 	@JoinColumn(name="ID_delivery_address")
-	private AddressModel deliveryAddress;
+	private ClientAddressModel deliveryAddress;
 
 	protected OrderModel() {}
 

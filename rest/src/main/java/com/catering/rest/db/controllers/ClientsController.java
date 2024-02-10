@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.ClientModel;
-import com.catering.rest.db.models.ClientAddressesModel;
+import com.catering.rest.db.models.ClientAddressModel;
 import com.catering.rest.db.services.ClientsService;
 
 import lombok.AllArgsConstructor;
@@ -84,7 +84,7 @@ public class ClientsController {
 
 	@ResponseBody
 	@GetMapping("/{clientId}/addresses")
-	public List<ClientAddressesModel> getAddresses(@PathVariable Integer clientId) {
+	public List<ClientAddressModel> getAddresses(@PathVariable Integer clientId) {
 		return clientsService.getAddresses(clientId);
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.catering.rest.db.models.ClientModel;
-import com.catering.rest.db.models.ClientAddressesModel;
+import com.catering.rest.db.models.ClientAddressModel;
 import com.catering.rest.db.repositories.ClientsRepository;
 import com.catering.rest.db.repositories.ClientsAddressesRepository;
 
@@ -73,7 +73,7 @@ public class ClientsService {
 
 	// CLIENTS ADDRESSES
 
-	public List<ClientAddressesModel> getAddresses(Integer clientId) {
+	public List<ClientAddressModel> getAddresses(Integer clientId) {
 		return clientsAddressesRepo.findByClientId(clientId);
 	}
 }

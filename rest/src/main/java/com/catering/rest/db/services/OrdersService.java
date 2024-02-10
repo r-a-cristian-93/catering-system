@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.catering.rest.db.models.AddressModel;
+import com.catering.rest.db.models.ClientAddressModel;
 import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.models.OrderModel;
 import com.catering.rest.db.models.OrdersDetailsModel;
@@ -81,7 +81,7 @@ public class OrdersService {
 		Date preparingDate = order.getPreparingDate();
 		Date shippingDate = order.getShippingDate();
 		Date cancelDate = order.getCancelDate();
-		AddressModel deliveryAddress = order.getDeliveryAddress();
+		ClientAddressModel deliveryAddress = order.getDeliveryAddress();
 		order = ordersRepo.findById(id).get();
 
 		if(client!=null) {
