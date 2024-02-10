@@ -12,58 +12,54 @@ export interface OrderStatusRequestBody extends RequestBody
 	status: Status;
 }
 
-
-export async function getOrders(orderRequestParameters: PageableRequestParameters, body?: RequestBody): Promise<OrdersResponseData>
+export async function getOrders(parameters?: PageableRequestParameters, body?: RequestBody): Promise<OrdersResponseData>
 {
-	const queryParameters = new URLSearchParams(orderRequestParameters);
-
-	const url = VITE_API_URL + "/orders/allPageable?" + queryParameters.toString();
-
-	const response = await fetch(url, {
-		method: "GET",
-		credentials: "include",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-
-	const ordersList: Promise<OrdersResponseData> = response.json().then((json) =>
-	{
-		const responseData: OrdersResponseData = {} as OrdersResponseData;
-
-		Object.assign(responseData, json);
-
-		return responseData;
-	});
-
-	return ordersList;
+	return genericRequest<OrdersResponseData>(
+		"GET",
+		"/orders/allPageable",
+		new URLSearchParams(parameters),
+		body);
 }
 
-export async function getOrdersByStatus(orderRequestParameters: PageableRequestParameters, body?: RequestBody): Promise<OrdersResponseData>
+
+export async function getOrdersByStatus(parameters?: PageableRequestParameters, body?: RequestBody): Promise<OrdersResponseData>
 {
-	const queryParameters = new URLSearchParams(orderRequestParameters);
+	return genericRequest<OrdersResponseData>(
+		"POST",
+		"/orders/byStatusPageable",
+		new URLSearchParams(parameters),
+		body);
+}
 
-	const url = VITE_API_URL + "/orders/byStatusPageable?" + queryParameters.toString();
+export async function genericRequest<D extends object>(method: string, path: string, params?: URLSearchParams, body?: RequestBody): Promise<D>
+{
+	const queryParameters = new URLSearchParams(params);
 
-	const response = await fetch(url, {
-		method: "POST",
+	const url = VITE_API_URL + path + "?" + queryParameters.toString();
+
+	const requestInit: RequestInit = {
+		method: method,
 		credentials: "include",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(body)
-	});
+	}
 
-	const ordersList: Promise<OrdersResponseData> = response.json().then((json) =>
+	if (method === "POST")
+		requestInit.body = JSON.stringify(body);
+
+	const response = await fetch(url, requestInit);
+
+	const promise: Promise<D> = response.json().then((json) =>
 	{
-		const responseData: OrdersResponseData = {} as OrdersResponseData;
+		const responseData: D = {} as D;
 
 		Object.assign(responseData, json);
 
 		return responseData;
 	});
 
-	return ordersList;
+	return promise;
 }
 
 
