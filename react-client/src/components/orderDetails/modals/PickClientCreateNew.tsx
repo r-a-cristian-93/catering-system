@@ -32,7 +32,17 @@ export default function PickClientCreateNew(): JSX.Element
 					onChange={handleOnChange}
 					autoComplete="false"
 				/>
-				<button className="item-5 button" type="submit">Adauga</button>
+				<span className="item-5">Adresa: </span>
+				<input
+					className="item-6"
+					name="address"
+					type="text"
+					value={client.name || ""}
+					placeholder="Strada ..."
+					onChange={handleOnChange}
+					autoComplete="false"
+				/>
+				<button className="item-7 button" type="submit">Adauga</button>
 			</form>
 		</div>
 	)

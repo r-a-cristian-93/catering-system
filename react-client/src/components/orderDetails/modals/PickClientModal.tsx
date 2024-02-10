@@ -1,12 +1,7 @@
-import { useRef, useState } from "react";
-import { ClientResponseData } from "../../../models/Order";
-import { getClients, getClientsByNameContaining } from "../../../controllers/ClientController";
-import PickClient from "./PickClient";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
-import { QueryKeysClient } from "../../../QueryKeys/QueryKeysClient";
-import Pager from "../../Pager";
-import { PageableRequestParameters } from "../../../models/Pageable";
-import SearchBar from "../../SearchBar";
+import { useState } from "react";
+import PickClientCreateNew from "./PickClientCreateNew";
+import PickClientSearch from "./PickClientSearch";
+import ScreenSelector, {ScreenOption} from "./ScreenSelector";
 
 type PickClientModalProps = {
 	orderId: number;
@@ -15,64 +10,9 @@ type PickClientModalProps = {
 
 export default function PickClientModal(props: PickClientModalProps): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
-
 	const { orderId, toogleModalCallback } = props;
 
-	const clientsRequestParameters = useRef<PageableRequestParameters>({
-		page: "0",
-		size: "4",
-		prop: "id",
-		dir: "DESC",
-	});
-
-	const [ clientResponseData, setClientResponseData] = useState<ClientResponseData | null>(
-		queryClient.getQueryData<ClientResponseData>(QueryKeysClient.all) || null
-	)
-
-	const searchName = useRef<string | null>("");
-
-	useQuery<ClientResponseData>({
-		queryKey: QueryKeysClient.all,
-		queryFn: () => getClients(clientsRequestParameters.current),
-		onSuccess: (responseData) =>
-		{
-			setClientResponseData(responseData);
-		},
-		staleTime: Infinity
-	});
-
-	function setActivePage(pageNumber: number): void
-	{
-		clientsRequestParameters.current.page = pageNumber.toString();
-
-		getSearchData();
-	}
-
-	function handleSearch(searchValue: string | null): void
-	{
-		searchName.current = searchValue;
-
-		if (searchName.current)
-		{
-			clientsRequestParameters.current.page = "0";
-			getSearchData();
-		}
-	}
-
-	function handleSearchReset(): void
-	{
-		searchName.current = "";
-		void queryClient.invalidateQueries(QueryKeysClient.all);
-	}
-
-	function getSearchData(): void
-	{
-		void getClientsByNameContaining(searchName.current || "", clientsRequestParameters.current).then((responseData) =>
-		{
-			setClientResponseData(responseData);
-		});
-	}
+	const [ currentScreen, setCurrentScreen ] = useState<ScreenOption>(ScreenOption.CLIENT_SEARCH);
 
 	return (
 		<div className="modal pick-modal">
@@ -85,47 +25,34 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 						</span>
 					</div>
 					<div className="modal-content">
-						<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-						<table id="pick-table" className="full table-list">
-							<thead>
-								<tr>
-									<th>Nume</th>
-									<th>Telefon</th>
-								</tr>
-							</thead>
-							<tbody>
-								{clientResponseData?.content.map(
-									(client) =>
-										client.id > 0 && (
-											<PickClient
-												key={client.id}
-												orderId={orderId}
-												client={client}
-												toogleModalCallback={toogleModalCallback}
-											/>
-										)
-								)}
-							</tbody>
-						</table>
-						{
-							clientResponseData && <Pager pagerArgs={
-								{
-									activePage: clientResponseData.pageable.pageNumber,
-									totalPages: clientResponseData.totalPages,
-									setActivePageCallback: setActivePage
-								}
-							} />
-						}
-						<br />
-						<div>
-							<button className="button" type="button">
-								<img
-									src="/img/register-client.svg"
-									style={{ filter: "invert(1)", marginRight: "12px" }}
-								/>
-								<span>Inregistreaza un nou client</span>
-							</button>
+						<div className="screen-picker">
+							<ScreenSelector
+								screen={ScreenOption.CLIENT_SEARCH}
+								text="Alege un client existent"
+								iconPath="/img/register-client.svg"
+								isActive={currentScreen === ScreenOption.CLIENT_SEARCH}
+								setScreenCallback={setCurrentScreen}
+							/>
+							<ScreenSelector
+								screen={ScreenOption.CLIENT_CREATE}
+								text="Inregistreaza un nou client"
+								iconPath="/img/register-client.svg"
+								isActive={currentScreen === ScreenOption.CLIENT_CREATE}
+								setScreenCallback={setCurrentScreen}
+							/>
 						</div>
+						<br/>
+						<br/>
+
+						{
+							(currentScreen === ScreenOption.CLIENT_SEARCH) &&
+								<PickClientSearch orderId={orderId} toogleModalCallback={toogleModalCallback}/>
+						}
+
+						{
+							(currentScreen === ScreenOption.CLIENT_CREATE) &&
+								<PickClientCreateNew />
+						}
 					</div>
 				</div>
 			</div>
