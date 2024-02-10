@@ -166,7 +166,7 @@ public class OrdersService {
 		return ordersRepo.findByPlacementDateBetween(first, last, PageRequest.of(page, size, sort));
 	}
 
-	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(
+	public Page<OrderModel> getOrdersBetweenDueDatesPageable(
 			Map<String, Long> interval,
 			Integer page,
 			Integer size,

@@ -7,7 +7,9 @@ export default function Layout(): JSX.Element
 {
 	return (
 		<>
-			<Navbar />
+			{
+				isUserAuthenticated() && <Navbar />
+			}
 			<div className="content">
 				{
 					isUserAuthenticated() ? <Outlet /> : <LoginPage />

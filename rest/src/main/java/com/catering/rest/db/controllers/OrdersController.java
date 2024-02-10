@@ -136,14 +136,14 @@ public class OrdersController {
 	}
 
 	@ResponseBody
-	@PostMapping("/betweenDeliveryDatesPageable")
-	public Page<OrderModel> getOrdersBetweenDeliveryDatesPageable(
+	@PostMapping("/betweenDueDatesPageable")
+	public Page<OrderModel> getOrdersBetweenDdueDatesPageable(
 			@RequestBody Map<String, Long> interval,
 			@RequestParam Integer page,
 			@RequestParam Integer size,
 			@RequestParam String prop,
 			@RequestParam String dir) {
-		return ordersService.getOrdersBetweenDeliveryDatesPageable(interval, page, size, prop, dir);
+		return ordersService.getOrdersBetweenDueDatesPageable(interval, page, size, prop, dir);
 	}
 
 
