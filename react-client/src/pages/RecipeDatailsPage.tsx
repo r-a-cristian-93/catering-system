@@ -19,7 +19,6 @@ export default function RecipeDetailsPage(): JSX.Element
 		queryFn: () => getRecipe(recipeId),
 		onSuccess: (recipe) =>
 		{
-			console.log(recipe);
 			setRecipe(recipe);
 		}
 	});

@@ -20,8 +20,6 @@ export async function getRecipeItems(recipeId: number): Promise<RecipeItem[]>
 
         Object.assign(recipeItems, json);
 
-        console.log(json);
-
         return Object.values(recipeItems).flatMap((each) => each);
     });
 
