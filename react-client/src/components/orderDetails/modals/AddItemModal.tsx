@@ -17,7 +17,7 @@ type AddItemModalProps = {
 export default function AddItemModal(props: AddItemModalProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
-	const [ recipes, setRecipes ] = useState<Recipe[] | null>(null);
+	const [ recipes, setRecipes ] = useState<Recipe[] | null>(getUnusedRecipes());
 
 	useQuery<Recipe[]>({
 		queryKey: QueryKeysRecipe.all,
