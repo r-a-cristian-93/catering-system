@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { PagerArgs } from "../components/Pager";
+import Pager, { PagerArgs } from "../components/Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipeController";
@@ -48,6 +48,7 @@ export default function RecipesPage(): JSX.Element
 				{
 					recipes && <RecipesList recipes={recipes} />
 				}
+				<Pager pagerArgs={pagerArgs} />
 			</div>
 		</div>
 	);

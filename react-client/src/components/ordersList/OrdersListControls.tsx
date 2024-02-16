@@ -1,9 +1,7 @@
 import { addOrder } from "../../controllers/OrdersController";
 import { Order } from "../../models/Order";
-import Pager from "../Pager";
-import { PagerProps } from "../Pager";
 
-export default function OrdersListControls(props: PagerProps): JSX.Element
+export default function OrdersListControls(): JSX.Element
 {
 	function handleAddNewOrder(): void
 	{
@@ -19,7 +17,6 @@ export default function OrdersListControls(props: PagerProps): JSX.Element
 
 	return (
 		<>
-			<Pager pagerArgs={props.pagerArgs} />
 			<br />
 			<button className="button" type="button" onClick={handleAddNewOrder}>
 				+ Adauga comanda noua

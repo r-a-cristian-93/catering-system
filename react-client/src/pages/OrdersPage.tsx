@@ -5,7 +5,7 @@ import { RequestBody, getOrders } from "../controllers/OrdersController";
 import { PageableRequestParameters } from "../models/Pageable.tsx";
 import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
-import { PagerArgs } from "../components/Pager.tsx";
+import Pager, { PagerArgs } from "../components/Pager.tsx";
 import { OrdersFilter } from "../components/ordersList/ordersFilter/OrdersFilter.tsx";
 
 export default function OrdersPage(): JSX.Element
@@ -62,7 +62,8 @@ export default function OrdersPage(): JSX.Element
 				{
 					orders && <OrdersList orders={orders} />
 				}
-				<OrdersListControls pagerArgs={pagerArgs} />
+				<Pager pagerArgs={pagerArgs} />
+				<OrdersListControls />
 			</div>
 		</div>
 	);
