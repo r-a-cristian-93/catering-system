@@ -82,9 +82,9 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
             <table id="order-details-table" className="full table-list">
                 <thead>
                     <tr className="font-size-120">
-                        <th>Articol</th>
-                        <th>Portii</th>
-                        <th>Cost unitar</th>
+                        <th>Ingredient</th>
+                        <th>Cantitate</th>
+                        <th>Pret unitar</th>
                         <th>Cost total</th>
                     </tr>
                 </thead>

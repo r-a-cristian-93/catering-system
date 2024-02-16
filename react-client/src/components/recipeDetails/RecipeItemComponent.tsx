@@ -57,9 +57,9 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 					placeholder="0"
 					min="0"
 				/>
-				<span className="img-edit"></span>
+				<span style={{width : "50px", display: "inline-block", textAlign: "left"}}>{recipeItem.ingredient.unit.name} </span>
 			</td>
-			<td>{Formatter.formatCurrency(recipeItem.ingredient.price)}</td>
+			<td>{Formatter.formatCurrency(recipeItem.ingredient.price) + " / " + recipeItem.ingredient.unit.name}</td>
 			<td>{Formatter.formatCurrency(costTotal)}</td>
 			<td>
 				<img className="active" src="/img/delete.png" onClick={handleDelete} />

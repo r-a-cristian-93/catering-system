@@ -10,7 +10,7 @@ export default function InputScrollBlocking(props: React.HTMLProps<HTMLInputElem
 	}
 
 	return (
-		<input
+		<input  dir="rtl"
 			{...props}
 
 			onFocus={pageScrollBlock}
