@@ -59,9 +59,7 @@ export default function OrdersPage(): JSX.Element
 		<div className="box">
 			<div className="box-content" id="order-table">
 				<OrdersFilterMenu setActiveFilterCallback={setActiveFilter} />
-				{
-					orders && <OrdersList orders={orders} />
-				}
+				<OrdersList orders={orders} />
 				<Pager pagerArgs={pagerArgs} />
 				<OrdersListControls />
 			</div>

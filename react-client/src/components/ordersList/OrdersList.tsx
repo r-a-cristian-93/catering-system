@@ -2,7 +2,7 @@ import { Order } from "../../models/Order";
 import OrderComponent from "./OrderComponent";
 
 type OrdersListProps = {
-	orders: Order[];
+	orders: Order[] | null;
 };
 
 export default function OrdersList(props: OrdersListProps): JSX.Element
@@ -21,7 +21,7 @@ export default function OrdersList(props: OrdersListProps): JSX.Element
 			</thead>
 
 			<tbody>
-				{props.orders.map((order) => (
+				{props.orders?.map((order) => (
 					<OrderComponent key={order.id} order={order} />
 				))}
 			</tbody>
