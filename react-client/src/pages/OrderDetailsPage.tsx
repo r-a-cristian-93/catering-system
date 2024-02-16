@@ -2,7 +2,7 @@ import { getOrder, updateOrder } from "../controllers/OrderController";
 import { Order, StatusEnum } from "../models/Order";
 import { useParams } from "react-router-dom";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import CardsListComponent from "../components/orderDetails/cards/CardsListComponent";
+import CardListOrder from "../components/orderDetails/cards/CardListOrder";
 import OrderItems from "../components/orderDetails/OrderItems";
 import { useState } from "react";
 import OrderProgress from "../components/orderDetails/OrderProgress";
@@ -58,7 +58,7 @@ export default function OrderDetailsPage(): JSX.Element
 				<div className="order-details-title">Detalii comanda #{order?.id}</div>
 
 				{
-					orderQuerySuccess && order && <CardsListComponent order={order} />
+					orderQuerySuccess && order && <CardListOrder order={order} />
 				}
 
 				{

@@ -5,7 +5,7 @@ import CardClientComponent from "./CardClientComponent";
 import CardAddressComponent from "./CardAddressComponent";
 import CardStatusComponent from "./CardStatusComponent";
 
-type CardListComponentProps = {
+type CardListOrderProps = {
 	order: Order;
 };
 
@@ -40,7 +40,7 @@ function getCurrentStatusDate(order: Order): string | null
 	}
 }
 
-function CardsListComponent(props: CardListComponentProps): JSX.Element
+export default function CardListOrder(props: CardListOrderProps): JSX.Element
 {
 	const {
 		id: orderId,
@@ -59,5 +59,3 @@ function CardsListComponent(props: CardListComponentProps): JSX.Element
 		<CardAddressComponent address={deliveryAddress} orderId={orderId} clientId={client?.id || null} />
 	</div>;
 }
-
-export default CardsListComponent;

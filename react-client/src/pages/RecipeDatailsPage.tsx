@@ -29,7 +29,7 @@ export default function RecipeDetailsPage(): JSX.Element
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
-				<div className="order-details-title">Reteta #{recipe?.id}</div>
+				<div className="order-details-title">#{recipe?.id}, {recipe?.name}</div>
 			</div>
 		</div>
 	);
