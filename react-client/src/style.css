@@ -497,6 +497,22 @@ td.clickable:hover {
 	opacity: 0.4;
 }
 
+.img-scale {
+	background-image: url("/img/scale.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-money {
+	background-image: url("/img/money.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
 .due-today {
 	color: red;
 }

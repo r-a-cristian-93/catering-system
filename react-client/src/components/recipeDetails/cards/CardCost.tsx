@@ -21,7 +21,7 @@ export default function CardCost(props: CardClientProps): JSX.Element
 		<>
 		<div className="card hover-pointer">
 			<div className="card-icon">
-				<div className="card-bg profil"></div>
+				<div className="card-bg img-money"></div>
 			</div>
 			<div className="card-details" onClick={handleToogleModal}>
 				<div className="card-title">Cost ingrediente</div>

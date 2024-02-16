@@ -22,7 +22,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 		<>
 		<div className="card hover-pointer">
 			<div className="card-icon">
-				<div className="card-bg profil"></div>
+				<div className="card-bg img-scale"></div>
 			</div>
 			<div className="card-details" onClick={handleToogleModal}>
 				<div className="card-title">Gramaj</div>
