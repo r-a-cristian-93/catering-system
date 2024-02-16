@@ -69,9 +69,9 @@ public class RecipesController {
 	//RECIPE DETAILS
 
 	@ResponseBody
-	@GetMapping("/{id}/details")
-	public List<RecipesDetailsModel> getDetails(@PathVariable Integer id) {
-		return recipesService.getDetails(id);
+	@GetMapping("/{recipeId}/details")
+	public List<RecipesDetailsModel> getDetails(@PathVariable Integer recipeId) {
+		return recipesService.getDetails(recipeId);
 	}
 
 	@ResponseBody

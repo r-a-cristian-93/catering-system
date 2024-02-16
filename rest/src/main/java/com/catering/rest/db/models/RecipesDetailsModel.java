@@ -9,25 +9,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name="recipes_details")
 @Getter @Setter
-@AllArgsConstructor
-@ToString
 public class RecipesDetailsModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name="ID_recipe")
-	private RecipeModel recipe;
+	@Column(name="ID_recipe")
+	private Integer recipeId;
 
 	@ManyToOne
 	@JoinColumn(name="ID_ingredient")

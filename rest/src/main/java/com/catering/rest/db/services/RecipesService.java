@@ -76,15 +76,14 @@ public class RecipesService {
 
 	//RECIPE DETAILS
 
-	public List<RecipesDetailsModel> getDetails(Integer id) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
-		return detailsRepo.findByRecipe(recipe);
+	public List<RecipesDetailsModel> getDetails(Integer recipeId) {
+		return detailsRepo.findByRecipeId(recipeId);
 	}
 
-	public RecipesDetailsModel addDetails(Integer id, RecipesDetailsModel details) {
-		RecipeModel recipe = recipesRepo.findById(id).get();
+	public RecipesDetailsModel addDetails(Integer recipeId, RecipesDetailsModel details) {
+		RecipeModel recipe = recipesRepo.findById(recipeId).get();
 		IngredientModel ingredient = ingredientsRepo.findById(details.getIngredient().getId()).get();
-		details.setRecipe(recipe);
+		details.setRecipeId(recipe.getId());
 		details.setIngredient(ingredient);
 		return detailsRepo.save(details);
 	}
@@ -94,7 +93,7 @@ public class RecipesService {
 		Integer ingredientId = details.getIngredient().getId();
 		IngredientModel ingredient = ingredientsRepo.findById(ingredientId).get();
 
-		details = detailsRepo.findByRecipeAndIngredient(recipe, ingredient);
+		details = detailsRepo.findByRecipeIdAndIngredient(recipe.getId(), ingredient);
 		detailsRepo.delete(details);
 	}
 
@@ -104,7 +103,7 @@ public class RecipesService {
 		IngredientModel ingredient = ingredientsRepo.findById(ingredientId).get();
 		Double quantity = details.getQuantity();
 
-		details = detailsRepo.findByRecipeAndIngredient(recipe, ingredient);
+		details = detailsRepo.findByRecipeIdAndIngredient(recipe.getId(), ingredient);
 		details.setQuantity(quantity);
 		return detailsRepo.save(details);
 	}
