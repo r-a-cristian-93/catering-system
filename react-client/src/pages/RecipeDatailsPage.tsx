@@ -5,6 +5,7 @@ import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 import { getRecipe } from "../controllers/RecipeController";
 import { Recipe } from "../models/Recipe";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
+import CardListRecipe from "../components/orderDetails/cards/CardListRecipe";
 
 export default function RecipeDetailsPage(): JSX.Element
 {
@@ -30,6 +31,7 @@ export default function RecipeDetailsPage(): JSX.Element
 		<div className="box">
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">#{recipe?.id}, {recipe?.name}</div>
+				{recipe && <CardListRecipe recipe={recipe}/> }
 			</div>
 		</div>
 	);
