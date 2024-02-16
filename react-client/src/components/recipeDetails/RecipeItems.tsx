@@ -6,6 +6,7 @@ import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import { QueryKeysRecipe } from "../../QueryKeys/QueryKeysRecipe.tsx";
 import { getRecipeItems } from "../../controllers/RecipeItemsController.tsx";
 import RecipeItemComponent from "./RecipeItemComponent.tsx";
+import AddRecipeItemModal from "./modals/AddRecipeItemModal.tsx";
 
 type RecipeItemsProps = {
     recipeId: number;
@@ -112,12 +113,12 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
                 <div className="add-button-text">Adauga articol</div>
                 <div className="add-button-dot">+</div>
             </button>
-{/*
-            {isModalActive && <AddItemModal
+
+            {isModalActive && <AddRecipeItemModal
                 key={Math.round(Math.random() * 100)}
                 toogleModalCallback={handleToogleModal}
-                orderId={recipeId}
-                addSuccessfulCallback={handleAddItemSuccessful} />} */}
+                recipeId={recipeId}
+                addSuccessfulCallback={handleAddItemSuccessful} />}
         </>
     );
 }
