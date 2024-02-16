@@ -45,9 +45,7 @@ export default function RecipesPage(): JSX.Element
 	return (
 		<div className="box">
 			<div className="box-content" id="order-table">
-				{
-					recipes && <RecipesList recipes={recipes} />
-				}
+				<RecipesList recipes={recipes} />
 				<Pager pagerArgs={pagerArgs} />
 			</div>
 		</div>

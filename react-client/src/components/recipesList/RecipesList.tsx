@@ -2,7 +2,7 @@ import { Recipe } from "../../models/Recipe";
 import RecipeComponent from "./RecipeComponent";
 
 type RecipesListPops = {
-	recipes: Recipe[];
+	recipes: Recipe[] | null;
 };
 
 export default function RecipesList(props: RecipesListPops): JSX.Element
@@ -20,7 +20,7 @@ export default function RecipesList(props: RecipesListPops): JSX.Element
 			</thead>
 
 			<tbody>
-				{props.recipes.map((recipe) => (
+				{props.recipes?.map((recipe) => (
 					<RecipeComponent key={recipe.id} recipe={recipe} />
 				))}
 			</tbody>
