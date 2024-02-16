@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Category } from "../../../models/Recipe";
+import { Category, getCategoryIconClass } from "../../../models/Recipe";
 
 type CardClientProps = {
 	recipeId: number;
@@ -21,7 +21,7 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 		<>
 		<div className="card hover-pointer">
 			<div className="card-icon">
-				<div className="card-bg profil"></div>
+				<div className={"card-bg " + getCategoryIconClass(category)}></div>
 			</div>
 			<div className="card-details" onClick={handleToogleModal}>
 				<div className="card-title">Categorie</div>
