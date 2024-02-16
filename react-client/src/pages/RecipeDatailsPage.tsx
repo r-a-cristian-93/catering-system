@@ -5,7 +5,7 @@ import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 import { getRecipe } from "../controllers/RecipeController";
 import { Recipe } from "../models/Recipe";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
-import CardListRecipe from "../components/orderDetails/cards/CardListRecipe";
+import CardListRecipe from "../components/recipeDetails/cards/CardListRecipe";
 
 export default function RecipeDetailsPage(): JSX.Element
 {
