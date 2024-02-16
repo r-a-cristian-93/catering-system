@@ -1,6 +1,6 @@
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { Recipe } from "../../../models/Recipe";
-import { getRecipesAll } from "../../../controllers/RecipeController";
+import { getRecipesAll } from "../../../controllers/RecipesController";
 import AddItem from "./AddItem";
 import { OrderItem } from "../../../models/Order";
 import { useState } from "react";

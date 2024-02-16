@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Pager, { PagerArgs } from "../components/Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 import { Recipe } from "../models/Recipe";
-import { getRecipes } from "../controllers/RecipeController";
+import { getRecipes } from "../controllers/RecipesController";
 import RecipesList from "../components/recipesList/RecipesList";
 
 export default function RecipesPage(): JSX.Element
