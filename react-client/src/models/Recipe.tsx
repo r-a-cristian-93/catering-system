@@ -1,3 +1,4 @@
+import { Ingredient } from "./Ingredient";
 import { PageableResponse } from "./Pageable";
 
 export type Unit = {
@@ -52,3 +53,10 @@ export type Recipe = {
 export type RecipesResponseData = PageableResponse & {
 	content: Recipe[];
 };
+
+export type RecipeItem = {
+    id: number;
+	recipeId: number;
+	ingredient: Ingredient;
+	quantity: number;
+}
