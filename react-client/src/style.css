@@ -513,6 +513,78 @@ td.clickable:hover {
 	background-size: contain;
 }
 
+.img-desserts {
+	background-image: url("/img/desserts.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-appetizers {
+	background-image: url("/img/appetizers.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-steaks {
+	background-image: url("/img/steaks.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-drinks {
+	background-image: url("/img/drinks.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-side-dish {
+	background-image: url("/img/side-dish.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-hot-food {
+	background-image: url("/img/hot-food.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-salads {
+	background-image: url("/img/salads.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-soup {
+	background-image: url("/img/soup.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
+.img-utensils {
+	background-image: url("/img/utensils.png");
+	width: 40px;
+	height: 40px;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+
 .due-today {
 	color: red;
 }
