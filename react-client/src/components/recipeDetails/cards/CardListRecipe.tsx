@@ -20,6 +20,6 @@ export default function CardListRecipe(props: CardListRecipeProps): JSX.Element
 	return <div className="cards">
 		<CardCategory recipeId={recipeId} category={category} />
 		<CardQuantity recipeId={recipeId} quantity={quantity} unit={unit} />
-		<CardCost recipeId={recipeId} cost={ingCost} />
+		<CardCost cost={ingCost} />
 	</div>;
 }
