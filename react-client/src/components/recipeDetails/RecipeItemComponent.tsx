@@ -1,30 +1,29 @@
-import { deleteOrderItem, updateOrderItem } from "../../controllers/OrderItemsController";
-import { OrderItem } from "../../models/Order";
 import * as Formatter from "../../utils/Formatting";
 import { ChangeEvent } from "react";
 import InputScrollBlocking from "../InputScrollBlocking";
+import { RecipeItem } from "../../models/Recipe";
 
 type RecipeItemComponentProps = {
-	orderItem: OrderItem;
-	changeCallback: (orderItem: OrderItem) => void;
-	deleteCallback: (orderItem: OrderItem) => void;
+	recipeItem: RecipeItem;
+	changeCallback: (orderItem: RecipeItem) => void;
+	deleteCallback: (orderItem: RecipeItem) => void;
 };
 
 export default function RecipeItemComponent(props: RecipeItemComponentProps): JSX.Element
 {
-	const orderItem = props.orderItem;
+	const recipeItem = props.recipeItem;
 	const { changeCallback, deleteCallback } = props;
 
-	const costTotal = orderItem.recipe.ingCost * orderItem.servings;
+	const costTotal = recipeItem.ingredient.price * recipeItem.quantity;
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
 		const { name, value } = event.target;
 
-		if (name === "servings")
+		if (name === "quantity")
 		{
 			const newItem = {
-				...orderItem,
+				...recipeItem,
 				[ name ]: Number(value),
 			};
 
@@ -34,25 +33,25 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 
 	function handleOnBlur(): void
 	{
-		void updateOrderItem(orderItem);
+		// void updateRecipeItem(recipeItem);
 	}
 
 	function handleDelete(): void
 	{
-		void deleteOrderItem(orderItem).then((isItemDeleted) =>
-		{
-			if (isItemDeleted) deleteCallback(orderItem);
-		});
+		// void deleteRecipeItem(recipeItem).then((isItemDeleted) =>
+		// {
+		// 	if (isItemDeleted) deleteCallback(recipeItem);
+		// });
 	}
 
 	return (
 		<tr id="det_8" className="font-size-120">
-			<td>{orderItem.recipe.name}</td>
+			<td>{recipeItem.ingredient.name}</td>
 			<td>
 				<InputScrollBlocking
-					name="servings"
+					name="quantity"
 					type="number"
-					value={orderItem.servings}
+					value={recipeItem.quantity}
 					onChange={handleChange}
 					onBlur={handleOnBlur}
 					placeholder="0"
@@ -60,7 +59,7 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 				/>
 				<span className="img-edit"></span>
 			</td>
-			<td>{Formatter.formatCurrency(orderItem.recipe.ingCost)}</td>
+			<td>{Formatter.formatCurrency(recipeItem.ingredient.price)}</td>
 			<td>{Formatter.formatCurrency(costTotal)}</td>
 			<td>
 				<img className="active" src="/img/delete.png" onClick={handleDelete} />
