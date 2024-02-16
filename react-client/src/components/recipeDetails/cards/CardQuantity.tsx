@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Recipe, Unit } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
 import PickUnitModal from "../modals/PickUnitModal";
+import InputScrollBlocking from "../../InputScrollBlocking";
 
 type CardClientProps = {
 	recipeId: number;
@@ -49,13 +50,13 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 				<div className="card-details">
 					<div className="card-title">Gramaj</div>
 					<div className="card-text-big first-big hover-pointer" >
-						<input
+						<InputScrollBlocking
 							name="quantity"
 							type="number"
 							value={quantity?.toString()}
 							onChange={handleChange}
 							onBlur={handleOnBlur}
-						></input>
+						/>
 						<span onClick={handleToogleModal}>{unit?.name}</span>
 					</div>
 				</div>

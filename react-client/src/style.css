@@ -66,6 +66,10 @@ body {
 	background-color: var(--bg);
 }
 
+body {
+	overflow-y: scroll;
+}
+
 .box {
 	margin: 40px;
 }
@@ -895,6 +899,14 @@ td.clickable:hover {
 
 .first-big:first-letter {
 	text-transform: uppercase;
+}
+
+.card input {
+	direction:RTL;
+	font-size: inherit;
+	width: 80px;
+	padding: 5px;
+	border: 0;
 }
 
 
