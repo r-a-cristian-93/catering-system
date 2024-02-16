@@ -55,7 +55,7 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 					onChange={handleChange}
 					onBlur={handleOnBlur}
 					placeholder="0"
-					min="0"
+					min="0.0"
 				/>
 				<span style={{width : "50px", display: "inline-block", textAlign: "left"}}>{recipeItem.ingredient.unit.name} </span>
 			</td>
