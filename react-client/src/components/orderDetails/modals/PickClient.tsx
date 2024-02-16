@@ -16,7 +16,7 @@ export default function PickClient(props: PickClientProps): JSX.Element
 
 	const { orderId, client, toogleModalCallback } = props;
 
-	function handleDoubleClick(): void
+	function handleSelect(): void
 	{
 		const order: Order = {
 			id: orderId,
@@ -40,7 +40,7 @@ export default function PickClient(props: PickClientProps): JSX.Element
 	}
 
 	return (
-		<tr onDoubleClick={handleDoubleClick}>
+		<tr onClick={handleSelect}>
 			<td>{client.name}</td>
 			<td>{client.phone || "-"}</td>
 		</tr>

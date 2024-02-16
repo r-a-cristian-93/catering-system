@@ -19,7 +19,7 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 
 	const user: User | undefined = queryClient.getQueryData(QueryKeysUser.logedInUser);
 
-	function handleDoubleClick(): void
+	function handleSelect(): void
 	{
 		if (user?.role.name === RoleEnum.ADMIN)
 		{
@@ -38,7 +38,7 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 	}
 
 	return (
-		<div className="card-small hover-pointer" onDoubleClick={handleDoubleClick}>
+		<div className="card-small hover-pointer" onClick={handleSelect}>
 			<div className="card-icon-small">
 				<div className={"card-bg " + status.name}></div>
 			</div>

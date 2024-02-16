@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Category, getCategoryIconClass } from "../../../models/Recipe";
+import PickCategoryModal from "../modals/PickCategoryModal";
 
 type CardClientProps = {
 	recipeId: number;
@@ -31,7 +32,7 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 			</div>
 		</div>
 		{
-			// isModalActive && <PickCategoryModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
+			isModalActive && <PickCategoryModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
 		}
 		</>
 	);

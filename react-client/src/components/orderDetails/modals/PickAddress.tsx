@@ -15,7 +15,7 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 
 	const { orderId, address, toogleModalCallback } = props;
 
-	function handleDoubleClick(): void
+	function handleSelect(): void
 	{
 		const order: Order = {
 			id: orderId,
@@ -31,7 +31,7 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 	}
 
 	return (
-		<tr onDoubleClick={handleDoubleClick}>
+		<tr onClick={handleSelect}>
 			<td>{address.value}</td>
 		</tr>
 	)
