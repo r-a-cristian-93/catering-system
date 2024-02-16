@@ -2,7 +2,16 @@ import { Ingredient } from "./Ingredient";
 import { PageableResponse } from "./Pageable";
 
 export type Unit = {
-    name: string;
+    name: UnitEnum;
+}
+
+export enum UnitEnum {
+    PIECE = "buc",
+    GRAMS = "g",
+    KILOGRAMS = "kg",
+    LITERS = "l",
+    STACK = "legatura",
+    MILLILITERS = "ml",
 }
 
 export type Category = {

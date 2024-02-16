@@ -1,3 +1,3 @@
 export const QueryKeysCategory = {
-	all: [ "category" ] as const,
+	all: [ "categories" ] as const,
 }

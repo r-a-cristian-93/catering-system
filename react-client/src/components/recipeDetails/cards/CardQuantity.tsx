@@ -22,6 +22,13 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 			(Number(value) >= 0) && setQuantity(Number(value));
 	}
 
+	const [ isModalActive, setModalActive ] = useState<boolean>(false);
+
+	function handleToogleModal(): void
+	{
+		setModalActive(prev => !prev);
+	}
+
 	function handleOnBlur(): void
 	{
 		void updateRecipe(
@@ -48,10 +55,13 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 							onChange={handleChange}
 							onBlur={handleOnBlur}
 						></input>
-						<span>{unit?.name}</span>
+						<span onClick={handleToogleModal}>{unit?.name}</span>
 					</div>
 				</div>
 			</div>
+			{
+				// isModalActive && <PickUnitModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
+			}
 		</>
 	);
 }
