@@ -44,7 +44,7 @@ export function getCategoryIconClass(category: Category | null): string
 export type Recipe = {
     id: number;
     name: string;
-    quantity: number;
+    quantity: number | null;
     unit: Unit;
     category: Category;
     ingCost: number;

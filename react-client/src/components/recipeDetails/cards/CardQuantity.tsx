@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Unit } from "../../../models/Recipe";
+import { ChangeEvent, useState } from "react";
+import { Recipe, Unit } from "../../../models/Recipe";
+import { updateRecipe } from "../../../controllers/RecipeController";
 
 type CardClientProps = {
 	recipeId: number;
@@ -9,31 +10,48 @@ type CardClientProps = {
 
 export default function CardQuantity(props: CardClientProps): JSX.Element
 {
-	const { recipeId, quantity, unit } = props;
+	const { recipeId, unit } = props;
 
-	const [ isModalActive, setModalActive ] = useState<boolean>(false);
+	const [ quantity, setQuantity ] = useState<number | null>(props.quantity);
 
-	function handleToogleModal(): void
+	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
-		setModalActive(prev => !prev);
+		const { name, value } = event.target;
+
+		if (name === "quantity")
+			(Number(value) >= 0) && setQuantity(Number(value));
+	}
+
+	function handleOnBlur(): void
+	{
+		void updateRecipe(
+			{
+				id: recipeId,
+				quantity: quantity
+			} as Recipe
+		);
 	}
 
 	return (
 		<>
-		<div className="card hover-pointer">
-			<div className="card-icon">
-				<div className="card-bg img-scale"></div>
-			</div>
-			<div className="card-details" onClick={handleToogleModal}>
-				<div className="card-title">Gramaj</div>
-				<div className="card-text-big first-big">
-					{quantity} {unit?.name}
+			<div className="card">
+				<div className="card-icon">
+					<div className="card-bg img-scale"></div>
+				</div>
+				<div className="card-details">
+					<div className="card-title">Gramaj</div>
+					<div className="card-text-big first-big hover-pointer" >
+						<input
+							name="quantity"
+							type="number"
+							value={quantity?.toString()}
+							onChange={handleChange}
+							onBlur={handleOnBlur}
+						></input>
+						<span>{unit?.name}</span>
+					</div>
 				</div>
 			</div>
-		</div>
-		{
-			// isModalActive && <PickCategoryModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
-		}
 		</>
 	);
 }
