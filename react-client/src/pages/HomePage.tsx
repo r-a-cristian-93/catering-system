@@ -9,7 +9,7 @@ import * as Formatter from "../utils/Formatting";
 import { DateRange } from "@mui/x-date-pickers-pro";
 import dayjs, { Dayjs } from "dayjs";
 
-async function getReports(startDateMillis: number | null, endDateMillis: number | null): Promise<ReportByDate[][]>
+async function getReports(startDateMillis: number | null | undefined, endDateMillis: number | null | undefined): Promise<ReportByDate[][]>
 {
 	// Display data from last 30 days as fallback
 	if (!endDateMillis) endDateMillis = new Date().getTime();
@@ -54,9 +54,16 @@ export default function HomePage(): JSX.Element
 		dayjs(endDateMillis),
 	]);
 
+	dateRange[0]?.toDate().getTime()
+
 	useEffect(() =>
 	{
-		void getReports(startDateMillis, endDateMillis).then((reports) =>
+		updateData();
+	}, []);
+
+	function updateData(): void
+	{
+		void getReports(dateRange[0]?.toDate().getTime(), dateRange[1]?.toDate().getTime()).then((reports) =>
 		{
 			const [ placement, due, cancel, shipping ] = reports;
 
@@ -78,7 +85,7 @@ export default function HomePage(): JSX.Element
 			const cancelLine: number[] = datesSorted.map((date) => findValueByKey(date, cancel));
 			const shippingLine: number[] = datesSorted.map((date) => findValueByKey(date, shipping));
 
-			setLineChartDate({
+			setLineChartData({
 				datesAxis: datesAxis,
 				placementLine: placementLine,
 				dueLine: dueLine,
@@ -87,10 +94,14 @@ export default function HomePage(): JSX.Element
 			});
 		});
 
+	}
 
-	}, []);
+	const [ lineChart, setLineChartData ] = useState<LineChartDate | null>(null);
 
-	const [ lineChartData, setLineChartDate ] = useState<LineChartDate | null>(null);
+	function handleUpdate(): void
+	{
+		updateData();
+	}
 
 	return (
 		<div className="box-content">
@@ -106,18 +117,18 @@ export default function HomePage(): JSX.Element
 							}}
 						/>
 					</LocalizationProvider>
-					<Button variant="contained" size="large">
+					<Button variant="contained" size="large" onClick={handleUpdate}>
 						Actualizeaza
 					</Button>
 				</div>
 				{
-					lineChartData &&
+					lineChart &&
 					<div className="chartGeneral" >
 						<BarChart
 							xAxis={[
 								{
 									id: 'barCategories',
-									data: lineChartData.datesAxis,
+									data: lineChart.datesAxis,
 									scaleType: 'band',
 								}
 							]}
@@ -129,25 +140,25 @@ export default function HomePage(): JSX.Element
 							series={[
 								{
 									id: "placement",
-									data: lineChartData.placementLine,
+									data: lineChart.placementLine,
 									label: "Comenzi plasate",
 									color: "#22dd33"
 								},
 								{
 									id: "due",
-									data: lineChartData.dueLine,
+									data: lineChart.dueLine,
 									label: "Termene limita",
 									color: "#dd22aa"
 								},
 								{
 									id: "cancel",
-									data: lineChartData.cancelLine,
+									data: lineChart.cancelLine,
 									label: "Comenzi anulate",
 									color: "#ff4400"
 								},
 								{
 									id: "shipped",
-									data: lineChartData.shippingLine,
+									data: lineChart.shippingLine,
 									label: "Comenzi livrate",
 									color: "#5555ff"
 								}

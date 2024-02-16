@@ -2,9 +2,9 @@ import { Unit } from "../models/Recipe";
 
 const { VITE_API_URL } = import.meta.env;
 
-export default async function getUnitList(): Promise<Unit[]>
+export default async function getUnitsList(): Promise<Unit[]>
 {
-	const url = VITE_API_URL + "/unit";
+	const url = VITE_API_URL + "/units";
 
 	const response = await fetch(url, {
 		method: "GET",

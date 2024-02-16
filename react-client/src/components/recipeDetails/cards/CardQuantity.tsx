@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Recipe, Unit } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
+import PickUnitModal from "../modals/PickUnitModal";
 
 type CardClientProps = {
 	recipeId: number;
@@ -60,7 +61,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 				</div>
 			</div>
 			{
-				// isModalActive && <PickUnitModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
+				isModalActive && <PickUnitModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
 			}
 		</>
 	);

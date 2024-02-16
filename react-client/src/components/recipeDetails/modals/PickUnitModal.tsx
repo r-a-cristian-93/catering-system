@@ -3,7 +3,7 @@ import { Unit } from "../../../models/Recipe";
 import PickUnit from "./PickUnit";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysUnit } from "../../../QueryKeys/QueryKeysUnit";
-import getUnitList from "../../../controllers/UnitController";
+import getUnitsList from "../../../controllers/UnitController";
 
 type PickUnitModalProps = {
 	recipeId: number;
@@ -22,7 +22,7 @@ export default function PickUnitModal(props: PickUnitModalProps): JSX.Element
 
 	useQuery<Unit[]>({
 		queryKey: QueryKeysUnit.all,
-		queryFn: () => getUnitList(),
+		queryFn: () => getUnitsList(),
 		onSuccess: (unitList) =>
 		{
 			setUnitList(unitList);
