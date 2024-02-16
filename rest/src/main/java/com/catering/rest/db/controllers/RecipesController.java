@@ -82,8 +82,8 @@ public class RecipesController {
 
 	@ResponseBody
 	@DeleteMapping("/{id}/details")
-	public void deleteDetails(@PathVariable Integer id, @RequestBody RecipesDetailsModel details) {
-		recipesService.deleteDetails(id, details);;
+	public boolean deleteDetails(@PathVariable Integer id, @RequestBody RecipesDetailsModel details) {
+		return recipesService.deleteDetails(id, details);
 	}
 
 	@ResponseBody

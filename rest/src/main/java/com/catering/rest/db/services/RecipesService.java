@@ -88,13 +88,15 @@ public class RecipesService {
 		return detailsRepo.save(details);
 	}
 
-	public void deleteDetails(Integer id, RecipesDetailsModel details) {
+	public boolean deleteDetails(Integer id, RecipesDetailsModel details) {
 		RecipeModel recipe = recipesRepo.findById(id).get();
 		Integer ingredientId = details.getIngredient().getId();
 		IngredientModel ingredient = ingredientsRepo.findById(ingredientId).get();
 
 		details = detailsRepo.findByRecipeIdAndIngredient(recipe.getId(), ingredient);
 		detailsRepo.delete(details);
+
+		return true;
 	}
 
 	public RecipesDetailsModel updateDetailsQuantity(Integer id, RecipesDetailsModel details) {

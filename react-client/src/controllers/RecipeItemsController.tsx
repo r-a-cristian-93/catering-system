@@ -64,7 +64,7 @@ export async function deleteRecipeItem(recipeItem: RecipeItem): Promise<boolean>
         body: JSON.stringify(recipeItem),
     });
 
-    return response.json().then(() => response.ok);
+    return response.ok;
 }
 
 export async function addRecipeItem(recipeItem: RecipeItem): Promise<RecipeItem>

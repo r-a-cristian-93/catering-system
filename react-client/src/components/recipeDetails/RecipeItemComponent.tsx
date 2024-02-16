@@ -2,6 +2,7 @@ import * as Formatter from "../../utils/Formatting";
 import { ChangeEvent } from "react";
 import InputScrollBlocking from "../InputScrollBlocking";
 import { RecipeItem } from "../../models/Recipe";
+import { deleteRecipeItem, updateRecipeItem } from "../../controllers/RecipeItemsController";
 
 type RecipeItemComponentProps = {
 	recipeItem: RecipeItem;
@@ -33,15 +34,15 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 
 	function handleOnBlur(): void
 	{
-		// void updateRecipeItem(recipeItem);
+		void updateRecipeItem(recipeItem);
 	}
 
 	function handleDelete(): void
 	{
-		// void deleteRecipeItem(recipeItem).then((isItemDeleted) =>
-		// {
-		// 	if (isItemDeleted) deleteCallback(recipeItem);
-		// });
+		void deleteRecipeItem(recipeItem).then((isItemDeleted) =>
+		{
+			if (isItemDeleted) deleteCallback(recipeItem);
+		});
 	}
 
 	return (
