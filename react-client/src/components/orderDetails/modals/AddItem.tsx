@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { addOrderItem } from "../../../controllers/OrderItemsController";
 import { OrderItem } from "../../../models/Order";
-import { Order } from "../../../models/Order";
 import { Recipe } from "../../../models/Recipe";
 import * as Formatter from "../../../utils/Formatting";
 
@@ -15,7 +14,7 @@ export default function AddItem(props: AddItemProps): JSX.Element
 {
 	const [ orderItem, setOrderItem ] = useState<OrderItem>(
 		{
-			order: { id: props.orderId } as Order,
+			orderId: props.orderId,
 			recipe: props.recipe,
 			servings: 0,
 		} as OrderItem

@@ -25,7 +25,6 @@ export default function PickStatusModal(props: PickStatusModalProps): JSX.Elemen
 		queryFn: () => getStatusList(),
 		onSuccess: (statusList) =>
 		{
-			console.log(statusList);
 			setStatusList(statusList);
 		},
 		staleTime: Infinity

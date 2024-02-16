@@ -53,7 +53,7 @@ export type ClientResponseData = PageableResponse & {
 
 export type OrderItem = {
 	id: number;
-	order: Order;
+	orderId: number;
 	recipe: Recipe;
 	servings: number;
 };

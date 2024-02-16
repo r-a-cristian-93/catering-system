@@ -28,7 +28,7 @@ export async function getOrderItems(orderId: number): Promise<OrderItem[]>
 
 export async function updateOrderItem(orderItem: OrderItem): Promise<OrderItem>
 {
-    const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
+    const url: string = VITE_API_URL + "/orders/" + orderItem.orderId + "/details";
 
     const response = await fetch(url, {
         method: "PUT",
@@ -53,7 +53,7 @@ export async function updateOrderItem(orderItem: OrderItem): Promise<OrderItem>
 
 export async function deleteOrderItem(orderItem: OrderItem): Promise<boolean>
 {
-    const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
+    const url: string = VITE_API_URL + "/orders/" + orderItem.orderId + "/details";
 
     const response = await fetch(url, {
         method: "DELETE",
@@ -69,7 +69,7 @@ export async function deleteOrderItem(orderItem: OrderItem): Promise<boolean>
 
 export async function addOrderItem(orderItem: OrderItem): Promise<OrderItem>
 {
-    const url: string = VITE_API_URL + "/orders/" + orderItem.order.id + "/details";
+    const url: string = VITE_API_URL + "/orders/" + orderItem.orderId + "/details";
 
     const response = await fetch(url, {
         method: "POST",
