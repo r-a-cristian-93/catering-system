@@ -31,7 +31,7 @@ export default function CardPriceTrend(props: CardPriceTrendProps): JSX.Element
 				colors={["black"]}
 			/>
 			</div>
-			<div className="card-details card-details-absolute">
+			<div className="card-details">
 				<div className="card-title">Evolutie pret</div>
 			</div>
 		</div>

@@ -7,6 +7,7 @@ import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
 import Breadcrumbs from "../components/Breadcrumbs";
+import RecordNewPriceModal from "../components/ingredientDetails/modals/RecordNewPriceModal";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -39,6 +40,13 @@ export default function IngredientDetailsPage(): JSX.Element
 	const [ priceHistory, setPriceHistory ] = useState<IngredientPriceHistory[] | null>(
 		queryClient.getQueryData(QueryKeysIngredient.priceHistoryByIngredientId(ingredientId)) as IngredientPriceHistory[]
 	);
+
+	const [ isModalActive, setModalActive ] = useState<boolean>(false);
+
+	function toggleModalCallback(): void
+	{
+		setModalActive((prev) => !prev);
+	}
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
@@ -83,6 +91,13 @@ export default function IngredientDetailsPage(): JSX.Element
 				{ingredient && <CardListIngredient ingredient={ingredient} />}
 
 				<IngredientPriceHistoryComponent priceHistory={priceHistory} />
+
+				<br />
+				<button className="button" type="button" onClick={toggleModalCallback}>
+					+ Înregistrează preț nou
+				</button>
+
+				{isModalActive && <RecordNewPriceModal ingredientId={ingredientId} toogleModalCallback={toggleModalCallback}/>}
 			</div>
 		</div>
 	</>

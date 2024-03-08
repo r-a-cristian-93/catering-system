@@ -64,3 +64,29 @@ export async function getPriceHistory(ingredientId: number): Promise<IngredientP
 
 	return response.json();
 }
+
+export async function addPriceHistory(priceHistory: IngredientPriceHistory): Promise<IngredientPriceHistory>
+{
+	const url = VITE_API_URL + "/ingredients/" + priceHistory.ingredientId.toString() + "/priceHistory";
+
+	const response = await fetch(url, {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(priceHistory)
+	});
+
+
+	const priceHistoryPromise: Promise<IngredientPriceHistory> = response.json().then((json) =>
+	{
+		const priceHistory: IngredientPriceHistory = {} as IngredientPriceHistory;
+
+		Object.assign(priceHistory, json);
+
+		return priceHistory;
+	})
+
+	return priceHistoryPromise;
+}
