@@ -4,6 +4,7 @@ import { Ingredient } from "../models/Ingredient";
 import { ChangeEvent, useState } from "react";
 import { getIngredient, updateIngredient } from "../controllers/IngredientController";
 import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
+import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -61,7 +62,7 @@ export default function IngredientDetailsPage(): JSX.Element
 						onChange={handleChange}
 						onBlur={handleOnBlur}/>
 				</div>
-				{ingredient?.price + "LEI"}
+                {ingredient && <CardListIngredient ingredient={ingredient} /> }
 
                 // Current price card
                 // Price trend grafic card

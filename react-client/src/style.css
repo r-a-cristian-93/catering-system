@@ -916,6 +916,10 @@ td.clickable:hover {
 }
 
 
+.card-details-absolute {
+	display:none;
+}
+
 @media (max-width: 1300px) {
 	.card {
 		flex-direction: column;
@@ -927,6 +931,10 @@ td.clickable:hover {
 
 	.card-details {
 		text-align: center;
+	}
+
+	.card-details-absolute {
+		display:block;
 	}
 }
 
