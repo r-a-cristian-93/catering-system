@@ -39,7 +39,7 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 
 	function handleDelete(): void
 	{
-		void deleteOrderItem(orderItem).then((isItemDeleted) =>
+		void deleteOrderItem(orderItem.id).then((isItemDeleted) =>
 		{
 			if (isItemDeleted) deleteCallback(orderItem);
 		});
