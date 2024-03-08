@@ -1,7 +1,7 @@
 import { QueryClient, useQueryClient } from "react-query";
 import { useState, ChangeEvent } from "react";
-import { IngredientPriceHistory } from "../../../models/Ingredient";
-import { addPriceHistory } from "../../../controllers/IngredientController";
+import { Ingredient, IngredientPriceHistory } from "../../../models/Ingredient";
+import { addPriceHistory, updateIngredient } from "../../../controllers/IngredientController";
 import { QueryKeysIngredient } from "../../../QueryKeys/QueryKeysIngredient";
 
 type RecordNewPricePros = {
@@ -18,14 +18,15 @@ export default function RecordNewPrice(props: RecordNewPricePros): JSX.Element
 
 	function handleBlur(): void
 	{
-		const priceHistory: IngredientPriceHistory = {
-			ingredientId: ingredientId,
-			price: price,
-		} as IngredientPriceHistory;
+		const ingredient: Ingredient = {
+			id: ingredientId,
+			price: price
+		} as Ingredient;
 
-		void addPriceHistory(priceHistory).then(() =>
+		void updateIngredient(ingredient).then(() =>
 		{
 			void queryClient.invalidateQueries(QueryKeysIngredient.ingredientById(ingredientId));
+			void queryClient.invalidateQueries(QueryKeysIngredient.priceHistoryByIngredientId(ingredientId));
 
 			toogleModalCallback();
 		});

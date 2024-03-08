@@ -67,7 +67,7 @@ export async function getPriceHistory(ingredientId: number): Promise<IngredientP
 
 export async function addPriceHistory(priceHistory: IngredientPriceHistory): Promise<IngredientPriceHistory>
 {
-	const url = VITE_API_URL + "/ingredients/" + priceHistory.ingredientId.toString() + "/priceHistory";
+	const url = VITE_API_URL + "/ingredients/priceHistory";
 
 	const response = await fetch(url, {
 		method: "POST",
