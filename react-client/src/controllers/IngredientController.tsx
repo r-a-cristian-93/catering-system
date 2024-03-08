@@ -1,0 +1,51 @@
+import { Ingredient } from "../models/Ingredient";
+const { VITE_API_URL } = import.meta.env;
+
+export async function getIngredient(ingredientId: number): Promise<Ingredient>
+{
+	const url = VITE_API_URL + "/ingredients/" + ingredientId.toString();
+
+	const response = await fetch(url, {
+		method: "GET",
+		credentials: "include",
+		headers: {
+			"Content-Type" : "application/json"
+		}
+	});
+
+	const ingredientPromise: Promise<Ingredient> = response.json().then((json) =>
+	{
+		const ingredient: Ingredient = {} as Ingredient;
+
+		Object.assign(ingredient, json);
+
+		return ingredient;
+	})
+
+	return ingredientPromise;
+}
+
+export async function updateIngredient(ingredient: Ingredient): Promise<Ingredient>
+{
+	const url = VITE_API_URL + "/ingredients/" + ingredient.id;
+
+	const response = await fetch(url, {
+		method: "PUT",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(ingredient),
+	});
+
+	const ingredientPromise: Promise<Ingredient> = response.json().then((json) =>
+	{
+		const ingredient: Ingredient = {} as Ingredient;
+
+		Object.assign(ingredient, json);
+
+		return ingredient;
+	})
+
+	return ingredientPromise;
+}
