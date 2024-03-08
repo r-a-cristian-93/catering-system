@@ -1,8 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import { Recipe, Unit } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
-import PickUnitModal from "../modals/PickUnitModal";
+import PickUnitList from "../modals/PickUnitList";
 import InputScrollBlocking from "../../InputScrollBlocking";
+import Modal from "../../generic/Modal";
 
 type CardClientProps = {
 	recipeId: number;
@@ -26,7 +27,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
-	function handleToogleModal(): void
+	function handleToggleModal(): void
 	{
 		setModalActive(prev => !prev);
 	}
@@ -57,12 +58,15 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 							onChange={handleChange}
 							onBlur={handleOnBlur}
 						/>
-						<span onClick={handleToogleModal}>{unit?.name}</span>
+						<span onClick={handleToggleModal}>{unit?.name}</span>
 					</div>
 				</div>
 			</div>
 			{
-				isModalActive && <PickUnitModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
+				isModalActive &&
+				<Modal title="Alege unitatea de masura" toggleCallback={handleToggleModal}>
+					<PickUnitList recipeId={recipeId} toggleModalCallback={handleToggleModal}/>
+				</Modal>
 			}
 		</>
 	);

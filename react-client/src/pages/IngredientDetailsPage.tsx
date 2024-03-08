@@ -99,7 +99,8 @@ export default function IngredientDetailsPage(): JSX.Element
 				<AddButton text="Înregistrează preț nou" onClick={toggleModalCallback} />
 
 				{
-					isModalActive && <Modal title="Inregistrare pret nou" toggleCallback={toggleModalCallback}>
+					isModalActive &&
+					<Modal title="Inregistrare pret nou" toggleCallback={toggleModalCallback}>
 						<RecordNewPrice ingredientId={ingredientId} toggleModalCallback={toggleModalCallback} />
 					</Modal>
 				}
