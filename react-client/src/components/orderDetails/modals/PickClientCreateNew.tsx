@@ -5,6 +5,7 @@ import { addAddress } from "../../../controllers/AddressControllere";
 import { updateOrder } from "../../../controllers/OrderController";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 import { QueryClient, useQueryClient } from "react-query";
+import useFocus from "../../../hooks/UseFocus";
 
 type PickClientCreateNewProps = {
 	orderId: number;
@@ -15,6 +16,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 {
 	const [ client, setClient ] = useState<Client>({} as Client);
 	const [ clientAddress, setClientAddress ] = useState<ClientAddress>({} as ClientAddress);
+	const inputFieldName = useFocus<HTMLInputElement>();
 
 	const queryClient: QueryClient = useQueryClient();
 
@@ -78,6 +80,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					placeholder="name"
 					onChange={handleChange}
 					autoComplete="false"
+					ref={inputFieldName}
 				/>
 				<span className="item-3">Telefon: </span>
 				<input

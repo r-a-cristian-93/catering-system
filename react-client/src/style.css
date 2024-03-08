@@ -1339,6 +1339,10 @@ input[type=time] {
 	grid-template-rows: 1fr 1fr;
 	gap: 10px;
 	width: 100%;
+
+	input {
+		outline: none;
+	}
 }
 
 .pick-client-create-details {
