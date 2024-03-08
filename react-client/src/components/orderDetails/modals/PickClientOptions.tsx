@@ -13,7 +13,7 @@ export default function PickClientOptions(props: PickClientOptionsProps): JSX.El
 	const { orderId, toggleModalCallback } = props;
 
 	const screenConfigSearch: ScreenConfig = {
-		selectorParams: { text: "Clienti existenti", iconPath: "/img/register-client.svg" },
+		selectorParams: { text: "Clienti existenti", iconPath: "/img/users.svg" },
 		screenElement: <PickClientSearch orderId={orderId} toogleModalCallback={toggleModalCallback} />
 	}
 

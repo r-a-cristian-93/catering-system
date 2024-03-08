@@ -77,7 +77,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					name="name"
 					type="text"
 					value={client.name}
-					placeholder="name"
+					placeholder="Nume"
 					onChange={handleChange}
 					autoComplete="false"
 					ref={inputFieldName}
