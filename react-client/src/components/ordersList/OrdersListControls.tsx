@@ -18,8 +18,9 @@ export default function OrdersListControls(): JSX.Element
 	return (
 		<>
 			<br />
-			<button className="button" type="button" onClick={handleAddNewOrder}>
-				+ Adauga comanda noua
+			<button className="add-button" type="button" onClick={handleAddNewOrder}>
+				<div className="add-button-text">Adauga comanda noua</div>
+				<div className="add-button-dot">+</div>
 			</button>
 		</>
 	);

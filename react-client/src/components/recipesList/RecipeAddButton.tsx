@@ -18,8 +18,9 @@ export default function RecipeAddButton(): JSX.Element
 	return (
 		<>
 			<br />
-			<button className="button" type="button" onClick={handleAddNewRecipe}>
-				+ Adauga o reteta noua
+			<button className="add-button" type="button" onClick={handleAddNewRecipe}>
+				<div className="add-button-text">Adauga o reteta noua</div>
+				<div className="add-button-dot">+</div>
 			</button>
 		</>
 	);

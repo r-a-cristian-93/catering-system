@@ -93,8 +93,9 @@ export default function IngredientDetailsPage(): JSX.Element
 				<IngredientPriceHistoryComponent priceHistory={priceHistory} />
 
 				<br />
-				<button className="button" type="button" onClick={toggleModalCallback}>
-					+ Înregistrează preț nou
+				<button className="add-button" type="button" onClick={toggleModalCallback}>
+					<div className="add-button-text">Înregistrează preț nou</div>
+					<div className="add-button-dot">+</div>
 				</button>
 
 				{isModalActive && <RecordNewPriceModal ingredientId={ingredientId} toogleModalCallback={toggleModalCallback}/>}
