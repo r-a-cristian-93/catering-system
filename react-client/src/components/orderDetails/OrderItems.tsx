@@ -6,6 +6,7 @@ import { useState } from "react";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import AddItemModal from "./modals/AddItemModal.tsx";
 import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
+import AddButton from "../generic/AddButton.tsx";
 
 type OrderItemsProps = {
     orderId: number;
@@ -108,10 +109,8 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                     </tr>
                 </tbody>
             </table>
-            <button className="add-button" onClick={handleToogleModal}>
-                <div className="add-button-text">Adauga articol</div>
-                <div className="add-button-dot">+</div>
-            </button>
+
+            <AddButton text="Adauga articol" onClick={handleToogleModal} />
 
             {isModalActive && <AddItemModal
                 key={Math.round(Math.random() * 100)}

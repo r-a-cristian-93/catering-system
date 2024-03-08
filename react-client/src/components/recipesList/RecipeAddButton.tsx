@@ -1,5 +1,6 @@
 import { addRecipe } from "../../controllers/RecipesController";
 import { Recipe } from "../../models/Recipe";
+import AddButton from "../generic/AddButton";
 
 export default function RecipeAddButton(): JSX.Element
 {
@@ -18,10 +19,7 @@ export default function RecipeAddButton(): JSX.Element
 	return (
 		<>
 			<br />
-			<button className="add-button" type="button" onClick={handleAddNewRecipe}>
-				<div className="add-button-text">Adauga o reteta noua</div>
-				<div className="add-button-dot">+</div>
-			</button>
+            <AddButton text="Adauga o reteta noua" onClick={handleAddNewRecipe} />
 		</>
 	);
 }

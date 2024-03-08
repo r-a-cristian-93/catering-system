@@ -1,5 +1,6 @@
 import { addOrder } from "../../controllers/OrdersController";
 import { Order } from "../../models/Order";
+import AddButton from "../generic/AddButton";
 
 export default function OrdersListControls(): JSX.Element
 {
@@ -18,10 +19,7 @@ export default function OrdersListControls(): JSX.Element
 	return (
 		<>
 			<br />
-			<button className="add-button" type="button" onClick={handleAddNewOrder}>
-				<div className="add-button-text">Adauga comanda noua</div>
-				<div className="add-button-dot">+</div>
-			</button>
+            <AddButton text="Adauga comanda noua" onClick={handleAddNewOrder} />
 		</>
 	);
 }

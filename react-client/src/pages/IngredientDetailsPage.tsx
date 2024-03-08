@@ -8,6 +8,7 @@ import CardListIngredient from "../components/ingredientDetails/cards/CardListIn
 import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
 import Breadcrumbs from "../components/Breadcrumbs";
 import RecordNewPriceModal from "../components/ingredientDetails/modals/RecordNewPriceModal";
+import AddButton from "../components/generic/AddButton";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -93,10 +94,8 @@ export default function IngredientDetailsPage(): JSX.Element
 				<IngredientPriceHistoryComponent priceHistory={priceHistory} />
 
 				<br />
-				<button className="add-button" type="button" onClick={toggleModalCallback}>
-					<div className="add-button-text">Înregistrează preț nou</div>
-					<div className="add-button-dot">+</div>
-				</button>
+
+				<AddButton text="Înregistrează preț nou" onClick={toggleModalCallback} />
 
 				{isModalActive && <RecordNewPriceModal ingredientId={ingredientId} toogleModalCallback={toggleModalCallback}/>}
 			</div>
