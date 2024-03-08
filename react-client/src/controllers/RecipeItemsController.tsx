@@ -1,4 +1,5 @@
 import { RecipeItem } from "../models/Recipe";
+import axios from "axios";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -6,90 +7,37 @@ export async function getRecipeItems(recipeId: number): Promise<RecipeItem[]>
 {
     const url = VITE_API_URL + "/recipes/" + recipeId + "/details";
 
-    const response = await fetch(url, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const response = await axios.get<RecipeItem[]>(url, { withCredentials: true });
 
-    const recipeItemsPromise: Promise<RecipeItem[]> = response.json().then((json) =>
-    {
-        const recipeItems: RecipeItems = {} as RecipeItems;
-
-        Object.assign(recipeItems, json);
-
-        return Object.values(recipeItems).flatMap((each) => each);
-    });
-
-    return recipeItemsPromise;
+    return response.data;
 }
 
 export async function updateRecipeItem(recipeItem: RecipeItem): Promise<RecipeItem>
 {
     const url: string = VITE_API_URL + "/recipes/" + recipeItem.recipeId + "/details";
 
-    const response = await fetch(url, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(recipeItem),
-    });
+    const response = await axios.put<RecipeItem>(url, recipeItem, { withCredentials: true });
 
-    const recipeItemPromise: Promise<RecipeItem> = response.json().then((json) =>
-    {
-        const recipeItem: RecipeItem = {} as RecipeItem;
-
-        Object.assign(recipeItem, json);
-
-        return recipeItem;
-    });
-
-    return recipeItemPromise;
+    return response.data;
 }
 
 export async function deleteRecipeItem(recipeItem: RecipeItem): Promise<boolean>
 {
-    const url: string = VITE_API_URL + "/recipes/" + recipeItem.recipeId + "/details";
+    const url: string = VITE_API_URL + "/recipes/details";
 
-    const response = await fetch(url, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(recipeItem),
+    const response = await axios.delete<boolean>(url, {
+         withCredentials: true,
+        params: { detailsId: recipeItem.id }
     });
 
-    return response.ok;
+    return response.data;
 }
 
 export async function addRecipeItem(recipeItem: RecipeItem): Promise<RecipeItem>
 {
     const url: string = VITE_API_URL + "/recipes/" + recipeItem.recipeId + "/details";
 
-    const response = await fetch(url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(recipeItem),
-    });
+    const response = await axios.post<RecipeItem>(url, recipeItem, { withCredentials: true });
 
-    return response.json().then((json) =>
-    {
-        const item: RecipeItem = {} as RecipeItem;
-
-        Object.assign(item, json);
-
-        return item;
-    });
+    return response.data;
 }
-
-type RecipeItems = {
-    items: RecipeItem[];
-};

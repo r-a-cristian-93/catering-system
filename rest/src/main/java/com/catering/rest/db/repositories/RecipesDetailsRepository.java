@@ -10,4 +10,5 @@ import com.catering.rest.db.models.RecipesDetailsModel;
 public interface RecipesDetailsRepository extends JpaRepository<RecipesDetailsModel, Integer> {
 	List<RecipesDetailsModel> findByRecipeId(Integer recipeId);
 	RecipesDetailsModel findByRecipeIdAndIngredient(Integer recipeId, IngredientModel ingredient);
+	void deleteById(Integer detailsId);
 }
