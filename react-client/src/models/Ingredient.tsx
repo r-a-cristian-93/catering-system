@@ -16,5 +16,5 @@ export type IngredientPriceHistory = {
     id: number,
     ingredientId: number,
     price: number,
-    date: Date
+    date: string
 }

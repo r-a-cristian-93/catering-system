@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from "react";
 import { getIngredient, getPriceHistory, updateIngredient } from "../controllers/IngredientController";
 import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
+import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -77,7 +78,7 @@ export default function IngredientDetailsPage(): JSX.Element
 				</div>
                 {ingredient && <CardListIngredient ingredient={ingredient} /> }
 
-                {priceHistory && priceHistory.map((each) => each.price)}
+                <IngredientPriceHistoryComponent priceHistory={priceHistory} />
 			</div>
 		</div>
     </>
