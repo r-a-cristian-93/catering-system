@@ -1,3 +1,4 @@
+import axios from "axios";
 const { VITE_API_URL } = import.meta.env;
 
 export type ReportByDate = {
@@ -34,15 +35,12 @@ async function getReport(path: string, startDateMilis: number, endDateMilis: num
 		}
 	);
 
-	const url = VITE_API_URL + "/orders/"+ path +"?" + queryParameters.toString();
+	const url = VITE_API_URL + "/orders/"+ path;
 
-	const response = await fetch(url, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include",
+	const response = await axios.get<ReportByDate[]>(url, {
+		withCredentials: true,
+		params: queryParameters
 	});
 
-	return response.json();
+	return response.data;
 }

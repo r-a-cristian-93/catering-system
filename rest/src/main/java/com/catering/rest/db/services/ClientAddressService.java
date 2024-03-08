@@ -2,13 +2,9 @@ package com.catering.rest.db.services;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.catering.rest.db.models.ClientAddressModel;
-import com.catering.rest.db.models.ClientModel;
 import com.catering.rest.db.repositories.ClientsAddressesRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -162,9 +162,9 @@ public class OrdersController {
 	}
 
 	@ResponseBody
-	@DeleteMapping("/{id}/details")
-	public boolean deleteDetails(@PathVariable Integer id, @RequestBody OrdersDetailsModel details) {
-		return ordersService.deleteDetails(id, details);
+	@DeleteMapping("/details")
+	public boolean deleteDetails(@RequestParam Integer detailsId) {
+		return ordersService.deleteDetails(detailsId);
 	}
 
 	@ResponseBody
