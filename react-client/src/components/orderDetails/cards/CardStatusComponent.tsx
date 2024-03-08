@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Status } from "../../../models/Order";
 import * as Formatter from "../../../utils/Formatting"
-import PickStatusModal from "../modals/PickStatusModal";
+import PickStatusList from "../modals/PickStatusList";
+import Modal from "../../generic/Modal";
 
 type CardStatusProps = {
 	orderId: number;
@@ -13,14 +14,14 @@ export default function CardStatusComponent(props: CardStatusProps): JSX.Element
 {
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
-	function handleToogleModal(): void
+	function handleToggleModal(): void
 	{
 		setModalActive(prev => !prev);
 	}
 
 	return (
 		<>
-			<div className="card hover-pointer" onClick={handleToogleModal}>
+			<div className="card hover-pointer" onClick={handleToggleModal}>
 				<div className="card-icon">
 					<div className={"card-bg " + props.status.name}></div>
 				</div>
@@ -31,7 +32,10 @@ export default function CardStatusComponent(props: CardStatusProps): JSX.Element
 				</div>
 			</div>
 			{
-				isModalActive && <PickStatusModal orderId={props.orderId} toogleModalCallback={handleToogleModal} />
+				isModalActive &&
+				<Modal title="Alege starea comenzii" toggleCallback={handleToggleModal}>
+					<PickStatusList orderId={props.orderId} toggleModalCallback={handleToggleModal} />
+				</Modal>
 			}
 		</>
 	);
