@@ -32,7 +32,7 @@ export default function PickAddressModal(props: PickAddressModalProps): JSX.Elem
 	});
 
 	return (
-		<div className="modal pick-modal">
+		<div className="modal">
 			<div className="modal-container">
 				<div className="modal-box">
 					<div className="modal-top">

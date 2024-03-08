@@ -1314,10 +1314,6 @@ input[type=time] {
 	}
 }
 
-.pick-modal {
-	text-align: left;
-}
-
 .pick-client-create-box {
 	display: flex;
 	text-align: left;

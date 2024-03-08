@@ -31,7 +31,7 @@ export default function PickClientModal(props: PickClientModalProps): JSX.Elemen
 	const { renderSelectors, renderScreen } = useScreens(screens);
 
 	return (
-		<div className="modal pick-modal">
+		<div className="modal">
 			<div className="modal-container">
 				<div className="modal-box">
 					<div className="modal-top">

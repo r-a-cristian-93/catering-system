@@ -12,7 +12,7 @@ export default function Modal(props: ModalProps): JSX.Element
 	useScrollBlocking();
 
 	return createPortal(
-		<div className="modal" id="edit-order-details-modal">
+		<div className="modal">
 			<div className="modal-container">
 				<div className="modal-box">
 					<div className="modal-top">
