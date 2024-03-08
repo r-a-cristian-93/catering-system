@@ -394,11 +394,11 @@ DROP TABLE IF EXISTS `recipes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `recipes` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `quantity` double NOT NULL,
-  `unit` varchar(25) NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT (_latin1'Reteta noua'),
+  `quantity` double DEFAULT '300',
+  `unit` varchar(25) NOT NULL DEFAULT (_latin1'g'),
   `ing_cost` double NOT NULL DEFAULT '0',
-  `category` varchar(20) NOT NULL,
+  `category` varchar(20) NOT NULL DEFAULT (_latin1'Aperitive'),
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `unit` (`unit`),

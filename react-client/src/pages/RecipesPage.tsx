@@ -4,6 +4,7 @@ import { PageableRequestParameters } from "../models/Pageable";
 import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipesController";
 import RecipesList from "../components/recipesList/RecipesList";
+import RecipeAddButton from "../components/recipesList/RecipeAddButton";
 
 export default function RecipesPage(): JSX.Element
 {
@@ -47,6 +48,7 @@ export default function RecipesPage(): JSX.Element
 			<div className="box-content" id="order-table">
 				<RecipesList recipes={recipes} />
 				<Pager pagerArgs={pagerArgs} />
+				<RecipeAddButton />
 			</div>
 		</div>
 	);

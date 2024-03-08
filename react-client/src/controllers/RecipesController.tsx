@@ -50,3 +50,29 @@ export async function getRecipesAll(): Promise<Recipe[]>
 
 	return recipesPromise;
 }
+
+
+export async function addRecipe(recipe: Recipe): Promise<Recipe>
+{
+	const url = VITE_API_URL + "/recipes/";
+
+	const response = await fetch(url, {
+		method: "POST",
+		credentials: "include",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(recipe)
+	});
+
+	const recipePromise: Promise<Recipe> = response.json().then((json) =>
+	{
+		const recipe: Recipe = {} as Recipe;
+
+		Object.assign(recipe, json);
+
+		return recipe;
+	})
+
+	return recipePromise;
+}
