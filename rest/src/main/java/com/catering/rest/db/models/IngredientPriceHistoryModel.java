@@ -32,8 +32,7 @@ public class IngredientPriceHistoryModel {
 	@Column(name="ID")
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name="ID_ingredient")
+	@Column(name="ID_ingredient")
 	private Integer ingredientId;
 
 	@Column(name="price")
