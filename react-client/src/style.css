@@ -908,8 +908,8 @@ td.clickable:hover {
 }
 
 .card input {
-	direction:RTL;
 	font-size: inherit;
+	text-align:right;
 	width: 80px;
 	padding: 5px;
 	border: 0;
