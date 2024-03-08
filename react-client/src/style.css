@@ -88,8 +88,15 @@ a:visited {
 
 .box-title {
 	display: inline-block;
-	font-size: 80px;
+	font-size: 70px;
 	margin-top: auto;
+}
+
+.box-title input {
+	font-weight: inherit;
+    font-size: inherit;
+    padding: 5px;
+    border: 0;
 }
 
 .box-content {

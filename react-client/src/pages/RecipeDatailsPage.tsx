@@ -57,17 +57,17 @@ export default function RecipeDetailsPage(): JSX.Element
 		<div className="box">
 			<div className="box-header">
 				<Breadcrumbs />
-			</div>
-			<div className="box-content" id="order-details">
-				<div className="order-details-title">
-					<span>#{recipe?.id},</span>
+				<img height="100px" src="../img/recipes.png" />
+				<h1 className="box-title">
 					<input
 						name="name"
 						value={recipe?.name || ""}
 						autoComplete="Nume rețetă"
 						onChange={handleChange}
 						onBlur={handleOnBlur}/>
-				</div>
+				</h1>
+			</div>
+			<div className="box-content" id="order-details">
 				{recipe && <CardListRecipe recipe={recipe}/> }
 				<RecipeItems recipeId={recipeId} />
 			</div>

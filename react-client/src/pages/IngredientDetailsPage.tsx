@@ -10,18 +10,18 @@ import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
-    const queryClient: QueryClient = useQueryClient();
+	const queryClient: QueryClient = useQueryClient();
 
-    const ingredientId: number = Number(useParams().ingredientId);
+	const ingredientId: number = Number(useParams().ingredientId);
 
-    useQuery<Ingredient>({
-        queryKey: QueryKeysIngredient.ingredientById(ingredientId),
-        queryFn: () => getIngredient(ingredientId),
-        onSuccess: (ingredient) =>
-        {
-            setIngredient(ingredient);
-        }
-    })
+	useQuery<Ingredient>({
+		queryKey: QueryKeysIngredient.ingredientById(ingredientId),
+		queryFn: () => getIngredient(ingredientId),
+		onSuccess: (ingredient) =>
+		{
+			setIngredient(ingredient);
+		}
+	})
 
 	useQuery<IngredientPriceHistory[]>({
 		queryKey: QueryKeysIngredient.priceHistoryByIngredientId(ingredientId),
@@ -32,13 +32,13 @@ export default function IngredientDetailsPage(): JSX.Element
 		})
 	})
 
-    const [ingredient, setIngredient] = useState<Ingredient | null>(
-        queryClient.getQueryData(QueryKeysIngredient.ingredientById(ingredientId)) as Ingredient | null
-    )
+	const [ ingredient, setIngredient ] = useState<Ingredient | null>(
+		queryClient.getQueryData(QueryKeysIngredient.ingredientById(ingredientId)) as Ingredient | null
+	)
 
-    const [priceHistory, setPriceHistory] = useState<IngredientPriceHistory[] | null>(
-        queryClient.getQueryData(QueryKeysIngredient.priceHistoryByIngredientId(ingredientId)) as IngredientPriceHistory[]
-    );
+	const [ priceHistory, setPriceHistory ] = useState<IngredientPriceHistory[] | null>(
+		queryClient.getQueryData(QueryKeysIngredient.priceHistoryByIngredientId(ingredientId)) as IngredientPriceHistory[]
+	);
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
@@ -52,9 +52,9 @@ export default function IngredientDetailsPage(): JSX.Element
 					return prev;
 				else
 					return {
-					...prev,
-					[ name ]: value,
-				};
+						...prev,
+						[ name ]: value,
+					};
 			});
 		}
 	}
@@ -65,25 +65,25 @@ export default function IngredientDetailsPage(): JSX.Element
 			void updateIngredient(ingredient);
 	}
 
-    return <>
-        <div className="box">
+	return <>
+		<div className="box">
 			<div className="box-header">
 				<Breadcrumbs />
-			</div>
-			<div className="box-content" id="order-details">
-				<div className="order-details-title">
-					<span>#{ingredient?.id},</span>
+				<img height="100px" src="../img/ingredients.png" />
+				<h1 className="box-title">
 					<input
 						name="name"
 						value={ingredient?.name || ""}
 						autoComplete="Nume ingredient"
 						onChange={handleChange}
-						onBlur={handleOnBlur}/>
-				</div>
-                {ingredient && <CardListIngredient ingredient={ingredient} /> }
+						onBlur={handleOnBlur} />
+				</h1>
+			</div>
+			<div className="box-content" id="order-details">
+				{ingredient && <CardListIngredient ingredient={ingredient} />}
 
-                <IngredientPriceHistoryComponent priceHistory={priceHistory} />
+				<IngredientPriceHistoryComponent priceHistory={priceHistory} />
 			</div>
 		</div>
-    </>
+	</>
 }
