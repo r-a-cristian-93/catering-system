@@ -1,6 +1,5 @@
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { useState } from "react";
-import useScrollBlocking from "../../../hooks/UseScrollBlocking";
 import { QueryKeysIngredient } from "../../../QueryKeys/QueryKeysIngredient";
 import { Ingredient } from "../../../models/Ingredient";
 import { getIngredientsAll } from "../../../controllers/IngredientsController";
@@ -8,13 +7,12 @@ import { RecipeItem } from "../../../models/Recipe";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import AddRecipeItem from "./AddRecipeItem";
 
-type AddRecipeItemModalProps = {
-	toogleModalCallback: () => void;
+type AddRecipeItemTableProps = {
 	addSuccessfulCallback: (recipeItem: RecipeItem) => void;
 	recipeId: number;
 }
 
-export default function AddRecipeItemModal(props: AddRecipeItemModalProps): JSX.Element
+export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 	const [ ingredients, setIngredients ] = useState<Ingredient[] | null>(getUnusedIngredients());
@@ -29,8 +27,6 @@ export default function AddRecipeItemModal(props: AddRecipeItemModalProps): JSX.
 			setIngredients(getUnusedIngredients());
 		}
 	});
-
-	useScrollBlocking();
 
 	function getUnusedIngredients(): Ingredient[] | null
 	{
@@ -57,39 +53,27 @@ export default function AddRecipeItemModal(props: AddRecipeItemModalProps): JSX.
 	}
 
 	return (
-		<div className="modal" id="edit-order-details-modal">
-			<div className="modal-container">
-				<div className="modal-box">
-					<div className="modal-top">
-						<h2 className="modal-title">Adauga ingredient</h2>
-						<span className="modal-close no-print" onClick={props.toogleModalCallback}>×</span>
-					</div>
-					<div className="modal-content">
-						<table id="add-item-table" className="full table-list">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nume</th>
-									<th>Cost unitar</th>
-									<th>Cantitate</th>
-									<th>Total</th>
-								</tr>
-							</thead>
-							<tbody>
-								{
-									ingredients?.map((ingredient) =>
-										<AddRecipeItem
-											key={ingredient.id}
-											recipeId={props.recipeId}
-											ingredient={ingredient}
-											addSuccessfulCallback={handleAddItemSuccessful} />
-									)
-								}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+		<table id="add-item-table" className="full table-list">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nume</th>
+					<th>Cost unitar</th>
+					<th>Cantitate</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					ingredients?.map((ingredient) =>
+						<AddRecipeItem
+							key={ingredient.id}
+							recipeId={props.recipeId}
+							ingredient={ingredient}
+							addSuccessfulCallback={handleAddItemSuccessful} />
+					)
+				}
+			</tbody>
+		</table>
+	)
 }

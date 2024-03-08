@@ -6,7 +6,9 @@ import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import { QueryKeysRecipe } from "../../QueryKeys/QueryKeysRecipe.tsx";
 import { getRecipeItems } from "../../controllers/RecipeItemsController.tsx";
 import RecipeItemComponent from "./RecipeItemComponent.tsx";
-import AddRecipeItemModal from "./modals/AddRecipeItemModal.tsx";
+import { AddRecipeItemTable } from "./modals/AddRecipeItemTable.tsx";
+import Modal from "../generic/Modal.tsx";
+import AddButton from "../generic/AddButton.tsx";
 
 type RecipeItemsProps = {
     recipeId: number;
@@ -21,7 +23,7 @@ function getTotalCost(recipeItems: RecipeItem[]): number
 
 export default function RecipeItems(props: RecipeItemsProps): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
+    const queryClient: QueryClient = useQueryClient();
     const recipeId = props.recipeId;
 
     // fetch order items
@@ -109,16 +111,17 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
                     </tr>
                 </tbody>
             </table>
-            <button className="add-button" onClick={handleToogleModal}>
-                <div className="add-button-text">Adauga articol</div>
-                <div className="add-button-dot">+</div>
-            </button>
 
-            {isModalActive && <AddRecipeItemModal
-                key={Math.round(Math.random() * 100)}
-                toogleModalCallback={handleToogleModal}
-                recipeId={recipeId}
-                addSuccessfulCallback={handleAddItemSuccessful} />}
+            <AddButton text="Adauga ingredient" onClick={handleToogleModal} />
+
+            <Modal toggleCallback={handleToogleModal} isModalActive={isModalActive} title="Adauga ingredient">
+                <AddRecipeItemTable
+                    key={Math.round(Math.random() * 100)}
+                    recipeId={recipeId}
+                    addSuccessfulCallback={handleAddItemSuccessful}
+                />
+            </Modal>
         </>
     );
 }
+

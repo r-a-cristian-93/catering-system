@@ -10,7 +10,7 @@ type AddIngredientItemProps = {
 	addSuccessfulCallback: (recipeItem: RecipeItem) => void
 };
 
-export default function AddItem(props: AddIngredientItemProps): JSX.Element
+export default function AddRecipeItem(props: AddIngredientItemProps): JSX.Element
 {
 	const [ recipeItem, setRecipeItem ] = useState<RecipeItem>(
 		{

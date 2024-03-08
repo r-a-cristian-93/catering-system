@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ScreenSelector, { ScreenOption, ScreenSelectorParams } from "../components/orderDetails/modals/ScreenSelector";
 
-type useScreensReturn = {
+type UseScreensReturn = {
     renderSelectors: () => JSX.Element[];
     renderScreen: () => JSX.Element;
 }
@@ -11,7 +11,7 @@ export type ScreenConfig = {
     screenElement: JSX.Element;
 }
 
-export default function useScreens(screens: Map<ScreenOption, ScreenConfig>): useScreensReturn
+export default function useScreens(screens: Map<ScreenOption, ScreenConfig>): UseScreensReturn
 {
     const [ currentScreen, setCurrentScreen ] = useState<ScreenOption>(ScreenOption.NONE);
 
@@ -23,7 +23,7 @@ export default function useScreens(screens: Map<ScreenOption, ScreenConfig>): us
         },
     []);
 
-    const useScreensReturn: useScreensReturn = {
+    const useScreensReturn: UseScreensReturn = {
         renderScreen: (): JSX.Element =>
         {
             const screenElement: JSX.Element | undefined = screens.get(currentScreen)?.screenElement;
