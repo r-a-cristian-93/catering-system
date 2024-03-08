@@ -3,6 +3,8 @@ import { ChangeEvent } from "react";
 import InputScrollBlocking from "../InputScrollBlocking";
 import { RecipeItem } from "../../models/Recipe";
 import { deleteRecipeItem, updateRecipeItem } from "../../controllers/RecipeItemsController";
+import { QueryClient, useQueryClient } from "react-query";
+import { QueryKeysRecipe } from "../../QueryKeys/QueryKeysRecipe";
 
 type RecipeItemComponentProps = {
 	recipeItem: RecipeItem;
@@ -12,6 +14,7 @@ type RecipeItemComponentProps = {
 
 export default function RecipeItemComponent(props: RecipeItemComponentProps): JSX.Element
 {
+	const queryClient: QueryClient = useQueryClient();
 	const recipeItem = props.recipeItem;
 	const { changeCallback, deleteCallback } = props;
 
@@ -34,7 +37,10 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 
 	function handleOnBlur(): void
 	{
-		void updateRecipeItem(recipeItem);
+		void updateRecipeItem(recipeItem).then((updatedRecipeItem) =>
+		{
+			void queryClient.invalidateQueries(QueryKeysRecipe.recipeById(updatedRecipeItem.recipeId));
+		});
 	}
 
 	function handleDelete(): void
