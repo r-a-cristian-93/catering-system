@@ -1,28 +1,12 @@
 import { User } from "../models/User.js";
+import axios from "axios";
 const { VITE_API_URL } = import.meta.env;
 
 export async function getUserInfo(): Promise<User>
 {
+	const url = VITE_API_URL + "/employees/myinfo";
 
-	const response = await fetch(VITE_API_URL + "/employees/myinfo", {
-		method: "GET",
-		credentials: "include",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
+	const response = await axios.get<User>(url, { withCredentials: true });
 
-	if (response.redirected)
-		return Promise.reject("redirected");
-
-	const userPromise: Promise<User> = response.json().then((json) =>
-	{
-		const user: User = {} as User;
-		Object.assign(user, json);
-
-		return user;
-	});
-
-	return userPromise;
-
+	return response.data;
 }
