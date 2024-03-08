@@ -1,32 +1,19 @@
 import { Client, ClientResponseData } from "../models/Order";
 import { PageableRequestParameters } from "../models/Pageable";
+import axios from "axios";
 const { VITE_API_URL } = import.meta.env;
 
 
 export async function getClients(pageableRequestParameters: PageableRequestParameters): Promise<ClientResponseData>
 {
-    const queryParameters = new URLSearchParams(pageableRequestParameters);
+    const url = VITE_API_URL + "/clients/allPageable";
 
-    const url = VITE_API_URL + "/clients/allPageable?" + queryParameters.toString();
-
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
+    const response = await axios.get<ClientResponseData>(url, {
+        withCredentials: true,
+        params: pageableRequestParameters
     });
 
-    const clientsPromise: Promise<ClientResponseData> = response.json().then((json) =>
-    {
-        const responseData: ClientResponseData = {} as ClientResponseData;
-
-        Object.assign(responseData, json);
-
-        return responseData;
-    });
-
-    return clientsPromise;
+    return response.data
 }
 
 export async function getClientsByNameContaining(name: string, pageableRequestParameters: PageableRequestParameters): Promise<ClientResponseData>
@@ -36,49 +23,21 @@ export async function getClientsByNameContaining(name: string, pageableRequestPa
         name: name
     });
 
-    const url = VITE_API_URL + "/clients/byNameContainginPageable?" + queryParameters.toString();
+    const url = VITE_API_URL + "/clients/byNameContainginPageable";
 
-    const response = await fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
+    const response = await axios.get<ClientResponseData>(url, {
+        withCredentials: true,
+        params: queryParameters,
     });
 
-    const clientsPromise: Promise<ClientResponseData> = response.json().then((json) =>
-    {
-        const responseData: ClientResponseData = {} as ClientResponseData;
-
-        Object.assign(responseData, json);
-
-        return responseData;
-    });
-
-    return clientsPromise;
+    return response.data;
 }
 
 export async function addClient(client: Client): Promise<Client>
 {
     const url = VITE_API_URL + "/clients";
 
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(client),
-    });
+    const response = await axios.post<Client>(url, client, { withCredentials: true });
 
-    const clientPromise: Promise<Client> = response.json().then((json) =>
-    {
-        const createdClient: Client = {} as Client;
-
-        Object.assign(createdClient, json);
-
-        return createdClient;
-    })
-
-    return clientPromise;
+    return response.data
 }
