@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Client } from "../../../models/Order";
-import PickClientModal from "../modals/PickClientModal";
+import PickClientOptions from "../modals/PickClientOptions";
+import Modal from "../../generic/Modal";
 
 type CardClientProps = {
 	orderId: number;
@@ -13,7 +14,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
-	function handleToogleModal(): void
+	function handleToggleModal(): void
 	{
 		setModalActive(prev => !prev);
 	}
@@ -24,7 +25,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 			<div className="card-icon">
 				<div className="card-bg profil"></div>
 			</div>
-			<div className="card-details" onClick={handleToogleModal}>
+			<div className="card-details" onClick={handleToggleModal}>
 				<div className="card-title">Client</div>
 				<div className="card-text-big first-big">
 					{client?.name}
@@ -35,7 +36,10 @@ export default function CardClient(props: CardClientProps): JSX.Element
 			</div>
 		</div>
 		{
-			isModalActive && <PickClientModal orderId={orderId} toogleModalCallback={handleToogleModal}/>
+			isModalActive &&
+			<Modal title="Alege client" toggleCallback={handleToggleModal}>
+				<PickClientOptions orderId={orderId} toggleModalCallback={handleToggleModal}/>
+			</Modal>
 		}
 		</>
 	);
