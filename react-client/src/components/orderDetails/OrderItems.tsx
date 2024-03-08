@@ -4,9 +4,10 @@ import OrderItemComponent from "./OrderItemComponent";
 import * as Formatter from "../../utils/Formatting.tsx";
 import { useState } from "react";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import AddItemModal from "./modals/AddItemModal.tsx";
+import AddOrderItemTable from "./modals/AddOrderItemTable.tsx";
 import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import AddButton from "../generic/AddButton.tsx";
+import Modal from "../generic/Modal.tsx";
 
 type OrderItemsProps = {
     orderId: number;
@@ -21,7 +22,7 @@ function getTotalCost(orderItems: OrderItem[]): number
 
 export default function OrderItems(props: OrderItemsProps): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
+    const queryClient: QueryClient = useQueryClient();
     const orderId = props.orderId;
 
     // fetch order items
@@ -65,7 +66,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
         );
     }
 
-    function handleToogleModal(): void
+    function handleToggleModal(): void
     {
         setModalActive(prev => !prev);
     }
@@ -110,13 +111,17 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                 </tbody>
             </table>
 
-            <AddButton text="Adauga articol" onClick={handleToogleModal} />
+            <br />
+            <AddButton text="Adauga articol" onClick={handleToggleModal} />
 
-            {isModalActive && <AddItemModal
-                key={Math.round(Math.random() * 100)}
-                toogleModalCallback={handleToogleModal}
-                orderId={orderId}
-                addSuccessfulCallback={handleAddItemSuccessful} />}
+            {
+                isModalActive && <Modal title="Adaugă articol" toggleCallback={handleToggleModal}>
+                    <AddOrderItemTable
+                        key={Math.round(Math.random() * 100)}
+                        orderId={orderId}
+                        addSuccessfulCallback={handleAddItemSuccessful} />
+                </Modal>
+            }
         </>
     );
 }

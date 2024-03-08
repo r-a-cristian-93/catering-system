@@ -7,8 +7,9 @@ import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
 import Breadcrumbs from "../components/Breadcrumbs";
-import RecordNewPriceModal from "../components/ingredientDetails/modals/RecordNewPriceModal";
 import AddButton from "../components/generic/AddButton";
+import RecordNewPrice from "../components/ingredientDetails/modals/RecordNewPrice";
+import Modal from "../components/generic/Modal";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -97,7 +98,12 @@ export default function IngredientDetailsPage(): JSX.Element
 
 				<AddButton text="Înregistrează preț nou" onClick={toggleModalCallback} />
 
-				{isModalActive && <RecordNewPriceModal ingredientId={ingredientId} toogleModalCallback={toggleModalCallback}/>}
+				{
+					isModalActive && <Modal title="Inregistrare pret nou" toggleCallback={toggleModalCallback}>
+						<RecordNewPrice ingredientId={ingredientId} toggleModalCallback={toggleModalCallback} />
+					</Modal>
+				}
+
 			</div>
 		</div>
 	</>

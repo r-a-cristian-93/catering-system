@@ -4,13 +4,13 @@ import { OrderItem } from "../../../models/Order";
 import { Recipe } from "../../../models/Recipe";
 import * as Formatter from "../../../utils/Formatting";
 
-type AddItemProps = {
+type AddOrderItemProps = {
 	orderId: number;
 	recipe: Recipe;
 	addSuccessfulCallback: (orderItem: OrderItem) => void
 };
 
-export default function AddItem(props: AddItemProps): JSX.Element
+export default function AddOrderItem(props: AddOrderItemProps): JSX.Element
 {
 	const [ orderItem, setOrderItem ] = useState<OrderItem>(
 		{

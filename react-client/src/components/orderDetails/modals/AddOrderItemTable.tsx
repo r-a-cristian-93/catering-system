@@ -1,20 +1,18 @@
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { Recipe } from "../../../models/Recipe";
 import { getRecipesAll } from "../../../controllers/RecipesController";
-import AddItem from "./AddItem";
+import AddOrderItem from "./AddOrderItem";
 import { OrderItem } from "../../../models/Order";
 import { useState } from "react";
-import useScrollBlocking from "../../../hooks/UseScrollBlocking";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 
-type AddItemModalProps = {
-	toogleModalCallback: () => void;
+type AddOrderItemTableProps = {
 	addSuccessfulCallback: (orderItem: OrderItem) => void;
 	orderId: number;
 }
 
-export default function AddItemModal(props: AddItemModalProps): JSX.Element
+export default function AddOrderItemTable(props: AddOrderItemTableProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 	const [ recipes, setRecipes ] = useState<Recipe[] | null>(getUnusedRecipes());
@@ -28,8 +26,6 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 			setRecipes(getUnusedRecipes());
 		}
 	});
-
-	useScrollBlocking();
 
 	function getUnusedRecipes(): Recipe[] | null
 	{
@@ -56,40 +52,28 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 	}
 
 	return (
-		<div className="modal" id="edit-order-details-modal">
-			<div className="modal-container">
-				<div className="modal-box">
-					<div className="modal-top">
-						<h2 className="modal-title">Adauga articol</h2>
-						<span className="modal-close no-print" onClick={props.toogleModalCallback}>×</span>
-					</div>
-					<div className="modal-content">
-						<table id="add-item-table" className="full table-list">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Rețetă</th>
-									<th>Gramaj</th>
-									<th>Cost unitar</th>
-									<th>Porții</th>
-									<th>Total</th>
-								</tr>
-							</thead>
-							<tbody>
-								{
-									recipes?.map((recipe) =>
-										<AddItem
-											key={recipe.id}
-											orderId={props.orderId}
-											recipe={recipe}
-											addSuccessfulCallback={handleAddItemSuccessful} />
-									)
-								}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
+		<table id="add-item-table" className="full table-list">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Rețetă</th>
+					<th>Gramaj</th>
+					<th>Cost unitar</th>
+					<th>Porții</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{
+					recipes?.map((recipe) =>
+						<AddOrderItem
+							key={recipe.id}
+							orderId={props.orderId}
+							recipe={recipe}
+							addSuccessfulCallback={handleAddItemSuccessful} />
+					)
+				}
+			</tbody>
+		</table>
 	);
 }

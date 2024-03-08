@@ -4,16 +4,12 @@ import { createPortal } from "react-dom";
 type ModalProps = {
 	title: string;
 	children: JSX.Element;
-	isModalActive: boolean;
 	toggleCallback: () => void;
 };
 
 export default function Modal(props: ModalProps): JSX.Element
 {
 	useScrollBlocking();
-
-	if (!props.isModalActive)
-		return <></>;
 
 	return createPortal(
 		<div className="modal" id="edit-order-details-modal">
