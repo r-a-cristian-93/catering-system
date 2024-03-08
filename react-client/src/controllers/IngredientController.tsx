@@ -1,4 +1,4 @@
-import { Ingredient } from "../models/Ingredient";
+import { Ingredient, IngredientPriceHistory } from "../models/Ingredient";
 const { VITE_API_URL } = import.meta.env;
 
 export async function getIngredient(ingredientId: number): Promise<Ingredient>
@@ -48,4 +48,19 @@ export async function updateIngredient(ingredient: Ingredient): Promise<Ingredie
 	})
 
 	return ingredientPromise;
+}
+
+export async function getPriceHistory(ingredientId: number): Promise<IngredientPriceHistory[]>
+{
+	const url = VITE_API_URL + "/ingredients/" + ingredientId.toString() + "/priceHistory";
+
+	const response = await fetch(url, {
+		method: "GET",
+		credentials: "include",
+		headers: {
+			"Content-Type" : "application/json"
+		}
+	});
+
+	return response.json();
 }

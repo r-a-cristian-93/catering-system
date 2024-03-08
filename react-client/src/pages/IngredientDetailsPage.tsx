@@ -1,8 +1,8 @@
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom"
-import { Ingredient } from "../models/Ingredient";
+import { Ingredient, IngredientPriceHistory } from "../models/Ingredient";
 import { ChangeEvent, useState } from "react";
-import { getIngredient, updateIngredient } from "../controllers/IngredientController";
+import { getIngredient, getPriceHistory, updateIngredient } from "../controllers/IngredientController";
 import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 
@@ -21,9 +21,22 @@ export default function IngredientDetailsPage(): JSX.Element
         }
     })
 
+	useQuery<IngredientPriceHistory[]>({
+		queryKey: QueryKeysIngredient.priceHistoryByIngredientId(ingredientId),
+		queryFn: () => getPriceHistory(ingredientId),
+		onSuccess: ((priceHistory) =>
+		{
+			setPriceHistory(priceHistory);
+		})
+	})
+
     const [ingredient, setIngredient] = useState<Ingredient | null>(
         queryClient.getQueryData(QueryKeysIngredient.ingredientById(ingredientId)) as Ingredient | null
     )
+
+    const [priceHistory, setPriceHistory] = useState<IngredientPriceHistory[] | null>(
+        queryClient.getQueryData(QueryKeysIngredient.priceHistoryByIngredientId(ingredientId)) as IngredientPriceHistory[]
+    );
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
@@ -64,10 +77,7 @@ export default function IngredientDetailsPage(): JSX.Element
 				</div>
                 {ingredient && <CardListIngredient ingredient={ingredient} /> }
 
-                // Current price card
-                // Price trend grafic card
-
-                // Ingredient price history
+                {priceHistory && priceHistory.map((each) => each.price)}
 			</div>
 		</div>
     </>

@@ -11,3 +11,10 @@ export type Ingredient = {
 export type IngredientsResponseData = PageableResponse & {
     content : Ingredient[];
 }
+
+export type IngredientPriceHistory = {
+    id: number,
+    ingredientId: number,
+    price: number,
+    date: Date
+}
