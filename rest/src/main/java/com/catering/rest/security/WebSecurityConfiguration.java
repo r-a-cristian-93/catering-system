@@ -25,14 +25,14 @@ import lombok.AllArgsConstructor;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private UserDetailsServiceImpl userDetailsService;
 	private BCryptPasswordEncoder pwdEncoder;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.userDetailsService(userDetailsService)
 			.passwordEncoder(pwdEncoder);
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -50,12 +50,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.addFilter(new AuthorizationFilter(authenticationManager()))
 			.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	}	
-	
+	}
+
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration conf = new CorsConfiguration();
-		conf.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:8181"));
+		conf.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:8181", "http://localhost:4173"));
 		conf.setAllowedMethods(Arrays.asList("*"));
 		conf.setAllowedHeaders(Arrays.asList("*"));
 		conf.setAllowCredentials(true);
