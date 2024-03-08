@@ -57,6 +57,10 @@ export default function OrdersPage(): JSX.Element
 
 	return (
 		<div className="box">
+			<div className="box-header">
+				<img height="100px" src="img/orders.png" />
+				<h1 className="box-title">Comenzi</h1>
+			</div>
 			<div className="box-content" id="order-table">
 				<OrdersFilterMenu setActiveFilterCallback={setActiveFilter} />
 				<OrdersList orders={orders} />

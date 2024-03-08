@@ -44,6 +44,10 @@ export default function IngredientsPage(): JSX.Element
 
 	return <>
 		<div className="box">
+			<div className="box-header">
+				<img height="100px" src="img/ingredients.png" />
+				<h1 className="box-title">Ingrediente</h1>
+			</div>
 			<div className="box-content" id="order-table">
 				<IngredientsList ingredients={ingredients} />
 				<Pager pagerArgs={pagerArgs} />
