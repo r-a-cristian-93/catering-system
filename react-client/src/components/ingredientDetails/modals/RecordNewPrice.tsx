@@ -1,7 +1,7 @@
 import { QueryClient, useQueryClient } from "react-query";
 import { useState, ChangeEvent } from "react";
-import { Ingredient, IngredientPriceHistory } from "../../../models/Ingredient";
-import { addPriceHistory, updateIngredient } from "../../../controllers/IngredientController";
+import { Ingredient } from "../../../models/Ingredient";
+import { updateIngredient } from "../../../controllers/IngredientController";
 import { QueryKeysIngredient } from "../../../QueryKeys/QueryKeysIngredient";
 
 type RecordNewPricePros = {
