@@ -59,7 +59,7 @@ public class IngredientsService {
 	}
 
 	public List<IngredientPriceHistoryModel> getPriceHistory(Integer ingredientId) {
-		return priceHistoryRepo.findByIngredientId(ingredientId);
+		return priceHistoryRepo.findByIngredientIdOrderByDateDesc(ingredientId);
 	}
 
 

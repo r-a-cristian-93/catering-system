@@ -8,4 +8,6 @@ import com.catering.rest.db.models.IngredientPriceHistoryModel;
 
 public interface IngredientsPriceHistoryRepository extends JpaRepository<IngredientPriceHistoryModel, Integer>{
     List<IngredientPriceHistoryModel> findByIngredientId(Integer ingredientId);
+    List<IngredientPriceHistoryModel> findByIngredientIdOrderByDateDesc(Integer ingredientId);
+
 }
