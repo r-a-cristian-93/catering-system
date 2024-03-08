@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Category, getCategoryIconClass } from "../../../models/Recipe";
-import PickCategoryModal from "../modals/PickCategoryModal";
+import PickCategoryList from "../modals/PickCategoryList";
+import Modal from "../../generic/Modal";
 
 type CardClientProps = {
 	recipeId: number;
@@ -13,7 +14,7 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
-	function handleToogleModal(): void
+	function handleToggleModal(): void
 	{
 		setModalActive(prev => !prev);
 	}
@@ -24,7 +25,7 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 			<div className="card-icon">
 				<div className={"card-bg " + getCategoryIconClass(category)}></div>
 			</div>
-			<div className="card-details" onClick={handleToogleModal}>
+			<div className="card-details" onClick={handleToggleModal}>
 				<div className="card-title">Categorie</div>
 				<div className="card-text-big first-big">
 					{category?.name}
@@ -32,7 +33,10 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 			</div>
 		</div>
 		{
-			isModalActive && <PickCategoryModal recipeId={recipeId} toogleModalCallback={handleToogleModal}/>
+			isModalActive &&
+			<Modal title="Alege categoria" toggleCallback={handleToggleModal}>
+				<PickCategoryList recipeId={recipeId} toggleModalCallback={handleToggleModal}/>
+			</Modal>
 		}
 		</>
 	);

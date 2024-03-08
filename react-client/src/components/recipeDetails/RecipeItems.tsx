@@ -115,7 +115,8 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
             <AddButton text="Adauga ingredient" onClick={handleToogleModal} />
 
             {
-                isModalActive && <Modal toggleCallback={handleToogleModal} title="Adauga ingredient">
+                isModalActive &&
+                <Modal toggleCallback={handleToogleModal} title="Adauga ingredient">
                     <AddRecipeItemTable
                         key={Math.round(Math.random() * 100)}
                         recipeId={recipeId}

@@ -115,7 +115,8 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
             <AddButton text="Adauga articol" onClick={handleToggleModal} />
 
             {
-                isModalActive && <Modal title="Adaugă articol" toggleCallback={handleToggleModal}>
+                isModalActive &&
+                <Modal title="Adaugă articol" toggleCallback={handleToggleModal}>
                     <AddOrderItemTable
                         key={Math.round(Math.random() * 100)}
                         orderId={orderId}
