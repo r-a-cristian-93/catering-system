@@ -25,7 +25,7 @@ export default function CardPriceTrend(props: CardPriceTrendProps): JSX.Element
 			<SparkLineChart
 				showHighlight
 				showTooltip
-				data={priceHistory || []}
+				data={priceHistory?.reverse() || []}
 				width={250}
 				height={100}
 				colors={["black"]}
