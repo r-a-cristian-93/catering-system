@@ -68,10 +68,10 @@ export default function AddItemModal(props: AddItemModalProps): JSX.Element
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Reteta</th>
+									<th>Rețetă</th>
 									<th>Gramaj</th>
 									<th>Cost unitar</th>
-									<th>Portii</th>
+									<th>Porții</th>
 									<th>Total</th>
 								</tr>
 							</thead>

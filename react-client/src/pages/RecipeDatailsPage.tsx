@@ -60,7 +60,7 @@ export default function RecipeDetailsPage(): JSX.Element
 					<input
 						name="name"
 						value={recipe?.name || ""}
-						autoComplete="Nume reteta"
+						autoComplete="Nume rețetă"
 						onChange={handleChange}
 						onBlur={handleOnBlur}/>
 				</div>

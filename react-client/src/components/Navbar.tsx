@@ -22,9 +22,9 @@ function Navbar(): JSX.Element
 
 	const thisPageAddress = document.location.pathname;
 	const links = [
-		{ text: "Acasa", href: "/home" },
+		{ text: "Acasă", href: "/home" },
 		{ text: "Comenzi", href: "/comenzi" },
-		{ text: "Retete", href: "/retete" },
+		{ text: "Rețete", href: "/retete" },
 		{ text: "Ingrediente", href: "/ingrediente" },
 	];
 
