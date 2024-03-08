@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import useFocus from "../hooks/UseFocus";
 
 type SearchBarParams = {
 	onSearch: (searchValue: string | null) => void;
@@ -8,6 +9,7 @@ type SearchBarParams = {
 export default function SearchBar(params: SearchBarParams): JSX.Element
 {
 	const [ searchValue, setSearchValue ] = useState<string | null>("");
+	const inputField = useFocus<HTMLInputElement>();
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
 	{
@@ -32,6 +34,7 @@ export default function SearchBar(params: SearchBarParams): JSX.Element
 				placeholder="Cauta..."
 				value={searchValue || ""}
 				onChange={handleChange}
+				ref={inputField}
 			/>
 			<button className="search-magnifier" onClick={handleSearch}>
 				<img width="20px" height="20px" src="/img/search.svg" />
