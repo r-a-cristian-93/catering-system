@@ -19,7 +19,7 @@ export default function IngredientPriceHistoryComponent(props: IngredientPriceHi
 				</thead>
 				<tbody>
 					{props.priceHistory?.map((record) => (
-						<IngredientPriceHistoryRecord priceHistoryRecord={record} />
+						<IngredientPriceHistoryRecord key={record.id} priceHistoryRecord={record} />
 					))}
 				</tbody>
 			</table>

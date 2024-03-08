@@ -21,6 +21,7 @@ function Navbar(): JSX.Element
 	const [ user, setUser ] = useState<User | null>(null);
 
 	const thisPageAddress = document.location.pathname;
+
 	const links = [
 		{ text: "Acasă", href: "/" },
 		{ text: "Comenzi", href: "/comenzi" },

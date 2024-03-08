@@ -20,7 +20,7 @@ export default function Breadcrumbs(): JSX.Element
 		const path = `/${pathSegments.slice(0, index + 1).join('/')}`;
 
 		return (
-			<span key={index}>
+			<span key={index+1}>
 				{' / '}
 				<a href={path}>{segment}</a>
 			</span>
