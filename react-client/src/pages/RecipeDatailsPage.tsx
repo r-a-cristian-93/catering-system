@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
-import { getRecipe } from "../controllers/RecipeController";
+import { getRecipe, updateRecipe } from "../controllers/RecipeController";
 import { Recipe } from "../models/Recipe";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
 import CardListRecipe from "../components/recipeDetails/cards/CardListRecipe";
@@ -27,10 +27,43 @@ export default function RecipeDetailsPage(): JSX.Element
 		queryClient.getQueryData(QueryKeysOrder.orderById(recipeId)) as Recipe | null
 	);
 
+	function handleChange(event: ChangeEvent<HTMLInputElement>): void
+	{
+		const { name, value } = event.target;
+
+		if (name === "name")
+		{
+			setRecipe((prev) =>
+			{
+				if (!prev)
+					return prev;
+				else
+					return {
+					...prev,
+					[ name ]: value,
+				};
+			});
+		}
+	}
+
+	function handleOnBlur(): void
+	{
+		if (recipe)
+			void updateRecipe(recipe);
+	}
+
 	return (
 		<div className="box">
 			<div className="box-content" id="order-details">
-				<div className="order-details-title">#{recipe?.id}, {recipe?.name}</div>
+				<div className="order-details-title">
+					<span>#{recipe?.id},</span>
+					<input
+						name="name"
+						value={recipe?.name || ""}
+						autoComplete="Nume reteta"
+						onChange={handleChange}
+						onBlur={handleOnBlur}/>
+				</div>
 				{recipe && <CardListRecipe recipe={recipe}/> }
 				<RecipeItems recipeId={recipeId} />
 			</div>

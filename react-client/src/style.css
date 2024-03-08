@@ -786,6 +786,12 @@ td.clickable:hover {
 	margin-bottom: 80px;
 }
 
+.order-details-title input {
+    font-size: inherit;
+    padding: 5px;
+    border: 0;
+}
+
 #order-details-table td:not(:first-child),
 #order-details-table th:not(:first-child) {
 	text-align: right;
