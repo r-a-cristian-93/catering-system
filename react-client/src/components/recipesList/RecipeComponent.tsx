@@ -14,7 +14,7 @@ export default function RecipeComponent(props: RecipeComponentProps): JSX.Elemen
 			id={recipe.id.toString()}
 			onClick={() =>
 			{
-				window.location.href = document.location.pathname + "/detalii_reteta/" + recipe.id
+				window.location.href = document.location.pathname + "/" + recipe.id
 			}
 			}>
 			<td>{recipe.id}</td>

@@ -24,7 +24,7 @@ export default function IngredientsList(props: IngredientsListProps): JSX.Elemen
 						id={ingredient.id.toString()}
 						onClick={() =>
 						{
-							window.location.href = document.location.pathname + "/detalii_ingredient/" + ingredient.id
+							window.location.href = document.location.pathname + "/" + ingredient.id
 						}
 						}>
 						<td>{ingredient.id}</td>

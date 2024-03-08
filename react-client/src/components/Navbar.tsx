@@ -22,14 +22,14 @@ function Navbar(): JSX.Element
 
 	const thisPageAddress = document.location.pathname;
 	const links = [
-		{ text: "Acasă", href: "/home" },
+		{ text: "Acasă", href: "/" },
 		{ text: "Comenzi", href: "/comenzi" },
 		{ text: "Rețete", href: "/retete" },
 		{ text: "Ingrediente", href: "/ingrediente" },
 	];
 
-	if (isAdmin)
-		links.push({ text: "-ADMIN-", href: "/admin" });
+	// if (isAdmin)
+	// 	links.push({ text: "-ADMIN-", href: "/admin" });
 
 	return (
 		<div className="nav">

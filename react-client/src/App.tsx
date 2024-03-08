@@ -17,14 +17,14 @@ export default function App(): JSX.Element
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/comenzi" element={<OrdersPage />} />
-          <Route path="/comenzi/detalii_comanda/:orderId" element={<OrderDetailsPage />} />
+          <Route path="/comenzi/:orderId" element={<OrderDetailsPage />} />
           <Route path="/retete" element={<RecipesPage />} />
-          <Route path="/retete/detalii_reteta/:recipeId" element={<RecipeDetailsPage />} />
+          <Route path="/retete/:recipeId" element={<RecipeDetailsPage />} />
           <Route path="/ingrediente" element={<IngredientsPage />} />
-          <Route path="/ingrediente/detalii_ingredient/:ingredientId" element={<IngredientDetailsPage />} />
+          <Route path="/ingrediente/:ingredientId" element={<IngredientDetailsPage />} />
           <Route path="*" element={<NoMatchPage />} />
         </Route>
       </Routes>

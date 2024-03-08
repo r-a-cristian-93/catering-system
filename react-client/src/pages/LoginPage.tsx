@@ -28,7 +28,7 @@ export default function LoginPage(): JSX.Element
 
         void requestUserLogin(credentials).then((response) =>
         {
-            if (response.ok) window.location.pathname = "/home";
+            if (response.ok) window.location.pathname = "/";
             else setLoginFailed(true);
         });
     }

@@ -7,6 +7,7 @@ import OrderItems from "../components/orderDetails/OrderItems";
 import { useState } from "react";
 import OrderProgress from "../components/orderDetails/OrderProgress";
 import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function OrderDetailsPage(): JSX.Element
 {
@@ -54,6 +55,9 @@ export default function OrderDetailsPage(): JSX.Element
 
 	return (
 		<div className="box">
+			<div className="box-header">
+				<Breadcrumbs />
+			</div>
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">Detalii comanda #{order?.id}</div>
 

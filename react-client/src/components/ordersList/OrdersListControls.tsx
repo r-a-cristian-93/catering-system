@@ -9,7 +9,7 @@ export default function OrdersListControls(): JSX.Element
 
 		void addOrder(order).then((newOrder) =>
 		{
-			const path = "/comenzi/detalii_comanda/" + newOrder.id;
+			const path = "/comenzi/" + newOrder.id;
 
 			window.location.pathname = path;
 		});

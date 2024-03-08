@@ -70,6 +70,11 @@ body {
 	overflow-y: scroll;
 }
 
+a:visited {
+	text-decoration: none;
+	color: inherit;
+}
+
 .box {
 	margin: 40px;
 }
@@ -78,6 +83,7 @@ body {
 	display: flex;
 	gap: 50px;
 	margin-bottom: 70px;
+	flex-wrap: wrap	;
 }
 
 .box-title {
@@ -90,6 +96,18 @@ body {
 	padding: 20px;
 }
 
+.breadcrumbs {
+	width: 100%;
+}
+
+.breadcrumbs a {
+	text-transform: capitalize;
+	text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+	opacity: 0.8;
+}
 
 
 .login-box {
@@ -251,6 +269,10 @@ body {
 	border-color: var(--grey);
 }
 
+.nav-el:visited {
+	color: var(--bg);
+}
+
 @media only screen and (max-width: 700px) {
 	.nav-el {
 		width: 100%;
@@ -274,6 +296,10 @@ body {
 	padding: 14px;
 	color: var(--bg);
 	float: right;
+}
+
+.profile:visited {
+	color: var(--bg);
 }
 
 .profile:hover {

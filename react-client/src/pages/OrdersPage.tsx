@@ -7,6 +7,7 @@ import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
 import Pager, { PagerArgs } from "../components/Pager.tsx";
 import { OrdersFilter } from "../components/ordersList/ordersFilter/OrdersFilter.tsx";
+import Breadcrumbs from "../components/Breadcrumbs.tsx";
 
 export default function OrdersPage(): JSX.Element
 {
@@ -58,6 +59,7 @@ export default function OrdersPage(): JSX.Element
 	return (
 		<div className="box">
 			<div className="box-header">
+				<Breadcrumbs />
 				<img height="100px" src="img/orders.png" />
 				<h1 className="box-title">Comenzi</h1>
 			</div>

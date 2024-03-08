@@ -7,6 +7,7 @@ import { Recipe } from "../models/Recipe";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
 import CardListRecipe from "../components/recipeDetails/cards/CardListRecipe";
 import RecipeItems from "../components/recipeDetails/RecipeItems";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function RecipeDetailsPage(): JSX.Element
 {
@@ -54,6 +55,9 @@ export default function RecipeDetailsPage(): JSX.Element
 
 	return (
 		<div className="box">
+			<div className="box-header">
+				<Breadcrumbs />
+			</div>
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">
 					<span>#{recipe?.id},</span>

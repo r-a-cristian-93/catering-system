@@ -9,7 +9,7 @@ export default function RecipeAddButton(): JSX.Element
 
 		void addRecipe(recipe).then((newRecipe) =>
 		{
-			const path = "/retete/detalii_reteta/" + newRecipe.id;
+			const path = "/retete/" + newRecipe.id;
 
 			window.location.pathname = path;
 		});

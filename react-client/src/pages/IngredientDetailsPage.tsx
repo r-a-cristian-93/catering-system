@@ -6,6 +6,7 @@ import { getIngredient, getPriceHistory, updateIngredient } from "../controllers
 import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -66,6 +67,9 @@ export default function IngredientDetailsPage(): JSX.Element
 
     return <>
         <div className="box">
+			<div className="box-header">
+				<Breadcrumbs />
+			</div>
 			<div className="box-content" id="order-details">
 				<div className="order-details-title">
 					<span>#{ingredient?.id},</span>

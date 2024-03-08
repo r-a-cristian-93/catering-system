@@ -4,6 +4,7 @@ import { getIngredients } from "../controllers/IngredientsController";
 import IngredientsList from "../components/ingredientsList/IngredientsList";
 import { PageableRequestParameters } from "../models/Pageable";
 import Pager, { PagerArgs } from "../components/Pager";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function IngredientsPage(): JSX.Element
 {
@@ -45,6 +46,7 @@ export default function IngredientsPage(): JSX.Element
 	return <>
 		<div className="box">
 			<div className="box-header">
+				<Breadcrumbs />
 				<img height="100px" src="img/ingredients.png" />
 				<h1 className="box-title">Ingrediente</h1>
 			</div>
