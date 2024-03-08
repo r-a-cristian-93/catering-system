@@ -1,5 +1,7 @@
 package com.catering.rest.db.controllers;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.catering.rest.db.models.IngredientModel;
+import com.catering.rest.db.models.IngredientPriceHistoryModel;
 import com.catering.rest.db.services.IngredientsService;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +56,13 @@ public class IngredientsController {
 		return ingredientsService.updateIngredient(id, ingredient);
 	}
 
+
+	@ResponseBody
+	@GetMapping("/{ingredientId}/priceHistory")
+	public List<IngredientPriceHistoryModel> getPriceHistory(@PathVariable Integer ingredientId)
+	{
+		return ingredientsService.getPriceHistory(ingredientId);
+	}
 
 	// PAGEABLE
 
