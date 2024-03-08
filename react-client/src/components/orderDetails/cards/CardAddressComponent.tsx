@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ClientAddress } from "../../../models/Order";
-import PickAddressModal from "../modals/PickAddressModal";
+import PickAddressTable from "../modals/PickAddressTable";
+import Modal from "../../generic/Modal";
 
 type CardAddressProps = {
 	orderId: number;
@@ -14,7 +15,7 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
-	function handleToogleModal(): void
+	function handleToggleModal(): void
 	{
 		setModalActive(prev => !prev);
 	}
@@ -25,7 +26,7 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 				<div className="card-icon">
 					<div className="card-bg img-pinlocation"></div>
 				</div>
-				<div className="card-details" onClick={handleToogleModal}>
+				<div className="card-details" onClick={handleToggleModal}>
 					<div className="card-title">Adresa livrare</div>
 					<div className="card-text-medium">
 						{address?.value}
@@ -33,7 +34,10 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 				</div>
 			</div>
 			{
-				isModalActive && clientId && <PickAddressModal orderId={orderId} clientId={clientId} toogleModalCallback={handleToogleModal} />
+				isModalActive && clientId &&
+				<Modal title="Alege adresa" toggleCallback={handleToggleModal}>
+					<PickAddressTable orderId={orderId} clientId={clientId} toggleModalCallback={handleToggleModal} />
+				</Modal>
 			}
 		</>
 	);

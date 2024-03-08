@@ -6,14 +6,14 @@ import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 type PickAddressProps = {
 	orderId: number;
 	address: ClientAddress;
-	toogleModalCallback: () => void;
+	toggleModalCallback: () => void;
 }
 
 export default function PickAddress(props: PickAddressProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const { orderId, address, toogleModalCallback } = props;
+	const { orderId, address, toggleModalCallback } = props;
 
 	function handleSelect(): void
 	{
@@ -26,7 +26,7 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 		{
 			void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
 
-			toogleModalCallback();
+			toggleModalCallback();
 		});
 	}
 
