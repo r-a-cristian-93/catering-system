@@ -294,7 +294,7 @@ a:visited {
 	border-color: var(--menu-hover);
 }
 
-.current-page {
+.nav-el.active {
 	border-color: var(--menu-hover);
 }
 
@@ -1201,6 +1201,10 @@ td.clickable:hover {
 	top: 50%;
 	transform: translateY(-50%);
 	font-size: 16px;
+
+	/* fix firefox display */
+	height: min-content;
+  	width: max-content;
 }
 
 .add-button-dot {

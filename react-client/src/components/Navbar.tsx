@@ -4,6 +4,7 @@ import { RoleEnum } from "../models/User.tsx";
 import { getUserInfo } from "../controllers/UserController.tsx";
 import { useQuery } from "react-query";
 import { QueryKeysUser } from "../QueryKeys/QueryKeysUser.tsx";
+import { NavLink } from "react-router-dom";
 
 function Navbar(): JSX.Element
 {
@@ -19,8 +20,6 @@ function Navbar(): JSX.Element
 
 	const [ isAdmin, setIsAdmin ] = useState<boolean>(false);
 	const [ user, setUser ] = useState<User | null>(null);
-
-	const thisPageAddress = document.location.pathname;
 
 	const links = [
 		{ text: "Acasă", href: "/" },
@@ -45,13 +44,7 @@ function Navbar(): JSX.Element
 			{links.map((link, index) =>
 			{
 				return (
-					<a
-						key={index}
-						href={link.href}
-						className={"nav-el" + (link.href === thisPageAddress ? " current-page" : "")}
-					>
-						{link.text}
-					</a>
+					<NavLink to={link.href} className="nav-el" key={index} >{link.text}</NavLink>
 				);
 			})}
 		</div>
