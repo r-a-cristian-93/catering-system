@@ -13,7 +13,7 @@ async function getReports(startDateMillis: number | null | undefined, endDateMil
 {
 	// Display data from last 30 days as fallback
 	if (!endDateMillis) endDateMillis = new Date().getTime();
-	if (!startDateMillis) startDateMillis = endDateMillis - 1000*60*60*24*30;
+	if (!startDateMillis) startDateMillis = endDateMillis - 1000 * 60 * 60 * 24 * 30;
 
 	const [ placement, due, cancel, shipping ] = await Promise.all([
 		getReportOfPlacementDate(startDateMillis, endDateMillis),
@@ -25,7 +25,7 @@ async function getReports(startDateMillis: number | null | undefined, endDateMil
 	return [ placement, due, cancel, shipping ];
 }
 
-type LineChartDate = {
+type LineChartData = {
 	datesAxis: string[],
 	placementLine: number[],
 	dueLine: number[],
@@ -47,25 +47,38 @@ export default function HomePage(): JSX.Element
 {
 	// Display data from last 30 days initially
 	const endDateMillis: number = new Date().getTime();
-	const startDateMillis: number = endDateMillis - 1000*60*60*24*30;
+	const startDateMillis: number = endDateMillis - 1000 * 60 * 60 * 24 * 30 * 24;
 
-	const [dateRange, setDateRange] = useState<DateRange<Dayjs>>([
+	const [ lineChart, setLineChartData ] = useState<LineChartData | null>(null);
+	const [ dateRange, setDateRange ] = useState<DateRange<Dayjs>>([
 		dayjs(startDateMillis),
 		dayjs(endDateMillis),
 	]);
-
-	dateRange[0]?.toDate().getTime()
 
 	useEffect(() =>
 	{
 		updateData();
 	}, []);
 
+	function hasAnyData(reports: ReportByDate[][]): boolean
+	{
+		for (const group of reports)
+		{
+			if (group.length > 0)
+				return true;
+		};
+
+		return false;
+	}
+
 	function updateData(): void
 	{
-		void getReports(dateRange[0]?.toDate().getTime(), dateRange[1]?.toDate().getTime()).then((reports) =>
+		void getReports(dateRange[ 0 ]?.toDate().getTime(), dateRange[ 1 ]?.toDate().getTime()).then((reports) =>
 		{
 			const [ placement, due, cancel, shipping ] = reports;
+
+			if (!hasAnyData(reports))
+				return;
 
 			const datesSet: Set<Date> = new Set<Date>([
 				...Array.from(placement.map((each) => each.date)),
@@ -93,14 +106,6 @@ export default function HomePage(): JSX.Element
 				shippingLine: shippingLine
 			});
 		});
-
-	}
-
-	const [ lineChart, setLineChartData ] = useState<LineChartDate | null>(null);
-
-	function handleUpdate(): void
-	{
-		updateData();
 	}
 
 	return (
@@ -117,8 +122,8 @@ export default function HomePage(): JSX.Element
 							}}
 						/>
 					</LocalizationProvider>
-					<Button variant="contained" size="large" onClick={handleUpdate}>
-						Actualizeaza
+					<Button variant="contained" size="large" onClick={updateData}>
+						Actualizează
 					</Button>
 				</div>
 				{
