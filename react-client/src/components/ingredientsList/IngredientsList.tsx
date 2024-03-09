@@ -1,5 +1,5 @@
 import { Ingredient } from "../../models/Ingredient";
-import * as Formatter from  "../../utils/Formatting"
+import * as Formatter from "../../utils/Formatting"
 
 type IngredientsListProps = {
 	ingredients: Ingredient[] | null;
@@ -21,6 +21,7 @@ export default function IngredientsList(props: IngredientsListProps): JSX.Elemen
 			<tbody>
 				{props.ingredients?.map((ingredient) => (
 					<tr
+						key={ingredient.id}
 						id={ingredient.id.toString()}
 						onClick={() =>
 						{

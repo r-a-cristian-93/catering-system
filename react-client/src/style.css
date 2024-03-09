@@ -219,6 +219,7 @@ a:visited {
 	text-align: center;
 	border-radius: 10px;
 	background-color: var(--grey2);
+	list-style: none;
 }
 
 .pager-button {
@@ -229,6 +230,7 @@ a:visited {
 	cursor: pointer;
 	opacity: 0.4;
 	background-color: inherit;
+	display: inline-block;
 }
 
 .pager-button:first-child {
@@ -248,8 +250,12 @@ a:visited {
 	opacity: 1;
 }
 
-.pager-extend {
-	opacity: 0.4
+.pager-button.inactive {
+	cursor: default;
+}
+
+.pager-button.inactive:hover {
+	background-color: inherit;
 }
 
 /* **************** NAVIGATION MENU	************** */

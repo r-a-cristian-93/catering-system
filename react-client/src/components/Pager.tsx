@@ -13,13 +13,12 @@ export function PagerButton(props: PagerButtonProps): JSX.Element
     }
 
     return (
-        <button
-            type="button"
+        <li
             onClick={handleClick}
             className={"pager-button" + (props.isCurrentPage ? " pager-current" : "")}
         >
             {props.text}{" "}
-        </button>
+        </li>
     );
 }
 
@@ -37,7 +36,7 @@ export default function Pager(props: PagerProps): JSX.Element
 {
     const buttons: JSX.Element[] = [];
     let pageIndex: number = 0;
-    let keyIndex: number = 0;
+    let keyIndex: number = 1000;
 
     pageIndex = props.pagerArgs.activePage > 0 ? props.pagerArgs.activePage - 1 : 0;
 
@@ -70,7 +69,8 @@ export default function Pager(props: PagerProps): JSX.Element
                     pageIndex < props.pagerArgs.totalPages - 1) // right side dots
             )
             {
-                buttons.push(<span className="page-extend">...</span>);
+                buttons.push(<li key={keyIndex++} className="pager-button inactive">...</li>
+                );
             }
 
             buttons.push(
@@ -97,5 +97,5 @@ export default function Pager(props: PagerProps): JSX.Element
         />
     );
 
-    return <div className="pager">{buttons.map((button) => button)}</div>;
+    return <ul className="pager">{buttons.map((button) => button)}</ul>;
 }
