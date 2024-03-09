@@ -1,0 +1,52 @@
+.add_button {
+	display: flex;
+	height: 45px;
+	width: fit-content;
+	color: white;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background-color: white;
+	font-weight: bold;
+}
+
+.add_button:hover .add_button_dot,
+.add_button:hover .add_button_text {
+	background-color: var(--button-hover);
+}
+
+.add_button_text {
+	background-color: var(--button-bg);
+	flex: auto;
+	padding: 5px 20px 5px 15px;
+	border-radius: 0px 10px 10px 0;
+
+	position: relative;
+	left: 40px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 16px;
+
+	/* fix firefox display */
+	height: min-content;
+  	width: max-content;
+}
+
+.add_button_dot {
+	background-color: var(--button-bg);
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	text-align: center;
+	position: relative;
+	left: -100%;
+	top: -100%;
+	transform: translate(100%, 100%);
+
+	/*center symbol*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+}
+
