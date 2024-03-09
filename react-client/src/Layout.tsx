@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar";
 import { Outlet } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 import isUserAuthenticated from "./components/Auth";
 
 export default function Layout(): JSX.Element

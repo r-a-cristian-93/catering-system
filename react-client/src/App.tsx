@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout.tsx";
 import NoMatchPage from "./pages/NoMatchPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
+import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import OrdersPage from "./pages/OrdersPage.tsx";
 import OrderDetailsPage from "./pages/OrderDetailsPage.tsx";
 import RecipesPage from "./pages/RecipesPage.tsx";
