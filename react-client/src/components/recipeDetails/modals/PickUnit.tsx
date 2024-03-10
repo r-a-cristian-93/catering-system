@@ -2,6 +2,8 @@ import { QueryClient, useQueryClient } from "react-query";
 import { Unit, Recipe } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
+import CardSmall from "../../generic/Card/CardSmall";
+import CardIconSmall from "../../generic/Card/CardIconSmall";
 
 type PickUnitProps = {
 	recipeId: number;
@@ -31,13 +33,13 @@ export default function PickUnit(props: PickUnitProps): JSX.Element
 	}
 
 	return (
-		<div className="card-small hover-pointer" onClick={handleSelect}>
-			<div className="card-icon-small">
+		<CardSmall onClick={handleSelect}>
+			<CardIconSmall>
 				<div className={"card-bg "}></div>
-			</div>
+			</CardIconSmall>
 			<div className="card-details-small">
 				<div className="card-text-medium">{unit.name}</div>
 			</div>
-		</div>
+		</CardSmall>
 	)
 }

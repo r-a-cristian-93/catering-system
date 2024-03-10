@@ -14,7 +14,6 @@
 .card input {
 	font-size: inherit;
 	text-align:right;
-	/* width: 80px; */
 	padding: 5px;
 	border: 0;
 }
@@ -23,4 +22,23 @@
 	display: flex;
 	justify-content: center;
 	margin: 0 auto;
+}
+
+
+
+/* Card small */
+
+.card_small {
+	align-items: center;
+	border: none !important;
+}
+
+.card_small:hover .card_icon_small {
+	transform: translateY(-10px);
+}
+
+.card_icon_small {
+	margin: auto 0;
+	scale: 0.8;
+	transition: 0.1s ease-in-out;
 }

@@ -56,6 +56,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 						<InputScrollBlocking
 							name="quantity"
 							type="number"
+							size={5}
 							value={quantity?.toString()}
 							onChange={handleChange}
 							onBlur={handleOnBlur}
