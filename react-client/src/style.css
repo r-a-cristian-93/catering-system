@@ -568,11 +568,6 @@ a:visited {
 	background-size: contain;
 }
 
-.card-details {
-	text-align: left;
-	vertical-align: top;
-	max-width: 250px;
-}
 
 .card-title {
 	font-size: 100%;
@@ -597,9 +592,7 @@ a:visited {
 	text-transform: capitalize;
 }
 
-.card-details {
-	text-align: center;
-}
+
 
 @media print {
 	.width-print {

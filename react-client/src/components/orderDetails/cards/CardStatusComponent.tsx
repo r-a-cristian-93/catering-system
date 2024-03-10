@@ -5,6 +5,7 @@ import PickStatusList from "../modals/PickStatusList";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardStatusProps = {
 	orderId: number;
@@ -27,11 +28,11 @@ export default function CardStatusComponent(props: CardStatusProps): JSX.Element
 				<CardIcon>
 					<div className={"card-bg " + props.status.name}></div>
 				</CardIcon>
-				<div className="card-details">
+				<CardDetails>
 					<div className="card-title">Stare</div>
 					<div className="card-text-big">{props.status.name}</div>
 					<div className="card-text-medium">{Formatter.formatDate(props.statusDate)}</div>
-				</div>
+				</CardDetails>
 			</Card>
 			{
 				isModalActive &&

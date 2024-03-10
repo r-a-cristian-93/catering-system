@@ -4,6 +4,7 @@ import PickCategoryList from "../modals/PickCategoryList";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardClientProps = {
 	recipeId: number;
@@ -27,12 +28,12 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 				<CardIcon>
 					<div className={"card-bg " + getCategoryIconClass(category)}></div>
 				</CardIcon>
-				<div className="card-details">
+				<CardDetails>
 					<div className="card-title">Categorie</div>
 					<div className="card-text-big">
 						{category?.name}
 					</div>
-				</div>
+				</CardDetails>
 			</Card>
 			{
 				isModalActive &&

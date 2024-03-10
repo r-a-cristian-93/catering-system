@@ -5,6 +5,7 @@ import { useState } from "react";
 import { QueryKeysIngredient } from "../../../QueryKeys/QueryKeysIngredient";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardPriceTrendProps = {
 	ingredientId: number;
@@ -33,9 +34,9 @@ export default function CardPriceTrend(props: CardPriceTrendProps): JSX.Element
 						colors={[ "black" ]}
 					/>
 				</CardIcon>
-				<div className="card-details">
+				<CardDetails>
 					<div className="card-title">Evolutie pret</div>
-				</div>
+				</CardDetails>
 			</Card>
 		</>
 	);

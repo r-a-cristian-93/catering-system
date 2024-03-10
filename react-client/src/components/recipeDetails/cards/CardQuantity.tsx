@@ -6,6 +6,7 @@ import InputScrollBlocking from "../../generic/InputScrollBlocking";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardClientProps = {
 	recipeId: number;
@@ -50,7 +51,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 				<CardIcon>
 					<div className="card-bg img-scale"></div>
 				</CardIcon>
-				<div className="card-details">
+				<CardDetails>
 					<div className="card-title">Gramaj</div>
 					<div className="card-text-big hover-pointer" >
 						<InputScrollBlocking
@@ -63,7 +64,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 						/>
 						<span onClick={handleToggleModal}>{unit?.name}</span>
 					</div>
-				</div>
+				</CardDetails>
 			</Card>
 			{
 				isModalActive &&

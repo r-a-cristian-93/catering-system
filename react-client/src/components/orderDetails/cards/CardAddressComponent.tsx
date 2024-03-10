@@ -4,6 +4,7 @@ import PickAddressTable from "../modals/PickAddressTable";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardAddressProps = {
 	orderId: number;
@@ -24,16 +25,16 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	return (
 		<>
-			<Card className="card hover-pointer">
+			<Card className="card hover-pointer" onClick={handleToggleModal}>
 				<CardIcon>
 					<div className="card-bg img-pinlocation"></div>
 				</CardIcon>
-				<div className="card-details" onClick={handleToggleModal}>
+				<CardDetails>
 					<div className="card-title">Adresa livrare</div>
 					<div className="card-text-medium">
 						{address?.value}
 					</div>
-				</div>
+				</CardDetails>
 			</Card>
 			{
 				isModalActive && clientId &&

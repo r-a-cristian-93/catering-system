@@ -24,6 +24,15 @@
 	margin: 0 auto;
 }
 
+.card_details {
+	text-align: left;
+	vertical-align: top;
+	max-width: 250px;
+}
+.card_details {
+	text-align: center;
+}
+
 
 
 /* Card small */
@@ -42,3 +51,6 @@
 	scale: 0.8;
 	transition: 0.1s ease-in-out;
 }
+
+
+

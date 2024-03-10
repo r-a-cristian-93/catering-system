@@ -4,6 +4,7 @@ import { Order } from "../../../models/Order";
 import { updateOrder } from "../../../controllers/OrderController";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardProps = {
 	date: string;
@@ -44,7 +45,7 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 			<CardIcon>
 				<div className="card-bg img-hourglass"></div>
 			</CardIcon>
-			<div className="card-details">
+			<CardDetails>
 				<div className="card-title">Termen livrare</div>
 				<div className="card-text-medium">
 					<input type="date" value={dateString} onChange={handleDateChange} onBlur={handleUpdate} />
@@ -52,7 +53,7 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 				<div className="card-text-big">
 					<input type="time" value={timeString} onChange={handleTimeChange} onBlur={handleUpdate} />
 				</div>
-			</div>
+			</CardDetails>
 		</Card>
 	);
 }
