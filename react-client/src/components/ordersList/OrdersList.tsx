@@ -8,7 +8,7 @@ type OrdersListProps = {
 export default function OrdersList(props: OrdersListProps): JSX.Element
 {
 	return (
-		<table className="full">
+		<table className="table-list">
 			<thead>
 				<tr>
 					<th>ID</th>

@@ -9,9 +9,9 @@ export default function IngredientPriceHistoryComponent(props: IngredientPriceHi
 {
 	return (
 		<>
-            <table className="full table-list">
+			<table className="table-list">
 				<thead>
-                    <tr className="font-size-120">
+					<tr className="font-size-120">
 						<th>ID</th>
 						<th>Data inregistrare</th>
 						<th>Pret</th>

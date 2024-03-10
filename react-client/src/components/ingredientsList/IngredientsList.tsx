@@ -8,7 +8,7 @@ type IngredientsListProps = {
 export default function IngredientsList(props: IngredientsListProps): JSX.Element
 {
 	return (
-		<table className="full">
+		<table className="table-list">
 			<thead>
 				<tr>
 					<th>ID</th>

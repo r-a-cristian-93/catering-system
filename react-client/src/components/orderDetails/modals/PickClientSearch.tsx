@@ -77,7 +77,7 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 	return (
 		<>
 			<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-			<table id="pick-table" className="full table-list">
+			<table id="pick-table" className="table-list">
 				<thead>
 					<tr>
 						<th>Nume</th>

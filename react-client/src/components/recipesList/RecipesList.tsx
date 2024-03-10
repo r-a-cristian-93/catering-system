@@ -8,7 +8,7 @@ type RecipesListPops = {
 export default function RecipesList(props: RecipesListPops): JSX.Element
 {
 	return (
-		<table className="full">
+		<table className="table-list">
 			<thead>
 				<tr>
 					<th>ID</th>

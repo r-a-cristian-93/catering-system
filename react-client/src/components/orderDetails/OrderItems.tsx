@@ -81,7 +81,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
     return (
         <>
-            <table id="order-details-table" className="full table-list">
+            <table id="order-details-table" className="table-list">
                 <thead>
                     <tr className="font-size-120">
                         <th>Articol</th>

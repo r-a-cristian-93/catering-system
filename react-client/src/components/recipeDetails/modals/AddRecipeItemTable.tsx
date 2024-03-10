@@ -53,7 +53,7 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 	}
 
 	return (
-		<table id="add-item-table" className="full table-list">
+		<table id="add-item-table" className="table-list">
 			<thead>
 				<tr>
 					<th>ID</th>

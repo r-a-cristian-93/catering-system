@@ -162,25 +162,6 @@ a:visited {
 
 /* ******************* TABLE ******************* */
 
-table {
-	border-collapse: collapse;
-	margin-bottom: 10px;
-	cursor: default;
-}
-
-td,
-th {
-	text-align: left;
-	padding: 8px;
-}
-
-tr {
-	user-select: none;
-}
-
-tr:nth-child(even) {
-	background-color: var(--grey3);
-}
 
 #recipe-details-table td:nth-child(3) {
 	text-align: right;
@@ -192,10 +173,6 @@ tr:nth-child(even) {
 
 #cost-per-order-table tr:last-child {
 	font-weight: bold;
-}
-
-tbody tr:hover {
-	background-color: var(--grey-hover);
 }
 
 .inactive {
@@ -210,9 +187,7 @@ tbody tr:hover {
 	opacity: 1;
 }
 
-td.clickable:hover {
-	text-decoration: underline;
-}
+
 
 /* ******************* FILTERS ******************* */
 
@@ -912,19 +887,36 @@ td.clickable:hover {
 
 /* ******************* TABLE LIST ******************* */
 
-
-.table-list td {
-	padding: 0px;
-	margin: 0;
+.table-list {
+	border-collapse: collapse;
+	margin-bottom: 10px;
+	cursor: default;
+	width: 100%;
 }
 
-.table-list td:not(div) {
-	padding: 5px;
-	margin: 0px;
+.table-list td,
+.table-list th {
+	text-align: left;
+	padding: 8px;
 }
 
-.table-list td div,
-td input {
+.table-list tr {
+	user-select: none;
+}
+
+.table-list tr:nth-child(even) {
+	background-color: var(--grey3);
+}
+
+.table-list tbody tr:hover {
+	background-color: var(--grey-hover);
+}
+
+.table-list td.clickable:hover {
+	text-decoration: underline;
+}
+
+.table-list input {
 	padding: 5px;
 	margin: 0;
 	text-align: right;
@@ -933,7 +925,7 @@ td input {
 	background-color: inherit;
 }
 
-.table-list td input[type=number] {
+.table-list input[type=number] {
 	width: 100px;
 }
 
