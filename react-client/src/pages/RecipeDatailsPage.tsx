@@ -67,7 +67,7 @@ export default function RecipeDetailsPage(): JSX.Element
 						onBlur={handleOnBlur} />
 				</h1>
 			</div>
-			<div className="box-content" id="order-details">
+			<div className="box-content" >
 				{recipe && <CardListRecipe recipe={recipe} />}
 				<RecipeItems recipeId={recipeId} />
 			</div>

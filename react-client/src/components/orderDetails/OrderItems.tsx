@@ -82,7 +82,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
     return (
         <>
-            <TableList id="order-details-table">
+            <TableList id="details-table">
                 <thead>
                     <tr className="font-size-120">
                         <th>Articol</th>

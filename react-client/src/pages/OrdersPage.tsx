@@ -63,7 +63,7 @@ export default function OrdersPage(): JSX.Element
 				<img height="100px" src="img/orders.png" />
 				<h1 className="box-title">Comenzi</h1>
 			</div>
-			<div className="box-content" id="order-table">
+			<div className="box-content">
 				<OrdersFilterMenu setActiveFilterCallback={setActiveFilter} />
 				<OrdersList orders={orders} />
 				<Pager pagerArgs={pagerArgs} />

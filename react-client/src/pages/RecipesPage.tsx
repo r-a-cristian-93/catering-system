@@ -51,7 +51,7 @@ export default function RecipesPage(): JSX.Element
 				<img height="100px" src="img/recipes.png" />
 				<h1 className="box-title">Rețete</h1>
 			</div>
-			<div className="box-content" id="order-table">
+			<div className="box-content">
 				<RecipesList recipes={recipes} />
 				<Pager pagerArgs={pagerArgs} />
 				<RecipeAddButton />

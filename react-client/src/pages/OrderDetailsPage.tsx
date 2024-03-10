@@ -60,7 +60,7 @@ export default function OrderDetailsPage(): JSX.Element
 				<img height="100px" src="../img/orders.png" />
 				<h1 className="box-title">Comanda #{order?.id}</h1>
 			</div>
-			<div className="box-content" id="order-details">
+			<div className="box-content" >
 				{
 					orderQuerySuccess && order && <CardListOrder order={order} />
 				}

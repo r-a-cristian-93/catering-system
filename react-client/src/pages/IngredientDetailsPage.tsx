@@ -89,7 +89,7 @@ export default function IngredientDetailsPage(): JSX.Element
 						onBlur={handleOnBlur} />
 				</h1>
 			</div>
-			<div className="box-content" id="order-details">
+			<div className="box-content" >
 				{ingredient && <CardListIngredient ingredient={ingredient} />}
 
 				<IngredientPriceHistoryComponent priceHistory={priceHistory} />
