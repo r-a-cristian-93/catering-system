@@ -871,48 +871,6 @@ a:visited {
 
 /* ******************* TABLE LIST ******************* */
 
-.table-list {
-	border-collapse: collapse;
-	margin-bottom: 10px;
-	cursor: default;
-	width: 100%;
-}
-
-.table-list td,
-.table-list th {
-	text-align: left;
-	padding: 8px;
-}
-
-.table-list tr {
-	user-select: none;
-}
-
-.table-list tr:nth-child(even) {
-	background-color: var(--grey3);
-}
-
-.table-list tbody tr:hover {
-	background-color: var(--grey-hover);
-}
-
-.table-list td.clickable:hover {
-	text-decoration: underline;
-}
-
-.table-list input {
-	padding: 5px;
-	margin: 0;
-	text-align: right;
-	border: 0;
-	font-size: inherit;
-	background-color: inherit;
-}
-
-.table-list input[type=number] {
-	width: 100px;
-}
-
 
 /* ******************* ADD ITEM TABLE ******************* */
 
