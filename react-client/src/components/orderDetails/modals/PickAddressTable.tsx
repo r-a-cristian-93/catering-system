@@ -34,7 +34,7 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 
 	return (
 		<>
-			<TableList id="pick-table">
+			<TableList>
 				<thead>
 					<tr>
 						<th>Adresa</th>
