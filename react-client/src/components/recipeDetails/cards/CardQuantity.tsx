@@ -50,7 +50,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 				</div>
 				<div className="card-details">
 					<div className="card-title">Gramaj</div>
-					<div className="card-text-big first-big hover-pointer" >
+					<div className="card-text-big hover-pointer" >
 						<InputScrollBlocking
 							name="quantity"
 							type="number"

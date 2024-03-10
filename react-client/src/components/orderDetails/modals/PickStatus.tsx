@@ -43,7 +43,7 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 				<div className={"card-bg " + status.name}></div>
 			</div>
 			<div className="card-details-small">
-				<div className="card-text-medium first-big">{status.name}</div>
+				<div className="card-text-medium">{status.name}</div>
 			</div>
 		</div>
 	)

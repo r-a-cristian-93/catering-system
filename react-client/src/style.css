@@ -618,19 +618,18 @@ a:visited {
 .card-text-big {
 	font-size: 150%;
 	margin-bottom: 5px;
+	text-transform: capitalize;
 }
 
 .card-text-medium {
 	font-size: 115%;
 	margin-bottom: 5px;
+	text-transform: capitalize;
 }
 
 .card-text-small {
 	font-size: 90%;
-}
-
-.first-big:first-letter {
-	text-transform: uppercase;
+	text-transform: capitalize;
 }
 
 .card input {

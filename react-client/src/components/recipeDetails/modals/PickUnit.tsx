@@ -36,7 +36,7 @@ export default function PickUnit(props: PickUnitProps): JSX.Element
 				<div className={"card-bg "}></div>
 			</div>
 			<div className="card-details-small">
-				<div className="card-text-medium first-big">{unit.name}</div>
+				<div className="card-text-medium">{unit.name}</div>
 			</div>
 		</div>
 	)

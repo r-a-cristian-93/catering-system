@@ -27,7 +27,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 				</div>
 				<div className="card-details" onClick={handleToggleModal}>
 					<div className="card-title">Client</div>
-					<div className="card-text-big first-big">
+					<div className="card-text-big">
 						{client?.name}
 					</div>
 					<div className="card-text-medium">

@@ -36,7 +36,7 @@ export default function PickCategory(props: PickCategoryProps): JSX.Element
 				<div className={"card-bg " + getCategoryIconClass(category)}></div>
 			</div>
 			<div className="card-details-small">
-				<div className="card-text-medium first-big">{category.name}</div>
+				<div className="card-text-medium">{category.name}</div>
 			</div>
 		</div>
 	)

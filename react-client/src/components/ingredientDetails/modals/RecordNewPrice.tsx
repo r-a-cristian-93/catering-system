@@ -52,7 +52,7 @@ export default function RecordNewPrice(props: RecordNewPricePros): JSX.Element
 					<input
 						name="price"
 						type="number"
-						className="card-text-medium first-big"
+						className="card-text-medium"
 						value={price || ""}
 						onChange={handleChange}
 						onBlur={handleBlur}
