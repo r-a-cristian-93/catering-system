@@ -83,7 +83,7 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
 
     return (
         <>
-            <TableList id="details-table">
+            <TableList className="details-table">
                 <thead>
                     <tr className="font-size-120">
                         <th>Ingredient</th>

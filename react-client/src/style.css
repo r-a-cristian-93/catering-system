@@ -518,12 +518,12 @@ a:visited {
 
 /* ******************* ORDER DETAILS ******************* */
 
-#details-table td:not(:first-child),
-#details-table th:not(:first-child) {
+.details-table td:not(:first-child),
+.details-table th:not(:first-child) {
 	text-align: right;
 }
 
-#details-table tr:last-child {
+.details-table tr:last-child {
 	background-color: var(--bg);
 }
 
