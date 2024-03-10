@@ -1,0 +1,45 @@
+.pager {
+	margin: auto;
+	width: max-content;
+	padding: 0;
+	text-align: center;
+	border-radius: 10px;
+	background-color: var(--grey2);
+	list-style: none;
+}
+
+.pager_button {
+	padding: 10px;
+	margin: 0;
+	border: none;
+	color: var(--text);
+	cursor: pointer;
+	opacity: 0.4;
+	background-color: inherit;
+	display: inline-block;
+}
+
+.pager_button:first-child {
+	border-radius: 10px 0 0 10px;
+}
+
+.pager_button:last-child {
+	border-radius: 0 10px 10px 0;
+}
+
+.pager_button:hover {
+	background-color: var(--grey4);
+	opacity: 1;
+}
+
+.pager_current {
+	opacity: 1;
+}
+
+.pager_button.inactive {
+	cursor: default;
+}
+
+.pager_button.inactive:hover {
+	background-color: inherit;
+}

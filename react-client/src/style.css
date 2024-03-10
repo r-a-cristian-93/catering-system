@@ -130,52 +130,6 @@ a:visited {
 	transform: translateX(-50%);
 }
 
-.pager {
-	margin: auto;
-	width: max-content;
-	padding: 0;
-	text-align: center;
-	border-radius: 10px;
-	background-color: var(--grey2);
-	list-style: none;
-}
-
-.pager-button {
-	padding: 10px;
-	margin: 0;
-	border: none;
-	color: var(--text);
-	cursor: pointer;
-	opacity: 0.4;
-	background-color: inherit;
-	display: inline-block;
-}
-
-.pager-button:first-child {
-	border-radius: 10px 0 0 10px;
-}
-
-.pager-button:last-child {
-	border-radius: 0 10px 10px 0;
-}
-
-.pager-button:hover {
-	background-color: var(--grey4);
-	opacity: 1;
-}
-
-.pager-current {
-	opacity: 1;
-}
-
-.pager-button.inactive {
-	cursor: default;
-}
-
-.pager-button.inactive:hover {
-	background-color: inherit;
-}
-
 /* **************** NAVIGATION MENU	************** */
 
 
