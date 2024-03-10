@@ -1,10 +1,21 @@
 import css from "./TableList.module.css"
 
-export default function TableList(props: React.HTMLProps<HTMLTableElement>): JSX.Element
+type TableListProps = React.HTMLProps<HTMLTableElement> & {
+	header: string[]
+}
+
+export default function TableList(props: TableListProps): JSX.Element
 {
 	return (
 		<table {...props} className={props.className + " " + css.table_list}>
-			{props.children}
+			<thead>
+				<tr>
+					{props.header.map((columnName) => <th>{columnName}</th>)}
+				</tr>
+			</thead>
+			<tbody>
+				{props.children}
+			</tbody>
 		</table>
 	);
 }

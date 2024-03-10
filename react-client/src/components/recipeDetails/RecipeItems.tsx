@@ -83,34 +83,24 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
 
     return (
         <>
-            <TableList className="details-table">
-                <thead>
-                    <tr className="font-size-120">
-                        <th>Ingredient</th>
-                        <th>Cantitate</th>
-                        <th>Pret unitar</th>
-                        <th>Cost total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        recipeItemsQuerySucess && recipeItems && recipeItems.map((recipeItem) =>
-                            <RecipeItemComponent key={recipeItem.id} recipeItem={recipeItem}
-                                changeCallback={handleChildChange}
-                                deleteCallback={handleChildDelete} />
-                        )
-                    }
-                    <tr className="font-size-140">
-                        <th></th>
-                        <th></th>
-                        <th>Total:</th>
-                        <th>
-                            {
-                                recipeItemsQuerySucess && recipeItems && Formatter.formatCurrency(getTotalCost(recipeItems))
-                            }
-                        </th>
-                    </tr>
-                </tbody>
+            <TableList className="details-table" header={[ "Ingredient", "Cantitate", "Pret unitar", "Cost Total" ]}>
+                {
+                    recipeItemsQuerySucess && recipeItems && recipeItems.map((recipeItem) =>
+                        <RecipeItemComponent key={recipeItem.id} recipeItem={recipeItem}
+                            changeCallback={handleChildChange}
+                            deleteCallback={handleChildDelete} />
+                    )
+                }
+                <tr className="font-size-140">
+                    <th></th>
+                    <th></th>
+                    <th>Total:</th>
+                    <th>
+                        {
+                            recipeItemsQuerySucess && recipeItems && Formatter.formatCurrency(getTotalCost(recipeItems))
+                        }
+                    </th>
+                </tr>
             </TableList>
 
             <AddButton text="Adaugă ingredient" onClick={handleToogleModal} />

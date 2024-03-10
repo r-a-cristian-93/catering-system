@@ -53,28 +53,16 @@ export default function AddOrderItemTable(props: AddOrderItemTableProps): JSX.El
 	}
 
 	return (
-		<TableList className="add-item-table">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Rețetă</th>
-					<th>Gramaj</th>
-					<th>Cost unitar</th>
-					<th>Porții</th>
-					<th>Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				{
-					recipes?.map((recipe) =>
-						<AddOrderItem
-							key={recipe.id}
-							orderId={props.orderId}
-							recipe={recipe}
-							addSuccessfulCallback={handleAddItemSuccessful} />
-					)
-				}
-			</tbody>
+		<TableList className="add-item-table" header={[ "ID", "Rețetă", "Gramaj", "Cost unitar", "Porții", "Total" ]}>
+			{
+				recipes?.map((recipe) =>
+					<AddOrderItem
+						key={recipe.id}
+						orderId={props.orderId}
+						recipe={recipe}
+						addSuccessfulCallback={handleAddItemSuccessful} />
+				)
+			}
 		</TableList>
 	);
 }

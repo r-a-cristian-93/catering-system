@@ -78,26 +78,18 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 	return (
 		<>
 			<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-			<TableList>
-				<thead>
-					<tr>
-						<th>Nume</th>
-						<th>Telefon</th>
-					</tr>
-				</thead>
-				<tbody>
-					{clientResponseData?.content.map(
-						(client) =>
-							client.id > 0 && (
-								<PickClient
-									key={client.id}
-									orderId={orderId}
-									client={client}
-									toogleModalCallback={toogleModalCallback}
-								/>
-							)
-					)}
-				</tbody>
+			<TableList header={[ "Nume", "Telefon" ]}>
+				{clientResponseData?.content.map(
+					(client) =>
+						client.id > 0 && (
+							<PickClient
+								key={client.id}
+								orderId={orderId}
+								client={client}
+								toogleModalCallback={toogleModalCallback}
+							/>
+						)
+				)}
 			</TableList>
 			<br />
 			{

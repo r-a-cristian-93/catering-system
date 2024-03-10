@@ -10,19 +10,10 @@ export default function IngredientPriceHistoryComponent(props: IngredientPriceHi
 {
 	return (
 		<>
-			<TableList>
-				<thead>
-					<tr className="font-size-120">
-						<th>ID</th>
-						<th>Data inregistrare</th>
-						<th>Pret</th>
-					</tr>
-				</thead>
-				<tbody>
-					{props.priceHistory?.map((record) => (
-						<IngredientPriceHistoryRecord key={record.id} priceHistoryRecord={record} />
-					))}
-				</tbody>
+			<TableList header={[ "ID", "Dată înregistrare", "Preț" ]}>
+				{props.priceHistory?.map((record) => (
+					<IngredientPriceHistoryRecord key={record.id} priceHistoryRecord={record} />
+				))}
 			</TableList>
 		</>
 	);

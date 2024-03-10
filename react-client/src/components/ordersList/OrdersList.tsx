@@ -9,23 +9,10 @@ type OrdersListProps = {
 export default function OrdersList(props: OrdersListProps): JSX.Element
 {
 	return (
-		<TableList>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Stare</th>
-					<th>Client</th>
-					<th>Data preluare</th>
-					<th>Termen limita</th>
-					<th>Cost ingrediente</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				{props.orders?.map((order) => (
-					<OrderComponent key={order.id} order={order} />
-				))}
-			</tbody>
+		<TableList header={[ "ID", "Stare", "Client", "Data preluare", "Termen limita", "Cost ingrediente" ]}>
+			{props.orders?.map((order) => (
+				<OrderComponent key={order.id} order={order} />
+			))}
 		</TableList>
 	);
 }

@@ -54,27 +54,16 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 	}
 
 	return (
-		<TableList className="add-item-table">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Nume</th>
-					<th>Cost unitar</th>
-					<th>Cantitate</th>
-					<th>Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				{
-					ingredients?.map((ingredient) =>
-						<AddRecipeItem
-							key={ingredient.id}
-							recipeId={props.recipeId}
-							ingredient={ingredient}
-							addSuccessfulCallback={handleAddItemSuccessful} />
-					)
-				}
-			</tbody>
+		<TableList className="add-item-table" header={[ "ID", "Nume", "Cost unitar", "Cantitate", "Total" ]}>
+			{
+				ingredients?.map((ingredient) =>
+					<AddRecipeItem
+						key={ingredient.id}
+						recipeId={props.recipeId}
+						ingredient={ingredient}
+						addSuccessfulCallback={handleAddItemSuccessful} />
+				)
+			}
 		</TableList>
 	)
 }

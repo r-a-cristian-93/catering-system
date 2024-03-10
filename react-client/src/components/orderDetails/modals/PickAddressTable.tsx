@@ -34,25 +34,18 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 
 	return (
 		<>
-			<TableList>
-				<thead>
-					<tr>
-						<th>Adresa</th>
-					</tr>
-				</thead>
-				<tbody>
-					{clientAddresses?.map(
-						(clientAddress) =>
-							clientAddress.id > 0 && (
-								<PickAddress
-									key={clientAddress.id}
-									orderId={orderId}
-									address={clientAddress}
-									toggleModalCallback={toggleModalCallback}
-								/>
-							)
-					)}
-				</tbody>
+			<TableList header={[ "Adresa" ]}>
+				{clientAddresses?.map(
+					(clientAddress) =>
+						clientAddress.id > 0 && (
+							<PickAddress
+								key={clientAddress.id}
+								orderId={orderId}
+								address={clientAddress}
+								toggleModalCallback={toggleModalCallback}
+							/>
+						)
+				)}
 			</TableList>
 			<br />
 			<div>
