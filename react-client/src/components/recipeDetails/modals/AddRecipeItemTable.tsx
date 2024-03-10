@@ -54,7 +54,7 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 	}
 
 	return (
-		<TableList id="add-item-table">
+		<TableList className="add-item-table">
 			<thead>
 				<tr>
 					<th>ID</th>

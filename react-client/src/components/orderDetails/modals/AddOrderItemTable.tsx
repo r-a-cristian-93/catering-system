@@ -53,7 +53,7 @@ export default function AddOrderItemTable(props: AddOrderItemTableProps): JSX.El
 	}
 
 	return (
-		<TableList id="add-item-table">
+		<TableList className="add-item-table">
 			<thead>
 				<tr>
 					<th>ID</th>

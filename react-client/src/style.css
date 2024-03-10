@@ -874,8 +874,8 @@ a:visited {
 
 /* ******************* ADD ITEM TABLE ******************* */
 
-#add-item-table td:nth-child(n+3),
-#add-item-table th:nth-child(n+3) {
+.add-item-table td:nth-child(n+3),
+.add-item-table th:nth-child(n+3) {
 	text-align: right;
 }
 
