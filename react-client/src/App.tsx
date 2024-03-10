@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Layout from "./Layout.tsx";
+import Layout from "./pages/Layout/Layout.tsx";
 import NoMatchPage from "./pages/NoMatchPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";

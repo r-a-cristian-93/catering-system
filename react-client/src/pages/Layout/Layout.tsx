@@ -1,7 +1,7 @@
-import Navbar from "./components/generic/Navbar/Navbar";
+import Navbar from "../../components/generic/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
-import LoginPage from "./pages/LoginPage/LoginPage";
-import isUserAuthenticated from "./components/Auth";
+import LoginPage from "../LoginPage/LoginPage";
+import isUserAuthenticated from "../../components/Auth";
 
 export default function Layout(): JSX.Element
 {
