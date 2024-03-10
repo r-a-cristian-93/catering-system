@@ -879,14 +879,6 @@ a:visited {
 	text-align: right;
 }
 
-
-input[type=date],
-input[type=time] {
-	border: none;
-	font-size: inherit;
-}
-
-
 /* ******************* PICK CLIENT MODAL ******************* */
 
 .pick-client-create-box {
