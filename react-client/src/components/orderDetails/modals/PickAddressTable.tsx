@@ -4,6 +4,7 @@ import { QueryClient, useQuery, useQueryClient } from "react-query";
 import PickAddress from "./PickAddress";
 import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
 import { getAddresses } from "../../../controllers/AddressControllere";
+import TableList from "../../generic/TableList/TableList";
 
 type PickAddressTableProps = {
 	orderId: number;
@@ -33,7 +34,7 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 
 	return (
 		<>
-			<table id="pick-table" className="table-list">
+			<TableList id="pick-table">
 				<thead>
 					<tr>
 						<th>Adresa</th>
@@ -52,7 +53,7 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 							)
 					)}
 				</tbody>
-			</table>
+			</TableList>
 			<br />
 			<div>
 				<button className="button" type="button">

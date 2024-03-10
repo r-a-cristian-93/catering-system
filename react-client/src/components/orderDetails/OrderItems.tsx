@@ -8,6 +8,7 @@ import AddOrderItemTable from "./modals/AddOrderItemTable.tsx";
 import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
 import Modal from "../generic/Modal/Modal.tsx";
+import TableList from "../generic/TableList/TableList.tsx";
 
 type OrderItemsProps = {
     orderId: number;
@@ -81,7 +82,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
     return (
         <>
-            <table id="order-details-table" className="table-list">
+            <TableList id="order-details-table">
                 <thead>
                     <tr className="font-size-120">
                         <th>Articol</th>
@@ -109,7 +110,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
                         </th>
                     </tr>
                 </tbody>
-            </table>
+            </TableList>
 
             <br />
             <AddButton text="Adauga articol" onClick={handleToggleModal} />

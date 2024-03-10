@@ -6,6 +6,7 @@ import { getIngredientsAll } from "../../../controllers/IngredientsController";
 import { RecipeItem } from "../../../models/Recipe";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import AddRecipeItem from "./AddRecipeItem";
+import TableList from "../../generic/TableList/TableList";
 
 type AddRecipeItemTableProps = {
 	addSuccessfulCallback: (recipeItem: RecipeItem) => void;
@@ -53,7 +54,7 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 	}
 
 	return (
-		<table id="add-item-table" className="table-list">
+		<TableList id="add-item-table">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -74,6 +75,6 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 					)
 				}
 			</tbody>
-		</table>
+		</TableList>
 	)
 }

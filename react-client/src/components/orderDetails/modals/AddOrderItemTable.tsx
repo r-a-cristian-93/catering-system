@@ -6,6 +6,7 @@ import { OrderItem } from "../../../models/Order";
 import { useState } from "react";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import TableList from "../../generic/TableList/TableList";
 
 type AddOrderItemTableProps = {
 	addSuccessfulCallback: (orderItem: OrderItem) => void;
@@ -52,7 +53,7 @@ export default function AddOrderItemTable(props: AddOrderItemTableProps): JSX.El
 	}
 
 	return (
-		<table id="add-item-table" className="table-list">
+		<TableList id="add-item-table">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -74,6 +75,6 @@ export default function AddOrderItemTable(props: AddOrderItemTableProps): JSX.El
 					)
 				}
 			</tbody>
-		</table>
+		</TableList>
 	);
 }

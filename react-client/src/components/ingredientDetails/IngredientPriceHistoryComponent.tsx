@@ -1,4 +1,5 @@
 import { IngredientPriceHistory } from "../../models/Ingredient";
+import TableList from "../generic/TableList/TableList";
 import IngredientPriceHistoryRecord from "./IngredientPriceHistoryRecord";
 
 type IngredientPriceHistoryProps = {
@@ -9,7 +10,7 @@ export default function IngredientPriceHistoryComponent(props: IngredientPriceHi
 {
 	return (
 		<>
-			<table className="table-list">
+			<TableList>
 				<thead>
 					<tr className="font-size-120">
 						<th>ID</th>
@@ -22,7 +23,7 @@ export default function IngredientPriceHistoryComponent(props: IngredientPriceHi
 						<IngredientPriceHistoryRecord key={record.id} priceHistoryRecord={record} />
 					))}
 				</tbody>
-			</table>
+			</TableList>
 		</>
 	);
 }

@@ -7,6 +7,7 @@ import { PageableRequestParameters } from "../../../models/Pageable";
 import Pager from "../../generic/Pager/Pager";
 import SearchBar from "../../generic/SearchBar/SearchBar";
 import PickClient from "./PickClient";
+import TableList from "../../generic/TableList/TableList";
 
 type PickClientSearchProps = {
 	orderId: number;
@@ -77,7 +78,7 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 	return (
 		<>
 			<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-			<table id="pick-table" className="table-list">
+			<TableList id="pick-table">
 				<thead>
 					<tr>
 						<th>Nume</th>
@@ -97,7 +98,7 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 							)
 					)}
 				</tbody>
-			</table>
+			</TableList>
 			<br />
 			{
 				clientResponseData && <Pager pagerArgs={

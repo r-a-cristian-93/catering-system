@@ -9,6 +9,7 @@ import RecipeItemComponent from "./RecipeItemComponent.tsx";
 import { AddRecipeItemTable } from "./modals/AddRecipeItemTable.tsx";
 import Modal from "../generic/Modal/Modal.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
+import TableList from "../generic/TableList/TableList.tsx";
 
 type RecipeItemsProps = {
     recipeId: number;
@@ -82,7 +83,7 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
 
     return (
         <>
-            <table id="order-details-table" className="table-list">
+            <TableList id="order-details-table">
                 <thead>
                     <tr className="font-size-120">
                         <th>Ingredient</th>
@@ -110,13 +111,13 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
                         </th>
                     </tr>
                 </tbody>
-            </table>
+            </TableList>
 
-            <AddButton text="Adauga ingredient" onClick={handleToogleModal} />
+            <AddButton text="Adaugă ingredient" onClick={handleToogleModal} />
 
             {
                 isModalActive &&
-                <Modal toggleCallback={handleToogleModal} title="Adauga ingredient">
+                <Modal toggleCallback={handleToogleModal} title="Adaugă ingredient">
                     <AddRecipeItemTable
                         key={Math.round(Math.random() * 100)}
                         recipeId={recipeId}
@@ -127,4 +128,3 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
         </>
     );
 }
-

@@ -1,4 +1,5 @@
 import { Order } from "../../models/Order";
+import TableList from "../generic/TableList/TableList";
 import OrderComponent from "./OrderComponent";
 
 type OrdersListProps = {
@@ -8,7 +9,7 @@ type OrdersListProps = {
 export default function OrdersList(props: OrdersListProps): JSX.Element
 {
 	return (
-		<table className="table-list">
+		<TableList>
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -25,6 +26,6 @@ export default function OrdersList(props: OrdersListProps): JSX.Element
 					<OrderComponent key={order.id} order={order} />
 				))}
 			</tbody>
-		</table>
+		</TableList>
 	);
 }

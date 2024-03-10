@@ -1,5 +1,6 @@
 import { Ingredient } from "../../models/Ingredient";
 import * as Formatter from "../../utils/Formatting"
+import TableList from "../generic/TableList/TableList";
 
 type IngredientsListProps = {
 	ingredients: Ingredient[] | null;
@@ -8,7 +9,7 @@ type IngredientsListProps = {
 export default function IngredientsList(props: IngredientsListProps): JSX.Element
 {
 	return (
-		<table className="table-list">
+		<TableList>
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -35,6 +36,6 @@ export default function IngredientsList(props: IngredientsListProps): JSX.Elemen
 					</tr>
 				))}
 			</tbody>
-		</table>
+		</TableList>
 	);
 }
