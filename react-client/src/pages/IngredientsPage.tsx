@@ -4,7 +4,7 @@ import { getIngredients } from "../controllers/IngredientsController";
 import IngredientsList from "../components/ingredientsList/IngredientsList";
 import { PageableRequestParameters } from "../models/Pageable";
 import Pager, { PagerArgs } from "../components/Pager";
-import Breadcrumbs from "../components/Breadcrumbs";
+import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
 
 export default function IngredientsPage(): JSX.Element
 {

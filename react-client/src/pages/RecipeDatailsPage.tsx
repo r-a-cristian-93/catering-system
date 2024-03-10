@@ -7,7 +7,7 @@ import { Recipe } from "../models/Recipe";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
 import CardListRecipe from "../components/recipeDetails/cards/CardListRecipe";
 import RecipeItems from "../components/recipeDetails/RecipeItems";
-import Breadcrumbs from "../components/Breadcrumbs";
+import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
 
 export default function RecipeDetailsPage(): JSX.Element
 {
@@ -40,9 +40,9 @@ export default function RecipeDetailsPage(): JSX.Element
 					return prev;
 				else
 					return {
-					...prev,
-					[ name ]: value,
-				};
+						...prev,
+						[ name ]: value,
+					};
 			});
 		}
 	}
@@ -64,11 +64,11 @@ export default function RecipeDetailsPage(): JSX.Element
 						value={recipe?.name || ""}
 						autoComplete="Nume rețetă"
 						onChange={handleChange}
-						onBlur={handleOnBlur}/>
+						onBlur={handleOnBlur} />
 				</h1>
 			</div>
 			<div className="box-content" id="order-details">
-				{recipe && <CardListRecipe recipe={recipe}/> }
+				{recipe && <CardListRecipe recipe={recipe} />}
 				<RecipeItems recipeId={recipeId} />
 			</div>
 		</div>

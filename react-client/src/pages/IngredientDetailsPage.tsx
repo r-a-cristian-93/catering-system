@@ -6,7 +6,7 @@ import { getIngredient, getPriceHistory, updateIngredient } from "../controllers
 import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
-import Breadcrumbs from "../components/Breadcrumbs";
+import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
 import AddButton from "../components/generic/AddButton/AddButton";
 import RecordNewPrice from "../components/ingredientDetails/modals/RecordNewPrice";
 import Modal from "../components/generic/Modal/Modal";

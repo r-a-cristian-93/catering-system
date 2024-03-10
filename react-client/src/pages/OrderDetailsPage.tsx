@@ -7,7 +7,7 @@ import OrderItems from "../components/orderDetails/OrderItems";
 import { useState } from "react";
 import OrderProgress from "../components/orderDetails/OrderProgress";
 import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
-import Breadcrumbs from "../components/Breadcrumbs";
+import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
 
 export default function OrderDetailsPage(): JSX.Element
 {

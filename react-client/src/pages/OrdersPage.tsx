@@ -7,7 +7,7 @@ import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
 import Pager, { PagerArgs } from "../components/Pager.tsx";
 import { OrdersFilter } from "../components/ordersList/ordersFilter/OrdersFilter.tsx";
-import Breadcrumbs from "../components/Breadcrumbs.tsx";
+import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs.tsx";
 
 export default function OrdersPage(): JSX.Element
 {

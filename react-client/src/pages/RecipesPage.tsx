@@ -5,7 +5,7 @@ import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipesController";
 import RecipesList from "../components/recipesList/RecipesList";
 import RecipeAddButton from "../components/recipesList/RecipeAddButton";
-import Breadcrumbs from "../components/Breadcrumbs";
+import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
 
 export default function RecipesPage(): JSX.Element
 {
