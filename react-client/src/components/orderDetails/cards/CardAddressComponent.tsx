@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ClientAddress } from "../../../models/Order";
 import PickAddressTable from "../modals/PickAddressTable";
 import Modal from "../../generic/Modal/Modal";
+import Card from "../../generic/Card/Card";
 
 type CardAddressProps = {
 	orderId: number;
@@ -22,7 +23,7 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	return (
 		<>
-			<div className="card hover-pointer">
+			<Card className="hover-pointer">
 				<div className="card-icon">
 					<div className="card-bg img-pinlocation"></div>
 				</div>
@@ -32,7 +33,7 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 						{address?.value}
 					</div>
 				</div>
-			</div>
+			</Card>
 			{
 				isModalActive && clientId &&
 				<Modal title="Alege adresa" toggleCallback={handleToggleModal}>

@@ -1,4 +1,5 @@
 import * as Formatter from "../../../utils/Formatting"
+import Card from "../../generic/Card/Card";
 
 type CardClientProps = {
 	cost: number | null;
@@ -8,7 +9,7 @@ export default function CardCost(props: CardClientProps): JSX.Element
 {
 	return (
 		<>
-			<div className="card">
+			<Card>
 				<div className="card-icon">
 					<div className="card-bg img-money"></div>
 				</div>
@@ -18,7 +19,7 @@ export default function CardCost(props: CardClientProps): JSX.Element
 						{Formatter.formatCurrency(props.cost)}
 					</div>
 				</div>
-			</div>
+			</Card>
 		</>
 	);
 }

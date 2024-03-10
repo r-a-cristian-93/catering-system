@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Category, getCategoryIconClass } from "../../../models/Recipe";
 import PickCategoryList from "../modals/PickCategoryList";
 import Modal from "../../generic/Modal/Modal";
+import Card from "../../generic/Card/Card";
 
 type CardClientProps = {
 	recipeId: number;
@@ -21,7 +22,7 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 
 	return (
 		<>
-			<div className="card hover-pointer">
+			<Card className="hover-pointer">
 				<div className="card-icon">
 					<div className={"card-bg " + getCategoryIconClass(category)}></div>
 				</div>
@@ -31,7 +32,7 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 						{category?.name}
 					</div>
 				</div>
-			</div>
+			</Card>
 			{
 				isModalActive &&
 				<Modal title="Alege categoria" toggleCallback={handleToggleModal}>

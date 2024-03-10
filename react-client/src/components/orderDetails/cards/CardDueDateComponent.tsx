@@ -2,6 +2,7 @@ import { useState } from "react";
 import * as Formatter from "../../../utils/Formatting"
 import { Order } from "../../../models/Order";
 import { updateOrder } from "../../../controllers/OrderController";
+import Card from "../../generic/Card/Card";
 
 type CardProps = {
 	date: string;
@@ -36,7 +37,7 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 	}
 
 	return (
-		<div className="card">
+		<Card>
 			<div className="card-icon">
 				<div className="card-bg img-hourglass"></div>
 			</div>
@@ -49,6 +50,6 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 					<input type="time" value={timeString} onChange={handleTimeChange} onBlur={handleUpdate} />
 				</div>
 			</div>
-		</div>
+		</Card>
 	);
 }

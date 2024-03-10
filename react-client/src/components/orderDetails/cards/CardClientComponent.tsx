@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Client } from "../../../models/Order";
 import PickClientOptions from "../modals/PickClientOptions";
 import Modal from "../../generic/Modal/Modal";
+import Card from "../../generic/Card/Card";
 
 type CardClientProps = {
 	orderId: number;
@@ -21,7 +22,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 
 	return (
 		<>
-			<div className="card hover-pointer">
+			<Card className="hover-pointer">
 				<div className="card-icon">
 					<div className="card-bg profil"></div>
 				</div>
@@ -34,7 +35,7 @@ export default function CardClient(props: CardClientProps): JSX.Element
 						{client?.phone}
 					</div>
 				</div>
-			</div>
+			</Card>
 			{
 				isModalActive &&
 				<Modal title="Alege client" toggleCallback={handleToggleModal}>

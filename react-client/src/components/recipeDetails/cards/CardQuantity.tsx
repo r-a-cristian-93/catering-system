@@ -4,6 +4,7 @@ import { updateRecipe } from "../../../controllers/RecipeController";
 import PickUnitList from "../modals/PickUnitList";
 import InputScrollBlocking from "../../generic/InputScrollBlocking";
 import Modal from "../../generic/Modal/Modal";
+import Card from "../../generic/Card/Card";
 
 type CardClientProps = {
 	recipeId: number;
@@ -44,7 +45,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 
 	return (
 		<>
-			<div className="card">
+			<Card>
 				<div className="card-icon">
 					<div className="card-bg img-scale"></div>
 				</div>
@@ -61,7 +62,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 						<span onClick={handleToggleModal}>{unit?.name}</span>
 					</div>
 				</div>
-			</div>
+			</Card>
 			{
 				isModalActive &&
 				<Modal title="Alege unitatea de masura" toggleCallback={handleToggleModal}>

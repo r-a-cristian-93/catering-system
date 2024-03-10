@@ -549,13 +549,6 @@ a:visited {
 	margin-bottom: 80px;
 }
 
-.card {
-	display: flex;
-	gap: 20px;
-	padding: 0 30px 0 30px;
-	user-select: none;
-}
-
 .cards-small {
 	display: grid;
 	grid-auto-flow: column;
@@ -589,11 +582,6 @@ a:visited {
 
 .card-icon {
 	margin: auto 0;
-}
-
-.card:not(:last-child) {
-	border-right: solid var(--grey4);
-	border-width: 3px;
 }
 
 .card-bg {
@@ -630,18 +618,6 @@ a:visited {
 .card-text-small {
 	font-size: 90%;
 	text-transform: capitalize;
-}
-
-.card input {
-	font-size: inherit;
-	text-align:right;
-	width: 80px;
-	padding: 5px;
-	border: 0;
-}
-
-.card {
-	flex-direction: column;
 }
 
 .card-icon {
