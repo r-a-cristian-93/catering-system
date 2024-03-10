@@ -1005,36 +1005,6 @@ input[type=time] {
 
 /* ******************* PICK CLIENT MODAL ******************* */
 
-
-.search-bar {
-	background-color: var(--grey-hover);
-	border-radius: 50ch;
-	margin-bottom: 20px;
-
-	display: flex;
-
-	input[type=search] {
-		padding: 15px 0px 15px 20px;
-		border: none;
-		background: none;
-		width: max-content;
-		flex-grow: 1;
-		outline: none;
-	}
-
-	.search-magnifier {
-		width: 50px;
-		border: none;
-		background: none;
-		opacity: 0.6;
-	}
-
-	.search-magnifier:hover {
-		font-weight: 700;
-		opacity: 0.9;
-	}
-}
-
 .pick-client-create-box {
 	display: flex;
 	text-align: left;
