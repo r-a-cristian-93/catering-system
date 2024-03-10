@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Recipe, Unit } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
 import PickUnitList from "../modals/PickUnitList";
-import InputScrollBlocking from "../../InputScrollBlocking";
+import InputScrollBlocking from "../../generic/InputScrollBlocking";
 import Modal from "../../generic/Modal/Modal";
 
 type CardClientProps = {

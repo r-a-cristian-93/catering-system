@@ -1,6 +1,6 @@
 import * as Formatter from "../../utils/Formatting";
 import { ChangeEvent } from "react";
-import InputScrollBlocking from "../InputScrollBlocking";
+import InputScrollBlocking from "../generic/InputScrollBlocking";
 import { RecipeItem } from "../../models/Recipe";
 import { deleteRecipeItem, updateRecipeItem } from "../../controllers/RecipeItemsController";
 import { QueryClient, useQueryClient } from "react-query";
@@ -64,7 +64,7 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 					placeholder="0"
 					min="0.0"
 				/>
-				<span style={{width : "50px", display: "inline-block", textAlign: "left"}}>{recipeItem.ingredient.unit.name} </span>
+				<span style={{ width: "50px", display: "inline-block", textAlign: "left" }}>{recipeItem.ingredient.unit.name} </span>
 			</td>
 			<td>{Formatter.formatCurrency(recipeItem.ingredient.price) + " / " + recipeItem.ingredient.unit.name}</td>
 			<td>{Formatter.formatCurrency(costTotal)}</td>
