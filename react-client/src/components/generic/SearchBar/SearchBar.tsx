@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import useFocus from "../hooks/UseFocus";
+import useFocus from "../../../hooks/UseFocus";
 
 type SearchBarParams = {
 	onSearch: (searchValue: string | null) => void;

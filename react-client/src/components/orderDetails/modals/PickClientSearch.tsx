@@ -5,7 +5,7 @@ import { getClients, getClientsByNameContaining } from "../../../controllers/Cli
 import { ClientResponseData } from "../../../models/Order";
 import { PageableRequestParameters } from "../../../models/Pageable";
 import Pager from "../../Pager";
-import SearchBar from "../../SearchBar";
+import SearchBar from "../../generic/SearchBar/SearchBar";
 import PickClient from "./PickClient";
 
 type PickClientSearchProps = {
