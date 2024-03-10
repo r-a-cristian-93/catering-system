@@ -25,12 +25,9 @@
 }
 
 .card_details {
-	text-align: left;
+	text-align: center;
 	vertical-align: top;
 	max-width: 250px;
-}
-.card_details {
-	text-align: center;
 }
 
 
@@ -51,6 +48,3 @@
 	scale: 0.8;
 	transition: 0.1s ease-in-out;
 }
-
-
-

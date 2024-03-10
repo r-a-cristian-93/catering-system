@@ -6,6 +6,8 @@ import { RoleEnum, User } from "../../../models/User";
 import { QueryKeysUser } from "../../../QueryKeys/QueryKeysUser";
 import CardSmall from "../../generic/Card/CardSmall";
 import CardIconSmall from "../../generic/Card/CardIconSmall";
+import CardDetailsSmall from "../../generic/Card/CardDetailsSmall";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type PickStatusProps = {
 	orderId: number;
@@ -45,9 +47,9 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 				<div className={"card-bg " + status.name}></div>
 			</CardIconSmall>
 
-			<div className="card-details-small">
+			<CardDetails>
 				<div className="card-text-medium">{status.name}</div>
-			</div>
+			</CardDetails>
 		</CardSmall>
 	)
 }

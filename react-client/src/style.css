@@ -556,11 +556,6 @@ a:visited {
 	width: min-content;
 }
 
-.card-details-small {
-	text-align: center;
-	max-width: 250px;
-}
-
 .card-bg {
 	background-repeat: no-repeat;
 	width: 65px;

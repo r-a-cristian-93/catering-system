@@ -4,6 +4,7 @@ import { updateRecipe } from "../../../controllers/RecipeController";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import CardSmall from "../../generic/Card/CardSmall";
 import CardIconSmall from "../../generic/Card/CardIconSmall";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type PickCategoryProps = {
 	recipeId: number;
@@ -37,9 +38,9 @@ export default function PickCategory(props: PickCategoryProps): JSX.Element
 			<CardIconSmall>
 				<div className={"card-bg " + getCategoryIconClass(category)}></div>
 			</CardIconSmall>
-			<div className="card-details-small">
+			<CardDetails>
 				<div className="card-text-medium">{category.name}</div>
-			</div>
+			</CardDetails>
 		</CardSmall>
 	)
 }
