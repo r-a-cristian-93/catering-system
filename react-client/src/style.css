@@ -119,10 +119,6 @@ a:visited {
 	background-color: var(--button-hover);
 }
 
-.content {
-	margin-top: 100px;
-}
-
 .printer {
 	display: block;
 	position: relative;
