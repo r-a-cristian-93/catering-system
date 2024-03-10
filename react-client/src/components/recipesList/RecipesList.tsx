@@ -1,4 +1,5 @@
 import { Recipe } from "../../models/Recipe";
+import TableList from "../generic/TableList/TableList";
 import RecipeComponent from "./RecipeComponent";
 
 type RecipesListPops = {
@@ -8,7 +9,7 @@ type RecipesListPops = {
 export default function RecipesList(props: RecipesListPops): JSX.Element
 {
 	return (
-		<table className="table-list">
+		<TableList>
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -24,6 +25,6 @@ export default function RecipesList(props: RecipesListPops): JSX.Element
 					<RecipeComponent key={recipe.id} recipe={recipe} />
 				))}
 			</tbody>
-		</table>
+		</TableList>
 	);
 }
