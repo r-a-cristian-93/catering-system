@@ -7,7 +7,7 @@ import { Recipe } from "../models/Recipe";
 import { QueryKeysRecipe } from "../QueryKeys/QueryKeysRecipe";
 import CardListRecipe from "../components/recipeDetails/cards/CardListRecipe";
 import RecipeItems from "../components/recipeDetails/RecipeItems";
-import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
+import SimplePage from "../components/generic/SimplePage/SimplePage";
 
 export default function RecipeDetailsPage(): JSX.Element
 {
@@ -54,23 +54,13 @@ export default function RecipeDetailsPage(): JSX.Element
 	}
 
 	return (
-		<div className="box">
-			<div className="box-header">
-				<Breadcrumbs />
-				<img height="100px" src="../img/recipes.png" />
-				<h1 className="box-title">
-					<input
-						name="name"
-						value={recipe?.name || ""}
-						autoComplete="Nume rețetă"
-						onChange={handleChange}
-						onBlur={handleOnBlur} />
-				</h1>
-			</div>
-			<div className="box-content" >
-				{recipe && <CardListRecipe recipe={recipe} />}
-				<RecipeItems recipeId={recipeId} />
-			</div>
-		</div>
+		<SimplePage
+			title={recipe?.name || ""}
+			editableTitle={{ onChange: handleChange, onBlur: handleOnBlur }}
+			imagePath="/img/recipes.png"
+		>
+			{recipe && <CardListRecipe recipe={recipe} />}
+			<RecipeItems recipeId={recipeId} />
+		</SimplePage>
 	);
 }

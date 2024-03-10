@@ -4,7 +4,7 @@ import { getIngredients } from "../controllers/IngredientsController";
 import IngredientsList from "../components/ingredientsList/IngredientsList";
 import { PageableRequestParameters } from "../models/Pageable";
 import Pager, { PagerArgs } from "../components/generic/Pager/Pager";
-import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
+import SimplePage from "../components/generic/SimplePage/SimplePage";
 
 export default function IngredientsPage(): JSX.Element
 {
@@ -44,16 +44,9 @@ export default function IngredientsPage(): JSX.Element
 	}
 
 	return <>
-		<div className="box">
-			<div className="box-header">
-				<Breadcrumbs />
-				<img height="100px" src="img/ingredients.png" />
-				<h1 className="box-title">Ingrediente</h1>
-			</div>
-			<div className="box-content">
-				<IngredientsList ingredients={ingredients} />
-				<Pager pagerArgs={pagerArgs} />
-			</div>
-		</div>
+		<SimplePage title="Ingrediente" imagePath="/img/ingredients.png">
+			<IngredientsList ingredients={ingredients} />
+			<Pager pagerArgs={pagerArgs} />
+		</SimplePage>
 	</>;
 }

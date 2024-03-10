@@ -1,0 +1,27 @@
+.box {
+	margin: 40px;
+}
+
+.box_header {
+	display: flex;
+	gap: 50px;
+	margin-bottom: 70px;
+	flex-wrap: wrap	;
+}
+
+.box_title {
+	display: inline-block;
+	font-size: 70px;
+	margin-top: auto;
+}
+
+.box_title input {
+	font-weight: inherit;
+    font-size: inherit;
+    padding: 5px;
+    border: 0;
+}
+
+.box_content {
+	padding: 20px;
+}

@@ -7,7 +7,7 @@ import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
 import Pager, { PagerArgs } from "../components/generic/Pager/Pager.tsx";
 import { OrdersFilter } from "../components/ordersList/ordersFilter/OrdersFilter.tsx";
-import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs.tsx";
+import SimplePage from "../components/generic/SimplePage/SimplePage.tsx";
 
 export default function OrdersPage(): JSX.Element
 {
@@ -57,18 +57,11 @@ export default function OrdersPage(): JSX.Element
 	}
 
 	return (
-		<div className="box">
-			<div className="box-header">
-				<Breadcrumbs />
-				<img height="100px" src="img/orders.png" />
-				<h1 className="box-title">Comenzi</h1>
-			</div>
-			<div className="box-content">
-				<OrdersFilterMenu setActiveFilterCallback={setActiveFilter} />
-				<OrdersList orders={orders} />
-				<Pager pagerArgs={pagerArgs} />
-				<OrdersListControls />
-			</div>
-		</div>
+		<SimplePage title="Comenzi" imagePath="/img/orders.png">
+			<OrdersFilterMenu setActiveFilterCallback={setActiveFilter} />
+			<OrdersList orders={orders} />
+			<Pager pagerArgs={pagerArgs} />
+			<OrdersListControls />
+		</SimplePage>
 	);
 }

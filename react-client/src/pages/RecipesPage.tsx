@@ -5,7 +5,7 @@ import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipesController";
 import RecipesList from "../components/recipesList/RecipesList";
 import RecipeAddButton from "../components/recipesList/RecipeAddButton";
-import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs";
+import SimplePage from "../components/generic/SimplePage/SimplePage";
 
 export default function RecipesPage(): JSX.Element
 {
@@ -45,17 +45,10 @@ export default function RecipesPage(): JSX.Element
 	}
 
 	return (
-		<div className="box">
-			<div className="box-header">
-				<Breadcrumbs />
-				<img height="100px" src="img/recipes.png" />
-				<h1 className="box-title">Rețete</h1>
-			</div>
-			<div className="box-content">
-				<RecipesList recipes={recipes} />
-				<Pager pagerArgs={pagerArgs} />
-				<RecipeAddButton />
-			</div>
-		</div>
+		<SimplePage title="Rețete" imagePath="/img/recipes.png">
+			<RecipesList recipes={recipes} />
+			<Pager pagerArgs={pagerArgs} />
+			<RecipeAddButton />
+		</SimplePage>
 	);
 }
