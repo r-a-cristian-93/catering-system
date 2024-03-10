@@ -11,12 +11,12 @@
 	padding-top: 50px;
 }
 
-.modal-container {
+.modal_container {
 	max-width: max-content;
 	margin: auto;
 }
 
-.modal-box {
+.modal_box {
 	min-width: 800px;
 	background-color: white;
 	margin: 10px;
@@ -26,43 +26,43 @@
 	vertical-align: top;
 }
 
-.modal-top {
+.modal_top {
 	padding: 10px;
 	background-color: var(--grey);
 	display: flex;
 	justify-content: space-between;
 }
 
-.modal-top>* {
+.modal_top>* {
 	margin: auto 10px;
 }
 
-.modal-title {
+.modal_title {
 	color: var(--bg);
 	display: inline;
 }
 
-.modal-content {
+.modal_content {
 	padding: 25px;
 }
 
-.modal-close {
+.modal_close {
 	font-size: 40px;
 	color: var(--bg);
 }
 
-.modal-close:hover,
-.modal-close:focus {
+.modal_close:hover,
+.modal_close:focus {
 	text-decoration: none;
 	cursor: pointer;
 	font-weight: bold;
 }
 
-.modal-hidden {
+.modal_hidden {
 	display: none;
 }
 
-.modal-option {
+.modal_option {
 	border-radius: 10px;
 	padding: 10px;
 	background-color: var(--bg);
@@ -76,12 +76,12 @@
 	cursor: pointer;
 }
 
-.modal-option:hover {
+.modal_option:hover {
 	background-color: var(--bg2);
 	color: var(--grey);
 }
 
-.modal-fixed {
+.modal_fixed {
 	max-width: 350px;
 	margin-left: 30px;
 }

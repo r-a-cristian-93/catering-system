@@ -1,5 +1,6 @@
 import useScrollBlocking from "../../../hooks/UseScrollBlocking";
 import { createPortal } from "react-dom";
+import style from "./Modal.module.css"
 
 type ModalProps = {
 	title: string;
@@ -12,14 +13,14 @@ export default function Modal(props: ModalProps): JSX.Element
 	useScrollBlocking();
 
 	return createPortal(
-		<div className="modal">
-			<div className="modal-container">
-				<div className="modal-box">
-					<div className="modal-top">
-						<h2 className="modal-title">{props.title}</h2>
-						<span className="modal-close no-print" onClick={props.toggleCallback}>×</span>
+		<div className={style.modal}>
+			<div className={style.modal_container}>
+				<div className={style.modal_box}>
+					<div className={style.modal_top}>
+						<h2 className={style.modal_title}>{props.title}</h2>
+						<span className={style.modal_close} onClick={props.toggleCallback}>×</span>
 					</div>
-					<div className="modal-content">
+					<div className={style.modal_content}>
 						{props.children}
 					</div>
 				</div>
