@@ -5,6 +5,7 @@ import PickUnitList from "../modals/PickUnitList";
 import InputScrollBlocking from "../../generic/InputScrollBlocking";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
 
 type CardClientProps = {
 	recipeId: number;
@@ -46,9 +47,9 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 	return (
 		<>
 			<Card>
-				<div className="card-icon">
+				<CardIcon>
 					<div className="card-bg img-scale"></div>
-				</div>
+				</CardIcon>
 				<div className="card-details">
 					<div className="card-title">Gramaj</div>
 					<div className="card-text-big hover-pointer" >

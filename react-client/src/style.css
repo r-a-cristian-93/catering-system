@@ -580,10 +580,6 @@ a:visited {
 	transition: 0.1s ease-in-out;
 }
 
-.card-icon {
-	margin: auto 0;
-}
-
 .card-bg {
 	background-repeat: no-repeat;
 	width: 65px;
@@ -618,10 +614,6 @@ a:visited {
 .card-text-small {
 	font-size: 90%;
 	text-transform: capitalize;
-}
-
-.card-icon {
-	margin: 0 auto;
 }
 
 .card-details {

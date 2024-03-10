@@ -3,6 +3,7 @@ import { Client } from "../../../models/Order";
 import PickClientOptions from "../modals/PickClientOptions";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
 
 type CardClientProps = {
 	orderId: number;
@@ -23,9 +24,9 @@ export default function CardClient(props: CardClientProps): JSX.Element
 	return (
 		<>
 			<Card className="hover-pointer">
-				<div className="card-icon">
+				<CardIcon>
 					<div className="card-bg profil"></div>
-				</div>
+				</CardIcon>
 				<div className="card-details" onClick={handleToggleModal}>
 					<div className="card-title">Client</div>
 					<div className="card-text-big">

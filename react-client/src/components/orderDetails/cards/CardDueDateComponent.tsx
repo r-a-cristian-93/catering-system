@@ -3,6 +3,7 @@ import * as Formatter from "../../../utils/Formatting"
 import { Order } from "../../../models/Order";
 import { updateOrder } from "../../../controllers/OrderController";
 import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
 
 type CardProps = {
 	date: string;
@@ -36,11 +37,13 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 		void updateOrder(order);
 	}
 
+	console.log(dateString);
+
 	return (
 		<Card>
-			<div className="card-icon">
+			<CardIcon>
 				<div className="card-bg img-hourglass"></div>
-			</div>
+			</CardIcon>
 			<div className="card-details">
 				<div className="card-title">Termen livrare</div>
 				<div className="card-text-medium">

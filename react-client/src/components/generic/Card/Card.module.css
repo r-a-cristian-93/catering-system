@@ -14,7 +14,13 @@
 .card input {
 	font-size: inherit;
 	text-align:right;
-	width: 80px;
+	/* width: 80px; */
 	padding: 5px;
 	border: 0;
+}
+
+.card_icon {
+	display: flex;
+	justify-content: center;
+	margin: 0 auto;
 }

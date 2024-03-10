@@ -4,6 +4,7 @@ import { IngredientPriceHistory } from "../../../models/Ingredient";
 import { useState } from "react";
 import { QueryKeysIngredient } from "../../../QueryKeys/QueryKeysIngredient";
 import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
 
 type CardPriceTrendProps = {
 	ingredientId: number;
@@ -22,7 +23,7 @@ export default function CardPriceTrend(props: CardPriceTrendProps): JSX.Element
 	return (
 		<>
 			<Card>
-				<div className="card-icon">
+				<CardIcon>
 					<SparkLineChart
 						showHighlight
 						showTooltip
@@ -31,7 +32,7 @@ export default function CardPriceTrend(props: CardPriceTrendProps): JSX.Element
 						height={100}
 						colors={[ "black" ]}
 					/>
-				</div>
+				</CardIcon>
 				<div className="card-details">
 					<div className="card-title">Evolutie pret</div>
 				</div>

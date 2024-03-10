@@ -3,6 +3,7 @@ import { ClientAddress } from "../../../models/Order";
 import PickAddressTable from "../modals/PickAddressTable";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
 
 type CardAddressProps = {
 	orderId: number;
@@ -23,10 +24,10 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	return (
 		<>
-			<Card className="hover-pointer">
-				<div className="card-icon">
+			<Card className="card hover-pointer">
+				<CardIcon>
 					<div className="card-bg img-pinlocation"></div>
-				</div>
+				</CardIcon>
 				<div className="card-details" onClick={handleToggleModal}>
 					<div className="card-title">Adresa livrare</div>
 					<div className="card-text-medium">

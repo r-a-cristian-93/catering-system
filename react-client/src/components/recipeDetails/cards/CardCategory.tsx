@@ -3,6 +3,7 @@ import { Category, getCategoryIconClass } from "../../../models/Recipe";
 import PickCategoryList from "../modals/PickCategoryList";
 import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
 
 type CardClientProps = {
 	recipeId: number;
@@ -22,11 +23,11 @@ export default function CardCategory(props: CardClientProps): JSX.Element
 
 	return (
 		<>
-			<Card className="hover-pointer">
-				<div className="card-icon">
+			<Card className="hover-pointer" onClick={handleToggleModal}>
+				<CardIcon>
 					<div className={"card-bg " + getCategoryIconClass(category)}></div>
-				</div>
-				<div className="card-details" onClick={handleToggleModal}>
+				</CardIcon>
+				<div className="card-details">
 					<div className="card-title">Categorie</div>
 					<div className="card-text-big">
 						{category?.name}
