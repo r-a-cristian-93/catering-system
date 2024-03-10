@@ -4,7 +4,7 @@ import { QueryKeysClient } from "../../../QueryKeys/QueryKeysClient";
 import { getClients, getClientsByNameContaining } from "../../../controllers/ClientController";
 import { ClientResponseData } from "../../../models/Order";
 import { PageableRequestParameters } from "../../../models/Pageable";
-import Pager from "../../Pager";
+import Pager from "../../generic/Pager/Pager";
 import SearchBar from "../../generic/SearchBar/SearchBar";
 import PickClient from "./PickClient";
 

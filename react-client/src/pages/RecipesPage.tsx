@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Pager, { PagerArgs } from "../components/Pager";
+import Pager, { PagerArgs } from "../components/generic/Pager/Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipesController";

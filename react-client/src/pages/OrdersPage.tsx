@@ -5,7 +5,7 @@ import { RequestBody, getOrders } from "../controllers/OrdersController";
 import { PageableRequestParameters } from "../models/Pageable.tsx";
 import { Order, OrdersResponseData } from "../models/Order.tsx";
 import OrdersListControls from "../components/ordersList/OrdersListControls.tsx";
-import Pager, { PagerArgs } from "../components/Pager.tsx";
+import Pager, { PagerArgs } from "../components/generic/Pager/Pager.tsx";
 import { OrdersFilter } from "../components/ordersList/ordersFilter/OrdersFilter.tsx";
 import Breadcrumbs from "../components/generic/Breadcrumbs/Breadcrumbs.tsx";
 
