@@ -38,8 +38,6 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 		void updateOrder(order);
 	}
 
-	console.log(dateString);
-
 	return (
 		<Card>
 			<CardIcon>

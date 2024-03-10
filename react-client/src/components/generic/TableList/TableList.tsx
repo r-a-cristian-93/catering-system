@@ -10,7 +10,7 @@ export default function TableList(props: TableListProps): JSX.Element
 		<table {...props} className={props.className + " " + css.table_list}>
 			<thead>
 				<tr>
-					{props.header.map((columnName) => <th>{columnName}</th>)}
+					{props.header.map((columnName, index) => <th key={index}>{columnName}</th>)}
 				</tr>
 			</thead>
 			<tbody>

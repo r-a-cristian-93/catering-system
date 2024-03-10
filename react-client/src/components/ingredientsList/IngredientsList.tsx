@@ -13,7 +13,6 @@ export default function IngredientsList(props: IngredientsListProps): JSX.Elemen
 			{props.ingredients?.map((ingredient) => (
 				<tr
 					key={ingredient.id}
-					id={ingredient.id.toString()}
 					onClick={() =>
 					{
 						window.location.href = document.location.pathname + "/" + ingredient.id

@@ -22,9 +22,8 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 		queryKey: QueryKeysIngredient.all,
 		queryFn: () => getIngredientsAll(),
 		staleTime: 60 * 1000,
-		onSuccess: (date) =>
+		onSuccess: () =>
 		{
-			console.log(date);
 			setIngredients(getUnusedIngredients());
 		}
 	});

@@ -52,7 +52,7 @@ export default function RecipeItemComponent(props: RecipeItemComponentProps): JS
 	}
 
 	return (
-		<tr id="det_8" className="font-size-120">
+		<tr className="font-size-120">
 			<td>{recipeItem.ingredient.name}</td>
 			<td>
 				<InputScrollBlocking
