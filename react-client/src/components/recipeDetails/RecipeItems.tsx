@@ -100,7 +100,7 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
                                 deleteCallback={handleChildDelete} />
                         )
                     }
-                    <tr id="det_total" className="font-size-140">
+                    <tr className="font-size-140">
                         <th></th>
                         <th></th>
                         <th>Total:</th>
