@@ -7,7 +7,7 @@ import { QueryKeysRecipe } from "../../QueryKeys/QueryKeysRecipe.tsx";
 import { getRecipeItems } from "../../controllers/RecipeItemsController.tsx";
 import RecipeItemComponent from "./RecipeItemComponent.tsx";
 import { AddRecipeItemTable } from "./modals/AddRecipeItemTable.tsx";
-import Modal from "../generic/Modal.tsx";
+import Modal from "../generic/Modal/Modal.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
 
 type RecipeItemsProps = {

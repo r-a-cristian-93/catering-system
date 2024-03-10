@@ -7,7 +7,7 @@ import { QueryClient, useQuery, useQueryClient } from "react-query";
 import AddOrderItemTable from "./modals/AddOrderItemTable.tsx";
 import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
-import Modal from "../generic/Modal.tsx";
+import Modal from "../generic/Modal/Modal.tsx";
 
 type OrderItemsProps = {
     orderId: number;

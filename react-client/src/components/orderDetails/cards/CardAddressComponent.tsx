@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ClientAddress } from "../../../models/Order";
 import PickAddressTable from "../modals/PickAddressTable";
-import Modal from "../../generic/Modal";
+import Modal from "../../generic/Modal/Modal";
 
 type CardAddressProps = {
 	orderId: number;

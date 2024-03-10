@@ -1,4 +1,4 @@
-import useScrollBlocking from "../../hooks/UseScrollBlocking";
+import useScrollBlocking from "../../../hooks/UseScrollBlocking";
 import { createPortal } from "react-dom";
 
 type ModalProps = {

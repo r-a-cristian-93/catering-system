@@ -3,7 +3,7 @@ import { Recipe, Unit } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
 import PickUnitList from "../modals/PickUnitList";
 import InputScrollBlocking from "../../InputScrollBlocking";
-import Modal from "../../generic/Modal";
+import Modal from "../../generic/Modal/Modal";
 
 type CardClientProps = {
 	recipeId: number;
@@ -65,7 +65,7 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 			{
 				isModalActive &&
 				<Modal title="Alege unitatea de masura" toggleCallback={handleToggleModal}>
-					<PickUnitList recipeId={recipeId} toggleModalCallback={handleToggleModal}/>
+					<PickUnitList recipeId={recipeId} toggleModalCallback={handleToggleModal} />
 				</Modal>
 			}
 		</>

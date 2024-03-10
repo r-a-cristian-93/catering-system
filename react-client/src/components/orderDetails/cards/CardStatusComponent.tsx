@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Status } from "../../../models/Order";
 import * as Formatter from "../../../utils/Formatting"
 import PickStatusList from "../modals/PickStatusList";
-import Modal from "../../generic/Modal";
+import Modal from "../../generic/Modal/Modal";
 
 type CardStatusProps = {
 	orderId: number;

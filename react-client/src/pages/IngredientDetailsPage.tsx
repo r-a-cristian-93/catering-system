@@ -9,7 +9,7 @@ import IngredientPriceHistoryComponent from "../components/ingredientDetails/Ing
 import Breadcrumbs from "../components/Breadcrumbs";
 import AddButton from "../components/generic/AddButton/AddButton";
 import RecordNewPrice from "../components/ingredientDetails/modals/RecordNewPrice";
-import Modal from "../components/generic/Modal";
+import Modal from "../components/generic/Modal/Modal";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
