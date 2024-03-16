@@ -718,28 +718,6 @@ a:visited {
 	}
 }
 
-.screen-picker {
-	display: flex;
-}
-
-.screen-picker-selector {
-	width:100%;
-	padding: 20px;
-	text-align: center;
-	border-bottom: solid var(--bg);
-	opacity: 0.5;
-}
-
-.screen-picker-selector:hover {
-	opacity: 1;
-}
-
-.screen-picker-selector-active {
-	opacity: 1;
-	border-color: var(--text);
-	background-color: var(--grey3);
-}
-
 .MuiChartsAxis-directionX .MuiChartsAxis-tickLabel {
 	transform: rotate(15deg);
 	overflow: visible;
