@@ -1,0 +1,80 @@
+
+.pick_client_create_box {
+	display: flex;
+	text-align: left;
+	align-items: center;
+}
+
+.pick_client_create_box *:not(button) {
+	padding: 10px;
+}
+
+.pick_client_create_box input {
+	background-color: var(--grey-hover);
+	border: none;
+}
+
+.pick_client_create_box tr:hover {
+	background-color: inherit;
+}
+
+.pick_client_create_details {
+	display: grid;
+	grid-template-columns: 0.2fr 0.1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	gap: 10px;
+	width: 100%;
+
+	input {
+		outline: none;
+	}
+}
+
+.pick_client_create_details {
+	.item_0 {
+		grid-row: 1/4;
+		grid-column: 1/2;
+		margin:auto;
+	}
+
+	.item_1 {
+		grid-row: 1/2;
+		grid-column: 2/3;
+	}
+
+	.item_2 {
+		grid-row: 1/2;
+		grid-column: 3/4;
+	}
+
+	.item_3 {
+		grid-row: 2/3;
+		grid-column: 2/3;
+	}
+
+	.item_4 {
+		grid-row: 2/3;
+		grid-column: 3/4;
+	}
+
+	.item_5 {
+		grid-row: 3/4;
+		grid-column: 2/3;
+	}
+
+	.item_6 {
+		grid-row: 3/4;
+		grid-column: 3/4;
+	}
+
+	.item_7 {
+		grid-row: 4/5;
+		grid-column: 1/4;
+	}
+
+	:global(.button) {
+		padding: 10px 50px;
+		margin: auto;
+		margin-top: 30px;
+	}
+}

@@ -1,4 +1,4 @@
-import PickClientCreateNew from "./PickClientCreateNew";
+import PickClientCreateNew from "./PickClientCreateNew/PickClientCreateNew";
 import PickClientSearch from "./PickClientSearch";
 import { ScreenOption } from "./ScreenSelector/ScreenSelector";
 import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";

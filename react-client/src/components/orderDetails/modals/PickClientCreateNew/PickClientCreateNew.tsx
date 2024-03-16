@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Client, ClientAddress, Order} from "../../../models/Order";
-import { addClient } from "../../../controllers/ClientController";
-import { addAddress } from "../../../controllers/AddressControllere";
-import { updateOrder } from "../../../controllers/OrderController";
-import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import { Client, ClientAddress, Order} from "../../../../models/Order";
+import { addClient } from "../../../../controllers/ClientController";
+import { addAddress } from "../../../../controllers/AddressControllere";
+import { updateOrder } from "../../../../controllers/OrderController";
+import { QueryKeysOrder } from "../../../../QueryKeys/QueryKeysOrder";
 import { QueryClient, useQueryClient } from "react-query";
-import useFocus from "../../../hooks/UseFocus";
+import useFocus from "../../../../hooks/UseFocus";
+import css from "./PickClientCreateNew.module.css"
 
 type PickClientCreateNewProps = {
 	orderId: number;
@@ -68,12 +69,12 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
     }
 
 	return (
-		<div className="pick-client-create-box">
-			<form className="pick-client-create-details">
-				<div className="item-0 card-bg profil"></div>
-				<span className="item-1">Nume: </span>
+		<div className={css.pick_client_create_box}>
+			<form className={css.pick_client_create_details}>
+				<div className={css.item_0 + " card-bg profil"}></div>
+				<span className={css.item_1}>Nume: </span>
 				<input
-					className="item-2"
+					className={css.item_2}
 					name="name"
 					type="text"
 					value={client.name}
@@ -82,9 +83,9 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					autoComplete="false"
 					ref={inputFieldName}
 				/>
-				<span className="item-3">Telefon: </span>
+				<span className={css.item_3}>Telefon: </span>
 				<input
-					className="item-4"
+					className={css.item_4}
 					name="phone"
 					type="text"
 					value={client.phone || ""}
@@ -92,9 +93,9 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					onChange={handleChange}
 					autoComplete="false"
 				/>
-				<span className="item-5">Adresa: </span>
+				<span className={css.item_5}>Adresa: </span>
 				<input
-					className="item-6"
+					className={css.item_6}
 					name="address"
 					type="text"
 					value={clientAddress.value}
@@ -102,7 +103,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					onChange={handleChange}
 					autoComplete="false"
 				/>
-				<div className="item-7 button hover-pointer" onClick={handleAddClient}>Adauga</div>
+				<div className={css.item_7 + " button hover-pointer"} onClick={handleAddClient}>Adauga</div>
 			</form>
 		</div>
 	)
