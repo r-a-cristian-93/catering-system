@@ -158,48 +158,6 @@ a:visited {
 
 /* ******************* FILTERS ******************* */
 
-.filter-menu {
-	display: flex;
-}
-
-.filter-container {
-	position: relative;
-	flex-grow: 1;
-	margin: 0;
-	text-align: center;
-	border-bottom: solid var(--bg);
-	opacity: 0.5;
-}
-
-.filter-container:hover {
-	cursor: pointer;
-	border-color: var(--text);
-	opacity: 1;
-}
-
-.filter-container .dropdown-content {
-	left: 50%;
-	top: 80%;
-	transform: translate(-50%);
-	background-color: var(--bg);
-}
-
-.filter-container a {
-	color: var(--text);
-}
-
-.filter-container a:hover {
-	background-color: var(--grey-hover);
-}
-
-.filter-name {
-	padding: 25px 0 15px 0;
-}
-
-.filter-active {
-	border-color: var(--text);
-}
-
 
 /* ******************* IMAGES ******************* */
 
