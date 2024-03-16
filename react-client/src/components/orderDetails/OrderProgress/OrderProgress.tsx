@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Order } from "../../../models/Order";
 import OrderProgressStep from "./OrderProgressStep";
+import css from "./OrderProgress.module.css"
 
 type OrderProgressProps = {
 	order: Order;
@@ -34,7 +35,7 @@ export default function OrderProgress(props: OrderProgressProps): JSX.Element
 	}
 
 	return (
-		<div className="stepper-wrapper">
+		<div className={css.stepper_wrapper}>
 			{
 				steps.map((step, index) => (
 					<OrderProgressStep
