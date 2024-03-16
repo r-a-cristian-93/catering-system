@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Order } from "../../models/Order";
+import { Order } from "../../../models/Order";
 import OrderProgressStep from "./OrderProgressStep";
 
 type OrderProgressProps = {

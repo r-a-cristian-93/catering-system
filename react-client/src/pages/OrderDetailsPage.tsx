@@ -5,7 +5,7 @@ import { QueryClient, useQuery, useQueryClient } from "react-query";
 import CardListOrder from "../components/orderDetails/cards/CardListOrder";
 import OrderItems from "../components/orderDetails/OrderItems";
 import { useState } from "react";
-import OrderProgress from "../components/orderDetails/OrderProgress";
+import OrderProgress from "../components/orderDetails/OrderProgress/OrderProgress";
 import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 import SimplePage from "../components/generic/SimplePage/SimplePage";
 

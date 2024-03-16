@@ -1,6 +1,6 @@
-import { setNextOrderState } from "../../controllers/OrderController";
-import { Order } from "../../models/Order";
-import * as Formatter from "../../utils/Formatting"
+import { setNextOrderState } from "../../../controllers/OrderController";
+import { Order } from "../../../models/Order";
+import * as Formatter from "../../../utils/Formatting"
 import { OrderStep } from "./OrderProgress";
 
 export type OrderProgressStepProps = {
