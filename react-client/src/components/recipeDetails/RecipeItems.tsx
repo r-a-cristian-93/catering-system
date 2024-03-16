@@ -10,6 +10,7 @@ import { AddRecipeItemTable } from "./modals/AddRecipeItemTable.tsx";
 import Modal from "../generic/Modal/Modal.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
 import TableList from "../generic/TableList/TableList.tsx";
+import css from "../generic/TableList/TableList.module.css"
 
 type RecipeItemsProps = {
     recipeId: number;
@@ -83,7 +84,7 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
 
     return (
         <>
-            <TableList className="details-table" header={[ "Ingredient", "Cantitate", "Pret unitar", "Cost Total" ]}>
+            <TableList className={css.details_table} header={[ "Ingredient", "Cantitate", "Pret unitar", "Cost Total" ]}>
                 {
                     recipeItemsQuerySucess && recipeItems && recipeItems.map((recipeItem) =>
                         <RecipeItemComponent key={recipeItem.id} recipeItem={recipeItem}

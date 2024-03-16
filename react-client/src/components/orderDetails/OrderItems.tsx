@@ -9,6 +9,7 @@ import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
 import Modal from "../generic/Modal/Modal.tsx";
 import TableList from "../generic/TableList/TableList.tsx";
+import css from "../generic/TableList/TableList.module.css"
 
 type OrderItemsProps = {
 	orderId: number;
@@ -82,7 +83,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 
 	return (
 		<>
-			<TableList className="details-table" header={[ "Articol", "Porții", "Cost unitar", "Cost total" ]}>
+			<TableList className={css.details_table} header={[ "Articol", "Porții", "Cost unitar", "Cost total" ]}>
 				{
 					orderItemsQuerySucess && orderItems && orderItems.map((orderItem) =>
 						<OrderItemComponent key={orderItem.id} orderItem={orderItem}

@@ -16,6 +16,7 @@
 	text-align:right;
 	padding: 5px;
 	border: 0;
+	max-width:100px;
 }
 
 .card_icon {

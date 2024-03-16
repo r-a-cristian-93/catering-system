@@ -39,3 +39,12 @@
 .table_list input[type=number] {
 	width: 100px;
 }
+
+.details_table td:not(:first-child),
+.details_table th:not(:first-child) {
+	text-align: right;
+}
+
+.details_table tr:last-child {
+	background-color: var(--bg);
+}
