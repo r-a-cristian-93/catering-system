@@ -32,10 +32,21 @@ public class ClientAddressService {
 
     public ClientAddressModel updateClientAddress(Integer id, ClientAddressModel address) {
         String value = address.getValue();
+        Float latitude = address.getLatitude();
+        Float longitude = address.getLongitude();
+
         address = addressesRepo.findById(id).get();
 
         if (value != null) {
             address.setValue(value);
+        }
+
+        if (latitude != null) {
+            address.setLatitude(latitude);
+        }
+
+        if (longitude != null) {
+            address.setLongitude(longitude);
         }
 
         return addressesRepo.save(address);

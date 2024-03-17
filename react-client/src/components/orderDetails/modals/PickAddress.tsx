@@ -7,14 +7,13 @@ import { useOrderDetailsContext } from "../../../pages/OrderDetailsPage";
 type PickAddressProps = {
 	orderId: number;
 	address: ClientAddress;
-	toggleModalCallback: () => void;
 }
 
 export default function PickAddress(props: PickAddressProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const { orderId, address, toggleModalCallback } = props;
+	const { orderId, address } = props;
 
 	const order = useOrderDetailsContext();
 
@@ -37,3 +36,12 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 		</tr>
 	)
 }
+
+
+// useEffect(() =>
+// {
+// 	void axios.get<NominatimReverseResponse>('https://nominatim.openstreetmap.org/reverse?lat=50&lon=1&format=json').then((response) =>
+// 	{
+// 		console.log(response.data);
+// 	})
+// }, [])

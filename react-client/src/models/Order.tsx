@@ -11,6 +11,8 @@ export type ClientAddress = {
 	id: number;
 	clientId: number;
 	value: string;
+	latitude: number;
+	longitude: number;
 }
 
 export type Status = {

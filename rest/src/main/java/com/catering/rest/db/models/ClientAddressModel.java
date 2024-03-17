@@ -25,5 +25,11 @@ public class ClientAddressModel {
     @Column(name="value")
     private String value;
 
+	@Column(name="latitude")
+	private Float latitude;
+
+	@Column(name="longitude")
+	private Float longitude;
+
 	protected ClientAddressModel() {}
 }
