@@ -2,7 +2,6 @@ import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
 import { ClientAddress, Order } from "../../../models/Order";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
-import { useState } from "react";
 import { useOrderDetailsContext } from "../../../pages/OrderDetailsPage";
 
 type PickAddressProps = {

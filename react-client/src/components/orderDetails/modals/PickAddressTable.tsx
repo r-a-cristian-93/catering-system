@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClientAddress } from "../../../models/Order";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import PickAddress from "./PickAddress";
 import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
 import { getAddresses } from "../../../controllers/AddressControllere";
 import TableList from "../../generic/TableList/TableList";
+import axios from "axios";
 
 type PickAddressTableProps = {
 	orderId: number;
@@ -21,6 +22,16 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 	const [ clientAddresses, setClientAddresses ] = useState<ClientAddress[] | null>(
 		queryClient.getQueryData<ClientAddress[]>(QueryKeysAddress.byClientId(clientId)) || null
 	);
+
+
+	useEffect(() =>
+	{
+		void axios.get<NominatimReverseResponse>('https://nominatim.openstreetmap.org/reverse?lat=50&lon=1&format=json').then((response) =>
+		{
+			console.log(response.data);
+		})
+	}, [])
+
 
 	useQuery<ClientAddress[]>({
 		queryKey: QueryKeysAddress.byClientId(clientId),
