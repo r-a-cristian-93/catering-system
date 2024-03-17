@@ -34,7 +34,7 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 
 	return (
 		<>
-			<TableList header={[ "Adresa" ]}>
+			<TableList>
 				{clientAddresses?.map(
 					(clientAddress) =>
 						clientAddress.id > 0 && (

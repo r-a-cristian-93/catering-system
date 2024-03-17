@@ -2,6 +2,8 @@ import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
 import { ClientAddress, Order } from "../../../models/Order";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import { useState } from "react";
+import { useOrderDetailsContext } from "../../../pages/OrderDetailsPage";
 
 type PickAddressProps = {
 	orderId: number;
@@ -15,6 +17,8 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 
 	const { orderId, address, toggleModalCallback } = props;
 
+	const order = useOrderDetailsContext();
+
 	function handleSelect(): void
 	{
 		const order: Order = {
@@ -24,15 +28,13 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 
 		void updateOrder(order).then((order) =>
 		{
-			void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
-
-			toggleModalCallback();
+			void queryClient.invalidateQueries<Order>(QueryKeysOrder.orderById(order.id))
 		});
 	}
 
 	return (
 		<tr onClick={handleSelect}>
-			<td>{address.value}</td>
+			<td className={order?.deliveryAddress?.id === address.id ? "active-address" : ""}>{address.value}</td>
 		</tr>
 	)
 }
