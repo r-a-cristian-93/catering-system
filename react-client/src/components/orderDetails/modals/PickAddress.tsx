@@ -1,7 +1,5 @@
-import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
 import { ClientAddress, Order } from "../../../models/Order";
-import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
 type PickAddressProps = {
@@ -11,11 +9,9 @@ type PickAddressProps = {
 
 export default function PickAddress(props: PickAddressProps): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
-
 	const { orderId, address } = props;
 
-	const { order } = useOrderDetailsContext();
+	const { order, refetchOrder } = useOrderDetailsContext();
 
 	function handleSelect(): void
 	{
@@ -24,9 +20,9 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 			deliveryAddress: address,
 		} as Order;
 
-		void updateOrder(order).then((order) =>
+		void updateOrder(order).then(() =>
 		{
-			void queryClient.invalidateQueries<Order>(QueryKeysOrder.orderById(order.id))
+			refetchOrder();
 		});
 	}
 
