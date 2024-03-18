@@ -52,6 +52,8 @@ CREATE TABLE `clients_addresses` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `ID_client` int NOT NULL,
   `value` varchar(255) DEFAULT NULL,
+  `latitude` float(9,6) DEFAULT NULL,
+  `longitude` float(9,6) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -62,7 +64,7 @@ CREATE TABLE `clients_addresses` (
 
 LOCK TABLES `clients_addresses` WRITE;
 /*!40000 ALTER TABLE `clients_addresses` DISABLE KEYS */;
-INSERT INTO `clients_addresses` VALUES (1,1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara'),(2,1,'Str. Valea Viilor, Nr.22, Lehliu-Gara'),(4,2,'Strada Ion Creang 808, Sibiu, Sibiu, Romania'),(5,2,'Bulevardul Tudor Arghezi 909, Bacu, Bacu, Romania'),(7,2,'Aleea George Cobuc 1010, Craiova, Dolj, Romania'),(10,2,'Strada Pacanelelor, Nr 33A'),(11,24,'Str. Tudor Gheorghe 1, Iasi'),(12,24,'Aleea Angela Similea 2, Cluj-Napoca'),(13,25,'Bulevardul Smiley 3, Bucharest'),(14,25,'Strada Inna 4, Constanta'),(15,26,'Aleea Dan Spataru 5, Timisoara'),(16,26,'Bulevardul Loredana 6, Craiova'),(17,27,'Str. Holograf 7, Brasov'),(18,27,'Aleea Ovidiu Komornyik 8, Galati'),(19,28,'Bulevardul Proconsul 9, Pitesti'),(20,28,'Strada Iris 10, Bacau'),(21,29,'Aleea Mircea Baniciu 11, Oradea'),(22,29,'Bulevardul Phoenix 12, Sibiu'),(23,30,'Str. Compact 13, Arad'),(24,30,'Aleea Adrian Enescu 14, Targu Mures'),(25,31,'Bulevardul Bere Gratis 15, Ploiesti'),(26,31,'Strada Voltaj 16, Baia Mare'),(27,32,'Aleea Zdob si Zdub 17, Alba Iulia'),(28,32,'Bulevardul Carla s Dreams 18, Buzau'),(29,33,'Str. Firma 19, Focsani'),(30,33,'Aleea Urma 20, Satu Mare'),(31,34,'Bulevardul Via de Vie 21, Suceava'),(32,34,'Strada Alternosfera 22, Targoviste'),(33,35,'Aleea Luna Amara 23, Drobeta-Turnu Severin'),(34,35,'Bulevardul Catalin Crisan 24, Braila'),(35,36,'Str. Subcarpati 25, Ramnicu Valcea'),(36,36,'Aleea Suie Paparude 26, Baia Mare'),(37,37,'Bulevardul Maria Raducanu 27, Targu Jiu'),(38,37,'Strada Hara 28, Botosani'),(39,38,'Aleea Trooper 29, Resita'),(40,38,'Bulevardul Semnal M 30, Deva'),(41,39,'Str. Zdob si Zdub 31, Vaslui'),(42,39,'Aleea Luna Amara 32, Giurgiu'),(43,40,'Bulevardul Vama Veche 33, Alexandria'),(44,40,'Strada Bere Gratis 34, Rosiorii de Vede'),(45,41,'Aleea Proconsul 35, Slatina'),(46,41,'Bulevardul Loredana 36, Campulung'),(47,42,'Str. Compact 37, Medias'),(48,42,'Aleea Holograf 38, Slobozia'),(49,43,'Bulevardul Voltaj 39, Dorohoi'),(50,43,'Strada Pro Musica 40, Adjud'),(51,44,'Aleea Sfinx 41, Sighetu Marmatiei'),(52,44,'Bulevardul Stelu Enache 42, Lugoj'),(53,45,'Str. Poesis 43, Zalau'),(54,45,'Aleea Metropol 44, Reghin'),(55,46,'Bulevardul Sarmalele Reci 45, Tecuci'),(56,46,'Strada Spitalul de Urgenta 46, Baia Sprie'),(57,47,'Aleea Coma 47, Salonta'),(58,47,'Bulevardul Elena Gheorghe 48, Mizil'),(59,48,'Str. Minus 49, Bistrita'),(60,48,'Aleea N&D 50, Miercurea Ciuc'),(61,49,'Bulevardul Antract 51, Falticeni'),(62,49,'Strada Trooper 52, Husi'),(63,50,'Aleea Nazareth 53, Vulcan'),(64,50,'Bulevardul Zdob si Zdub 54, Navodari'),(65,51,'Str. Taxi 55, Panciu'),(66,51,'Aleea Phoenix 56, Cernavoda'),(67,52,'Bulevardul Metropol 57, Campina'),(68,52,'Strada Iris 58, Curtea de Arges'),(69,53,'Aleea Simplu 59, Odorheiu Secuiesc'),(70,53,'Bulevardul Celelalte Cuvinte 60, Turnu Magurele');
+INSERT INTO `clients_addresses` VALUES (1,1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara',47.932468,22.411837),(2,1,'Str. Valea Viilor, Nr.22, Lehliu-Gara',46.438099,24.748642),(4,2,'Strada Ion Creang 808, Sibiu, Sibiu, Romania',45.931633,23.517681),(5,2,'Bulevardul Tudor Arghezi 909, Bacu, Bacu, Romania',46.758144,24.098154),(7,2,'Aleea George Cobuc 1010, Craiova, Dolj, Romania',46.020031,21.205807),(10,2,'Strada Pacanelelor, Nr 33A',45.557323,21.026932),(11,24,'Str. Tudor Gheorghe 1, Iasi',46.408829,23.659452),(12,24,'Aleea Angela Similea 2, Cluj-Napoca',45.751869,20.287228),(13,25,'Bulevardul Smiley 3, Bucharest',46.606071,22.522240),(14,25,'Strada Inna 4, Constanta',47.748505,20.337500),(15,26,'Aleea Dan Spataru 5, Timisoara',46.766983,23.712351),(16,26,'Bulevardul Loredana 6, Craiova',47.836105,22.497160),(17,27,'Str. Holograf 7, Brasov',46.983162,24.034882),(18,27,'Aleea Ovidiu Komornyik 8, Galati',45.155155,24.188316),(19,28,'Bulevardul Proconsul 9, Pitesti',45.099480,23.264065),(20,28,'Strada Iris 10, Bacau',45.493748,24.322380),(21,29,'Aleea Mircea Baniciu 11, Oradea',47.485893,22.748650),(22,29,'Bulevardul Phoenix 12, Sibiu',45.788261,23.322906),(23,30,'Str. Compact 13, Arad',46.603931,23.397373),(24,30,'Aleea Adrian Enescu 14, Targu Mures',47.380325,24.643942),(25,31,'Bulevardul Bere Gratis 15, Ploiesti',45.790840,22.658520),(26,31,'Strada Voltaj 16, Baia Mare',47.603035,23.716393),(27,32,'Aleea Zdob si Zdub 17, Alba Iulia',45.340073,21.684772),(28,32,'Bulevardul Carla s Dreams 18, Buzau',46.034096,23.563148),(29,33,'Str. Firma 19, Focsani',46.587158,22.536865),(30,33,'Aleea Urma 20, Satu Mare',47.849125,21.132111),(31,34,'Bulevardul Via de Vie 21, Suceava',45.848957,23.678305),(32,34,'Strada Alternosfera 22, Targoviste',47.488045,24.698803),(33,35,'Aleea Luna Amara 23, Drobeta-Turnu Severin',45.632271,21.172516),(34,35,'Bulevardul Catalin Crisan 24, Braila',46.620735,24.988583),(35,36,'Str. Subcarpati 25, Ramnicu Valcea',46.103539,24.230408),(36,36,'Aleea Suie Paparude 26, Baia Mare',45.380611,20.480528),(37,37,'Bulevardul Maria Raducanu 27, Targu Jiu',45.299747,21.056330),(38,37,'Strada Hara 28, Botosani',47.269741,20.745520),(39,38,'Aleea Trooper 29, Resita',46.427338,24.657915),(40,38,'Bulevardul Semnal M 30, Deva',45.691738,21.790731),(41,39,'Str. Zdob si Zdub 31, Vaslui',45.296978,22.102636),(42,39,'Aleea Luna Amara 32, Giurgiu',47.416969,23.833509),(43,40,'Bulevardul Vama Veche 33, Alexandria',46.249619,23.912966),(44,40,'Strada Bere Gratis 34, Rosiorii de Vede',46.990040,24.844753),(45,41,'Aleea Proconsul 35, Slatina',47.564148,21.833637),(46,41,'Bulevardul Loredana 36, Campulung',45.808468,21.236311),(47,42,'Str. Compact 37, Medias',46.283535,21.987190),(48,42,'Aleea Holograf 38, Slobozia',47.110966,21.629812),(49,43,'Bulevardul Voltaj 39, Dorohoi',46.556538,23.081711),(50,43,'Strada Pro Musica 40, Adjud',46.575520,23.884207),(51,44,'Aleea Sfinx 41, Sighetu Marmatiei',45.926056,21.064524),(52,44,'Bulevardul Stelu Enache 42, Lugoj',45.415398,20.268091),(53,45,'Str. Poesis 43, Zalau',47.558075,20.513029),(54,45,'Aleea Metropol 44, Reghin',47.864857,22.334724),(55,46,'Bulevardul Sarmalele Reci 45, Tecuci',46.409603,24.742519),(56,46,'Strada Spitalul de Urgenta 46, Baia Sprie',45.998749,24.095346),(57,47,'Aleea Coma 47, Salonta',45.289791,20.128904),(58,47,'Bulevardul Elena Gheorghe 48, Mizil',47.517330,20.591051),(59,48,'Str. Minus 49, Bistrita',45.221161,20.069864),(60,48,'Aleea N&D 50, Miercurea Ciuc',47.546104,21.007942),(61,49,'Bulevardul Antract 51, Falticeni',46.385517,23.522146),(62,49,'Strada Trooper 52, Husi',45.409885,22.849279),(63,50,'Aleea Nazareth 53, Vulcan',46.318180,22.436985),(64,50,'Bulevardul Zdob si Zdub 54, Navodari',45.356419,20.659212),(65,51,'Str. Taxi 55, Panciu',45.908379,20.592175),(66,51,'Aleea Phoenix 56, Cernavoda',47.051392,20.318399),(67,52,'Bulevardul Metropol 57, Campina',45.801029,20.720032),(68,52,'Strada Iris 58, Curtea de Arges',47.757011,20.815001),(69,53,'Aleea Simplu 59, Odorheiu Secuiesc',45.173965,24.004723),(70,53,'Bulevardul Celelalte Cuvinte 60, Turnu Magurele',47.492268,23.754734);
 /*!40000 ALTER TABLE `clients_addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +149,7 @@ CREATE TABLE `ingredients` (
 
 LOCK TABLES `ingredients` WRITE;
 /*!40000 ALTER TABLE `ingredients` DISABLE KEYS */;
-INSERT INTO `ingredients` VALUES (4,'Carne de vita','kg',40),(6,'Marar','legatura',3),(8,'Cartofi','kg',5),(10,'Ardei iute','buc',1),(11,'Lapte','l',4),(12,'Ulei','l',7),(13,'Sare','kg',5),(14,'Paine','kg',12),(15,'Apa plata','l',1),(16,'Orez','kg',8),(18,'Telina','kg',3),(19,'Bors','l',2),(24,'Gogonele','kg',10),(25,'Morcovi','kg',7),(26,'Ou','buc',1),(27,'Otet','l',5),(32,'Carne de porc','kg',24);
+INSERT INTO `ingredients` VALUES (4,'Carne de vita','kg',57),(6,'Marar','legatura',3),(8,'Cartofi','kg',5),(10,'Ardei iute','buc',1),(11,'Lapte','l',4),(12,'Ulei','l',7),(13,'Sare','kg',5),(14,'Paine','kg',12),(15,'Apa plata','l',1),(16,'Orez','kg',8),(18,'Telina','kg',3),(19,'Bors','l',2),(24,'Gogonele','kg',10),(25,'Morcovi','kg',7),(26,'Ou','buc',1),(27,'Otet','l',5),(32,'Carne de porc','kg',24);
 /*!40000 ALTER TABLE `ingredients` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -186,7 +188,7 @@ CREATE TABLE `ingredients_price_history` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID_ingredient` (`ID_ingredient`,`date`),
   CONSTRAINT `ingredients_price_history_ibfk_1` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +197,7 @@ CREATE TABLE `ingredients_price_history` (
 
 LOCK TABLES `ingredients_price_history` WRITE;
 /*!40000 ALTER TABLE `ingredients_price_history` DISABLE KEYS */;
-INSERT INTO `ingredients_price_history` VALUES (1,4,33,'2022-09-24'),(2,4,40,'2022-09-01'),(3,6,3,'2022-09-24'),(4,8,5,'2022-09-24'),(5,10,1,'2022-09-24'),(6,11,4,'2022-09-24'),(7,12,7,'2022-09-24'),(8,13,5,'2022-09-24'),(9,14,12,'2022-09-24'),(10,15,1,'2022-09-24'),(11,16,8,'2022-09-24'),(12,18,3,'2022-09-24'),(13,19,2,'2022-09-24'),(14,24,10,'2022-09-24'),(15,25,7,'2022-09-24'),(16,26,1,'2022-09-24'),(17,27,5,'2022-09-24'),(18,32,24,'2022-09-24');
+INSERT INTO `ingredients_price_history` VALUES (1,4,33,'2022-09-24'),(2,4,40,'2022-09-01'),(3,6,3,'2022-09-24'),(4,8,5,'2022-09-24'),(5,10,1,'2022-09-24'),(6,11,4,'2022-09-24'),(7,12,7,'2022-09-24'),(8,13,5,'2022-09-24'),(9,14,12,'2022-09-24'),(10,15,1,'2022-09-24'),(11,16,8,'2022-09-24'),(12,18,3,'2022-09-24'),(13,19,2,'2022-09-24'),(14,24,10,'2022-09-24'),(15,25,7,'2022-09-24'),(16,26,1,'2022-09-24'),(17,27,5,'2022-09-24'),(18,32,24,'2022-09-24'),(19,4,55,'2024-03-09'),(20,4,57,'2024-03-10');
 /*!40000 ALTER TABLE `ingredients_price_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +241,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,43,'expediata',90.4,'2024-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33,50),(2,2,'expediata',193.56000000000003,'2024-01-24 11:27:51','2024-01-23 11:27:45','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51',NULL,33,1),(4,2,'expediata',453.94,'2024-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,2,'anulata',4.62,'2024-01-24 11:27:51','2024-01-24 11:27:45',NULL,NULL,NULL,NULL,'2022-12-01 16:54:56',0,1),(102,50,'expediata',88.35000000000001,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0,1),(103,40,'expediata',41.35,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0,1),(110,53,'expediata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-02-01 12:08:37','2024-02-01 12:08:49','2024-01-18 12:02:50',0,1),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:00',NULL,NULL,NULL,NULL,NULL,0,1);
+INSERT INTO `orders` VALUES (1,43,'expediata',105.69999999999999,'2024-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33,50),(2,53,'expediata',319.08,'2024-01-24 11:27:51','2024-01-23 11:27:00','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51',NULL,33,69),(4,2,'expediata',531.12,'2024-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,53,'anulata',26.794999999999998,'2024-01-24 11:27:51','2024-02-22 11:27:00',NULL,NULL,NULL,NULL,'2024-03-10 13:43:23',0,70),(102,50,'expediata',112.15,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0,1),(103,40,'expediata',53.25,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0,1),(110,53,'expediata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-02-01 12:08:37','2024-02-01 12:08:49','2024-01-18 12:02:50',0,1),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:00',NULL,NULL,NULL,NULL,NULL,0,66);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -321,7 +323,7 @@ CREATE TABLE `orders_details` (
   KEY `ID_recipe` (`ID_recipe`),
   CONSTRAINT `orders_details_ibfk_2` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `orders_details_ibfk_3` FOREIGN KEY (`ID_order`) REFERENCES `orders` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +332,7 @@ CREATE TABLE `orders_details` (
 
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
-INSERT INTO `orders_details` VALUES (5,1,2,20),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(103,102,8,10),(104,102,5,10),(106,103,8,5),(111,1,15,20),(112,1,27,20),(113,1,29,3),(115,4,5,100),(116,4,8,11),(117,4,29,10),(118,102,2,5),(119,110,2,10),(120,110,10,10),(121,111,16,7),(122,111,15,7),(123,111,2,7),(124,103,5,6);
+INSERT INTO `orders_details` VALUES (5,1,2,20),(8,2,5,24),(13,2,8,24),(20,4,2,100),(43,59,2,3),(103,102,8,10),(104,102,5,10),(106,103,8,5),(111,1,15,20),(112,1,27,20),(113,1,29,3),(115,4,5,100),(116,4,8,11),(117,4,29,10),(118,102,2,5),(119,110,2,10),(120,110,10,10),(121,111,16,7),(122,111,15,7),(123,111,2,7),(124,103,5,6),(125,2,29,4),(126,59,5,7),(127,59,16,5);
 /*!40000 ALTER TABLE `orders_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -405,7 +407,7 @@ CREATE TABLE `recipes` (
   KEY `category` (`category`),
   CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`unit`) REFERENCES `units` (`name`),
   CONSTRAINT `recipes_ibfk_2` FOREIGN KEY (`category`) REFERENCES `recipes_categories` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -414,7 +416,7 @@ CREATE TABLE `recipes` (
 
 LOCK TABLES `recipes` WRITE;
 /*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
-INSERT INTO `recipes` VALUES (2,'Friganele',100,'g',1.54,'Deserturi'),(5,'Cartofi prajiti',200,'g',1.025,'Garnituri'),(8,'Mititei',200,'g',7.040000000000001,'Mancaruri calde'),(10,'Orez cu lapte',300,'ml',2.4,'Deserturi'),(12,'Ciorba de perisoare',300,'ml',0,'Super, Ciorbe'),(15,'Ciorba de legume',400,'ml',1.11,'Super, Ciorbe'),(16,'Baclava',23,'g',3,'Deserturi'),(27,'Mamaliga',1,'kg',0.07,'Accesorii'),(29,'Friptura de vita',300,'g',12,'Fripturi');
+INSERT INTO `recipes` VALUES (2,'Friganele cu lapte',100,'g',1.54,'Deserturi'),(5,'Cartofi prajiti',200,'g',1.025,'Garnituri'),(8,'Mititei',200,'g',9.42,'Mancaruri calde'),(10,'Orez cu lapte',300,'ml',2.4,'Deserturi'),(12,'Ciorba de perisoare',300,'ml',0,'Super, Ciorbe'),(15,'Ciorba de legume',400,'ml',1.11,'Super, Ciorbe'),(16,'Baclava',23,'g',3,'Deserturi'),(27,'Mamaliga',1,'kg',0.07,'Accesorii'),(29,'Friptura de vita',300,'g',17.099999999999998,'Fripturi'),(30,'Reteta noua',300,'g',15,'Aperitive'),(31,'Reteta noua',300,'g',0,'Aperitive');
 /*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -479,7 +481,7 @@ CREATE TABLE `recipes_details` (
   KEY `ID_ingredient` (`ID_ingredient`),
   CONSTRAINT `recipes_details_ibfk_1` FOREIGN KEY (`ID_recipe`) REFERENCES `recipes` (`ID`),
   CONSTRAINT `recipes_details_ibfk_2` FOREIGN KEY (`ID_ingredient`) REFERENCES `ingredients` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -488,7 +490,7 @@ CREATE TABLE `recipes_details` (
 
 LOCK TABLES `recipes_details` WRITE;
 /*!40000 ALTER TABLE `recipes_details` DISABLE KEYS */;
-INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,0.3),(29,10,16,0.15),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.02),(79,2,26,1),(81,8,32,0.06),(82,16,26,3),(86,29,4,0.3);
+INSERT INTO `recipes_details` VALUES (8,5,8,0.2),(20,8,4,0.14),(24,10,11,0.3),(29,10,16,0.15),(30,15,8,0.05),(32,15,18,0.03),(33,15,12,0.01),(34,15,19,0.2),(35,15,13,0.02),(36,15,15,0.2),(59,27,12,0.01),(64,5,13,0.005),(67,2,11,0.1),(69,2,12,0.02),(79,2,26,1),(81,8,32,0.06),(82,16,26,3),(86,29,4,0.3),(87,30,6,5);
 /*!40000 ALTER TABLE `recipes_details` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -647,4 +649,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-02 14:13:13
+-- Dump completed on 2024-03-18  7:28:23
