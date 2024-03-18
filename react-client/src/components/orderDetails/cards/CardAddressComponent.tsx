@@ -69,7 +69,7 @@ export function PickAddressModalContent(props: PickAddressModalContent): JSX.Ele
 
 	const { order } = useOrderDetailsContext();
 
-	const [ position ] = useState<LatLngTuple>([ order?.deliveryAddress?.latitude || 0, order?.deliveryAddress?.longitude || 0 ]);
+	const position: LatLngTuple = [ order?.deliveryAddress?.latitude || 0, order?.deliveryAddress?.longitude || 0 ];
 
 	useQuery<ClientAddress[]>({
 		queryKey: QueryKeysAddress.byClientId(clientId),
