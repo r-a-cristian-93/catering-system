@@ -5,7 +5,7 @@ import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
 import CardDetails from "../../generic/Card/CardDetails";
-import { MapContainer, Marker, TileLayer, useMapEvent, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, useMap, useMapEvent, useMapEvents } from "react-leaflet";
 import { LatLng, LatLngTuple } from "leaflet";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
@@ -150,6 +150,7 @@ export function PickAddressModalContent(props: PickAddressModalContent): JSX.Ele
 				{
 					newPosition && <Marker key={newPosition.lat} position={[ newPosition?.lat, newPosition?.lng ]} />
 				}
+				<CenterMap position={position} />
 				<DetectMapClick />
 			</MapContainer>
 		</div>
@@ -158,15 +159,31 @@ export function PickAddressModalContent(props: PickAddressModalContent): JSX.Ele
 
 function DetectMapClick(): JSX.Element
 {
-	const { toggleMarkerCursor, setNewPosition } = usePickAddressContext();
+	const { isMarkerCursorActive, toggleMarkerCursor, setNewPosition } = usePickAddressContext();
 
 	useMapEvents({
 		click: event =>
 		{
-			toggleMarkerCursor();
-			setNewPosition(event.latlng)
+			if (isMarkerCursorActive)
+			{
+
+				toggleMarkerCursor();
+				setNewPosition(event.latlng)
+			}
 		}
 	})
 
 	return <></>;
+}
+
+type CenterMapProps = {
+	position: LatLngTuple;
+}
+
+function CenterMap(props: CenterMapProps): JSX.Element
+{
+	const map = useMap();
+	map.setView(props.position)
+
+	return <></>
 }
