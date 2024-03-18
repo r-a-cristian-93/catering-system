@@ -5,7 +5,7 @@ import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { createContext, useContext, useState } from "react";
 import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 
-const OrderDetailsContext = createContext<OrderDetailsContextValue>({} as OrderDetailsContextValue);
+const OrderDetailsContext = createContext<OrderDetailsContextValue | undefined>(undefined);
 
 export type OrderDetailsContextValue = {
     order: Order | null,

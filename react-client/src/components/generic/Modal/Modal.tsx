@@ -14,7 +14,7 @@ export default function Modal(props: ModalProps): JSX.Element
 	return createPortal(
 		<div className={css.modal}>
 			<div className={css.modal_container}>
-				<div {...props} className={css.modal_box}>
+				<div {...props} className={props.className + " " + css.modal_box}>
 					<div className={css.modal_top}>
 						<h2 className={css.modal_title}>{props.title}</h2>
 						<span className={css.modal_close} onClick={props.toggleCallback}>×</span>

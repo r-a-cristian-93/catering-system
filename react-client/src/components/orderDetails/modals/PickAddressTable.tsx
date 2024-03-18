@@ -45,16 +45,6 @@ export default function PickAddressTable(props: PickAddressTableProps): JSX.Elem
 						)
 				)}
 			</TableList>
-			<br />
-			<div>
-				<button className="button" type="button">
-					<img
-						src="/img/register-client.svg"
-						style={{ filter: "invert(1)", marginRight: "12px" }}
-					/>
-					<span>Inregistreaza o noua adresa</span>
-				</button>
-			</div>
 		</>
 	);
 }

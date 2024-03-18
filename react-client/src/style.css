@@ -73,6 +73,15 @@ body {
 	overflow-y: scroll;
 }
 
+.cursor-map-marker {
+	cursor: url("https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png") 12 41, auto !important;
+
+	*,
+	*:hover {
+		cursor: url("https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png") 12 41, auto !important;
+	}
+}
+
 a:visited {
 	text-decoration: none;
 	color: inherit;
@@ -85,7 +94,7 @@ a:visited {
 	background-color: var(--button-bg);
 	border-style: none;
 	color: var(--bg);
-	font-size:large;
+	font-size: large;
 	font-weight: 600;
 	text-align: center;
 }
@@ -650,7 +659,7 @@ a:visited {
 .chartGeneralContainer {
 	display: flex;
 	flex-flow: column;
-	width:100%;
+	width: 100%;
 	align-items: center;
 	justify-content: center;
 
@@ -666,8 +675,7 @@ a:visited {
 	}
 
 	.css-1gakkqb-MuiResponsiveChart-container,
-	.css-13aj3tc-MuiChartsSurface-root
-	{
+	.css-13aj3tc-MuiChartsSurface-root {
 		overflow: visible !important;
 	}
 }
@@ -678,7 +686,7 @@ a:visited {
 }
 
 .active-address::before {
-	content:'\2022';
-	display:inline-block;
+	content: '\2022';
+	display: inline-block;
 	margin-right: 10px;
 }
