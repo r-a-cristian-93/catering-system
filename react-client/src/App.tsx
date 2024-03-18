@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import OrdersPage from "./pages/OrdersPage.tsx";
 import OrderDetailsPage from "./pages/OrderDetailsPage.tsx";
+import { OrderDetailsProvider } from "./contexts/OrderDetailsContext.tsx";
 import RecipesPage from "./pages/RecipesPage.tsx";
 import RecipeDetailsPage from "./pages/RecipeDatailsPage.tsx";
 import IngredientsPage from "./pages/IngredientsPage.tsx";
@@ -20,7 +21,7 @@ export default function App(): JSX.Element
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/comenzi" element={<OrdersPage />} />
-          <Route path="/comenzi/:orderId" element={<OrderDetailsPage />} />
+          <Route path="/comenzi/:orderId" element={<OrderDetailsProvider><OrderDetailsPage /></OrderDetailsProvider>} />
           <Route path="/retete" element={<RecipesPage />} />
           <Route path="/retete/:recipeId" element={<RecipeDetailsPage />} />
           <Route path="/ingrediente" element={<IngredientsPage />} />

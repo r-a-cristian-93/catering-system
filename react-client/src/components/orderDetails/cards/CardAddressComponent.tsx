@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ClientAddress } from "../../../models/Order";
 import PickAddressTable from "../modals/PickAddressTable";
 import Modal from "../../generic/Modal/Modal";
@@ -10,7 +10,7 @@ import { LatLngTuple } from "leaflet";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
 import { getAddresses } from "../../../controllers/AddressControllere";
-import { useOrderDetailsContext } from "../../../pages/OrderDetailsPage";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
 type CardAddressProps = {
 	orderId: number;
@@ -67,7 +67,7 @@ export function PickAddressModalContent(props: PickAddressModalContent): JSX.Ele
 		queryClient.getQueryData<ClientAddress[]>(QueryKeysAddress.byClientId(clientId)) || null
 	);
 
-	const order = useOrderDetailsContext();
+	const { order } = useOrderDetailsContext();
 
 	const [ position ] = useState<LatLngTuple>([ order?.deliveryAddress?.latitude || 0, order?.deliveryAddress?.longitude || 0 ]);
 

@@ -2,7 +2,7 @@ import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
 import { ClientAddress, Order } from "../../../models/Order";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
-import { useOrderDetailsContext } from "../../../pages/OrderDetailsPage";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
 type PickAddressProps = {
 	orderId: number;
@@ -15,7 +15,7 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 
 	const { orderId, address } = props;
 
-	const order = useOrderDetailsContext();
+	const { order } = useOrderDetailsContext();
 
 	function handleSelect(): void
 	{

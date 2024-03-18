@@ -1,53 +1,18 @@
-import { getOrder, updateOrder } from "../controllers/OrderController";
+import { updateOrder } from "../controllers/OrderController";
 import { Order, StatusEnum } from "../models/Order";
-import { useParams } from "react-router-dom";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
 import CardListOrder from "../components/orderDetails/cards/CardListOrder";
 import OrderItems from "../components/orderDetails/OrderItems";
-import { createContext, useContext, useState } from "react";
 import OrderProgress from "../components/orderDetails/OrderProgress/OrderProgress";
-import { QueryKeysOrder } from "../QueryKeys/QueryKeysOrder";
 import SimplePage from "../components/generic/SimplePage/SimplePage";
-
-const OrderDetailsContext = createContext<Order | null>(null);
-
-export function useOrderDetailsContext()
-{
-	const context = useContext(OrderDetailsContext);
-
-	if (context === undefined)
-		throw new Error("You can't use " + OrderDetailsContext.displayName + "here")
-
-	return context;
-}
+import { useOrderDetailsContext } from "../contexts/OrderDetailsContext";
 
 export default function OrderDetailsPage(): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
+	const { order, refetchOrder } = useOrderDetailsContext();
 
-	const orderId: number = Number(useParams().orderId);
-
-	// fetch order
-	const { isSuccess: orderQuerySuccess } = useQuery<Order>({
-		queryKey: QueryKeysOrder.orderById(orderId),
-		queryFn: () => getOrder(orderId),
-		onSuccess: (order) =>
-		{
-			// set order
-			setOrder(order);
-		}
-	});
-
-	const [ order, setOrder ] = useState<Order | null>(
-		queryClient.getQueryData(QueryKeysOrder.orderById(orderId)) as Order | null
-	);
-
-	function handleSetStateSucessfull(order: Order): void
+	function handleSetStateSucessfull(): void
 	{
-		// optimistic update
-		setOrder(order);
-
-		void queryClient.invalidateQueries(QueryKeysOrder.orderById(orderId));
+		refetchOrder()
 	}
 
 	function handleCancelOrder(): void
@@ -55,55 +20,52 @@ export default function OrderDetailsPage(): JSX.Element
 		if (order)
 		{
 			const canceledOrder: Order = order;
-
 			canceledOrder.status.name = StatusEnum.ANULATA;
 
-			void updateOrder(canceledOrder).then((order) =>
+			void updateOrder(canceledOrder).then(() =>
 			{
-				setOrder(order)
+				refetchOrder()
 			});
 		}
 	}
 
 	return (
 		<SimplePage title={"Comanda #" + order?.id} imagePath="/img/orders.png">
-			<OrderDetailsContext.Provider value={order}>
-				{
-					orderQuerySuccess && order && <CardListOrder order={order} />
-				}
+			{
+				order && <CardListOrder order={order} />
+			}
 
-				{
-					orderQuerySuccess && order && <OrderProgress order={order} setStateSuccessfullCallback={handleSetStateSucessfull} />
-				}
+			{
+				order && <OrderProgress order={order} setStateSuccessfullCallback={handleSetStateSucessfull} />
+			}
 
-				{
-					<OrderItems key={Math.round(Math.random() * 100)} orderId={orderId} />
-				}
+			{
+				(order) && <OrderItems key={Math.round(Math.random() * 100)} orderId={order.id} />
+			}
 
-				<div className="action-bar">
-					<div className="action-button hover-pointer" onClick={handleCancelOrder}>
-						<div className="action-icon anulata"></div>
-						<div className="action-details">
-							<div>Anuleaza</div>
-							<div>comanda</div>
-						</div>
-					</div>
-					<div className="action-button">
-						<div className="action-icon img-cart"></div>
-						<div className="action-details">
-							<div>Lista</div>
-							<div>aprovizionare</div>
-						</div>
-					</div>
-					<div className="action-button">
-						<div className="action-icon img-cart"></div>
-						<div className="action-details">
-							<div>Printare</div>
-							<div>raport complet</div>
-						</div>
+			<div className="action-bar">
+				<div className="action-button hover-pointer" onClick={handleCancelOrder}>
+					<div className="action-icon anulata"></div>
+					<div className="action-details">
+						<div>Anuleaza</div>
+						<div>comanda</div>
 					</div>
 				</div>
-			</OrderDetailsContext.Provider>
+				<div className="action-button">
+					<div className="action-icon img-cart"></div>
+					<div className="action-details">
+						<div>Lista</div>
+						<div>aprovizionare</div>
+					</div>
+				</div>
+				<div className="action-button">
+					<div className="action-icon img-cart"></div>
+					<div className="action-details">
+						<div>Printare</div>
+						<div>raport complet</div>
+					</div>
+				</div>
+			</div>
 		</SimplePage>
 	);
 }
