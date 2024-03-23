@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
-import { ClientAddress } from "../../../models/Order";
+import { useEffect } from "react";
 import PickAddressTable from "./PickAddressTable";
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import { LatLngTuple } from "leaflet";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
-import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
-import { getAddresses } from "../../../controllers/AddressControllere";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 import { usePickAddressContext } from "../../../contexts/PickAddressContext";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
@@ -17,28 +13,13 @@ type PickAddressModalContentProps = {
 
 export default function PickAddressModalContent(props: PickAddressModalContentProps): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
 	const { orderId, clientId } = props;
-	const { newPosition, isMarkerCursorActive, toggleMarkerCursor } = usePickAddressContext();
+	const { markerPosition, isMarkerCursorActive, toggleMarkerCursor } = usePickAddressContext();
 	const { order } = useOrderDetailsContext();
 	const position: LatLngTuple = [
-		newPosition?.lat || order?.deliveryAddress?.latitude || 0,
-		newPosition?.lng || order?.deliveryAddress?.longitude || 0
+		markerPosition?.[0] || order?.deliveryAddress?.latitude || 0,
+		markerPosition?.[1] || order?.deliveryAddress?.longitude || 0
 	];
-
-	const [ clientAddresses, setClientAddresses ] = useState<ClientAddress[] | null>(
-		queryClient.getQueryData<ClientAddress[]>(QueryKeysAddress.byClientId(clientId)) || null
-	);
-
-	useQuery<ClientAddress[]>({
-		queryKey: QueryKeysAddress.byClientId(clientId),
-		queryFn: () => getAddresses(clientId),
-		onSuccess: (responseData) =>
-		{
-			setClientAddresses(responseData);
-		},
-		staleTime: Infinity,
-	});
 
 	return (
 		<div className={"address-selector " + (isMarkerCursorActive ? "cursor-map-marker" : "")}>
@@ -62,49 +43,18 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-				{clientAddresses?.map((address, index) => <Marker key={index} position={[ address.latitude, address.longitude ]} />)}
-				{newPosition && <Marker key={newPosition.lat} position={[ newPosition.lat, newPosition.lng ]} />}
-				<CenterMap position={position} />
-				<DetectMapClick />
+				<img className="sticky-marker" src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png"/>
 				<SearchField />
 			</MapContainer>
 		</div>
 	);
 }
 
-
-export function DetectMapClick(): JSX.Element
-{
-	const { isMarkerCursorActive, toggleMarkerCursor, setNewPosition } = usePickAddressContext();
-
-	useMapEvents({
-		click: event =>
-		{
-			if (isMarkerCursorActive)
-			{
-				toggleMarkerCursor();
-				setNewPosition(event.latlng)
-			}
-		}
-	})
-
-	return <></>;
-}
-
-type CenterMapProps = {
-	position: LatLngTuple;
-}
-
-export function CenterMap(props: CenterMapProps): JSX.Element
-{
-	const map = useMap();
-	map.setView(props.position)
-
-	return <></>
-}
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 function SearchField(): JSX.Element
 {
+	const {markerPosition, setMarkerPosition} = usePickAddressContext();
 	const map = useMap();
 	const provider = new OpenStreetMapProvider();
 	const searchControl = new GeoSearchControl({
@@ -113,13 +63,36 @@ function SearchField(): JSX.Element
 		notFoundMessage: 'Adresa nu a fost găsită.',
 		style: "bar",
 		marker: {draggable:true},
+		showMarker: false
 	});
+
+	function handleMapSearchResult(event: any): void
+	{
+		const searchResultPosition: LatLngTuple = [event.location.y, event.location.x];
+		setMarkerPosition(searchResultPosition);
+
+	}
+
+	function handleMoveEnd(): void
+	{
+		const mapCenterPosition: LatLngTuple = [map.getCenter().lat, map.getCenter().lng];
+		setMarkerPosition(mapCenterPosition);
+	}
 
 	useEffect(() =>
 	{
 		map.addControl(searchControl);
-		return () => map.removeControl(searchControl);
+		map.on('geosearch/showlocation', handleMapSearchResult);
+		map.on('move', handleMoveEnd)
+
+		return () =>
+		{
+			map.removeControl(searchControl);
+			map.off('geosearch/showlocation', handleMapSearchResult);
+			map.off('move', handleMoveEnd)
+		}
 	}, [ map, searchControl ]);
 
 	return <></>;
-};
+}
+

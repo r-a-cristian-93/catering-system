@@ -1,11 +1,11 @@
 import { createContext, useContext, useState } from "react";
-import { LatLng } from "leaflet";
+import { LatLngTuple } from "leaflet";
 
 type PickAddressContextValue = {
 	isMarkerCursorActive: boolean;
 	toggleMarkerCursor: () => void;
-	newPosition: LatLng | null;
-	setNewPosition: (position: LatLng) => void;
+	markerPosition: LatLngTuple | null;
+	setMarkerPosition: (position: LatLngTuple) => void;
 };
 
 const PickAddressContext = createContext<PickAddressContextValue | undefined>(undefined);
@@ -13,13 +13,13 @@ const PickAddressContext = createContext<PickAddressContextValue | undefined>(un
 export function PickAddressContextProvider(props: React.HTMLProps<HTMLElement>): JSX.Element
 {
 	const [ isMarkerCursorActive, setMarkerCursorActive ] = useState<boolean>(false);
-	const [ newPosition, setNewPosition ] = useState<LatLng | null>(null);
+	const [ markerPosition, setMarkerPosition ] = useState<LatLngTuple | null>(null);
 
 	const value = {
 		isMarkerCursorActive: isMarkerCursorActive,
 		toggleMarkerCursor: toggleMarkerCursor,
-		newPosition: newPosition,
-		setNewPosition: setNewPosition
+		markerPosition: markerPosition,
+		setMarkerPosition: setMarkerPosition
 	};
 
 	function toggleMarkerCursor(): void

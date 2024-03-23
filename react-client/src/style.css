@@ -74,13 +74,16 @@ body {
 	overflow-y: scroll;
 }
 
-.cursor-map-marker {
-	cursor: url("https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png") 12 41, auto !important;
-
-	*,
-	*:hover {
-		cursor: url("https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png") 12 41, auto !important;
-	}
+.sticky-marker {
+	z-index: 10000;
+    position: absolute;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+	transform: translate(-12px, -40px);
+	filter:hue-rotate(150deg);
+	width:25px;
+	height:40px;
 }
 
 a:visited {
