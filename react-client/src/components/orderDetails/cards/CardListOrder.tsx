@@ -2,8 +2,8 @@ import { Order } from "../../../models/Order";
 import { StatusEnum } from "../../../models/Order";
 import CardDueDateComponent from "./CardDueDateComponent";
 import CardClientComponent from "./CardClientComponent";
-import CardAddressComponent from "../modals/PickAddressModalContent";
 import CardStatusComponent from "./CardStatusComponent";
+import CardAddressComponent from "./CardAddressComponent";
 
 type CardListOrderProps = {
 	order: Order;

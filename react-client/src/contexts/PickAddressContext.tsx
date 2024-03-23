@@ -37,7 +37,7 @@ export function usePickAddressContext(): PickAddressContextValue
 	const context = useContext(PickAddressContext);
 
 	if (context === undefined)
-		throw new Error("You can't use " + PickAddressContext.displayName + "here");
+		throw new Error("You can't use PickAddressContext here");
 
 	return context;
 }
