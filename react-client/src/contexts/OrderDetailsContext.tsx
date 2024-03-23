@@ -12,7 +12,7 @@ export type OrderDetailsContextValue = {
     refetchOrder: () => void
 }
 
-export function useOrderDetailsContext()
+export function useOrderDetailsContext(): OrderDetailsContextValue
 {
     const context = useContext(OrderDetailsContext);
 
