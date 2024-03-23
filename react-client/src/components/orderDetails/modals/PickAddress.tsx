@@ -1,6 +1,7 @@
 import { updateOrder } from "../../../controllers/OrderController";
 import { ClientAddress, Order } from "../../../models/Order";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
+import { usePickAddressContext } from "../../../contexts/PickAddressContext";
 
 type PickAddressProps = {
 	orderId: number;
@@ -13,6 +14,8 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 
 	const { order, refetchOrder } = useOrderDetailsContext();
 
+	const {setMarkerPosition} = usePickAddressContext();
+
 	function handleSelect(): void
 	{
 		const order: Order = {
@@ -23,6 +26,7 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 		void updateOrder(order).then(() =>
 		{
 			refetchOrder();
+			setMarkerPosition([address.latitude, address.longitude])
 		});
 	}
 
