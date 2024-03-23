@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClientAddress } from "../../../models/Order";
 import PickAddressTable from "./PickAddressTable";
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
@@ -8,6 +8,7 @@ import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
 import { getAddresses } from "../../../controllers/AddressControllere";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 import { usePickAddressContext } from "../../../contexts/PickAddressContext";
+import { GeoSearchControl, MapBoxProvider, OpenStreetMapProvider } from "leaflet-geosearch";
 
 type PickAddressModalContentProps = {
 	orderId: number;
@@ -43,31 +44,30 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 		<div className={"address-selector " + (isMarkerCursorActive ? "cursor-map-marker" : "")}>
 			<PickAddressTable orderId={orderId} clientId={clientId} />
 
-			<div className="map-controls">
-				<br />
-				<div>
-					<button className="button" type="button" onClick={() =>
-					{
-						toggleMarkerCursor();
-					}}>
-						<img
-							src="/img/register-client.svg"
-							style={{ filter: "invert(1)", marginRight: "12px" }} />
-						<span>Inregistreaza o noua adresa</span>
-					</button>
-				</div>
-				<br />
-
-				<MapContainer center={position} zoom={13} scrollWheelZoom={false}>
-					<TileLayer
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-					{clientAddresses?.map((address, index) => <Marker key={index} position={[ address.latitude, address.longitude ]} />)}
-					{newPosition && <Marker key={newPosition.lat} position={[ newPosition.lat, newPosition.lng ]} />}
-					<CenterMap position={position} />
-					<DetectMapClick />
-				</MapContainer>
+			<br />
+			<div>
+				<button className="button" type="button" onClick={() =>
+				{
+					toggleMarkerCursor();
+				}}>
+					<img
+						src="/img/register-client.svg"
+						style={{ filter: "invert(1)", marginRight: "12px" }} />
+					<span>Inregistreaza o noua adresa</span>
+				</button>
 			</div>
+			<br />
+
+			<MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+				<TileLayer
+					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+				{clientAddresses?.map((address, index) => <Marker key={index} position={[ address.latitude, address.longitude ]} />)}
+				{newPosition && <Marker key={newPosition.lat} position={[ newPosition.lat, newPosition.lng ]} />}
+				<CenterMap position={position} />
+				<DetectMapClick />
+				<SearchField />
+			</MapContainer>
 		</div>
 	);
 }
@@ -102,3 +102,21 @@ export function CenterMap(props: CenterMapProps): JSX.Element
 
 	return <></>
 }
+
+function SearchField(): JSX.Element
+{
+	const map = useMap();
+	const provider = new OpenStreetMapProvider();
+	const searchControl = new GeoSearchControl({
+		provider: provider,
+		searchLabel: "Caută o adresă",
+	});
+
+	useEffect(() =>
+	{
+		map.addControl(searchControl);
+		return () => map.removeControl(searchControl);
+	}, [ map, searchControl ]);
+
+	return <></>;
+};
