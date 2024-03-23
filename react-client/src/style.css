@@ -1,5 +1,5 @@
-@import "node_modules/leaflet/dist/leaflet.css";
-@import "node_modules/leaflet-geosearch/dist/geosearch.css";
+@import "../node_modules/leaflet/dist/leaflet.css";
+@import "../node_modules/leaflet-geosearch/dist/geosearch.css";
 /* @import "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"; */
 /* @import "https://unpkg.com/leaflet-geosearch@3.11.1/dist/geosearch.css"; */
 
@@ -93,8 +93,15 @@ body {
 	position: absolute;
 	bottom: 20px;
 	left: 20px;
-	padding: 10px;
+	padding: 10px 30px;
 	background-color: white;
+	font-size: 14px;
+}
+
+.sticky-address-label .button {
+	font-weight: normal;
+	font-size: 14px;
+	padding: 15px;
 }
 
 a:visited {

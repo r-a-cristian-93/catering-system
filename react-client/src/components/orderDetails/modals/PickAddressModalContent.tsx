@@ -15,7 +15,7 @@ type PickAddressModalContentProps = {
 export default function PickAddressModalContent(props: PickAddressModalContentProps): JSX.Element
 {
 	const { orderId, clientId } = props;
-	const { markerPosition, searchedAddress } = usePickAddressContext();
+	const { markerPosition, label } = usePickAddressContext();
 	const { order } = useOrderDetailsContext();
 	const position: LatLngTuple = [
 		markerPosition?.[ 0 ] || order?.deliveryAddress?.latitude || 0,
@@ -33,10 +33,10 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 				<img className="sticky-marker" src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" />
 
 				{
-				searchedAddress &&
+					label &&
 					<div className="sticky-address-label">
-						{searchedAddress.label}
-						<button className={"button"} style={{marginLeft: "40px"}}><b>Foloseste aceasta adresa</b></button>
+						{label}
+						<button className={"button"} style={{ marginLeft: "40px" }}>Foloseste aceasta adresa</button>
 					</div>
 				}
 
@@ -65,7 +65,7 @@ export function CenterMap(props: CenterMapProps): JSX.Element
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 function SearchField(): JSX.Element
 {
-	const { searchedAddress, setMarkerPosition, setSearchedAddress } = usePickAddressContext();
+	const { label, setMarkerPosition, setLabel } = usePickAddressContext();
 	const map = useMap();
 	const provider = new OpenStreetMapProvider();
 	const searchControl = new GeoSearchControl({
@@ -80,64 +80,34 @@ function SearchField(): JSX.Element
 
 	function handleMapSearchResult(event: any): void
 	{
-		console.log(event);
 		const searchResultPosition: LatLngTuple = [ event.location.y, event.location.x ];
-		// setMarkerPosition(searchResultPosition);
 
-		const searchedAddress: MapSearchAddressResponse = {
-			label: event.location.label,
-			coordinates: searchResultPosition,
-		}
-
-		setSearchedAddress(searchedAddress);
-
-		console.log("moveEnd", searchResultPosition);
-		console.log("SET address to search result");
+		setMarkerPosition(searchResultPosition);
+		setLabel(event.location.label);
 	}
 
-	function handleMoveEnd(): void
+	function handleDragEnd(): void
 	{
 		const mapCenterPosition: LatLngTuple = [ map.getCenter().lat, map.getCenter().lng ];
-		console.log("moveEnd", mapCenterPosition);
-		console.log("address", searchedAddress);
-		setSearchedAddress(null);
 
-		if (!searchedAddress)
+		void getFakeAddress(mapCenterPosition).then((address) =>
 		{
-			void getFakeAddress(mapCenterPosition).then((address) =>
-			{
-				const foundAddress: MapSearchAddressResponse = {
-					label: address.display_name,
-					coordinates: [Number(address.lat), Number(address.lon)],
-				}
-
-				setSearchedAddress(foundAddress);
-			// setMarkerPosition(mapCenterPosition);
-				console.log("SET address to explor");
-			});
-		}
-	}
-
-	function handleMove(): void
-	{
-		// setSearchedAddress(null);
-
-		console.log("move");
+			setLabel(address.display_name);
+			setMarkerPosition(mapCenterPosition);
+		});
 	}
 
 	useEffect(() =>
 	{
 		map.addControl(searchControl);
 		map.on('geosearch/showlocation', handleMapSearchResult);
-		map.on('moveend', handleMoveEnd)
-		map.on('move', handleMove)
+		map.on('dragend', handleDragEnd)
 
 		return () =>
 		{
 			map.removeControl(searchControl);
 			map.off('geosearch/showlocation', handleMapSearchResult);
-			map.off('moveend', handleMoveEnd)
-			map.off('move', handleMove)
+			map.off('dragend', handleDragEnd)
 		}
 	}, [ map, searchControl ]);
 

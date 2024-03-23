@@ -4,8 +4,10 @@ import { LatLngTuple } from "leaflet";
 type PickAddressContextValue = {
 	markerPosition: LatLngTuple | null;
 	setMarkerPosition: (position: LatLngTuple) => void;
-	searchedAddress: MapSearchAddressResponse | null;
-	setSearchedAddress: (address: MapSearchAddressResponse | null) => void,
+	label: string | null;
+	setLabel: (label: string | null) => void,
+	// searchedAddress: MapSearchAddressResponse | null;
+	// setSearchedAddress: (address: MapSearchAddressResponse | null) => void,
 
 };
 
@@ -19,13 +21,16 @@ const PickAddressContext = createContext<PickAddressContextValue | undefined>(un
 export function PickAddressContextProvider(props: React.HTMLProps<HTMLElement>): JSX.Element
 {
 	const [ markerPosition, setMarkerPosition ] = useState<LatLngTuple | null>(null);
-	const [ searchedAddress, setSearchedAddress ] = useState<MapSearchAddressResponse | null>(null);
+	// const [ searchedAddress, setSearchedAddress ] = useState<MapSearchAddressResponse | null>(null);
+	const [ label, setLabel ] = useState<string | null>(null);
 
 	const value: PickAddressContextValue = {
 		markerPosition: markerPosition,
 		setMarkerPosition: setMarkerPosition,
-		searchedAddress: searchedAddress,
-		setSearchedAddress: setSearchedAddress,
+		label: label,
+		setLabel: setLabel,
+		// searchedAddress: searchedAddress,
+		// setSearchedAddress: setSearchedAddress,
 	};
 
 

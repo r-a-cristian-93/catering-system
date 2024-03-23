@@ -14,7 +14,7 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 
 	const { order, refetchOrder } = useOrderDetailsContext();
 
-	const {setMarkerPosition} = usePickAddressContext();
+	const { setLabel, setMarkerPosition } = usePickAddressContext();
 
 	function handleSelect(): void
 	{
@@ -26,7 +26,8 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 		void updateOrder(order).then(() =>
 		{
 			refetchOrder();
-			setMarkerPosition([address.latitude, address.longitude])
+			setMarkerPosition([ address.latitude, address.longitude ]);
+			setLabel(null);
 		});
 	}
 
