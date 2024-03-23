@@ -5,11 +5,11 @@ export type Client = {
 	id: number;
 	name: string;
 	phone: string | null;
+	address: ClientAddress | null;
 };
 
 export type ClientAddress = {
 	id: number;
-	clientId: number;
 	value: string;
 	latitude: number;
 	longitude: number;
@@ -42,7 +42,6 @@ export type Order = {
 	shippingDate: string | null;
 	cancelDate: string | null;
 	shoppingListId: number;
-	deliveryAddress: ClientAddress | null;
 };
 
 export type OrdersResponseData = PageableResponse & {

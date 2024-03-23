@@ -1,49 +1,47 @@
 import { useEffect } from "react";
-import PickAddressTable from "./PickAddressTable";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { LatLngTuple } from "leaflet";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
-import { MapSearchAddressResponse, usePickAddressContext } from "../../../contexts/PickAddressContext";
+import { usePickAddressContext } from "../../../contexts/PickAddressContext";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
-import { getAddress, getFakeAddress } from "../../../controllers/NominatimAddress";
+import { getAddress } from "../../../controllers/NominatimAddress";
 
-type PickAddressModalContentProps = {
-	orderId: number;
-	clientId: number;
-};
-
-export default function PickAddressModalContent(props: PickAddressModalContentProps): JSX.Element
+export default function PickAddressModalContent(): JSX.Element
 {
-	const { orderId, clientId } = props;
 	const { markerPosition, label } = usePickAddressContext();
 	const { order } = useOrderDetailsContext();
 	const position: LatLngTuple = [
-		markerPosition?.[ 0 ] || order?.deliveryAddress?.latitude || 0,
-		markerPosition?.[ 1 ] || order?.deliveryAddress?.longitude || 0
+		markerPosition?.[ 0 ] || order?.client?.address?.latitude || 0,
+		markerPosition?.[ 1 ] || order?.client?.address?.longitude || 0
 	];
 
 	return (
 		<div className={"address-selector"}>
-			<PickAddressTable orderId={orderId} clientId={clientId} />
-
-			<MapContainer center={position} zoom={13} scrollWheelZoom={true}>
+			<MapContainer center={position} zoom={13} scrollWheelZoom={"center"}>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				<img className="sticky-marker" src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" />
 
-				{
-					label &&
-					<div className="sticky-address-label">
-						{label}
-						<button className={"button"} style={{ marginLeft: "40px" }}>Foloseste aceasta adresa</button>
+				<div className="sticky-address-label">
+					{
+						label &&
+						<div>
+							{label}
+							<button className={"button"} style={{ marginLeft: "40px" }}>Foloseste aceasta adresa</button>
+						</div>
+
+					}
+					<div>
+						<span>Adresa curentă: </span>
+						{order?.client?.address?.value}
 					</div>
-				}
+				</div>
 
 				<CenterMap position={position} />
 				<SearchField />
 			</MapContainer>
-		</div>
+		</div >
 	);
 }
 
@@ -90,7 +88,7 @@ function SearchField(): JSX.Element
 	{
 		const mapCenterPosition: LatLngTuple = [ map.getCenter().lat, map.getCenter().lng ];
 
-		void getFakeAddress(mapCenterPosition).then((address) =>
+		void getAddress(mapCenterPosition).then((address) =>
 		{
 			setLabel(address.display_name);
 			setMarkerPosition(mapCenterPosition);

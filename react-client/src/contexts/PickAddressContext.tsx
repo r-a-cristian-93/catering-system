@@ -6,9 +6,6 @@ type PickAddressContextValue = {
 	setMarkerPosition: (position: LatLngTuple) => void;
 	label: string | null;
 	setLabel: (label: string | null) => void,
-	// searchedAddress: MapSearchAddressResponse | null;
-	// setSearchedAddress: (address: MapSearchAddressResponse | null) => void,
-
 };
 
 export type MapSearchAddressResponse = {
@@ -21,7 +18,6 @@ const PickAddressContext = createContext<PickAddressContextValue | undefined>(un
 export function PickAddressContextProvider(props: React.HTMLProps<HTMLElement>): JSX.Element
 {
 	const [ markerPosition, setMarkerPosition ] = useState<LatLngTuple | null>(null);
-	// const [ searchedAddress, setSearchedAddress ] = useState<MapSearchAddressResponse | null>(null);
 	const [ label, setLabel ] = useState<string | null>(null);
 
 	const value: PickAddressContextValue = {
@@ -29,8 +25,6 @@ export function PickAddressContextProvider(props: React.HTMLProps<HTMLElement>):
 		setMarkerPosition: setMarkerPosition,
 		label: label,
 		setLabel: setLabel,
-		// searchedAddress: searchedAddress,
-		// setSearchedAddress: setSearchedAddress,
 	};
 
 

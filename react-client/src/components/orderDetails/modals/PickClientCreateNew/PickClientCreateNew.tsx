@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Client, ClientAddress, Order} from "../../../../models/Order";
+import { Client, ClientAddress, Order } from "../../../../models/Order";
 import { addClient } from "../../../../controllers/ClientController";
 import { addAddress } from "../../../../controllers/AddressControllere";
 import { updateOrder } from "../../../../controllers/OrderController";
@@ -25,30 +25,29 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 	{
 		void addClient(client).then((newClient: Client) =>
 		{
-			clientAddress.clientId = newClient.id;
+			// clientAddress.clientId = newClient.id;
 
-			void addAddress(clientAddress).then((newAddress: ClientAddress) =>
+			// void addAddress(clientAddress).then((newAddress: ClientAddress) =>
+			// {
+			const order: Order = {
+				id: props.orderId,
+				client: client,
+			} as Order;
+
+			void updateOrder(order).then((order) =>
 			{
-				const order: Order = {
-					id: props.orderId,
-					client: client,
-					deliveryAddress: newAddress,
-				} as Order;
+				void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
 
-				void updateOrder(order).then((order) =>
-				{
-					void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
-
-					props.toogleModalCallback();
-				});
-			}
+				props.toogleModalCallback();
+			});
+		}
 		)
-		});
+		// });
 	}
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
-    {
-        const { name, value } = event.target;
+	{
+		const { name, value } = event.target;
 
 		if (name === "address")
 			setClientAddress((prev) =>
@@ -59,14 +58,14 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 				}
 			});
 
-        setClient((prev) =>
-        {
-            return {
-                ...prev,
-                [ name ]: value,
-            };
-        });
-    }
+		setClient((prev) =>
+		{
+			return {
+				...prev,
+				[ name ]: value,
+			};
+		});
+	}
 
 	return (
 		<div className={css.pick_client_create_box}>

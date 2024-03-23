@@ -78,14 +78,14 @@ body {
 
 .sticky-marker {
 	z-index: 10000;
-    position: absolute;
-    margin: auto;
-    top: 50%;
-    left: 50%;
+	position: absolute;
+	margin: auto;
+	top: 50%;
+	left: 50%;
 	transform: translate(-12px, -40px);
-	filter:hue-rotate(150deg);
-	width:25px;
-	height:40px;
+	filter: hue-rotate(150deg);
+	width: 25px;
+	height: 40px;
 }
 
 .sticky-address-label {
@@ -93,15 +93,22 @@ body {
 	position: absolute;
 	bottom: 20px;
 	left: 20px;
-	padding: 10px 30px;
-	background-color: white;
 	font-size: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.sticky-address-label>div {
+	background-color: white;
+	padding: 10px 30px;
+	width: fit-content;
 }
 
 .sticky-address-label .button {
 	font-weight: normal;
 	font-size: 14px;
-	padding: 15px;
+	padding: 10px 20px;
 }
 
 a:visited {
@@ -711,4 +718,19 @@ a:visited {
 	content: '\2022';
 	display: inline-block;
 	margin-right: 10px;
+}
+
+.current-address {
+	padding: 20px;
+	margin: 20px;
+	background-color: var(--grey3);
+	border-radius: 20px;
+	display: flex;
+	flex-direction: row;
+	gap: 30px;
+}
+
+.current-address>p {
+	margin-left: 30px;
+
 }

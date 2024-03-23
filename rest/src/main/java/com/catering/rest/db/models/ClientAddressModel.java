@@ -19,9 +19,6 @@ public class ClientAddressModel {
 	@Column(name="ID")
 	private Integer id;
 
-	@Column(name="ID_client")
-	private Integer clientId;
-
     @Column(name="value")
     private String value;
 

@@ -26,8 +26,11 @@ CREATE TABLE `clients` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
+  `ID_address` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE KEY `ID` (`ID`)
+  UNIQUE KEY `ID` (`ID`),
+  KEY `ID_address` (`ID_address`),
+  CONSTRAINT `clients_ibfk_1` FOREIGN KEY (`ID_address`) REFERENCES `clients_addresses` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,7 +40,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (0,'-',NULL),(1,'Vasile Ciupitu',NULL),(2,'Gheorghe Lazar','0733165789'),(24,'Gabriela Radulescu','0750123456'),(25,'Catalin Gheorghiu','0742345678'),(26,'Diana Neacsu',NULL),(27,'Lucian Stanescu','0766789012'),(28,'Carmen Nistor','0751234567'),(29,'Adrian Munteanu','0743456789'),(30,'Monica Dragomir','0752345678'),(31,'Valentin Radu',NULL),(32,'Alina Stoica','0767890123'),(33,'Sorin Vasile','0753234567'),(34,'Elena Iliescu','0740123456'),(35,'Alexandru Popa','0758345678'),(36,'Ioana Draghici',NULL),(37,'Gabriel Radu','0761123456'),(38,'Mihaela Tudor','0745567890'),(39,'Victor Iancu','0754123456'),(40,'Roxana Stan','0746234567'),(41,'Cristian Balan',NULL),(42,'Andreea Dumitru','0767789012'),(43,'Marius Enache','0759345678'),(44,'Andrei Popescu','0740123456'),(45,'Ana Marinescu','0758345678'),(46,'Mihai Stefanescu',NULL),(47,'Elena Vasilescu','0761123456'),(48,'Gabriela Ionescu','0745567890'),(49,'Catalin Dumitru','0754123456'),(50,'Simona Stanescu','0746234567'),(51,'Alexandru Balan',NULL),(52,'Mihaela Cojocaru','0767789012'),(53,'Dragos Neacsu','0759345678');
+INSERT INTO `clients` VALUES (0,'-',NULL,2),(1,'Vasile Ciupitu',NULL,2),(2,'Gheorghe Lazar','0733165789',2),(24,'Gabriela Radulescu','0750123456',2),(25,'Catalin Gheorghiu','0742345678',2),(26,'Diana Neacsu',NULL,2),(27,'Lucian Stanescu','0766789012',2),(28,'Carmen Nistor','0751234567',2),(29,'Adrian Munteanu','0743456789',2),(30,'Monica Dragomir','0752345678',2),(31,'Valentin Radu',NULL,2),(32,'Alina Stoica','0767890123',2),(33,'Sorin Vasile','0753234567',2),(34,'Elena Iliescu','0740123456',2),(35,'Alexandru Popa','0758345678',2),(36,'Ioana Draghici',NULL,2),(37,'Gabriel Radu','0761123456',2),(38,'Mihaela Tudor','0745567890',2),(39,'Victor Iancu','0754123456',2),(40,'Roxana Stan','0746234567',2),(41,'Cristian Balan',NULL,2),(42,'Andreea Dumitru','0767789012',2),(43,'Marius Enache','0759345678',2),(44,'Andrei Popescu','0740123456',2),(45,'Ana Marinescu','0758345678',2),(46,'Mihai Stefanescu',NULL,2),(47,'Elena Vasilescu','0761123456',2),(48,'Gabriela Ionescu','0745567890',2),(49,'Catalin Dumitru','0754123456',2),(50,'Simona Stanescu','0746234567',2),(51,'Alexandru Balan',NULL,2),(52,'Mihaela Cojocaru','0767789012',2),(53,'Dragos Neacsu','0759345678',2);
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +53,6 @@ DROP TABLE IF EXISTS `clients_addresses`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clients_addresses` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `ID_client` int NOT NULL,
   `value` varchar(255) DEFAULT NULL,
   `latitude` float(9,6) DEFAULT NULL,
   `longitude` float(9,6) DEFAULT NULL,
@@ -64,7 +66,7 @@ CREATE TABLE `clients_addresses` (
 
 LOCK TABLES `clients_addresses` WRITE;
 /*!40000 ALTER TABLE `clients_addresses` DISABLE KEYS */;
-INSERT INTO `clients_addresses` VALUES (1,1,'Str. Scurta, Nr. 33, Bl. . 2, Sc. 3, Timisoara',47.932468,22.411837),(2,1,'Str. Valea Viilor, Nr.22, Lehliu-Gara',46.438099,24.748642),(4,2,'Strada Ion Creang 808, Sibiu, Sibiu, Romania',45.931633,23.517681),(5,2,'Bulevardul Tudor Arghezi 909, Bacu, Bacu, Romania',46.758144,24.098154),(7,2,'Aleea George Cobuc 1010, Craiova, Dolj, Romania',46.020031,21.205807),(10,2,'Strada Pacanelelor, Nr 33A',45.557323,21.026932),(11,24,'Str. Tudor Gheorghe 1, Iasi',46.408829,23.659452),(12,24,'Aleea Angela Similea 2, Cluj-Napoca',45.751869,20.287228),(13,25,'Bulevardul Smiley 3, Bucharest',46.606071,22.522240),(14,25,'Strada Inna 4, Constanta',47.748505,20.337500),(15,26,'Aleea Dan Spataru 5, Timisoara',46.766983,23.712351),(16,26,'Bulevardul Loredana 6, Craiova',47.836105,22.497160),(17,27,'Str. Holograf 7, Brasov',46.983162,24.034882),(18,27,'Aleea Ovidiu Komornyik 8, Galati',45.155155,24.188316),(19,28,'Bulevardul Proconsul 9, Pitesti',45.099480,23.264065),(20,28,'Strada Iris 10, Bacau',45.493748,24.322380),(21,29,'Aleea Mircea Baniciu 11, Oradea',47.485893,22.748650),(22,29,'Bulevardul Phoenix 12, Sibiu',45.788261,23.322906),(23,30,'Str. Compact 13, Arad',46.603931,23.397373),(24,30,'Aleea Adrian Enescu 14, Targu Mures',47.380325,24.643942),(25,31,'Bulevardul Bere Gratis 15, Ploiesti',45.790840,22.658520),(26,31,'Strada Voltaj 16, Baia Mare',47.603035,23.716393),(27,32,'Aleea Zdob si Zdub 17, Alba Iulia',45.340073,21.684772),(28,32,'Bulevardul Carla s Dreams 18, Buzau',46.034096,23.563148),(29,33,'Str. Firma 19, Focsani',46.587158,22.536865),(30,33,'Aleea Urma 20, Satu Mare',47.849125,21.132111),(31,34,'Bulevardul Via de Vie 21, Suceava',45.848957,23.678305),(32,34,'Strada Alternosfera 22, Targoviste',47.488045,24.698803),(33,35,'Aleea Luna Amara 23, Drobeta-Turnu Severin',45.632271,21.172516),(34,35,'Bulevardul Catalin Crisan 24, Braila',46.620735,24.988583),(35,36,'Str. Subcarpati 25, Ramnicu Valcea',46.103539,24.230408),(36,36,'Aleea Suie Paparude 26, Baia Mare',45.380611,20.480528),(37,37,'Bulevardul Maria Raducanu 27, Targu Jiu',45.299747,21.056330),(38,37,'Strada Hara 28, Botosani',47.269741,20.745520),(39,38,'Aleea Trooper 29, Resita',46.427338,24.657915),(40,38,'Bulevardul Semnal M 30, Deva',45.691738,21.790731),(41,39,'Str. Zdob si Zdub 31, Vaslui',45.296978,22.102636),(42,39,'Aleea Luna Amara 32, Giurgiu',47.416969,23.833509),(43,40,'Bulevardul Vama Veche 33, Alexandria',46.249619,23.912966),(44,40,'Strada Bere Gratis 34, Rosiorii de Vede',46.990040,24.844753),(45,41,'Aleea Proconsul 35, Slatina',47.564148,21.833637),(46,41,'Bulevardul Loredana 36, Campulung',45.808468,21.236311),(47,42,'Str. Compact 37, Medias',46.283535,21.987190),(48,42,'Aleea Holograf 38, Slobozia',47.110966,21.629812),(49,43,'Bulevardul Voltaj 39, Dorohoi',46.556538,23.081711),(50,43,'Strada Pro Musica 40, Adjud',46.575520,23.884207),(51,44,'Aleea Sfinx 41, Sighetu Marmatiei',45.926056,21.064524),(52,44,'Bulevardul Stelu Enache 42, Lugoj',45.415398,20.268091),(53,45,'Str. Poesis 43, Zalau',47.558075,20.513029),(54,45,'Aleea Metropol 44, Reghin',47.864857,22.334724),(55,46,'Bulevardul Sarmalele Reci 45, Tecuci',46.409603,24.742519),(56,46,'Strada Spitalul de Urgenta 46, Baia Sprie',45.998749,24.095346),(57,47,'Aleea Coma 47, Salonta',45.289791,20.128904),(58,47,'Bulevardul Elena Gheorghe 48, Mizil',47.517330,20.591051),(59,48,'Str. Minus 49, Bistrita',45.221161,20.069864),(60,48,'Aleea N&D 50, Miercurea Ciuc',47.546104,21.007942),(61,49,'Bulevardul Antract 51, Falticeni',46.385517,23.522146),(62,49,'Strada Trooper 52, Husi',45.409885,22.849279),(63,50,'Aleea Nazareth 53, Vulcan',46.318180,22.436985),(64,50,'Bulevardul Zdob si Zdub 54, Navodari',45.356419,20.659212),(65,51,'Str. Taxi 55, Panciu',45.908379,20.592175),(66,51,'Aleea Phoenix 56, Cernavoda',47.051392,20.318399),(67,52,'Bulevardul Metropol 57, Campina',45.801029,20.720032),(68,52,'Strada Iris 58, Curtea de Arges',47.757011,20.815001),(69,53,'Aleea Simplu 59, Odorheiu Secuiesc',45.173965,24.004723),(70,53,'Bulevardul Celelalte Cuvinte 60, Turnu Magurele',47.492268,23.754734);
+INSERT INTO `clients_addresses` VALUES (2,'Str. Valea Viilor, Nr.22, Lehliu-Gara',46.438099,24.748642),(10,'Strada Pacanelelor, Nr 33A',45.557323,21.026932),(12,'Aleea Angela Similea 2, Cluj-Napoca',45.751869,20.287228),(14,'Strada Inna 4, Constanta',47.748505,20.337500),(16,'Bulevardul Loredana 6, Craiova',47.836105,22.497160),(18,'Aleea Ovidiu Komornyik 8, Galati',45.155155,24.188316),(20,'Strada Iris 10, Bacau',45.493748,24.322380),(22,'Bulevardul Phoenix 12, Sibiu',45.788261,23.322906),(24,'Aleea Adrian Enescu 14, Targu Mures',47.380325,24.643942),(26,'Strada Voltaj 16, Baia Mare',47.603035,23.716393),(28,'Bulevardul Carla s Dreams 18, Buzau',46.034096,23.563148),(30,'Aleea Urma 20, Satu Mare',47.849125,21.132111),(32,'Strada Alternosfera 22, Targoviste',47.488045,24.698803),(34,'Bulevardul Catalin Crisan 24, Braila',46.620735,24.988583),(36,'Aleea Suie Paparude 26, Baia Mare',45.380611,20.480528),(38,'Strada Hara 28, Botosani',47.269741,20.745520),(40,'Bulevardul Semnal M 30, Deva',45.691738,21.790731),(42,'Aleea Luna Amara 32, Giurgiu',47.416969,23.833509),(44,'Strada Bere Gratis 34, Rosiorii de Vede',46.990040,24.844753),(46,'Bulevardul Loredana 36, Campulung',45.808468,21.236311),(48,'Aleea Holograf 38, Slobozia',47.110966,21.629812),(50,'Strada Pro Musica 40, Adjud',46.575520,23.884207),(52,'Bulevardul Stelu Enache 42, Lugoj',45.415398,20.268091),(54,'Aleea Metropol 44, Reghin',47.864857,22.334724),(56,'Strada Spitalul de Urgenta 46, Baia Sprie',45.998749,24.095346),(58,'Bulevardul Elena Gheorghe 48, Mizil',47.517330,20.591051),(60,'Aleea N&D 50, Miercurea Ciuc',47.546104,21.007942),(62,'Strada Trooper 52, Husi',45.409885,22.849279),(64,'Bulevardul Zdob si Zdub 54, Navodari',45.356419,20.659212),(66,'Aleea Phoenix 56, Cernavoda',47.051392,20.318399),(68,'Strada Iris 58, Curtea de Arges',47.757011,20.815001),(70,'Bulevardul Celelalte Cuvinte 60, Turnu Magurele',47.492268,23.754734);
 /*!40000 ALTER TABLE `clients_addresses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,17 +223,14 @@ CREATE TABLE `orders` (
   `shipping_date` datetime DEFAULT NULL,
   `cancel_date` datetime DEFAULT NULL,
   `ID_shopping_list` int NOT NULL DEFAULT '0',
-  `ID_delivery_address` int DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `ID_client` (`ID_client`),
   KEY `status` (`status`),
   KEY `ID_shopping_list` (`ID_shopping_list`),
-  KEY `ID_delivery_address` (`ID_delivery_address`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ID_client`) REFERENCES `clients` (`ID`),
   CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`status`) REFERENCES `status` (`name`),
-  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`),
-  CONSTRAINT `orders_ibfk_4` FOREIGN KEY (`ID_delivery_address`) REFERENCES `clients_addresses` (`ID`)
+  CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`ID_shopping_list`) REFERENCES `shopping_list` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -241,7 +240,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,43,'expediata',105.69999999999999,'2024-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33,50),(2,53,'expediata',319.08,'2024-01-24 11:27:51','2024-01-23 11:27:00','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51',NULL,33,69),(4,2,'expediata',531.12,'2024-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33,1),(59,53,'anulata',26.794999999999998,'2024-01-24 11:27:51','2024-02-22 11:27:00',NULL,NULL,NULL,NULL,'2024-03-10 13:43:23',0,70),(102,50,'expediata',112.15,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0,1),(103,40,'expediata',53.25,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0,1),(110,53,'expediata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-02-01 12:08:37','2024-02-01 12:08:49','2024-01-18 12:02:50',0,1),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:00',NULL,NULL,NULL,NULL,NULL,0,66);
+INSERT INTO `orders` VALUES (1,43,'expediata',105.69999999999999,'2024-01-04 11:27:45','2021-09-08 10:27:45','2024-01-23 13:41:16','2024-01-23 13:41:24','2024-01-23 13:41:25','2024-01-23 13:41:26',NULL,33),(2,53,'expediata',319.08,'2024-01-24 11:27:51','2024-01-23 11:27:00','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51','2024-01-24 11:27:51',NULL,33),(4,2,'expediata',531.12,'2024-01-24 11:27:51','2021-02-03 11:27:45','2022-12-03 09:07:09','2022-12-03 09:07:21','2024-01-04 10:29:24','2024-01-04 10:29:26',NULL,33),(59,53,'anulata',26.794999999999998,'2024-01-24 11:27:51','2024-02-22 11:27:00',NULL,NULL,NULL,NULL,'2024-03-10 13:43:23',0),(102,50,'expediata',112.15,'2021-02-14 10:55:37','2021-02-14 10:55:00','2024-01-04 14:07:15','2024-01-11 07:47:16','2024-01-18 10:11:47','2024-01-18 10:12:40',NULL,0),(103,40,'expediata',53.25,'2021-02-14 10:56:39','2021-02-14 10:56:39','2024-01-23 13:40:37','2024-01-25 10:19:38','2024-01-25 10:19:38','2024-01-25 12:58:28',NULL,0),(110,53,'expediata',39.4,'2024-01-09 11:56:51','2024-01-09 11:56:00',NULL,'2024-01-19 12:07:15','2024-02-01 12:08:37','2024-02-01 12:08:49','2024-01-18 12:02:50',0),(111,51,'preluata',39.55,'2024-01-18 11:48:04','2024-01-18 11:48:00',NULL,NULL,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -649,4 +648,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-18  7:28:23
+-- Dump completed on 2024-03-23 10:59:42

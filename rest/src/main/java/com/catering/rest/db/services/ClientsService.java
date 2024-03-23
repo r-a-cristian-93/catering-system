@@ -39,6 +39,7 @@ public class ClientsService {
 	public ClientModel updateClient(Integer id, ClientModel client) {
 		String name = client.getName();
 		String phone = client.getPhone();
+		ClientAddressModel address = client.getAddress();
 		client = clientsRepo.findById(id).get();
 
 		if(name!=null) {
@@ -46,6 +47,9 @@ public class ClientsService {
 		}
 		if(phone!=null) {
 			client.setPhone(phone);
+		}
+		if(address!=null) {
+			client.setAddress(address);
 		}
 		return clientsRepo.save(client);
 	}
@@ -73,7 +77,7 @@ public class ClientsService {
 
 	// CLIENTS ADDRESSES
 
-	public List<ClientAddressModel> getAddresses(Integer clientId) {
-		return clientsAddressesRepo.findByClientId(clientId);
-	}
+	// public List<ClientAddressModel> getAddresses(Integer clientId) {
+	// 	return clientsAddressesRepo.findByClientId(clientId);
+	// }
 }
