@@ -8,7 +8,7 @@ import { QueryKeysAddress } from "../../../QueryKeys/QueryKeysAddress";
 import { getAddresses } from "../../../controllers/AddressControllere";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 import { usePickAddressContext } from "../../../contexts/PickAddressContext";
-import { GeoSearchControl, MapBoxProvider, OpenStreetMapProvider } from "leaflet-geosearch";
+import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
 type PickAddressModalContentProps = {
 	orderId: number;
@@ -45,7 +45,7 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 			<PickAddressTable orderId={orderId} clientId={clientId} />
 
 			<br />
-			<div>
+			{/* <div>
 				<button className="button" type="button" onClick={() =>
 				{
 					toggleMarkerCursor();
@@ -56,9 +56,9 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 					<span>Inregistreaza o noua adresa</span>
 				</button>
 			</div>
-			<br />
+			<br /> */}
 
-			<MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+			<MapContainer center={position} zoom={13} scrollWheelZoom={true}>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -109,7 +109,10 @@ function SearchField(): JSX.Element
 	const provider = new OpenStreetMapProvider();
 	const searchControl = new GeoSearchControl({
 		provider: provider,
-		searchLabel: "Caută o adresă",
+		searchLabel: "Caută o adresă.",
+		notFoundMessage: 'Adresa nu a fost găsită.',
+		style: "bar",
+		marker: {draggable:true},
 	});
 
 	useEffect(() =>
