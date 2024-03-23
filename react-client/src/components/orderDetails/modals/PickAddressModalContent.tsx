@@ -3,8 +3,9 @@ import PickAddressTable from "./PickAddressTable";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import { LatLngTuple } from "leaflet";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
-import { usePickAddressContext } from "../../../contexts/PickAddressContext";
+import { MapSearchAddressResponse, usePickAddressContext } from "../../../contexts/PickAddressContext";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+import { getAddress, getFakeAddress } from "../../../controllers/NominatimAddress";
 
 type PickAddressModalContentProps = {
 	orderId: number;
@@ -14,13 +15,12 @@ type PickAddressModalContentProps = {
 export default function PickAddressModalContent(props: PickAddressModalContentProps): JSX.Element
 {
 	const { orderId, clientId } = props;
-	const { markerPosition, } = usePickAddressContext();
+	const { markerPosition, searchedAddress } = usePickAddressContext();
 	const { order } = useOrderDetailsContext();
 	const position: LatLngTuple = [
 		markerPosition?.[ 0 ] || order?.deliveryAddress?.latitude || 0,
 		markerPosition?.[ 1 ] || order?.deliveryAddress?.longitude || 0
 	];
-	const addressLabel: string = "Strada turturelelor, 45";
 
 	return (
 		<div className={"address-selector"}>
@@ -31,10 +31,14 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				<img className="sticky-marker" src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" />
-				<div className="sticky-address-label">
-					{addressLabel}
-					<img src="/img/save.png" />
-				</div>
+
+				{
+				searchedAddress &&
+					<div className="sticky-address-label">
+						{searchedAddress.label}
+						<button className={"button"} style={{marginLeft: "40px"}}><b>Foloseste aceasta adresa</b></button>
+					</div>
+				}
 
 				<CenterMap position={position} />
 				<SearchField />
@@ -56,11 +60,12 @@ export function CenterMap(props: CenterMapProps): JSX.Element
 	return <></>
 }
 
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 function SearchField(): JSX.Element
 {
-	const { setMarkerPosition } = usePickAddressContext();
+	const { searchedAddress, setMarkerPosition, setSearchedAddress } = usePickAddressContext();
 	const map = useMap();
 	const provider = new OpenStreetMapProvider();
 	const searchControl = new GeoSearchControl({
@@ -75,27 +80,64 @@ function SearchField(): JSX.Element
 
 	function handleMapSearchResult(event: any): void
 	{
+		console.log(event);
 		const searchResultPosition: LatLngTuple = [ event.location.y, event.location.x ];
-		setMarkerPosition(searchResultPosition);
+		// setMarkerPosition(searchResultPosition);
+
+		const searchedAddress: MapSearchAddressResponse = {
+			label: event.location.label,
+			coordinates: searchResultPosition,
+		}
+
+		setSearchedAddress(searchedAddress);
+
+		console.log("moveEnd", searchResultPosition);
+		console.log("SET address to search result");
 	}
 
 	function handleMoveEnd(): void
 	{
 		const mapCenterPosition: LatLngTuple = [ map.getCenter().lat, map.getCenter().lng ];
-		setMarkerPosition(mapCenterPosition);
+		console.log("moveEnd", mapCenterPosition);
+		console.log("address", searchedAddress);
+		setSearchedAddress(null);
+
+		if (!searchedAddress)
+		{
+			void getFakeAddress(mapCenterPosition).then((address) =>
+			{
+				const foundAddress: MapSearchAddressResponse = {
+					label: address.display_name,
+					coordinates: [Number(address.lat), Number(address.lon)],
+				}
+
+				setSearchedAddress(foundAddress);
+			// setMarkerPosition(mapCenterPosition);
+				console.log("SET address to explor");
+			});
+		}
+	}
+
+	function handleMove(): void
+	{
+		// setSearchedAddress(null);
+
+		console.log("move");
 	}
 
 	useEffect(() =>
 	{
 		map.addControl(searchControl);
 		map.on('geosearch/showlocation', handleMapSearchResult);
-		map.on('move', handleMoveEnd)
+		map.on('moveend', handleMoveEnd)
+		map.on('move', handleMove)
 
 		return () =>
 		{
 			map.removeControl(searchControl);
 			map.off('geosearch/showlocation', handleMapSearchResult);
-			map.off('move', handleMoveEnd)
+			map.off('moveend', handleMoveEnd)
+			map.off('move', handleMove)
 		}
 	}, [ map, searchControl ]);
 

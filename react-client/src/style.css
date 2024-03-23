@@ -1,5 +1,7 @@
-@import "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-@import 'node_modules/leaflet-geosearch/dist/geosearch.css';
+@import "node_modules/leaflet/dist/leaflet.css";
+@import "node_modules/leaflet-geosearch/dist/geosearch.css";
+/* @import "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"; */
+/* @import "https://unpkg.com/leaflet-geosearch@3.11.1/dist/geosearch.css"; */
 
 
 :root {
