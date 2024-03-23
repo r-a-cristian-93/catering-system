@@ -4,10 +4,8 @@ import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
 import CardDetails from "../../generic/Card/CardDetails";
-import { useMap, useMapEvents } from "react-leaflet";
-import { LatLngTuple } from "leaflet";
 import PickAddressModalContent from "../modals/PickAddressModalContent";
-import { PickAddressContextProvider, usePickAddressContext } from "../../../contexts/PickAddressContext";
+import { PickAddressContextProvider } from "../../../contexts/PickAddressContext";
 
 type CardAddressProps = {
 	orderId: number;
@@ -48,34 +46,4 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 			}
 		</>
 	);
-}
-
-export function DetectMapClick(): JSX.Element
-{
-	const { isMarkerCursorActive, toggleMarkerCursor, setNewPosition } = usePickAddressContext();
-
-	useMapEvents({
-		click: event =>
-		{
-			if (isMarkerCursorActive)
-			{
-				toggleMarkerCursor();
-				setNewPosition(event.latlng)
-			}
-		}
-	})
-
-	return <></>;
-}
-
-type CenterMapProps = {
-	position: LatLngTuple;
-}
-
-export function CenterMap(props: CenterMapProps): JSX.Element
-{
-	const map = useMap();
-	map.setView(props.position)
-
-	return <></>
 }

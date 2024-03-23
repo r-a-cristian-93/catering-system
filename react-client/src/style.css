@@ -82,6 +82,10 @@ body {
 	}
 }
 
+.map-controls {
+	display: flex;
+}
+
 a:visited {
 	text-decoration: none;
 	color: inherit;
