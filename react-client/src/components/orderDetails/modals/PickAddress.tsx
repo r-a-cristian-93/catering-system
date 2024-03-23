@@ -36,12 +36,3 @@ export default function PickAddress(props: PickAddressProps): JSX.Element
 		</tr>
 	)
 }
-
-
-// useEffect(() =>
-// {
-// 	void axios.get<NominatimReverseResponse>('https://nominatim.openstreetmap.org/reverse?lat=50&lon=1&format=json').then((response) =>
-// 	{
-// 		console.log(response.data);
-// 	})
-// }, [])

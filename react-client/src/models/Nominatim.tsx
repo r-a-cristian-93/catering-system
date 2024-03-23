@@ -1,4 +1,4 @@
-type NominatimReverseResponse = {
+export type NominatimReverseResponse = {
 	place_id: number;
 	licence: string;
 	osm_type: string;

@@ -20,6 +20,7 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 		markerPosition?.[ 0 ] || order?.deliveryAddress?.latitude || 0,
 		markerPosition?.[ 1 ] || order?.deliveryAddress?.longitude || 0
 	];
+	const addressLabel: string = "Strada turturelelor, 45";
 
 	return (
 		<div className={"address-selector"}>
@@ -30,6 +31,11 @@ export default function PickAddressModalContent(props: PickAddressModalContentPr
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				<img className="sticky-marker" src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" />
+				<div className="sticky-address-label">
+					{addressLabel}
+					<img src="/img/save.png" />
+				</div>
+
 				<CenterMap position={position} />
 				<SearchField />
 			</MapContainer>
@@ -63,14 +69,14 @@ function SearchField(): JSX.Element
 		notFoundMessage: 'Adresa nu a fost găsită.',
 		style: "bar",
 		marker: { draggable: true },
-		showMarker: false
+		showMarker: false,
+		keepResults: true
 	});
 
 	function handleMapSearchResult(event: any): void
 	{
 		const searchResultPosition: LatLngTuple = [ event.location.y, event.location.x ];
 		setMarkerPosition(searchResultPosition);
-
 	}
 
 	function handleMoveEnd(): void
