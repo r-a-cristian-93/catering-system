@@ -1,6 +1,6 @@
 import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
-import { Client, ClientAddress, Order } from "../../../models/Order";
+import { Client, Order } from "../../../models/Order";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 
 type PickClientProps = {
@@ -22,20 +22,12 @@ export default function PickClient(props: PickClientProps): JSX.Element
 			client: client,
 		} as Order;
 
-		// void getAddresses(client.id).then((addresses: ClientAddress[]) =>
-		// {
-		// 	if (addresses.length > 0)
-		// 		order.deliveryAddress = addresses[ 0 ];
-		// 	else
-		// 		order.deliveryAddress = null;
-
 		void updateOrder(order).then((order) =>
 		{
 			void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
 
 			toogleModalCallback();
 		});
-		// });
 	}
 
 	return (
