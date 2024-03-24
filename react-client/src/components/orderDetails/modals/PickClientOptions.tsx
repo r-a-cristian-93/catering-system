@@ -5,6 +5,7 @@ import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";
 import css from "./ScreenSelector/ScreenSelector.module.css"
 
 type PickClientOptionsProps = {
+	orderId: number;
 	toggleModalCallback: () => void;
 };
 
@@ -19,7 +20,7 @@ export default function PickClientOptions(props: PickClientOptionsProps): JSX.El
 
 	const screenConfigCreate: ScreenConfig = {
 		selectorParams: { text: "Client nou", iconPath: "/img/register-client.svg" },
-		screenElement: <PickClientCreateNew orderId={orderId} toogleModalCallback={toggleModalCallback} />
+		screenElement: <PickClientCreateNew toogleModalCallback={toggleModalCallback} />
 	}
 
 	const screens = new Map<ScreenOption, ScreenConfig>(
