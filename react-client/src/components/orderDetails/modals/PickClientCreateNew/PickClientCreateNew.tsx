@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Client, ClientAddress, Order } from "../../../../models/Order";
+import { Client, ClientAddress } from "../../../../models/Order";
 import { addClient } from "../../../../controllers/ClientController";
 import { addAddress } from "../../../../controllers/AddressControllere";
 import { updateOrder } from "../../../../controllers/OrderController";
@@ -8,7 +8,6 @@ import css from "./PickClientCreateNew.module.css"
 import { useOrderDetailsContext } from "../../../../contexts/OrderDetailsContext";
 
 type PickClientCreateNewProps = {
-	orderId: number;
 	toogleModalCallback: () => void;
 }
 
@@ -27,7 +26,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 			{
 				void addClient({ ...client, address: newAddress }).then((newClient) =>
 				{
-					void updateOrder({ ...order, client: newClient }).then(refetchOrder);
+					void updateOrder({ ...order, client: newClient }).then(refetchOrder).then(props.toogleModalCallback);
 				});
 			});
 		}

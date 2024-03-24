@@ -5,7 +5,6 @@ import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";
 import css from "./ScreenSelector/ScreenSelector.module.css"
 
 type PickClientOptionsProps = {
-	orderId: number;
 	toggleModalCallback: () => void;
 };
 
