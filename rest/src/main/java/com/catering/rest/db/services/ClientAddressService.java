@@ -30,12 +30,24 @@ public class ClientAddressService {
         addressesRepo.deleteById(id);
     }
 
-    public ClientAddressModel updateClientAddress(Integer id, ClientAddressModel address) {
+    public ClientAddressModel updateClientAddress(ClientAddressModel address) {
         String value = address.getValue();
+        Float latitude = address.getLatitude();
+        Float longitude = address.getLongitude();
+        Integer id = address.getId();
+
         address = addressesRepo.findById(id).get();
 
         if (value != null) {
             address.setValue(value);
+        }
+
+        if (latitude != null) {
+            address.setLatitude(latitude);
+        }
+
+        if (longitude != null) {
+            address.setLongitude(longitude);
         }
 
         return addressesRepo.save(address);

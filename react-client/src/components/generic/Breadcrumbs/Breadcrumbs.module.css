@@ -1,0 +1,12 @@
+.breadcrumbs {
+	width: 100%;
+}
+
+.breadcrumbs a {
+	text-transform: capitalize;
+	text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+	opacity: 0.8;
+}

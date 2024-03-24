@@ -43,7 +43,6 @@ export default function PickStatusList(props: PickStatusListProps): JSX.Element
 					/>
 				})
 			}
-			<br />
 		</div>
 	);
 }

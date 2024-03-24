@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import Pager, { PagerArgs } from "../components/Pager";
+import Pager, { PagerArgs } from "../components/generic/Pager/Pager";
 import { PageableRequestParameters } from "../models/Pageable";
 import { Recipe } from "../models/Recipe";
 import { getRecipes } from "../controllers/RecipesController";
 import RecipesList from "../components/recipesList/RecipesList";
 import RecipeAddButton from "../components/recipesList/RecipeAddButton";
-import Breadcrumbs from "../components/Breadcrumbs";
+import SimplePage from "../components/generic/SimplePage/SimplePage";
 
 export default function RecipesPage(): JSX.Element
 {
@@ -45,17 +45,10 @@ export default function RecipesPage(): JSX.Element
 	}
 
 	return (
-		<div className="box">
-			<div className="box-header">
-				<Breadcrumbs />
-				<img height="100px" src="img/recipes.png" />
-				<h1 className="box-title">Rețete</h1>
-			</div>
-			<div className="box-content" id="order-table">
-				<RecipesList recipes={recipes} />
-				<Pager pagerArgs={pagerArgs} />
-				<RecipeAddButton />
-			</div>
-		</div>
+		<SimplePage title="Rețete" imagePath="/img/recipes.png">
+			<RecipesList recipes={recipes} />
+			<Pager pagerArgs={pagerArgs} />
+			<RecipeAddButton />
+		</SimplePage>
 	);
 }

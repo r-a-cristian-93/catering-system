@@ -2,8 +2,11 @@ import { ChangeEvent, useState } from "react";
 import { Recipe, Unit } from "../../../models/Recipe";
 import { updateRecipe } from "../../../controllers/RecipeController";
 import PickUnitList from "../modals/PickUnitList";
-import InputScrollBlocking from "../../InputScrollBlocking";
-import Modal from "../../generic/Modal";
+import InputScrollBlocking from "../../generic/InputScrollBlocking";
+import Modal from "../../generic/Modal/Modal";
+import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type CardClientProps = {
 	recipeId: number;
@@ -44,28 +47,29 @@ export default function CardQuantity(props: CardClientProps): JSX.Element
 
 	return (
 		<>
-			<div className="card">
-				<div className="card-icon">
+			<Card>
+				<CardIcon>
 					<div className="card-bg img-scale"></div>
-				</div>
-				<div className="card-details">
+				</CardIcon>
+				<CardDetails>
 					<div className="card-title">Gramaj</div>
-					<div className="card-text-big first-big hover-pointer" >
+					<div className="card-text-big hover-pointer" >
 						<InputScrollBlocking
 							name="quantity"
 							type="number"
+							size={5}
 							value={quantity?.toString()}
 							onChange={handleChange}
 							onBlur={handleOnBlur}
 						/>
 						<span onClick={handleToggleModal}>{unit?.name}</span>
 					</div>
-				</div>
-			</div>
+				</CardDetails>
+			</Card>
 			{
 				isModalActive &&
 				<Modal title="Alege unitatea de masura" toggleCallback={handleToggleModal}>
-					<PickUnitList recipeId={recipeId} toggleModalCallback={handleToggleModal}/>
+					<PickUnitList recipeId={recipeId} toggleModalCallback={handleToggleModal} />
 				</Modal>
 			}
 		</>

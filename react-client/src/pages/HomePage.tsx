@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import * as Formatter from "../utils/Formatting";
 import { DateRange } from "@mui/x-date-pickers-pro";
 import dayjs, { Dayjs } from "dayjs";
+import css from "../components/generic/SimplePage/SimplePage.module.css"
 
 async function getReports(startDateMillis: number | null | undefined, endDateMillis: number | null | undefined): Promise<ReportByDate[][]>
 {
@@ -109,69 +110,71 @@ export default function HomePage(): JSX.Element
 	}
 
 	return (
-		<div className="box-content">
-			<div className="chartGeneralContainer">
-				<div className="datePicker">
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DateRangePicker
-							localeText={{ start: 'De la', end: 'Pana la' }}
-							value={dateRange}
-							onChange={(newRange) =>
-							{
-								setDateRange(newRange)
-							}}
-						/>
-					</LocalizationProvider>
-					<Button variant="contained" size="large" onClick={updateData}>
-						Actualizează
-					</Button>
-				</div>
-				{
-					lineChart &&
-					<div className="chartGeneral" >
-						<BarChart
-							xAxis={[
+		<div className={css.box}>
+			<div className={css.box_content}>
+				<div className="chartGeneralContainer">
+					<div className="datePicker">
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DateRangePicker
+								localeText={{ start: 'De la', end: 'Pana la' }}
+								value={dateRange}
+								onChange={(newRange) =>
 								{
-									id: 'barCategories',
-									data: lineChart.datesAxis,
-									scaleType: 'band',
-								}
-							]}
-							yAxis={[
-								{
-									min: 0,
-								}
-							]}
-							series={[
-								{
-									id: "placement",
-									data: lineChart.placementLine,
-									label: "Comenzi plasate",
-									color: "#22dd33"
-								},
-								{
-									id: "due",
-									data: lineChart.dueLine,
-									label: "Termene limita",
-									color: "#dd22aa"
-								},
-								{
-									id: "cancel",
-									data: lineChart.cancelLine,
-									label: "Comenzi anulate",
-									color: "#ff4400"
-								},
-								{
-									id: "shipped",
-									data: lineChart.shippingLine,
-									label: "Comenzi livrate",
-									color: "#5555ff"
-								}
-							]}
-							height={400}
-						/>
+									setDateRange(newRange)
+								}}
+							/>
+						</LocalizationProvider>
+						<Button variant="contained" size="large" onClick={updateData}>
+							Actualizează
+						</Button>
 					</div>
-				}
+					{
+						lineChart &&
+						<div className="chartGeneral" >
+							<BarChart
+								xAxis={[
+									{
+										id: 'barCategories',
+										data: lineChart.datesAxis,
+										scaleType: 'band',
+									}
+								]}
+								yAxis={[
+									{
+										min: 0,
+									}
+								]}
+								series={[
+									{
+										id: "placement",
+										data: lineChart.placementLine,
+										label: "Comenzi plasate",
+										color: "#22dd33"
+									},
+									{
+										id: "due",
+										data: lineChart.dueLine,
+										label: "Termene limita",
+										color: "#dd22aa"
+									},
+									{
+										id: "cancel",
+										data: lineChart.cancelLine,
+										label: "Comenzi anulate",
+										color: "#ff4400"
+									},
+									{
+										id: "shipped",
+										data: lineChart.shippingLine,
+										label: "Comenzi livrate",
+										color: "#5555ff"
+									}
+								]}
+								height={400}
+							/>
+						</div>
+					}
+				</div>
 			</div>
 		</div>
 	);

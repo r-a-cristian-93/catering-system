@@ -1,0 +1,51 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 0 30px 0 30px;
+	user-select: none;
+}
+
+.card:not(:last-child) {
+	border-right: solid var(--grey4);
+	border-width: 3px;
+}
+
+.card input {
+	font-size: inherit;
+	text-align:right;
+	padding: 5px;
+	border: 0;
+	max-width:100px;
+}
+
+.card_icon {
+	display: flex;
+	justify-content: center;
+	margin: 0 auto;
+}
+
+.card_details {
+	text-align: center;
+	vertical-align: top;
+	max-width: 250px;
+}
+
+
+
+/* Card small */
+
+.card_small {
+	align-items: center;
+	border: none !important;
+}
+
+.card_small:hover .card_icon_small {
+	transform: translateY(-10px);
+}
+
+.card_icon_small {
+	margin: auto 0;
+	scale: 0.8;
+	transition: 0.1s ease-in-out;
+}

@@ -36,16 +36,20 @@ public class ClientsService {
 		clientsRepo.deleteById(id);
 	}
 
-	public ClientModel updateClient(Integer id, ClientModel client) {
+	public ClientModel updateClient(ClientModel client) {
 		String name = client.getName();
 		String phone = client.getPhone();
-		client = clientsRepo.findById(id).get();
+		ClientAddressModel address = client.getAddress();
+		client = clientsRepo.findById(client.getId()).get();
 
 		if(name!=null) {
 			client.setName(name);
 		}
 		if(phone!=null) {
 			client.setPhone(phone);
+		}
+		if(address!=null) {
+			client.setAddress(address);
 		}
 		return clientsRepo.save(client);
 	}
@@ -73,7 +77,7 @@ public class ClientsService {
 
 	// CLIENTS ADDRESSES
 
-	public List<ClientAddressModel> getAddresses(Integer clientId) {
-		return clientsAddressesRepo.findByClientId(clientId);
-	}
+	// public List<ClientAddressModel> getAddresses(Integer clientId) {
+	// 	return clientsAddressesRepo.findByClientId(clientId);
+	// }
 }

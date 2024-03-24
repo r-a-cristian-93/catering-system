@@ -1,4 +1,5 @@
 import { Recipe } from "../../models/Recipe";
+import TableList from "../generic/TableList/TableList";
 import RecipeComponent from "./RecipeComponent";
 
 type RecipesListPops = {
@@ -8,22 +9,10 @@ type RecipesListPops = {
 export default function RecipesList(props: RecipesListPops): JSX.Element
 {
 	return (
-		<table className="full">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Nume</th>
-					<th>Categorie</th>
-					<th>Cantitate</th>
-					<th>Cost ingrediente</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				{props.recipes?.map((recipe) => (
-					<RecipeComponent key={recipe.id} recipe={recipe} />
-				))}
-			</tbody>
-		</table>
+		<TableList header={[ "ID", "Nume", "Categorie", "Cantitate", "Cost Ingrediente" ]}>
+			{props.recipes?.map((recipe) => (
+				<RecipeComponent key={recipe.id} recipe={recipe} />
+			))}
+		</TableList>
 	);
 }

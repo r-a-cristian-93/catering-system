@@ -4,9 +4,10 @@ import { QueryKeysClient } from "../../../QueryKeys/QueryKeysClient";
 import { getClients, getClientsByNameContaining } from "../../../controllers/ClientController";
 import { ClientResponseData } from "../../../models/Order";
 import { PageableRequestParameters } from "../../../models/Pageable";
-import Pager from "../../Pager";
-import SearchBar from "../../SearchBar";
+import Pager from "../../generic/Pager/Pager";
+import SearchBar from "../../generic/SearchBar/SearchBar";
 import PickClient from "./PickClient";
+import TableList from "../../generic/TableList/TableList";
 
 type PickClientSearchProps = {
 	orderId: number;
@@ -77,27 +78,19 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 	return (
 		<>
 			<SearchBar onSearch={handleSearch} onReset={handleSearchReset} />
-			<table id="pick-table" className="full table-list">
-				<thead>
-					<tr>
-						<th>Nume</th>
-						<th>Telefon</th>
-					</tr>
-				</thead>
-				<tbody>
-					{clientResponseData?.content.map(
-						(client) =>
-							client.id > 0 && (
-								<PickClient
-									key={client.id}
-									orderId={orderId}
-									client={client}
-									toogleModalCallback={toogleModalCallback}
-								/>
-							)
-					)}
-				</tbody>
-			</table>
+			<TableList header={[ "Nume", "Telefon" ]}>
+				{clientResponseData?.content.map(
+					(client) =>
+						client.id > 0 && (
+							<PickClient
+								key={client.id}
+								orderId={orderId}
+								client={client}
+								toogleModalCallback={toogleModalCallback}
+							/>
+						)
+				)}
+			</TableList>
 			<br />
 			{
 				clientResponseData && <Pager pagerArgs={

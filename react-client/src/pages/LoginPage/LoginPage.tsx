@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Credentials } from "../models/Credentials";
-import { requestUserLogin } from "../controllers/LoginController";
+import { Credentials } from "../../models/Credentials";
+import { requestUserLogin } from "../../controllers/LoginController";
+import css from "./LoginPage.module.css"
 
 export default function LoginPage(): JSX.Element
 {
@@ -34,10 +35,10 @@ export default function LoginPage(): JSX.Element
     }
 
     return (
-        <div className="login-box">
-            <div className="login-box-content">
-                <div className="login-box-title">Welcome back! Let's get started.</div>
-                <form name="login" className="login-form">
+        <div className={css.login_box}>
+            <div className={css.login_box_content}>
+                <div className={css.login_box_title}>Welcome back! Let's get started.</div>
+                <form name="login" className={css.login_form}>
                     <label>
                         <span><img src="/img/profile.png" /></span>
                         <input name="username" type="text" placeholder="Username" required onChange={handleChange} />

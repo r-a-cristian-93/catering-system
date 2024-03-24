@@ -43,10 +43,10 @@ export default function AddRecipeItem(props: AddIngredientItemProps): JSX.Elemen
 	}
 
 	return (
-		<tr id="2">
+		<tr>
 			<td>{recipeItem.ingredient.id}</td>
 			<td>{recipeItem.ingredient.name}</td>
-			<td>{Formatter.formatCurrency(recipeItem.ingredient.price) +  "/" + recipeItem.ingredient.unit.name }</td>
+			<td>{Formatter.formatCurrency(recipeItem.ingredient.price) + "/" + recipeItem.ingredient.unit.name}</td>
 			<td>
 				<input
 					type="number" size={4}

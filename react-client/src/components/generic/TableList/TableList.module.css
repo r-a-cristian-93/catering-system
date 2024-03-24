@@ -1,0 +1,50 @@
+.table_list {
+	border-collapse: collapse;
+	margin-bottom: 10px;
+	cursor: default;
+	width: 100%;
+}
+
+.table_list td,
+.table_list th {
+	text-align: left;
+	padding: 8px;
+}
+
+.table_list tr {
+	user-select: none;
+}
+
+.table_list tr:nth-child(even) {
+	background-color: var(--grey3);
+}
+
+.table_list tbody tr:hover {
+	background-color: var(--grey-hover);
+}
+
+.table_list td.clickable:hover {
+	text-decoration: underline;
+}
+
+.table_list input {
+	padding: 5px;
+	margin: 0;
+	text-align: right;
+	border: 0;
+	font-size: inherit;
+	background-color: inherit;
+}
+
+.table_list input[type=number] {
+	width: 100px;
+}
+
+.details_table td:not(:first-child),
+.details_table th:not(:first-child) {
+	text-align: right;
+}
+
+.details_table tr:last-child {
+	background-color: var(--bg);
+}

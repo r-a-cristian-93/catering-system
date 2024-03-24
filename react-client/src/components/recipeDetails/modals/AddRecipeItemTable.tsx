@@ -6,6 +6,7 @@ import { getIngredientsAll } from "../../../controllers/IngredientsController";
 import { RecipeItem } from "../../../models/Recipe";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import AddRecipeItem from "./AddRecipeItem";
+import TableList from "../../generic/TableList/TableList";
 
 type AddRecipeItemTableProps = {
 	addSuccessfulCallback: (recipeItem: RecipeItem) => void;
@@ -21,9 +22,8 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 		queryKey: QueryKeysIngredient.all,
 		queryFn: () => getIngredientsAll(),
 		staleTime: 60 * 1000,
-		onSuccess: (date) =>
+		onSuccess: () =>
 		{
-			console.log(date);
 			setIngredients(getUnusedIngredients());
 		}
 	});
@@ -53,27 +53,16 @@ export function AddRecipeItemTable(props: AddRecipeItemTableProps): JSX.Element
 	}
 
 	return (
-		<table id="add-item-table" className="full table-list">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Nume</th>
-					<th>Cost unitar</th>
-					<th>Cantitate</th>
-					<th>Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				{
-					ingredients?.map((ingredient) =>
-						<AddRecipeItem
-							key={ingredient.id}
-							recipeId={props.recipeId}
-							ingredient={ingredient}
-							addSuccessfulCallback={handleAddItemSuccessful} />
-					)
-				}
-			</tbody>
-		</table>
+		<TableList className="add-item-table" header={[ "ID", "Nume", "Cost unitar", "Cantitate", "Total" ]}>
+			{
+				ingredients?.map((ingredient) =>
+					<AddRecipeItem
+						key={ingredient.id}
+						recipeId={props.recipeId}
+						ingredient={ingredient}
+						addSuccessfulCallback={handleAddItemSuccessful} />
+				)
+			}
+		</TableList>
 	)
 }

@@ -7,8 +7,10 @@ import { QueryKeysRecipe } from "../../QueryKeys/QueryKeysRecipe.tsx";
 import { getRecipeItems } from "../../controllers/RecipeItemsController.tsx";
 import RecipeItemComponent from "./RecipeItemComponent.tsx";
 import { AddRecipeItemTable } from "./modals/AddRecipeItemTable.tsx";
-import Modal from "../generic/Modal.tsx";
-import AddButton from "../generic/AddButton.tsx";
+import Modal from "../generic/Modal/Modal.tsx";
+import AddButton from "../generic/AddButton/AddButton.tsx";
+import TableList from "../generic/TableList/TableList.tsx";
+import css from "../generic/TableList/TableList.module.css"
 
 type RecipeItemsProps = {
     recipeId: number;
@@ -82,41 +84,31 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
 
     return (
         <>
-            <table id="order-details-table" className="full table-list">
-                <thead>
-                    <tr className="font-size-120">
-                        <th>Ingredient</th>
-                        <th>Cantitate</th>
-                        <th>Pret unitar</th>
-                        <th>Cost total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        recipeItemsQuerySucess && recipeItems && recipeItems.map((recipeItem) =>
-                            <RecipeItemComponent key={recipeItem.id} recipeItem={recipeItem}
-                                changeCallback={handleChildChange}
-                                deleteCallback={handleChildDelete} />
-                        )
-                    }
-                    <tr id="det_total" className="font-size-140">
-                        <th></th>
-                        <th></th>
-                        <th>Total:</th>
-                        <th>
-                            {
-                                recipeItemsQuerySucess && recipeItems && Formatter.formatCurrency(getTotalCost(recipeItems))
-                            }
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
+            <TableList className={css.details_table} header={[ "Ingredient", "Cantitate", "Pret unitar", "Cost Total" ]}>
+                {
+                    recipeItemsQuerySucess && recipeItems && recipeItems.map((recipeItem) =>
+                        <RecipeItemComponent key={recipeItem.id} recipeItem={recipeItem}
+                            changeCallback={handleChildChange}
+                            deleteCallback={handleChildDelete} />
+                    )
+                }
+                <tr className="font-size-140">
+                    <th></th>
+                    <th></th>
+                    <th>Total:</th>
+                    <th>
+                        {
+                            recipeItemsQuerySucess && recipeItems && Formatter.formatCurrency(getTotalCost(recipeItems))
+                        }
+                    </th>
+                </tr>
+            </TableList>
 
-            <AddButton text="Adauga ingredient" onClick={handleToogleModal} />
+            <AddButton text="Adaugă ingredient" onClick={handleToogleModal} />
 
             {
                 isModalActive &&
-                <Modal toggleCallback={handleToogleModal} title="Adauga ingredient">
+                <Modal toggleCallback={handleToogleModal} title="Adaugă ingredient">
                     <AddRecipeItemTable
                         key={Math.round(Math.random() * 100)}
                         recipeId={recipeId}
@@ -127,4 +119,3 @@ export default function RecipeItems(props: RecipeItemsProps): JSX.Element
         </>
     );
 }
-

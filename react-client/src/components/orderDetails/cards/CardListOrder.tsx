@@ -2,8 +2,8 @@ import { Order } from "../../../models/Order";
 import { StatusEnum } from "../../../models/Order";
 import CardDueDateComponent from "./CardDueDateComponent";
 import CardClientComponent from "./CardClientComponent";
-import CardAddressComponent from "./CardAddressComponent";
 import CardStatusComponent from "./CardStatusComponent";
+import CardAddressComponent from "./CardAddressComponent";
 
 type CardListOrderProps = {
 	order: Order;
@@ -47,7 +47,6 @@ export default function CardListOrder(props: CardListOrderProps): JSX.Element
 		status,
 		dueDate,
 		client,
-		deliveryAddress,
 	} = props.order;
 
 	const statusDate: string | null = getCurrentStatusDate(props.order);
@@ -56,6 +55,6 @@ export default function CardListOrder(props: CardListOrderProps): JSX.Element
 		<CardStatusComponent status={status} statusDate={statusDate} orderId={orderId} />
 		<CardDueDateComponent date={dueDate} orderId={orderId} />
 		<CardClientComponent client={client} orderId={orderId} />
-		<CardAddressComponent address={deliveryAddress} orderId={orderId} clientId={client?.id || null} />
+		<CardAddressComponent />
 	</div>;
 }

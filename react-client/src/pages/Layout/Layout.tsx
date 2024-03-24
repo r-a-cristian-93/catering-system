@@ -1,7 +1,8 @@
-import Navbar from "./components/Navbar";
+import Navbar from "../../components/generic/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import isUserAuthenticated from "./components/Auth";
+import LoginPage from "../LoginPage/LoginPage";
+import isUserAuthenticated from "../../utils/Auth";
+import css from "./Layout.module.css"
 
 export default function Layout(): JSX.Element
 {
@@ -10,7 +11,7 @@ export default function Layout(): JSX.Element
 			{
 				isUserAuthenticated() && <Navbar />
 			}
-			<div className="content">
+			<div className={css.content}>
 				{
 					isUserAuthenticated() ? <Outlet /> : <LoginPage />
 				}

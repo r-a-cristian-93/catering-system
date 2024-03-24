@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ScreenSelector, { ScreenOption, ScreenSelectorParams } from "../components/orderDetails/modals/ScreenSelector";
+import ScreenSelector, { ScreenOption, ScreenSelectorParams } from "../components/orderDetails/modals/ScreenSelector/ScreenSelector";
 
 type UseScreensReturn = {
     selectors: () => JSX.Element[];

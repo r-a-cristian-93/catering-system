@@ -43,7 +43,6 @@ export default function PickCategoryList(props: PickCategoryListProps): JSX.Elem
 					/>
 				})
 			}
-			<br />
 		</div>
 	);
 }

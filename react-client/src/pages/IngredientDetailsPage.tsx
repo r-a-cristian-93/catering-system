@@ -6,10 +6,10 @@ import { getIngredient, getPriceHistory, updateIngredient } from "../controllers
 import { QueryKeysIngredient } from "../QueryKeys/QueryKeysIngredient";
 import CardListIngredient from "../components/ingredientDetails/cards/CardListIngredient";
 import IngredientPriceHistoryComponent from "../components/ingredientDetails/IngredientPriceHistoryComponent";
-import Breadcrumbs from "../components/Breadcrumbs";
-import AddButton from "../components/generic/AddButton";
+import AddButton from "../components/generic/AddButton/AddButton";
 import RecordNewPrice from "../components/ingredientDetails/modals/RecordNewPrice";
-import Modal from "../components/generic/Modal";
+import Modal from "../components/generic/Modal/Modal";
+import SimplePage from "../components/generic/SimplePage/SimplePage";
 
 export default function IngredientDetailsPage(): JSX.Element
 {
@@ -76,36 +76,25 @@ export default function IngredientDetailsPage(): JSX.Element
 	}
 
 	return <>
-		<div className="box">
-			<div className="box-header">
-				<Breadcrumbs />
-				<img height="100px" src="../img/ingredients.png" />
-				<h1 className="box-title">
-					<input
-						name="name"
-						value={ingredient?.name || ""}
-						autoComplete="Nume ingredient"
-						onChange={handleChange}
-						onBlur={handleOnBlur} />
-				</h1>
-			</div>
-			<div className="box-content" id="order-details">
-				{ingredient && <CardListIngredient ingredient={ingredient} />}
+		<SimplePage
+			title={ingredient?.name || ""}
+			editableTitle={{ onChange: handleChange, onBlur: handleOnBlur }}
+			imagePath="/img/ingredients.png"
+		>
+			{ingredient && <CardListIngredient ingredient={ingredient} />}
 
-				<IngredientPriceHistoryComponent priceHistory={priceHistory} />
+			<IngredientPriceHistoryComponent priceHistory={priceHistory} />
 
-				<br />
+			<br />
 
-				<AddButton text="Înregistrează preț nou" onClick={toggleModalCallback} />
+			<AddButton text="Înregistrează preț nou" onClick={toggleModalCallback} />
 
-				{
-					isModalActive &&
-					<Modal title="Inregistrare pret nou" toggleCallback={toggleModalCallback}>
-						<RecordNewPrice ingredientId={ingredientId} toggleModalCallback={toggleModalCallback} />
-					</Modal>
-				}
-
-			</div>
-		</div>
+			{
+				isModalActive &&
+				<Modal title="Inregistrare pret nou" toggleCallback={toggleModalCallback}>
+					<RecordNewPrice ingredientId={ingredientId} toggleModalCallback={toggleModalCallback} />
+				</Modal>
+			}
+		</SimplePage>
 	</>
 }

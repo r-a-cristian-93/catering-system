@@ -1,3 +1,5 @@
+import css from "./ScreenSelector.module.css"
+
 export enum ScreenOption {
     NONE,
     CLIENT_CREATE,
@@ -23,7 +25,7 @@ export default function ScreenSelector(props: ScreenSelectorProps): JSX.Element
 
     return(
         <div
-            className={ "screen-picker-selector hover-pointer" +  (isActive ? " screen-picker-selector-active" : "")}
+            className={ css.screen_picker_selector + " hover-pointer " +  (isActive ? css.screen_picker_selector_active : "")}
             onClick={() =>
                 {
                     setScreen(screen);

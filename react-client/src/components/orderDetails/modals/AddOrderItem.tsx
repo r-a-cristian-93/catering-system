@@ -43,7 +43,7 @@ export default function AddOrderItem(props: AddOrderItemProps): JSX.Element
 	}
 
 	return (
-		<tr id="2">
+		<tr>
 			<td>{orderItem.recipe.id}</td>
 			<td>{orderItem.recipe.name}</td>
 			<td>{orderItem.recipe.quantity + " " + orderItem.recipe.unit.name}</td>

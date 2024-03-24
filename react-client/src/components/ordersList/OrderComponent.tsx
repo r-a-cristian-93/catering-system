@@ -9,7 +9,6 @@ export default function OrderComponent(props: OrderComponentProps): JSX.Element
 {
     return (
         <tr
-            id={props.order.id.toString()}
             onClick={() =>
             {
                 window.location.href = document.location.pathname + "/" + props.order.id

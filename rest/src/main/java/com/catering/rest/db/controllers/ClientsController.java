@@ -51,9 +51,9 @@ public class ClientsController {
 	}
 
 	@ResponseBody
-	@PutMapping("/{id}")
-	public ClientModel updateClient(@PathVariable Integer id, @RequestBody ClientModel client) {
-		return clientsService.updateClient(id, client);
+	@PutMapping
+	public ClientModel updateClient(@RequestBody ClientModel client) {
+		return clientsService.updateClient(client);
 	}
 
 		//PAGEABLE
@@ -82,9 +82,9 @@ public class ClientsController {
 
 	// CLIENTS ADDRESSES
 
-	@ResponseBody
-	@GetMapping("/{clientId}/addresses")
-	public List<ClientAddressModel> getAddresses(@PathVariable Integer clientId) {
-		return clientsService.getAddresses(clientId);
-	}
+	// @ResponseBody
+	// @GetMapping("/{clientId}/addresses")
+	// public List<ClientAddressModel> getAddresses(@PathVariable Integer clientId) {
+	// 	return clientsService.getAddresses(clientId);
+	// }
 }

@@ -6,6 +6,7 @@ import { OrderItem } from "../../../models/Order";
 import { useState } from "react";
 import { QueryKeysRecipe } from "../../../QueryKeys/QueryKeysRecipe";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import TableList from "../../generic/TableList/TableList";
 
 type AddOrderItemTableProps = {
 	addSuccessfulCallback: (orderItem: OrderItem) => void;
@@ -52,28 +53,16 @@ export default function AddOrderItemTable(props: AddOrderItemTableProps): JSX.El
 	}
 
 	return (
-		<table id="add-item-table" className="full table-list">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Rețetă</th>
-					<th>Gramaj</th>
-					<th>Cost unitar</th>
-					<th>Porții</th>
-					<th>Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				{
-					recipes?.map((recipe) =>
-						<AddOrderItem
-							key={recipe.id}
-							orderId={props.orderId}
-							recipe={recipe}
-							addSuccessfulCallback={handleAddItemSuccessful} />
-					)
-				}
-			</tbody>
-		</table>
+		<TableList className="add-item-table" header={[ "ID", "Rețetă", "Gramaj", "Cost unitar", "Porții", "Total" ]}>
+			{
+				recipes?.map((recipe) =>
+					<AddOrderItem
+						key={recipe.id}
+						orderId={props.orderId}
+						recipe={recipe}
+						addSuccessfulCallback={handleAddItemSuccessful} />
+				)
+			}
+		</TableList>
 	);
 }

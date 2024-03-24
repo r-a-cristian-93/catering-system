@@ -1,3 +1,5 @@
+import css from "./Pager.module.css"
+
 export type PagerButtonProps = {
     page: number;
     text: string;
@@ -15,7 +17,7 @@ export function PagerButton(props: PagerButtonProps): JSX.Element
     return (
         <li
             onClick={handleClick}
-            className={"pager-button" + (props.isCurrentPage ? " pager-current" : "")}
+            className={css.pager_button + (props.isCurrentPage ? " " + css.pager_current : "")}
         >
             {props.text}{" "}
         </li>
@@ -69,7 +71,7 @@ export default function Pager(props: PagerProps): JSX.Element
                     pageIndex < props.pagerArgs.totalPages - 1) // right side dots
             )
             {
-                buttons.push(<li key={keyIndex++} className="pager-button inactive">...</li>
+                buttons.push(<li key={keyIndex++} className={css.pager_button + " " + css.inactive}>...</li>
                 );
             }
 
@@ -97,5 +99,5 @@ export default function Pager(props: PagerProps): JSX.Element
         />
     );
 
-    return <ul className="pager">{buttons.map((button) => button)}</ul>;
+    return <ul className={css.pager}>{buttons.map((button) => button)}</ul>;
 }

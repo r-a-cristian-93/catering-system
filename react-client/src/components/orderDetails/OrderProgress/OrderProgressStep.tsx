@@ -1,7 +1,8 @@
-import { setNextOrderState } from "../../controllers/OrderController";
-import { Order } from "../../models/Order";
-import * as Formatter from "../../utils/Formatting"
+import { setNextOrderState } from "../../../controllers/OrderController";
+import { Order } from "../../../models/Order";
+import * as Formatter from "../../../utils/Formatting"
 import { OrderStep } from "./OrderProgress";
+import css from "./OrderProgress.module.css"
 
 export type OrderProgressStepProps = {
 	orderId: number;
@@ -23,10 +24,10 @@ export default function OrderProgressStep(props: OrderProgressStepProps): JSX.El
 	}
 
 	return (
-		<div className={"stepper-item hover-pointer" + (props.step.date ? " completed" : "")} onClick={handleClick}>
-			<div className="step-counter"></div>
-			<div className="step-name">{props.step.name}</div>
-			<div className="step-date">
+		<div className={css.stepper_item + " hover-pointer" + (props.step.date ? (" " + css.completed) : "")} onClick={handleClick}>
+			<div className={css.step_counter}></div>
+			<div className={css.step_name}>{props.step.name}</div>
+			<div className={css.step_date}>
 				{Formatter.formatDate(props.step.date)}
 				{" " + Formatter.formatTime(props.step.date)}
 			</div>

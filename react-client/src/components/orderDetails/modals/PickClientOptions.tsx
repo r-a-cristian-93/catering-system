@@ -1,7 +1,8 @@
-import PickClientCreateNew from "./PickClientCreateNew";
+import PickClientCreateNew from "./PickClientCreateNew/PickClientCreateNew";
 import PickClientSearch from "./PickClientSearch";
-import { ScreenOption } from "./ScreenSelector";
+import { ScreenOption } from "./ScreenSelector/ScreenSelector";
 import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";
+import css from "./ScreenSelector/ScreenSelector.module.css"
 
 type PickClientOptionsProps = {
 	orderId: number;
@@ -32,7 +33,7 @@ export default function PickClientOptions(props: PickClientOptionsProps): JSX.El
 
 	return (
 		<>
-			<div className="screen-picker">
+			<div className={css.screen_picker}>
 				{
 					selectors()
 				}

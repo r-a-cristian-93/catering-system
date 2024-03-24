@@ -1,5 +1,5 @@
 import React from "react"
-import { pageScrollBlock, pageScrollUnblock } from "../utils/PageScroll"
+import { pageScrollBlock, pageScrollUnblock } from "../../utils/PageScroll"
 
 export default function InputScrollBlocking(props: React.HTMLProps<HTMLInputElement>): JSX.Element
 {

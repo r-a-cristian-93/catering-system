@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { ClientAddress } from "../../../models/Order";
-import PickAddressTable from "../modals/PickAddressTable";
-import Modal from "../../generic/Modal";
+import Modal from "../../generic/Modal/Modal";
+import Card from "../../generic/Card/Card";
+import CardIcon from "../../generic/Card/CardIcon";
+import CardDetails from "../../generic/Card/CardDetails";
+import PickAddressModalContent from "../modals/PickAddressModalContent";
+import { PickAddressContextProvider } from "../../../contexts/PickAddressContext";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
-type CardAddressProps = {
-	orderId: number;
-	clientId: number | null;
-	address: ClientAddress | null;
-}
-
-export default function CardAddressComponent(props: CardAddressProps): JSX.Element
+export default function CardAddressComponent(): JSX.Element
 {
-	const { orderId, clientId, address } = props;
-
+	const { order } = useOrderDetailsContext();
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
 	function handleToggleModal(): void
@@ -22,22 +19,24 @@ export default function CardAddressComponent(props: CardAddressProps): JSX.Eleme
 
 	return (
 		<>
-			<div className="card hover-pointer">
-				<div className="card-icon">
+			<Card className="card hover-pointer" onClick={handleToggleModal}>
+				<CardIcon>
 					<div className="card-bg img-pinlocation"></div>
-				</div>
-				<div className="card-details" onClick={handleToggleModal}>
+				</CardIcon>
+				<CardDetails>
 					<div className="card-title">Adresa livrare</div>
 					<div className="card-text-medium">
-						{address?.value}
+						{order?.client?.address?.value}
 					</div>
-				</div>
-			</div>
+				</CardDetails>
+			</Card>
 			{
-				isModalActive && clientId &&
-				<Modal title="Alege adresa" toggleCallback={handleToggleModal}>
-					<PickAddressTable orderId={orderId} clientId={clientId} toggleModalCallback={handleToggleModal} />
-				</Modal>
+				isModalActive &&
+				<Modal title="Alege adresa" toggleCallback={handleToggleModal} style={{ width: "1200px" }}>
+					<PickAddressContextProvider>
+						<PickAddressModalContent />
+					</PickAddressContextProvider>
+				</Modal >
 			}
 		</>
 	);

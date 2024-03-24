@@ -1,0 +1,21 @@
+.screen_picker {
+	display: flex;
+}
+
+.screen_picker_selector {
+	width:100%;
+	padding: 20px;
+	text-align: center;
+	border-bottom: solid var(--bg);
+	opacity: 0.5;
+}
+
+.screen_picker_selector:hover {
+	opacity: 1;
+}
+
+.screen_picker_selector_active {
+	opacity: 1;
+	border-color: var(--text);
+	background-color: var(--grey3);
+}

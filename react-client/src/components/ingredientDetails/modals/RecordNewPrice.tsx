@@ -3,6 +3,7 @@ import { useState, ChangeEvent } from "react";
 import { Ingredient } from "../../../models/Ingredient";
 import { updateIngredient } from "../../../controllers/IngredientController";
 import { QueryKeysIngredient } from "../../../QueryKeys/QueryKeysIngredient";
+import Card from "../../generic/Card/Card";
 
 type RecordNewPricePros = {
 	ingredientId: number;
@@ -18,6 +19,9 @@ export default function RecordNewPrice(props: RecordNewPricePros): JSX.Element
 
 	function handleBlur(): void
 	{
+		if (price <= 0)
+			return;
+
 		const ingredient: Ingredient = {
 			id: ingredientId,
 			price: price
@@ -41,18 +45,15 @@ export default function RecordNewPrice(props: RecordNewPricePros): JSX.Element
 	}
 
 	return (
-		<div className="cards-small">
+		<div className="cards">
 
-			<div className="card-small hover-pointer">
-				<div className="card-icon-small">
-					<div className={"card-bg "}></div>
-				</div>
+			<Card>
 				<div>
 					<label>Preț nou: </label>
 					<input
 						name="price"
 						type="number"
-						className="card-text-medium first-big"
+						className="card-text-medium"
 						value={price || ""}
 						onChange={handleChange}
 						onBlur={handleBlur}
@@ -60,7 +61,7 @@ export default function RecordNewPrice(props: RecordNewPricePros): JSX.Element
 						min="0"
 					></input>
 				</div>
-			</div>
+			</Card>
 		</div>
 	)
 }

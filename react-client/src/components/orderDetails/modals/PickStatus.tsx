@@ -4,6 +4,9 @@ import { Order, Status } from "../../../models/Order";
 import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
 import { RoleEnum, User } from "../../../models/User";
 import { QueryKeysUser } from "../../../QueryKeys/QueryKeysUser";
+import CardSmall from "../../generic/Card/CardSmall";
+import CardIconSmall from "../../generic/Card/CardIconSmall";
+import CardDetails from "../../generic/Card/CardDetails";
 
 type PickStatusProps = {
 	orderId: number;
@@ -38,13 +41,14 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 	}
 
 	return (
-		<div className="card-small hover-pointer" onClick={handleSelect}>
-			<div className="card-icon-small">
+		<CardSmall onClick={handleSelect}>
+			<CardIconSmall>
 				<div className={"card-bg " + status.name}></div>
-			</div>
-			<div className="card-details-small">
-				<div className="card-text-medium first-big">{status.name}</div>
-			</div>
-		</div>
+			</CardIconSmall>
+
+			<CardDetails>
+				<div className="card-text-medium">{status.name}</div>
+			</CardDetails>
+		</CardSmall>
 	)
 }

@@ -1,0 +1,66 @@
+.nav {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background-color: var(--grey);
+	z-index: 10;
+}
+
+.nav_el {
+	display: inline-block;
+	color: var(--bg);
+	text-align: center;
+	padding: 15px;
+	text-decoration: none;
+	border-bottom: solid;
+	border-color: var(--grey);
+}
+
+.nav_el:visited {
+	color: var(--bg);
+}
+
+@media only screen and (max-width: 700px) {
+	.nav_el {
+		width: 100%;
+	}
+
+	.box {
+		margin-top: 350px;
+	}
+}
+
+.nav_el:hover {
+	border-color: var(--menu-hover);
+}
+
+.nav_el.active {
+	border-color: var(--menu-hover);
+}
+
+.profile {
+	text-decoration: none;
+	padding: 14px;
+	color: var(--bg);
+	float: right;
+}
+
+.profile:visited {
+	color: var(--bg);
+}
+
+.profile:hover {
+	text-decoration: underline;
+	background-color: var(--grey);
+}
+
+.profile img {
+	height: 20px;
+	vertical-align: middle;
+	margin-right: 10px;
+	filter: invert(1);
+}

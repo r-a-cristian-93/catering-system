@@ -2,7 +2,7 @@ import { deleteOrderItem, updateOrderItem } from "../../controllers/OrderItemsCo
 import { OrderItem } from "../../models/Order";
 import * as Formatter from "../../utils/Formatting";
 import { ChangeEvent } from "react";
-import InputScrollBlocking from "../InputScrollBlocking";
+import InputScrollBlocking from "../generic/InputScrollBlocking";
 
 type OrderItemProps = {
 	orderItem: OrderItem;
@@ -46,7 +46,7 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 	}
 
 	return (
-		<tr id="det_8" className="font-size-120">
+		<tr className="font-size-120">
 			<td>{orderItem.recipe.name}</td>
 			<td>
 				<InputScrollBlocking
