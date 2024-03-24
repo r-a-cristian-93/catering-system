@@ -10,9 +10,9 @@ export type Client = {
 
 export type ClientAddress = {
 	id: number;
-	value: string;
-	latitude: number;
-	longitude: number;
+	value: string | null;
+	latitude: number | null;
+	longitude: number | null;
 }
 
 export type Status = {

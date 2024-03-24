@@ -3,10 +3,9 @@ import { Client, ClientAddress, Order } from "../../../../models/Order";
 import { addClient } from "../../../../controllers/ClientController";
 import { addAddress } from "../../../../controllers/AddressControllere";
 import { updateOrder } from "../../../../controllers/OrderController";
-import { QueryKeysOrder } from "../../../../QueryKeys/QueryKeysOrder";
-import { QueryClient, useQueryClient } from "react-query";
 import useFocus from "../../../../hooks/UseFocus";
 import css from "./PickClientCreateNew.module.css"
+import { useOrderDetailsContext } from "../../../../contexts/OrderDetailsContext";
 
 type PickClientCreateNewProps = {
 	orderId: number;
@@ -17,32 +16,21 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 {
 	const [ client, setClient ] = useState<Client>({} as Client);
 	const [ clientAddress, setClientAddress ] = useState<ClientAddress>({} as ClientAddress);
+	const { order, refetchOrder } = useOrderDetailsContext();
 	const inputFieldName = useFocus<HTMLInputElement>();
-
-	const queryClient: QueryClient = useQueryClient();
 
 	function handleAddClient(): void
 	{
-		void addClient(client).then((newClient: Client) =>
+		if (client && clientAddress && order)
 		{
-			// clientAddress.clientId = newClient.id;
-
-			// void addAddress(clientAddress).then((newAddress: ClientAddress) =>
-			// {
-			const order: Order = {
-				id: props.orderId,
-				client: client,
-			} as Order;
-
-			void updateOrder(order).then((order) =>
+			void addAddress(clientAddress).then((newAddress) =>
 			{
-				void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
-
-				props.toogleModalCallback();
+				void addClient({ ...client, address: newAddress }).then((newClient) =>
+				{
+					void updateOrder({ ...order, client: newClient }).then(refetchOrder);
+				});
 			});
 		}
-		)
-		// });
 	}
 
 	function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void
@@ -97,7 +85,7 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					className={css.item_6}
 					name="address"
 					type="text"
-					value={clientAddress.value}
+					value={clientAddress.value || ''}
 					placeholder="Strada ..."
 					onChange={handleChange}
 					autoComplete="false"
