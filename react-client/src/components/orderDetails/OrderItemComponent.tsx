@@ -3,18 +3,17 @@ import { OrderItem } from "../../models/Order";
 import * as Formatter from "../../utils/Formatting";
 import { ChangeEvent } from "react";
 import InputScrollBlocking from "../generic/InputScrollBlocking";
+import { useOrderDetailsContext } from "../../contexts/OrderDetailsContext";
 
 type OrderItemProps = {
 	orderItem: OrderItem;
 	changeCallback: (orderItem: OrderItem) => void;
-	deleteCallback: (orderItem: OrderItem) => void;
 };
 
 export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 {
-	const orderItem = props.orderItem;
-	const { changeCallback, deleteCallback } = props;
-
+	const { refetchItems } = useOrderDetailsContext();
+	const { orderItem, changeCallback } = props;
 	const costTotal = orderItem.recipe.ingCost * orderItem.servings;
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
@@ -39,10 +38,7 @@ export default function OrderItemComponent(props: OrderItemProps): JSX.Element
 
 	function handleDelete(): void
 	{
-		void deleteOrderItem(orderItem.id).then((isItemDeleted) =>
-		{
-			if (isItemDeleted) deleteCallback(orderItem);
-		});
+		void deleteOrderItem(orderItem.id).then(refetchItems);
 	}
 
 	return (

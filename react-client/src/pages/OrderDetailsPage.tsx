@@ -10,11 +10,6 @@ export default function OrderDetailsPage(): JSX.Element
 {
 	const { order, refetchOrder } = useOrderDetailsContext();
 
-	function handleSetStateSucessfull(): void
-	{
-		refetchOrder()
-	}
-
 	function handleCancelOrder(): void
 	{
 		if (order)
@@ -32,15 +27,12 @@ export default function OrderDetailsPage(): JSX.Element
 	return (
 		<SimplePage title={"Comanda #" + order?.id} imagePath="/img/orders.png">
 			{
-				order && <CardListOrder />
-			}
-
-			{
-				order && <OrderProgress order={order} setStateSuccessfullCallback={handleSetStateSucessfull} />
-			}
-
-			{
-				(order) && <OrderItems key={Math.round(Math.random() * 100)} orderId={order.id} />
+				order &&
+				<>
+					<CardListOrder />
+					<OrderProgress />
+					<OrderItems />
+				</>
 			}
 
 			<div className="action-bar">

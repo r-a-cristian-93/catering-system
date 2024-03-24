@@ -1,19 +1,14 @@
-import { getOrderItems } from "../../controllers/OrderItemsController.tsx";
 import { OrderItem } from "../../models/Order.tsx";
 import OrderItemComponent from "./OrderItemComponent";
 import * as Formatter from "../../utils/Formatting.tsx";
 import { useState } from "react";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
 import AddOrderItemTable from "./modals/AddOrderItemTable.tsx";
-import { QueryKeysOrder } from "../../QueryKeys/QueryKeysOrder.tsx";
 import AddButton from "../generic/AddButton/AddButton.tsx";
 import Modal from "../generic/Modal/Modal.tsx";
 import TableList from "../generic/TableList/TableList.tsx";
 import css from "../generic/TableList/TableList.module.css"
+import { useOrderDetailsContext } from "../../contexts/OrderDetailsContext.tsx";
 
-type OrderItemsProps = {
-	orderId: number;
-}
 
 function getTotalCost(orderItems: OrderItem[]): number
 {
@@ -22,26 +17,9 @@ function getTotalCost(orderItems: OrderItem[]): number
 	);
 }
 
-export default function OrderItems(props: OrderItemsProps): JSX.Element
+export default function OrderItems(): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
-	const orderId = props.orderId;
-
-	// fetch order items
-	const { isSuccess: orderItemsQuerySucess } = useQuery<OrderItem[]>({
-		queryKey: QueryKeysOrder.itemsByOrderId(orderId),
-		queryFn: () => getOrderItems(orderId),
-		onSuccess: (orderItems) =>
-		{
-			// set orderItems
-			setOrderItems(orderItems);
-		}
-	});
-
-	const [ orderItems, setOrderItems ] = useState<OrderItem[] | null>(
-		queryClient.getQueryData(QueryKeysOrder.itemsByOrderId(orderId)) as OrderItem[]
-	);
-
+	const { orderItems, setOrderItems } = useOrderDetailsContext();
 	const [ isModalActive, setModalActive ] = useState<boolean>(false);
 
 	orderItems?.sort((a, b) => a.id - b.id);
@@ -61,34 +39,18 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 		}
 	}
 
-	function handleChildDelete(orderItem: OrderItem): void
-	{
-		setOrderItems((prevItems) => prevItems &&
-			prevItems.filter((item) => item.id !== orderItem.id)
-		);
-	}
-
 	function handleToggleModal(): void
 	{
 		setModalActive(prev => !prev);
-	}
-
-	function handleAddItemSuccessful(orderItem: OrderItem): void
-	{
-		// optimistic update
-		setOrderItems((prevItems) => prevItems &&
-			[ ...prevItems, orderItem ]
-		);
 	}
 
 	return (
 		<>
 			<TableList className={css.details_table} header={[ "Articol", "Porții", "Cost unitar", "Cost total" ]}>
 				{
-					orderItemsQuerySucess && orderItems && orderItems.map((orderItem) =>
+					orderItems && orderItems.map((orderItem) =>
 						<OrderItemComponent key={orderItem.id} orderItem={orderItem}
-							changeCallback={handleChildChange}
-							deleteCallback={handleChildDelete} />
+							changeCallback={handleChildChange} />
 					)
 				}
 				<tr className="font-size-140">
@@ -97,7 +59,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 					<th>Total:</th>
 					<th>
 						{
-							orderItemsQuerySucess && orderItems && Formatter.formatCurrency(getTotalCost(orderItems))
+							orderItems && Formatter.formatCurrency(getTotalCost(orderItems))
 						}
 					</th>
 				</tr>
@@ -109,10 +71,7 @@ export default function OrderItems(props: OrderItemsProps): JSX.Element
 			{
 				isModalActive &&
 				<Modal title="Adaugă articol" toggleCallback={handleToggleModal}>
-					<AddOrderItemTable
-						key={Math.round(Math.random() * 100)}
-						orderId={orderId}
-						addSuccessfulCallback={handleAddItemSuccessful} />
+					<AddOrderItemTable />
 				</Modal>
 			}
 		</>

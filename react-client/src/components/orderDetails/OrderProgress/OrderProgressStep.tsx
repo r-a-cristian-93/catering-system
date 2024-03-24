@@ -1,26 +1,21 @@
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 import { setNextOrderState } from "../../../controllers/OrderController";
-import { Order } from "../../../models/Order";
 import * as Formatter from "../../../utils/Formatting"
 import { OrderStep } from "./OrderProgress";
 import css from "./OrderProgress.module.css"
 
 export type OrderProgressStepProps = {
-	orderId: number;
 	step: OrderStep;
-	setStateSuccessfullCallback: (order: Order) => void;
 }
 
 export default function OrderProgressStep(props: OrderProgressStepProps): JSX.Element
 {
+	const { order, refetchOrder } = useOrderDetailsContext();
+
 	function handleClick(): void
 	{
-		if (!props.step.date)
-			{
-			void setNextOrderState(props.orderId).then((order) =>
-			{
-				props.setStateSuccessfullCallback(order)
-			});
-		}
+		if (order)
+			void setNextOrderState(order.id).then(refetchOrder);
 	}
 
 	return (

@@ -3,18 +3,17 @@ import { addOrderItem } from "../../../controllers/OrderItemsController";
 import { OrderItem } from "../../../models/Order";
 import { Recipe } from "../../../models/Recipe";
 import * as Formatter from "../../../utils/Formatting";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
 type AddOrderItemProps = {
-	orderId: number;
 	recipe: Recipe;
-	addSuccessfulCallback: (orderItem: OrderItem) => void
 };
 
 export default function AddOrderItem(props: AddOrderItemProps): JSX.Element
 {
+	const { order, refetchItems } = useOrderDetailsContext();
 	const [ orderItem, setOrderItem ] = useState<OrderItem>(
 		{
-			orderId: props.orderId,
 			recipe: props.recipe,
 			servings: 0,
 		} as OrderItem
@@ -22,13 +21,8 @@ export default function AddOrderItem(props: AddOrderItemProps): JSX.Element
 
 	function handleAddItem(): void
 	{
-		if (orderItem.servings)
-		{
-			void addOrderItem(orderItem).then((item) =>
-			{
-				props.addSuccessfulCallback(item);
-			});
-		}
+		if (orderItem.servings && order)
+			void addOrderItem({ ...orderItem, orderId: order.id }).then(refetchItems);
 	}
 
 	function handleChange(event: ChangeEvent<HTMLInputElement>): void
