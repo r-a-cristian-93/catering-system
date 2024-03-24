@@ -5,17 +5,16 @@ import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";
 import css from "./ScreenSelector/ScreenSelector.module.css"
 
 type PickClientOptionsProps = {
-	orderId: number;
 	toggleModalCallback: () => void;
 };
 
 export default function PickClientOptions(props: PickClientOptionsProps): JSX.Element
 {
-	const { orderId, toggleModalCallback } = props;
+	const { toggleModalCallback } = props;
 
 	const screenConfigSearch: ScreenConfig = {
 		selectorParams: { text: "Clienti existenti", iconPath: "/img/users.svg" },
-		screenElement: <PickClientSearch orderId={orderId} toogleModalCallback={toggleModalCallback} />
+		screenElement: <PickClientSearch toogleModalCallback={toggleModalCallback} />
 	}
 
 	const screenConfigCreate: ScreenConfig = {

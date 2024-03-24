@@ -1,22 +1,17 @@
 import { useState } from "react";
 import * as Formatter from "../../../utils/Formatting"
-import { Order } from "../../../models/Order";
 import { updateOrder } from "../../../controllers/OrderController";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
 import CardDetails from "../../generic/Card/CardDetails";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
-type CardProps = {
-	date: string;
-	orderId: number;
-};
-
-export default function CardDueDateComponent(props: CardProps): JSX.Element
+export default function CardDueDateComponent(): JSX.Element
 {
-	const { orderId, date } = props;
 
-	const [ dateString, setDateString ] = useState<string>(Formatter.formatDateString(date));
-	const [ timeString, setTimeString ] = useState<string>(Formatter.formatTimeString(date));
+	const { order } = useOrderDetailsContext();
+	const [ dateString, setDateString ] = useState<string>(Formatter.formatDateString(order?.dueDate || ''));
+	const [ timeString, setTimeString ] = useState<string>(Formatter.formatTimeString(order?.dueDate || ''));
 
 	function handleDateChange(event: React.ChangeEvent<HTMLInputElement>): void
 	{
@@ -30,12 +25,12 @@ export default function CardDueDateComponent(props: CardProps): JSX.Element
 
 	function handleUpdate(): void
 	{
-		const order: Order = {
-			id: orderId,
-			dueDate: Formatter.dateFromDateTimeString(dateString, timeString).toISOString()
-		} as Order;
+		if (order)
+		{
+			const dueDate = Formatter.dateFromDateTimeString(dateString, timeString).toISOString()
 
-		void updateOrder(order);
+			void updateOrder({ ...order, dueDate: dueDate });
+		}
 	}
 
 	return (

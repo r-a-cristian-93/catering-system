@@ -1,33 +1,23 @@
-import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
-import { Client, Order } from "../../../models/Order";
-import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import { Client } from "../../../models/Order";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
 type PickClientProps = {
-	orderId: number;
 	client: Client;
 	toogleModalCallback: () => void;
 }
 
 export default function PickClient(props: PickClientProps): JSX.Element
 {
-	const queryClient: QueryClient = useQueryClient();
-
-	const { orderId, client, toogleModalCallback } = props;
+	const { order, refetchOrder } = useOrderDetailsContext();
+	const { client, toogleModalCallback } = props;
 
 	function handleSelect(): void
 	{
-		const order: Order = {
-			id: orderId,
-			client: client,
-		} as Order;
-
-		void updateOrder(order).then((order) =>
-		{
-			void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
-
-			toogleModalCallback();
-		});
+		if (order)
+			void updateOrder({ ...order, client: client })
+				.then(refetchOrder)
+				.then(toogleModalCallback);
 	}
 
 	return (

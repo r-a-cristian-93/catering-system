@@ -6,7 +6,6 @@ import { QueryKeysStatus } from "../../../QueryKeys/QueryKeysStatus";
 import getStatusList from "../../../controllers/StatusController";
 
 type PickStatusListProps = {
-	orderId: number;
 	toggleModalCallback: () => void;
 };
 
@@ -14,7 +13,7 @@ export default function PickStatusList(props: PickStatusListProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const { orderId, toggleModalCallback } = props;
+	const { toggleModalCallback } = props;
 
 	const [ statusList, setStatusList ] = useState<Status[] | null>(
 		queryClient.getQueryData<Status[] | null>(QueryKeysStatus.all) || null
@@ -37,7 +36,6 @@ export default function PickStatusList(props: PickStatusListProps): JSX.Element
 				{
 					return <PickStatus
 						key={index}
-						orderId={orderId}
 						status={status}
 						toogleModalCallback={toggleModalCallback}
 					/>

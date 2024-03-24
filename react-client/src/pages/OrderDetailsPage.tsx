@@ -32,7 +32,7 @@ export default function OrderDetailsPage(): JSX.Element
 	return (
 		<SimplePage title={"Comanda #" + order?.id} imagePath="/img/orders.png">
 			{
-				order && <CardListOrder order={order} />
+				order && <CardListOrder />
 			}
 
 			{

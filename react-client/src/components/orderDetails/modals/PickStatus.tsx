@@ -1,15 +1,14 @@
 import { QueryClient, useQueryClient } from "react-query";
 import { updateOrder } from "../../../controllers/OrderController";
-import { Order, Status } from "../../../models/Order";
-import { QueryKeysOrder } from "../../../QueryKeys/QueryKeysOrder";
+import { Status } from "../../../models/Order";
 import { RoleEnum, User } from "../../../models/User";
 import { QueryKeysUser } from "../../../QueryKeys/QueryKeysUser";
 import CardSmall from "../../generic/Card/CardSmall";
 import CardIconSmall from "../../generic/Card/CardIconSmall";
 import CardDetails from "../../generic/Card/CardDetails";
+import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
 type PickStatusProps = {
-	orderId: number;
 	status: Status;
 	toogleModalCallback: () => void;
 }
@@ -18,25 +17,18 @@ export default function PickStatus(props: PickStatusProps): JSX.Element
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const { orderId, status, toogleModalCallback } = props;
+	const { status, toogleModalCallback } = props;
+	const { order, refetchOrder } = useOrderDetailsContext();
 
 	const user: User | undefined = queryClient.getQueryData(QueryKeysUser.logedInUser);
 
 	function handleSelect(): void
 	{
-		if (user?.role.name === RoleEnum.ADMIN)
+		if (user?.role.name === RoleEnum.ADMIN && order)
 		{
-			const order: Order = {
-				id: orderId,
-				status: status,
-			} as Order;
-
-			void updateOrder(order).then((order) =>
-			{
-				void queryClient.invalidateQueries(QueryKeysOrder.orderById(order.id));
-
-				toogleModalCallback();
-			});
+			void updateOrder({ ...order, status: status })
+				.then(refetchOrder)
+				.then(toogleModalCallback);
 		}
 	}
 

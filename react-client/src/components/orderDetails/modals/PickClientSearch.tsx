@@ -10,7 +10,6 @@ import PickClient from "./PickClient";
 import TableList from "../../generic/TableList/TableList";
 
 type PickClientSearchProps = {
-	orderId: number;
 	toogleModalCallback: () => void;
 }
 
@@ -18,7 +17,7 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 {
 	const queryClient: QueryClient = useQueryClient();
 
-	const { orderId, toogleModalCallback } = props;
+	const { toogleModalCallback } = props;
 
 	const clientsRequestParameters = useRef<PageableRequestParameters>({
 		page: "0",
@@ -84,7 +83,6 @@ export default function PickClientSearch(props: PickClientSearchProps): JSX.Elem
 						client.id > 0 && (
 							<PickClient
 								key={client.id}
-								orderId={orderId}
 								client={client}
 								toogleModalCallback={toogleModalCallback}
 							/>
