@@ -41,3 +41,12 @@ export async function addClient(client: Client): Promise<Client>
 
     return response.data
 }
+
+export async function updateClient(client: Client): Promise<Client>
+{
+    const url = VITE_API_URL + "/clients";
+
+    const response = await axios.put<Client>(url, client, { withCredentials: true });
+
+    return response.data
+}

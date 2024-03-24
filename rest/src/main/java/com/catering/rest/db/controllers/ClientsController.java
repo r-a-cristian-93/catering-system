@@ -51,9 +51,9 @@ public class ClientsController {
 	}
 
 	@ResponseBody
-	@PutMapping("/{id}")
-	public ClientModel updateClient(@PathVariable Integer id, @RequestBody ClientModel client) {
-		return clientsService.updateClient(id, client);
+	@PutMapping
+	public ClientModel updateClient(@RequestBody ClientModel client) {
+		return clientsService.updateClient(client);
 	}
 
 		//PAGEABLE

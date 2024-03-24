@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("addresses")
+@RequestMapping("address")
 public class ClientAddressController {
     @Autowired
     private final ClientAddressService addressesService;
@@ -44,9 +44,9 @@ public class ClientAddressController {
     }
 
     @ResponseBody
-    @PutMapping("/{id}")
-    public ClientAddressModel updateClientAddress(@PathVariable Integer id, @RequestBody ClientAddressModel address) {
-        return addressesService.updateClientAddress(id, address);
+    @PutMapping
+    public ClientAddressModel updateClientAddress(@RequestBody ClientAddressModel address) {
+        return addressesService.updateClientAddress(address);
     }
 
     @ResponseBody

@@ -36,11 +36,11 @@ public class ClientsService {
 		clientsRepo.deleteById(id);
 	}
 
-	public ClientModel updateClient(Integer id, ClientModel client) {
+	public ClientModel updateClient(ClientModel client) {
 		String name = client.getName();
 		String phone = client.getPhone();
 		ClientAddressModel address = client.getAddress();
-		client = clientsRepo.findById(id).get();
+		client = clientsRepo.findById(client.getId()).get();
 
 		if(name!=null) {
 			client.setName(name);

@@ -5,15 +5,32 @@ import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 import { usePickAddressContext } from "../../../contexts/PickAddressContext";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import { getAddress } from "../../../controllers/NominatimAddress";
+import { ClientAddress } from "../../../models/Order";
+import { updateAddress } from "../../../controllers/AddressControllere";
 
 export default function PickAddressModalContent(): JSX.Element
 {
 	const { markerPosition, label } = usePickAddressContext();
-	const { order } = useOrderDetailsContext();
+	const { order, refetchOrder } = useOrderDetailsContext();
 	const position: LatLngTuple = [
 		markerPosition?.[ 0 ] || order?.client?.address?.latitude || 0,
 		markerPosition?.[ 1 ] || order?.client?.address?.longitude || 0
 	];
+
+	function handleSetAddress()
+	{
+		if (markerPosition && label && order?.client?.address)
+		{
+			const address: ClientAddress = {
+				...order?.client?.address,
+				value: label,
+				latitude: markerPosition[ 0 ],
+				longitude: markerPosition[ 1 ]
+			}
+
+			void updateAddress(address).then(refetchOrder);
+		}
+	}
 
 	return (
 		<div className={"address-selector"}>
@@ -28,7 +45,7 @@ export default function PickAddressModalContent(): JSX.Element
 						label &&
 						<div>
 							{label}
-							<button className={"button"} style={{ marginLeft: "40px" }}>Foloseste aceasta adresa</button>
+							<button className={"button"} style={{ marginLeft: "40px" }} onClick={handleSetAddress}>Foloseste aceasta adresa</button>
 						</div>
 
 					}
