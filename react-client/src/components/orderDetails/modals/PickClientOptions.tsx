@@ -3,6 +3,7 @@ import PickClientSearch from "./PickClientSearch";
 import { ScreenOption } from "./ScreenSelector/ScreenSelector";
 import useScreens, { ScreenConfig } from "../../../hooks/UseScreens";
 import css from "./ScreenSelector/ScreenSelector.module.css"
+import { PickAddressContextProvider } from "../../../contexts/PickAddressContext";
 
 type PickClientOptionsProps = {
 	toggleModalCallback: () => void;
@@ -19,7 +20,9 @@ export default function PickClientOptions(props: PickClientOptionsProps): JSX.El
 
 	const screenConfigCreate: ScreenConfig = {
 		selectorParams: { text: "Client nou", iconPath: "/img/register-client.svg" },
-		screenElement: <PickClientCreateNew toogleModalCallback={toggleModalCallback} />
+		screenElement: <PickAddressContextProvider>
+			<PickClientCreateNew toogleModalCallback={toggleModalCallback} />
+		</PickAddressContextProvider>
 	}
 
 	const screens = new Map<ScreenOption, ScreenConfig>(

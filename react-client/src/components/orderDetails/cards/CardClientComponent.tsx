@@ -34,7 +34,7 @@ export default function CardClient(): JSX.Element
 			</Card>
 			{
 				isModalActive &&
-				<Modal title="Alege client" toggleCallback={handleToggleModal}>
+				<Modal title="Alege client" toggleCallback={handleToggleModal} style={{ width: "1200px" }}>
 					<PickClientOptions toggleModalCallback={handleToggleModal} />
 				</Modal>
 			}

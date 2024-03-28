@@ -3,7 +3,7 @@ import Modal from "../../generic/Modal/Modal";
 import Card from "../../generic/Card/Card";
 import CardIcon from "../../generic/Card/CardIcon";
 import CardDetails from "../../generic/Card/CardDetails";
-import PickAddressModalContent from "../modals/PickAddressModalContent";
+import PickAddressMap from "../modals/PickAddressMap";
 import { PickAddressContextProvider } from "../../../contexts/PickAddressContext";
 import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 
@@ -34,7 +34,7 @@ export default function CardAddressComponent(): JSX.Element
 				isModalActive &&
 				<Modal title="Alege adresa" toggleCallback={handleToggleModal} style={{ width: "1200px" }}>
 					<PickAddressContextProvider>
-						<PickAddressModalContent />
+						<PickAddressMap />
 					</PickAddressContextProvider>
 				</Modal >
 			}

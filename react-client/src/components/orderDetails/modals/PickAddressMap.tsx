@@ -8,7 +8,7 @@ import { getAddress } from "../../../controllers/NominatimAddress";
 import { ClientAddress } from "../../../models/Order";
 import { updateAddress } from "../../../controllers/AddressControllere";
 
-export default function PickAddressModalContent(): JSX.Element
+export default function PickAddressMap(): JSX.Element
 {
 	const { markerPosition, label } = usePickAddressContext();
 	const { order, refetchOrder } = useOrderDetailsContext();
@@ -30,6 +30,12 @@ export default function PickAddressModalContent(): JSX.Element
 
 			void updateAddress(address).then(refetchOrder);
 		}
+
+		// if creating new client
+		if (markerPosition && label && order?.client === null)
+		{
+			// do nothing
+		}
 	}
 
 	return (
@@ -45,9 +51,9 @@ export default function PickAddressModalContent(): JSX.Element
 						label &&
 						<div>
 							{label}
+							{/* // hide this when creating new client? */}
 							<button className={"button"} style={{ marginLeft: "40px" }} onClick={handleSetAddress}>Foloseste aceasta adresa</button>
 						</div>
-
 					}
 					<div>
 						<span>Adresa curentă: </span>

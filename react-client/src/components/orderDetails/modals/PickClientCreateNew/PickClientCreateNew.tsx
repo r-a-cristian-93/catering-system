@@ -6,6 +6,8 @@ import { updateOrder } from "../../../../controllers/OrderController";
 import useFocus from "../../../../hooks/UseFocus";
 import css from "./PickClientCreateNew.module.css"
 import { useOrderDetailsContext } from "../../../../contexts/OrderDetailsContext";
+import PickAddressMap from "../PickAddressMap";
+import { usePickAddressContext } from "../../../../contexts/PickAddressContext";
 
 type PickClientCreateNewProps = {
 	toogleModalCallback: () => void;
@@ -14,14 +16,20 @@ type PickClientCreateNewProps = {
 export default function PickClientCreateNew(props: PickClientCreateNewProps): JSX.Element
 {
 	const [ client, setClient ] = useState<Client>({} as Client);
-	const [ clientAddress, setClientAddress ] = useState<ClientAddress>({} as ClientAddress);
 	const { order, refetchOrder } = useOrderDetailsContext();
+	const { label, markerPosition } = usePickAddressContext();
 	const inputFieldName = useFocus<HTMLInputElement>();
 
 	function handleAddClient(): void
 	{
-		if (client && clientAddress && order)
+		if (client && order && markerPosition && label)
 		{
+			const clientAddress: ClientAddress = {
+				value: label,
+				latitude: markerPosition[ 0 ],
+				longitude: markerPosition[ 1 ]
+			} as ClientAddress;
+
 			void addAddress(clientAddress).then((newAddress) =>
 			{
 				void addClient({ ...client, address: newAddress }).then((newClient) =>
@@ -36,15 +44,6 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 	{
 		const { name, value } = event.target;
 
-		if (name === "address")
-			setClientAddress((prev) =>
-			{
-				return {
-					...prev,
-					value: value
-				}
-			});
-
 		setClient((prev) =>
 		{
 			return {
@@ -55,42 +54,35 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 	}
 
 	return (
-		<div className={css.pick_client_create_box}>
-			<form className={css.pick_client_create_details}>
-				<div className={css.item_0 + " card-bg profil"}></div>
-				<span className={css.item_1}>Nume: </span>
-				<input
-					className={css.item_2}
-					name="name"
-					type="text"
-					value={client.name}
-					placeholder="Nume"
-					onChange={handleChange}
-					autoComplete="false"
-					ref={inputFieldName}
-				/>
-				<span className={css.item_3}>Telefon: </span>
-				<input
-					className={css.item_4}
-					name="phone"
-					type="text"
-					value={client.phone || ""}
-					placeholder="+40"
-					onChange={handleChange}
-					autoComplete="false"
-				/>
-				<span className={css.item_5}>Adresa: </span>
-				<input
-					className={css.item_6}
-					name="address"
-					type="text"
-					value={clientAddress.value || ''}
-					placeholder="Strada ..."
-					onChange={handleChange}
-					autoComplete="false"
-				/>
-				<div className={css.item_7 + " button hover-pointer"} onClick={handleAddClient}>Adauga</div>
-			</form>
-		</div>
+		<>
+			<div className={css.pick_client_create_box}>
+				<form className={css.pick_client_create_details}>
+					<div className={css.item_0 + " card-bg profil"}></div>
+					<span className={css.item_1}>Nume: </span>
+					<input
+						className={css.item_2}
+						name="name"
+						type="text"
+						value={client.name}
+						placeholder="Nume"
+						onChange={handleChange}
+						autoComplete="false"
+						ref={inputFieldName}
+					/>
+					<span className={css.item_3}>Telefon: </span>
+					<input
+						className={css.item_4}
+						name="phone"
+						type="text"
+						value={client.phone || ""}
+						placeholder="+40"
+						onChange={handleChange}
+						autoComplete="false"
+					/>
+					<div className={css.item_5 + " button hover-pointer"} onClick={handleAddClient}>Adauga</div>
+				</form>
+			</div>
+			<PickAddressMap />
+		</>
 	)
 }
