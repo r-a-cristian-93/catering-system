@@ -1,14 +1,11 @@
 import { addOrder } from "../../controllers/OrdersController";
-import { Order } from "../../models/Order";
 import AddButton from "../generic/AddButton/AddButton";
 
 export default function OrdersListControls(): JSX.Element
 {
 	function handleAddNewOrder(): void
 	{
-		const order: Order = {} as Order;
-
-		void addOrder(order).then((newOrder) =>
+		void addOrder().then((newOrder) =>
 		{
 			const path = "/comenzi/" + newOrder.id;
 

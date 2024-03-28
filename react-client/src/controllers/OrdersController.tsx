@@ -1,6 +1,7 @@
 import { Order, Status } from "../models/Order";
 import { PageableRequestParameters } from "../models/Pageable";
 import { OrdersResponseData } from "../models/Order";
+import axios from "axios";
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -80,28 +81,11 @@ export async function genericRequest<D extends object>(method: string, path: str
 	return promise;
 }
 
-
-export async function addOrder(order: Order): Promise<Order>
+export async function addOrder(order?: Order): Promise<Order>
 {
-	const url = VITE_API_URL + "/orders/";
+	const url = VITE_API_URL + "/orders";
 
-	const response = await fetch(url, {
-		method: "POST",
-		credentials: "include",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(order)
-	});
+	const response = await axios.post<Order>(url, order || {}, {withCredentials: true})
 
-	const orderPromise: Promise<Order> = response.json().then((json) =>
-	{
-		const order: Order = {} as Order;
-
-		Object.assign(order, json);
-
-		return order;
-	})
-
-	return orderPromise;
+	return response.data;
 }

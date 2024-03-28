@@ -27,11 +27,11 @@ export async function getRecipesAll(): Promise<Recipe[]>
 }
 
 
-export async function addRecipe(recipe: Recipe): Promise<Recipe>
+export async function addRecipe(recipe?: Recipe): Promise<Recipe>
 {
 	const url = VITE_API_URL + "/recipes/";
 
-	const response = await axios.post<Recipe>(url, recipe, { withCredentials: true });
+	const response = await axios.post<Recipe>(url, recipe || {}, { withCredentials: true });
 
 	return response.data;
 }

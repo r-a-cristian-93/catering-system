@@ -5,7 +5,7 @@ export default function IngredientAddButton(): JSX.Element
 {
 	function handleAddNewIngredient(): void
 	{
-		void addIngredient({} as Ingredient).then((newIngredient) =>
+		void addIngredient().then((newIngredient) =>
 		{
 			const path = "/ingrediente/" + newIngredient.id;
 

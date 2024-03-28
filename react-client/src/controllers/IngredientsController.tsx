@@ -28,11 +28,11 @@ export async function getIngredientsAll(): Promise<Ingredient[]>
 	return response.data;
 }
 
-export async function addIngredient(ingredient: Ingredient): Promise<Ingredient>
+export async function addIngredient(ingredient?: Ingredient): Promise<Ingredient>
 {
 	const url = VITE_API_URL + "/ingredients";
 
-	const response = await axios.post<Ingredient>(url, ingredient, { withCredentials: true });
+	const response = await axios.post<Ingredient>(url, ingredient || {}, { withCredentials: true });
 
 	return response.data;
 }
