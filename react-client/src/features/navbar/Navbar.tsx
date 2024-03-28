@@ -1,9 +1,5 @@
-import { useState } from "react";
-import { User } from "../../../models/User.tsx";
-import { getUserInfo } from "../../../controllers/UserController.tsx";
-import { useQuery } from "react-query";
-import { QueryKeysUser } from "../../../QueryKeys/QueryKeysUser.tsx";
 import css from "./Navbar.module.css"
+import { useGetUserQuery } from "./userSlice.tsx";
 
 type LinkDef = {
 	text: string,
@@ -27,16 +23,7 @@ function NavLink(props: NavLinkProps): JSX.Element
 
 export default function Navbar(): JSX.Element
 {
-	useQuery<User>({
-		queryKey: QueryKeysUser.logedInUser,
-		queryFn: () => getUserInfo(),
-		onSuccess: (user) =>
-		{
-			setUser(user);
-		}
-	})
-
-	const [ user, setUser ] = useState<User | null>(null);
+	const {data: user} = useGetUserQuery();
 
 	const links: LinkDef[] = [
 		{ text: "Acasă", href: "/" },

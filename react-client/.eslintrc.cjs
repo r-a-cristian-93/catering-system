@@ -33,5 +33,6 @@ module.exports = {
     ],
     'brace-style': ['error', 'allman'],
     "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-invalid-void-type": "off"
   },
 }

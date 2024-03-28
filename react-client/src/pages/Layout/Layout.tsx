@@ -1,4 +1,4 @@
-import Navbar from "../../components/generic/Navbar/Navbar";
+import Navbar from "../../features/navbar/Navbar";
 import { Outlet } from "react-router-dom";
 import LoginPage from "../LoginPage/LoginPage";
 import isUserAuthenticated from "../../utils/Auth";
