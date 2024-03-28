@@ -5,6 +5,7 @@ import IngredientsList from "../components/ingredientsList/IngredientsList";
 import { PageableRequestParameters } from "../models/Pageable";
 import Pager, { PagerArgs } from "../components/generic/Pager/Pager";
 import SimplePage from "../components/generic/SimplePage/SimplePage";
+import IngredientAddButton from "../components/ingredientsList/IngredientAddButton";
 
 export default function IngredientsPage(): JSX.Element
 {
@@ -47,6 +48,7 @@ export default function IngredientsPage(): JSX.Element
 		<SimplePage title="Ingrediente" imagePath="/img/ingredients.png">
 			<IngredientsList ingredients={ingredients} />
 			<Pager pagerArgs={pagerArgs} />
+			<IngredientAddButton />
 		</SimplePage>
 	</>;
 }

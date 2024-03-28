@@ -135,9 +135,9 @@ DROP TABLE IF EXISTS `ingredients`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ingredients` (
   `ID` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `unit` varchar(25) NOT NULL,
-  `price` double NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT 'Ingredient nou',
+  `unit` varchar(25) NOT NULL DEFAULT 'g',
+  `price` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `ID` (`ID`),
   KEY `unit` (`unit`),
@@ -648,4 +648,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-23 10:59:42
+-- Dump completed on 2024-03-28 10:04:19
