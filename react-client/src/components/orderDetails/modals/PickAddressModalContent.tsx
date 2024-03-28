@@ -17,7 +17,7 @@ export default function PickAddressModalContent(): JSX.Element
 		markerPosition?.[ 1 ] || order?.client?.address?.longitude || 0
 	];
 
-	function handleSetAddress()
+	function handleSetAddress(): void
 	{
 		if (markerPosition && label && order?.client?.address)
 		{
