@@ -22,7 +22,7 @@ export default function PickAddressModalContent(): JSX.Element
 		if (markerPosition && label && order?.client?.address)
 		{
 			const address: ClientAddress = {
-				...order?.client?.address,
+				...order.client.address,
 				value: label,
 				latitude: markerPosition[ 0 ],
 				longitude: markerPosition[ 1 ]
