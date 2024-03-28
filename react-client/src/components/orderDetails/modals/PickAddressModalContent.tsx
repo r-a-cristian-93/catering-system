@@ -80,7 +80,7 @@ export function CenterMap(props: CenterMapProps): JSX.Element
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 function SearchField(): JSX.Element
 {
-	const { label, setMarkerPosition, setLabel } = usePickAddressContext();
+	const { setMarkerPosition, setLabel } = usePickAddressContext();
 	const map = useMap();
 	const provider = new OpenStreetMapProvider();
 	const searchControl = new GeoSearchControl({
