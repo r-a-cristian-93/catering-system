@@ -47,12 +47,16 @@ export function CenterMap(props: CenterMapProps): JSX.Element
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
+
 function SearchField(): JSX.Element
 {
 	const { setMarkerPosition, setLabel } = usePickAddressContext();
 	const map = useMap();
 	const provider = new OpenStreetMapProvider();
-	const searchControl = new GeoSearchControl({
+	const searchControl = GeoSearchControl({
 		provider: provider,
 		searchLabel: "Caută o adresă.",
 		notFoundMessage: 'Adresa nu a fost găsită.',
