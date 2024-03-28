@@ -82,7 +82,16 @@ export default function PickClientCreateNew(props: PickClientCreateNewProps): JS
 					<div className={css.item_5 + " button hover-pointer"} onClick={handleAddClient}>Adauga</div>
 				</form>
 			</div>
-			<PickAddressMap />
+			<PickAddressMap>
+				<div className="sticky-address-label">
+					{
+						label &&
+						<div>
+							{label}
+						</div>
+					}
+				</div>
+			</PickAddressMap>
 		</>
 	)
 }

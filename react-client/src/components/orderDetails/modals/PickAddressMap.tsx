@@ -5,38 +5,15 @@ import { useOrderDetailsContext } from "../../../contexts/OrderDetailsContext";
 import { usePickAddressContext } from "../../../contexts/PickAddressContext";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import { getAddress } from "../../../controllers/NominatimAddress";
-import { ClientAddress } from "../../../models/Order";
-import { updateAddress } from "../../../controllers/AddressControllere";
 
-export default function PickAddressMap(): JSX.Element
+export default function PickAddressMap(props: React.HTMLProps<HTMLDivElement>): JSX.Element
 {
-	const { markerPosition, label } = usePickAddressContext();
-	const { order, refetchOrder } = useOrderDetailsContext();
+	const { markerPosition } = usePickAddressContext();
+	const { order } = useOrderDetailsContext();
 	const position: LatLngTuple = [
 		markerPosition?.[ 0 ] || order?.client?.address?.latitude || 0,
 		markerPosition?.[ 1 ] || order?.client?.address?.longitude || 0
 	];
-
-	function handleSetAddress(): void
-	{
-		if (markerPosition && label && order?.client?.address)
-		{
-			const address: ClientAddress = {
-				...order.client.address,
-				value: label,
-				latitude: markerPosition[ 0 ],
-				longitude: markerPosition[ 1 ]
-			}
-
-			void updateAddress(address).then(refetchOrder);
-		}
-
-		// if creating new client
-		if (markerPosition && label && order?.client === null)
-		{
-			// do nothing
-		}
-	}
 
 	return (
 		<div className={"address-selector"}>
@@ -46,20 +23,7 @@ export default function PickAddressMap(): JSX.Element
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 				<img className="sticky-marker" src="https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png" />
 
-				<div className="sticky-address-label">
-					{
-						label &&
-						<div>
-							{label}
-							{/* // hide this when creating new client? */}
-							<button className={"button"} style={{ marginLeft: "40px" }} onClick={handleSetAddress}>Foloseste aceasta adresa</button>
-						</div>
-					}
-					<div>
-						<span>Adresa curentă: </span>
-						{order?.client?.address?.value}
-					</div>
-				</div>
+				{props.children}
 
 				<CenterMap position={position} />
 				<SearchField />
@@ -67,7 +31,6 @@ export default function PickAddressMap(): JSX.Element
 		</div >
 	);
 }
-
 
 type CenterMapProps = {
 	position: LatLngTuple;
@@ -134,4 +97,3 @@ function SearchField(): JSX.Element
 
 	return <></>;
 }
-
